@@ -1,7 +1,7 @@
 {
   "name": "few3h-battle-list",
   "version": "0.1.0",
-  "homepage": "https://srishti-lamba.github.io/few3h-battleList",
+  "homepage": "https://srishti-lamba.github.io/FEW3H-BattleList",
   "private": true,
   "dependencies": {
     "@testing-library/dom": "^10.4.1",

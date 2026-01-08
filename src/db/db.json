@@ -1,0 +1,47 @@
+[
+    {
+        "general": {
+            "route": 0,
+            "chapter": {
+                "number": 0,
+                "name": ""
+            },
+            "name": "",
+            "type": "",
+            "level": {
+                "easy": 0,
+                "normal": 0,
+                "hard": 0
+            },
+            "deploy": 0,
+            "territory": "",
+            "description": "",
+            "victory": [],
+            "defeat": [],
+            "restriction": "",
+            "strategy": [],
+            "side": [],
+            "notes": ""
+        },
+        "s-rank": {
+            "time": "",
+            "defeat": "",
+            "damage": ""
+        },
+        "enemies": {
+            "sword": 0,
+            "lance": 0,
+            "axe": 0,
+            "bow": 0,
+            "brawl": 0,
+            "tome": 0,
+            "infantry": 0,
+            "flying": 0,
+            "armoured": 0,
+            "horseback": 0,
+            "monster": 0
+        }
+
+
+    }
+]
