@@ -20,7 +20,7 @@
             "defeat": [],
             "restriction": "",
             "strategy": [],
-            "side": [],
+            "log": [],
             "notes": ""
         },
         "s-rank": {
@@ -40,7 +40,111 @@
             "armoured": 0,
             "horseback": 0,
             "monster": 0
+        },
+        "monster": [],
+        "chest": "",
+        "rewards": {
+            "first-time": "",
+            "s-rank": ""
         }
+
+
+    },
+    {
+        "general": {
+            "route": 0,
+            "chapter": {
+                "number": 2,
+                "name": "Three Houses"
+            },
+            "name": "Reversal of Fortune",
+            "type": 1,
+            "level": {
+                "easy": 2,
+                "normal": 2,
+                "hard": 2
+            },
+            "deploy": 4,
+            "territory": "",
+            "description": "The knights have located the bandits that attacked\nthe students during their annual outdoor training.\nYour house sets off on its first mission: to mop up\nthe stragglers of this band of brigands.",
+            "victory": ["Defeat the [red]Thieves[/red]."],
+            "defeat": ["None."],
+            "restriction": "",
+            "strategy": [],
+            "log": [
+                {"type": 0, "name": "Defeat the [red]Gatekeeper[/red]!", "prereq": "If the Player heads north of [red]Fortress Main Gates[/red].", "notes": "Gatekeeper stands north of Fortress Main Gates. Once you defeat him, the closed gates directly to his north, west, and east open.",
+                    "follow-up": [
+                        {"type": 2, "name": "Defeated the [red]Gatekeeper[/red]!"},
+                        {"type": 5, "name": "Defeated the [red]Gatekeeper[/red]! The stronghold gates opened!"}
+                    ]
+                },
+                {"type": 0, "name": "Seize the [red]Thieves'[/red] [green]base[/green]!", "notes": "Sieze [red][/red] and [red][/red].",
+                    "follow-up": [
+                        {"type": 2, "name": "Seized the [red]Thieves'[/red] [green]base[/green]!"}
+                    ]
+                },
+                {"type": 7, "name": "A [red]Thief[/red] appeared with a [green]chest key[/green]!", "prereq": "Player attacks the Plaza.", "notes": "The Thief appears in the hallway directly south of the [red]Command Post[/red]. They are heading towards the [red]Chapel[/red].",
+                    "follow-up": [
+                        {"type": 5, "name": "Got a [green]chest key[/green] by defeating the [red]Thief[/red]!"},
+                        {"type": 6, "name": "Use the [green]chest key[/green] to open the [green]chest[/green]!"}
+                    ]
+                },
+                {"type": 0, "name": "Investigate the [green]dungeon[/green]!"},
+                {"type": 1, "name": "Seize the [red]Dungeon[/red] and rescue the captive [blue]Officers Academy student[/blue]!",
+                    "follow-up": [
+                        {"type": 2, "name": "Rescued the [blue]Officers Academy student[/blue]!"},
+                        {"type": 7, "name": "A [yellow]Mysterious Soldier[/yellow] and their allies appeared!", "notes": "Plaza, Chapel and Guardhouse were taken over by the third faction. A new stronghold has also appeared in the West."}
+                    ]
+                },
+                {"type": 0, "name": "Escort [blue]Monica[/blue] to [green]safety[/green]!", "notes": "Lead [blue]Monica[/blue] from the [blue]Dungeon[/blue] to north of the [blue]Fortress Main Gates[/blue]",
+                    "follow-up": [
+                        {"type": 7, "name": "[blue]Monica[/blue] is being attacked by a [yellow]Mysterious Soldier[/yellow]! She stopped advancing!", "notes": "Defeat the enemy unit stopping the allied unit from advancing."}
+                    ]
+                },
+                {"type": 4, "name": "Don't let the [red]Thief[/red] retreat!"},
+                {"type": 0, "name": "Defeat [yellow]Kronya[/yellow]!"},
+                {"type": 0, "name": "Defeat the [yellow]Wild Demonic Beast[/yellow]!"}
+            ],
+            "notes": "When playing this mission during the story, the units are locked. In Black Eagles, it's Edelgard, Hubert, and Ferdinand. In Blue Lions, it's Dimitri, Dedue, and Ashe. In Golden Deer, it's Claude, Lorenz, and Hilda."
+        },
+        "s-rank": {
+            "time": "12",
+            "defeat": "600",
+            "damage": "0.4"
+        },
+        "enemies": {
+            "sword": 2,
+            "lance": 2,
+            "axe": 1,
+            "bow": 0,
+            "brawl": 0,
+            "tome": 0,
+            "infantry": 3,
+            "flying": 0,
+            "armoured": 0,
+            "horseback": 0,
+            "monster": 0
+        },
+        "monster": [
+            {"name": "Wild Demonic Beast",
+            "health": 2,
+            "effectiveness": ["sword", "lance", "axe", "light"]}
+        ],
+        "chest": "Leather Shield",
+        "rewards": {
+            "first-time": "Bullion",
+            "s-rank": "Premium Magic Herbs"
+        },
+        "notes-for-myself": [
+            "Strongholds:",
+            "South: Central Outer Walls (Blue).",
+            "Middle: Fortress Main Gates (Thief)",
+            "NW: Dungeon (Myrmidon)",
+            "NW-Middle: Command Post (Myrmidon)",
+            "NE-Middle: Plaza (Myrmidon)",
+            "NE: Chapel (Soldier, Chest)",
+            "East: Guardhouse (Soldier)"
+        ]
 
 
     }
