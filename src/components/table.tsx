@@ -14,13 +14,15 @@ import {
   MaterialReactTable,
   useMaterialReactTable,
   createMRTColumnHelper,
+  MRT_TableInstance,
 } from 'material-react-table';
+import TableRow from '@mui/material/TableRow';
 
 interface Row {
   id : number;
   route : string;
   chapter : string;
-  level : number | null;
+  level : number | undefined;
   mission : string;
 }
 
@@ -34,7 +36,7 @@ interface Mission {
       easy: number,
       normal: number,
       hard: number,
-      maddening: number,
+      maddening?: number,
     };
     deploy: number,
     territory: string,
@@ -100,7 +102,7 @@ export default function Table( {allMissions, allChapters, difficulty} : TablePro
           case 1: row.level = entry.general.level.normal; break;
           case 2: row.level = entry.general.level.hard; break;
           case 3:
-            if (entry.general.level.maddening == null)
+            if (entry.general.level.maddening == undefined)
               row.level =  entry.general.level.normal + 100;
             else
               row.level =  entry.general.level.maddening;
@@ -153,6 +155,10 @@ export default function Table( {allMissions, allChapters, difficulty} : TablePro
     setData(rows);
 
   }
+
+  // const rowWrapper = (row : Row) => {
+  //   <div><TableRow data={row}/></div>
+  // }
 
   const columnHelper = createMRTColumnHelper<Row>();
 
@@ -208,6 +214,13 @@ const table = useMaterialReactTable({
     enableColumnOrdering: true,
     enableColumnResizing: true,
     layoutMode: 'grid-no-grow',
+    // muiTableBodyProps: ({
+    //   children: () => {
+    //     return <></>
+    //   },
+    // })
+
+
     // muiTableHeadCellProps: {
     //   sx: {
     //     '&[data-index="2"]': { //Level

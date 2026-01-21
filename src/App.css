@@ -216,20 +216,38 @@
 }
 
 .MuiPaper-root {
+  --Paper-shadow: none !important;
 
   & table.MuiTable-root {
 
-    & tbody.MuiTableBody-root {
+    & thead.MuiTableHead-root {
 
       & tr.MuiTableRow-root {
 
-        --edge: 7px;
+        & th.MuiTableCell-head {
+          font-family: inherit;
+          font-size: inherit;
+        }
+      }
+    }
+
+    & tbody.MuiTableBody-root {
+
+      gap: 0.5em;
+
+      & tr.MuiTableRow-root {
+
+        --edge: 8px;
         --var: 1.74;
-        --end: 98.02;
+        --end: 98.5;
 
         color: rgb(185, 113, 113);
-        background-color: rgb(202, 226, 218) !important;
-        height: 50px;
+        background-color: rgb(233,233,233,1) !important;
+        box-shadow:
+            inset 0 0 0 2px rgb(233,233,233,1),
+            inset 0 0 0 4px rgb(169,152,104) !important;
+        
+        height: 3em;
       	aspect-ratio: 8.222;
       	clip-path: shape(
           from calc( var(--edge)*(1.74/var(--var))) 1.6%,
@@ -245,23 +263,21 @@
           curve to calc(var(--edge)*(1.71/var(--var))) 98.34% with calc(var(--edge)*(1.08/var(--var))) 92.58%/calc(var(--edge)*(1.17/var(--var))) 95.08%,
           line to calc(var(--edge)*(01.99/var(--var))) 100%,
           line to calc(var(--edge)*(50.00/var(--var))) 100%,
-          /*line to calc(var(--edge)*(((98.02-var(--end))/var(--var))+98.02)) 99.99%,
-          line to 98.02px 99.99%,*/
-          line to calc(((98.02 - var(--end))/var(--var)) * var(--edge) ) 99.99%,
-          line to calc(var(--edge)*(98.30/var(--var))) 98.22%,
-          curve to 98.9% 83.49% with 98.8% 95.1%/98.88% 93.23%,
-          curve to 99.26% 71.08% with 98.92% 75.12%/98.99% 72.81%,
-          curve to 99.72% 63.22% with 99.35% 70.57%/99.72% 64.15%,
-          curve to 99.76% 61.91% with 99.72% 62.68%/99.74% 62.09%,
-          curve to 99.92% 42.14% with 99.98% 60.08%/100.09% 47.05%,
-          curve to 99.76% 37.67% with 99.87% 40.72%/99.8% 38.71%,
-          curve to 99.11% 26.97% with 99.67% 35.02%/99.34% 29.55%,
-          line to 98.92% 24.8%,
-          line to 98.89% 16.78%,
-          curve to 98.15% 0.92% with 98.86% 5.99%/98.74% 3.27%,
-          curve to 49.97% 0.01% with 97.91% -0.01%/97.67% -0.02%,
-          line to 2.03% 0.03%,
-          line to 1.74% 1.6%
+          line to calc((var(--edge)*((98.02 - var(--end))/var(--var))) + (100% - var(--edge))) 99.99%,
+          line to calc((var(--edge)*((98.30 - var(--end))/var(--var))) + (100% - var(--edge))) 98.22%,
+          curve to calc((var(--edge)*((98.90 - var(--end))/var(--var))) + (100% - var(--edge))) 83.49% with calc((var(--edge)*((98.80 - var(--end))/var(--var))) + (100% - var(--edge))) 95.10%/calc((var(--edge)*((98.88 - var(--end))/var(--var))) + (100% - var(--edge))) 93.23%,
+          curve to calc((var(--edge)*((99.26 - var(--end))/var(--var))) + (100% - var(--edge))) 71.08% with calc((var(--edge)*((98.92 - var(--end))/var(--var))) + (100% - var(--edge))) 75.12%/calc((var(--edge)*((98.99 - var(--end))/var(--var))) + (100% - var(--edge))) 72.81%,
+          curve to calc((var(--edge)*((99.72 - var(--end))/var(--var))) + (100% - var(--edge))) 63.22% with calc((var(--edge)*((99.35 - var(--end))/var(--var))) + (100% - var(--edge))) 70.57%/calc((var(--edge)*((99.72 - var(--end))/var(--var))) + (100% - var(--edge))) 64.15%,
+          curve to calc((var(--edge)*((99.76 - var(--end))/var(--var))) + (100% - var(--edge))) 61.91% with calc((var(--edge)*((99.72 - var(--end))/var(--var))) + (100% - var(--edge))) 62.68%/calc((var(--edge)*((99.74 - var(--end))/var(--var))) + (100% - var(--edge))) 62.09%,
+          curve to calc((var(--edge)*((99.92 - var(--end))/var(--var))) + (100% - var(--edge))) 42.14% with calc((var(--edge)*((99.98 - var(--end))/var(--var))) + (100% - var(--edge))) 60.08%/calc((var(--edge)*((100.0 - var(--end))/var(--var))) + (100% - var(--edge))) 47.05%,
+          curve to calc((var(--edge)*((99.76 - var(--end))/var(--var))) + (100% - var(--edge))) 37.67% with calc((var(--edge)*((99.87 - var(--end))/var(--var))) + (100% - var(--edge))) 40.72%/calc((var(--edge)*((99.80 - var(--end))/var(--var))) + (100% - var(--edge))) 38.71%,
+          curve to calc((var(--edge)*((99.11 - var(--end))/var(--var))) + (100% - var(--edge))) 26.97% with calc((var(--edge)*((99.67 - var(--end))/var(--var))) + (100% - var(--edge))) 35.02%/calc((var(--edge)*((99.34 - var(--end))/var(--var))) + (100% - var(--edge))) 29.55%,
+          line to calc((var(--edge)*((98.92 - var(--end))/var(--var))) + (100% - var(--edge))) 24.8%,
+          line to calc((var(--edge)*((98.89 - var(--end))/var(--var))) + (100% - var(--edge))) 16.78%,
+          curve to calc((var(--edge)*((98.15 - var(--end))/var(--var))) + (100% - var(--edge))) 0.92% with calc((var(--edge)*((98.86 - var(--end))/var(--var))) + (100% - var(--edge))) 5.99%/calc((var(--edge)*((98.74 - var(--end))/var(--var))) + (100% - var(--edge))) 3.27%,
+          curve to calc((var(--edge)*((49.97 - var(--end))/var(--var))) + (100% - var(--edge))) 0.01% with calc((var(--edge)*((97.91 - var(--end))/var(--var))) + (100% - var(--edge))) 0.01%/calc((var(--edge)*((97.67 - var(--end))/var(--var))) + (100% - var(--edge))) 0.02%,
+          line to calc((var(--edge)*((2.03 - var(--end))/var(--var))) + (100% - var(--edge))) 0.03%,
+          line to calc((var(--edge)*((1.74 - var(--end))/var(--var))) + (100% - var(--edge))) 1.6%
         );
         /* clip-path: shape(from left, 
           arc to right of 75% 150%, 
@@ -271,10 +287,21 @@
         /* https://yqnn.github.io/svg-path-editor/#P=M_5.244_0.551_C_3.645_1.6_3.339_2.517_3.336_6.261_C_3.335_7.743_3.278_8.981_3.209_9.011_C_2.781_9.201_1.001_12.361_1.001_12.93_C_1.001_13.053_0.935_13.285_0.854_13.444_C_0_15.125_-0.001_20.027_0.853_21.689_C_0.934_21.849_1.001_22.097_1.001_22.241_C_1.001_22.644_2.333_25.137_2.884_25.764_L_3.375_26.324_L_3.353_28.945_C_3.323_32.54_3.607_33.421_5.167_34.566_L_5.962_35.15_L_144.773_35.149_L_283.584_35.148_L_284.408_34.524_C_285.855_33.428_286.075_32.769_286.137_29.344_C_286.19_26.401_286.386_25.591_287.192_24.983_C_287.431_24.803_288.499_22.546_288.5_22.219_C_288.501_22.028_288.553_21.82_288.617_21.756_C_289.259_21.115_289.564_16.534_289.081_14.805_C_288.942_14.307_288.743_13.6_288.638_13.233_C_288.374_12.302_287.403_10.379_286.74_9.472_L_286.183_8.71_L_286.119_5.888_C_286.033_2.095_285.662_1.138_283.957_0.314_C_283.275_-0.015_282.592_-0.017_144.678_-0.008_L_6.084_0_L_5.244_0.551 */
         /* https://css-generators.com/svg-to-css/ */
 
+          background-color: rgb(233,233,233,1);
+
+          box-shadow:
+            inset 0 0 0 2px rgb(233,233,233,1),
+            inset 0 0 0 4px rgb(169,152,104,);
+
+          box-sizing: border-box;
+
         & td.MuiTableCell-root {
 
           color: inherit;
           background-color: transparent;
+          font-family: inherit;
+          font-size: inherit;
+          font-size: 0.95em;
 
           & img {
             height: 1.5em;

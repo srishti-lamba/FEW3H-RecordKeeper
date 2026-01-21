@@ -59,8 +59,8 @@ export default function Settings({allChapters, difficulty, setDifficulty} : Sett
                     setDifficulty={setDifficulty} />
                 <ChapterSelection
                     show={show}
-                    chapterStart={sbStart} setChapterStart={setSbStart}
-                    chapterEnd={sbEnd} setChapterEnd={setSbEnd}
+                    // chapterStart={sbStart} setChapterStart={setSbStart}
+                    // chapterEnd={sbEnd} setChapterEnd={setSbEnd}
                     allChapters={[allChapters[0], allChapters[1]]}/>
             </div>
 
