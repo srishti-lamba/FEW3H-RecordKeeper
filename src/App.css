@@ -47,14 +47,6 @@
     z-index: 10000;
 
     clip-path: url("https://raw.githubusercontent.com/srishti-lamba/FEW3H-BattleList/refs/heads/main/public/images/ui-background/two-diamonds.svg#two-diamonds");
-    /*clip-path: path("m 0 30 L 30 0 L 49 19 L 68 0 L 98 30 L 68 60 L 49 41 L 30 60 Z m 36 20 L 47 39 L 38 30 L 47 21 L 36 10 L 16 30 Z M 51 21 L 60 30 L 51 39 L 62 50 L 82 30 L 62 10 L 51 21 Z");
-    clip-path: path("m 0 0.5 L 0.306 0 L 0.5 0.317 L 0.694 0 L 1 0.5 L 0.694 1 L 0.5 0.683 L 0.306 1 Z m 0.367 0.333 L 0.48 0.65 L 0.388 0.5 L 0.48 0.35 L 0.367 0.167 L 0.163 0.5 Z M 0.52 0.35 L 0.612 0.5 L 0.52 0.65 L 0.633 0.833 L 0.837 0.5 L 0.633 0.167 L 0.52 0.35 Z");
-    clip-path: path("m 0% 50% L 30.6% 0% L 50% 31.7% L 69.4% 0% L 100% 50% L 69.4% 100% L 50% 68.3% L 30.6% 100% Z m 36.7% 33.3% L 48% 65% L 38.8% 50% L 48% 35% L 36.7% 16.7% L 16.3% 50% Z M 52% 35% L 61.2% 50% L 52% 65% L 63.3% 83.3% L 83.7% 50% L 63.3% 16.7% L 52% 35% Z");*/
-    /* https://yqnn.github.io/svg-path-editor/#P=M_0_30_L_30_0_L_49_19_L_68_0_L_98_30_L_68_60_L_49_41_L_30_60_Z_M_36_50_L_47_39_L_38_30_L_47_21_L_36_10_L_16_30_Z_M_51_21_L_60_30_L_51_39_L_62_50_L_82_30_L_62_10_L_51_21_Z */
-
-    /* clip-path: path("M 0 41 L 30 11 L 49 30 L 79 0 L 109 30 L 128 11 L 158 41 L 128 71 L 109 52 L 79 82 L 49 52 L 30 71 Z M 36 61 L 47 50 L 38 41 L 47 32 L 36 21 L 16 41 Z M 51 32 L 60 41 L 51 50 L 79 78 L 107 50 L 98 41 L 107 32 L 79 4 L 51 32 Z M 111 50 L 122 61 L 142 41 L 122 21 L 111 32 L 120 41 L 111 50");
-    https://yqnn.github.io/svg-path-editor/#P=M_0_41_L_30_11_L_49_30_L_79_0_L_109_30_L_128_11_L_158_41_L_128_71_L_109_52_L_79_82_L_49_52_L_30_71_Z_M_36_61_L_47_50_L_38_41_L_47_32_L_36_21_L_16_41_Z_M_51_32_L_60_41_L_51_50_L_79_78_L_107_50_L_98_41_L_107_32_L_79_4_L_51_32_Z_M_111_50_L_122_61_L_142_41_L_122_21_L_111_32_L_120_41_L_111_50
-    */
 
       & h1 {
         width: 100%;
@@ -119,7 +111,6 @@
             all: unset;
             height: fit-content;
             border-radius: 0px;
-            /*border: 2px solid transparent;*/
             flex-grow: 1;
             flex-basis: 1em;
             z-index: 10001;
@@ -130,9 +121,6 @@
             padding: 0.5em 0px 0.5em 0px;
             margin: var(--button-gap) 0px var(--button-gap) 0px;
 
-            /*background: 
-              linear-gradient(rgb(9,9,9,1) 0 0) padding-box,
-              linear-gradient(180deg, rgb(137,137,137,1), rgb(98,89,66,0.75)) border-box;*/
 
             background-color: rgb(9,9,9,1);
             color: rgb(73,73,73);
@@ -143,24 +131,12 @@
             border-top-left-radius: var(--button-border-radius);
             border-bottom-left-radius: var(--button-border-radius);
             margin-left: var(--button-gap);
-
-            /*background: 
-              linear-gradient(rgb(9,9,9,1) 0 0) padding-box,
-              linear-gradient(135deg, transparent, rgb(141,141,122,0.75)) border-box,
-              linear-gradient(to right, transparent, rgb(141,141,122,1), transparent, rgb(141,141,122,1)) border-box,
-              linear-gradient(rgb(92,92,88,1) 0 0) border-box;*/
           }
 
           & button:last-of-type {
             border-top-right-radius: var(--button-border-radius);
             border-bottom-right-radius: var(--button-border-radius);
             margin-right: var(--button-gap);
-
-            /*background: 
-              linear-gradient(rgb(9,9,9,1) 0 0) padding-box,
-              linear-gradient(135deg, transparent, rgb(91,79,59,0.75)) border-box,
-              linear-gradient(to right, transparent, rgb(91,79,59,1), transparent, rgb(91,79,59,1)) border-box,
-              linear-gradient(rgb(91,92,87,1) 0 0) border-box;*/
           }
 
           & button.active, button.active:hover {
@@ -175,6 +151,15 @@
 
         }
 
+      }
+
+      & .section-route {
+        & div {
+          & div:nth-child(2) {
+            background-color: aquamarine;
+            color: red;
+          }
+        }
       }
 
       & .section:hover::before {
@@ -194,8 +179,6 @@
         left: 4px;
       }
 
-
-
   }
 
   & .popup::before {
@@ -207,9 +190,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -25%);
-    clip-path: url(#three-diamonds);
-    /*clip-path: path("M 0 41 L 30 11 L 49 30 L 79 0 L 109 30 L 128 11 L 158 41 L 128 71 L 109 52 L 79 82 L 49 52 L 30 71 Z M 36 61 L 47 50 L 38 41 L 47 32 L 36 21 L 16 41 Z M 51 32 L 60 41 L 51 50 L 79 78 L 107 50 L 98 41 L 107 32 L 79 4 L 51 32 Z M 111 50 L 122 61 L 142 41 L 122 21 L 111 32 L 120 41 L 111 50");
-    clip-path: path("m 0 30 L 30 0 L 49 19 L 68 0 L 98 30 L 68 60 L 49 41 L 30 60 Z m 36 20 L 47 39 L 38 30 L 47 21 L 36 10 L 16 30 Z M 51 21 L 60 30 L 51 39 L 62 50 L 82 30 L 62 10 L 51 21 Z");*/
+    clip-path: url(#three-diamonds-clip);
     background-size: cover;
   }
 
@@ -265,48 +246,6 @@
         curve to calc((var(--edge)*((98.15 - var(--end))/var(--var))) + (100% - var(--edge))) 0.92% with calc((var(--edge)*((98.86 - var(--end))/var(--var))) + (100% - var(--edge))) 5.99%/calc((var(--edge)*((98.74 - var(--end))/var(--var))) + (100% - var(--edge))) 3.27%,
         curve to calc((var(--edge)*((49.97 - var(--end))/var(--var))) + (100% - var(--edge))) 0.01% with calc((var(--edge)*((97.91 - var(--end))/var(--var))) + (100% - var(--edge))) 0.01%/calc((var(--edge)*((97.67 - var(--end))/var(--var))) + (100% - var(--edge))) 0.02%,
         line to calc((var(--edge)*((2.03 - var(--end))/var(--var))) + (100% - var(--edge))) 0.03%,
-        /* line to calc((var(--edge)*((1.74 - var(--end))/var(--var))) + (100% - var(--edge))) 1.6% */
-      );
-      --row-clip-path-left: shape(
-        from calc( var(--edge)*(1.74/var(--var))) 1.6%,
-        curve to calc(var(--edge)*(1.08/var(--var))) 17.84% with calc(var(--edge)*(1.19/var(--var))) 04.58%/calc(var(--edge)*(1.08/var(--var))) 7.195%,
-        curve to calc(var(--edge)*(1.04/var(--var))) 25.66% with calc(var(--edge)*(1.08/var(--var))) 22.05%/calc(var(--edge)*(1.06/var(--var))) 25.57%,
-        curve to calc(var(--edge)*(0.27/var(--var))) 36.80% with calc(var(--edge)*(0.89/var(--var))) 26.20%/calc(var(--edge)*(0.27/var(--var))) 35.19%,
-        curve to calc(var(--edge)*(0.22/var(--var))) 38.27% with calc(var(--edge)*(0.27/var(--var))) 37.15%/calc(var(--edge)*(0.25/var(--var))) 37.81%,
-        curve to calc(var(--edge)*(0.22/var(--var))) 61.72% with calc(var(--edge)*(0.07/var(--var))) 43.05%/calc(var(--edge)*(0.07/var(--var))) 56.99%,
-        curve to calc(var(--edge)*(0.27/var(--var))) 63.29% with calc(var(--edge)*(0.25/var(--var))) 62.17%/calc(var(--edge)*(0.27/var(--var))) 62.88%,
-        curve to calc(var(--edge)*(0.92/var(--var))) 73.31% with calc(var(--edge)*(0.27/var(--var))) 64.43%/calc(var(--edge)*(0.73/var(--var))) 71.52%,
-        line to calc(var(--edge)*(01.09/var(--var))) 74.9%,
-        line to calc(var(--edge)*(01.09/var(--var))) 82.35%,
-        curve to calc(var(--edge)*(1.71/var(--var))) 98.34% with calc(var(--edge)*(1.08/var(--var))) 92.58%/calc(var(--edge)*(1.17/var(--var))) 95.08%,
-        line to calc(var(--edge)*(01.99/var(--var))) 100%,
-        line to calc(var(--edge)*(50.00/var(--var))) 100%,
-        line to calc((var(--edge)*((98.02 - var(--end))/var(--var))) + (100% - var(--edge))) 99.99%,
-        line to 100% 100%,
-        line to 100% 1.6%,
-        line to 0% 1.6%
-      );
-      --row-clip-path-right: shape(
-        from 0% 1.6%,
-        line to 0% 100%,
-        line to calc((var(--edge)*((98.02 - var(--end))/var(--var))) + (100% - var(--edge))) 99.99%,
-        line to calc((var(--edge)*((98.30 - var(--end))/var(--var))) + (100% - var(--edge))) 98.22%,
-        curve to calc((var(--edge)*((98.90 - var(--end))/var(--var))) + (100% - var(--edge))) 83.49% with calc((var(--edge)*((98.80 - var(--end))/var(--var))) + (100% - var(--edge))) 95.10%/calc((var(--edge)*((98.88 - var(--end))/var(--var))) + (100% - var(--edge))) 93.23%,
-        curve to calc((var(--edge)*((99.26 - var(--end))/var(--var))) + (100% - var(--edge))) 71.08% with calc((var(--edge)*((98.92 - var(--end))/var(--var))) + (100% - var(--edge))) 75.12%/calc((var(--edge)*((98.99 - var(--end))/var(--var))) + (100% - var(--edge))) 72.81%,
-        curve to calc((var(--edge)*((99.72 - var(--end))/var(--var))) + (100% - var(--edge))) 63.22% with calc((var(--edge)*((99.35 - var(--end))/var(--var))) + (100% - var(--edge))) 70.57%/calc((var(--edge)*((99.72 - var(--end))/var(--var))) + (100% - var(--edge))) 64.15%,
-        curve to calc((var(--edge)*((99.76 - var(--end))/var(--var))) + (100% - var(--edge))) 61.91% with calc((var(--edge)*((99.72 - var(--end))/var(--var))) + (100% - var(--edge))) 62.68%/calc((var(--edge)*((99.74 - var(--end))/var(--var))) + (100% - var(--edge))) 62.09%,
-        curve to calc((var(--edge)*((99.92 - var(--end))/var(--var))) + (100% - var(--edge))) 42.14% with calc((var(--edge)*((99.98 - var(--end))/var(--var))) + (100% - var(--edge))) 60.08%/calc((var(--edge)*((100.0 - var(--end))/var(--var))) + (100% - var(--edge))) 47.05%,
-        curve to calc((var(--edge)*((99.76 - var(--end))/var(--var))) + (100% - var(--edge))) 37.67% with calc((var(--edge)*((99.87 - var(--end))/var(--var))) + (100% - var(--edge))) 40.72%/calc((var(--edge)*((99.80 - var(--end))/var(--var))) + (100% - var(--edge))) 38.71%,
-        curve to calc((var(--edge)*((99.11 - var(--end))/var(--var))) + (100% - var(--edge))) 26.97% with calc((var(--edge)*((99.67 - var(--end))/var(--var))) + (100% - var(--edge))) 35.02%/calc((var(--edge)*((99.34 - var(--end))/var(--var))) + (100% - var(--edge))) 29.55%,
-        line to calc((var(--edge)*((98.92 - var(--end))/var(--var))) + (100% - var(--edge))) 24.8%,
-        line to calc((var(--edge)*((98.89 - var(--end))/var(--var))) + (100% - var(--edge))) 16.78%,
-        curve to calc((var(--edge)*((98.15 - var(--end))/var(--var))) + (100% - var(--edge))) 0.92% with calc((var(--edge)*((98.86 - var(--end))/var(--var))) + (100% - var(--edge))) 5.99%/calc((var(--edge)*((98.74 - var(--end))/var(--var))) + (100% - var(--edge))) 3.27%,
-      );
-      --row-clip-path-middle: shape(
-        from 0% 1.6%,
-        line to 0% 100%,
-        line to 100% 100%,
-        line to 100% 1.6%
       );
 
       gap: 0.5em;
@@ -319,10 +258,6 @@
         color: rgb(55, 55, 55);
         background-color: rgb(233,233,233) !important;
         transition: background-color 0ms;
-        /* box-shadow:
-            inset 0 0 0 2px rgb(233,233,233),
-            inset 0 0 0 4px rgb(169,152,104) !important; */
-        
         height: 3em;
       	aspect-ratio: 8.222;
       	clip-path: var(--row-clip-path);
@@ -348,10 +283,10 @@
           all: unset;
           content: ' ';
           position: absolute;
-          background: url(../public/images/ui-background/three-diamonds.svg), rgb(233,233,233);
-          color: blue;
-          fill: blue;
-          --currentColor: blue;
+          background: 
+            url(../public/images/ui-background/three-diamonds-white.svg) repeat-x center center, 
+            rgb(233,233,233);
+          background-size: 21%, 100%;
           transition: background-color 0ms;
           height: calc(100% - var(--border)*4);
           width: calc(100% - var(--border)*4);
@@ -363,25 +298,29 @@
           overflow:visible;
         }
 
-        &:hover {
-        
-          background-color: rgb(200,25,10) !important;
+        &:hover, &[data-selected="true"] {
+          background: linear-gradient(45deg, rgb(98,8,8) 0%,rgb(200,25,10) 50%,rgb(98,8,8) 100%) !important;
+          background-repeat: repeat-x, no-repeat;
+          background-size: 100%;
           color: rgb(233,233,233);
           transition: background-color 0ms;
-          /* transition-timing-function: linear; */
+          z-index: 1;
 
-          &::after {
-            background-color: rgb(200,25,10);
-            transition: background-color 0ms;
+          &:after {
+            background-image: unset !important;
+            background: 
+              url(../public/images/ui-background/three-diamonds-red.svg) center center,
+              linear-gradient(45deg, rgb(98,8,8) 0%,rgb(200,25,10) 50%,rgb(98,8,8) 100%) !important;
+            background-repeat: repeat-x, no-repeat;
+            background-size: 21%, 100% !important;
+            z-index: 3;
           }
 
           & td.MuiTableCell-root {
-            /* background-color: rgb(200,25,10); */
-            color: rgb(233,233,233);
-            transition: background-color 0ms;
+            background-image: unset !important;
 
             &:after {
-              background-color: transparent;
+              background-color: transparent !important;
             }
           }
         }
@@ -389,26 +328,23 @@
         & td.MuiTableCell-root {
 
           color: inherit;
-          /* background-color: rgb(233,233,233); */
           background-color: transparent;
           transition: background-color 0ms;
           font-family: inherit;
           font-size: inherit;
           font-size: 0.95em;
           margin: calc((var(--border)*2)) 0px;
-          clip-path: var(--row-clip-path-middle);
           z-index: 4;
-          /* top: -0.333px; */
           border: none;
 
           &:first-child {
-            margin-left: calc(var(--border)*2);
-            clip-path: var(--row-clip-path-left);
+            /* margin-left: calc(var(--border)*2); */
+            margin-left: 1em;
           }
 
           &:nth-last-child(2) {
-            margin-right: calc(var(--border)*2);
-            clip-path: var(--row-clip-path-right);
+            /* margin-right: calc(var(--border)*2); */
+            margin-right: 1em;
           }
 
           &:last-child {

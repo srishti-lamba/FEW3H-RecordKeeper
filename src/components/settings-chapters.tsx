@@ -204,7 +204,7 @@ export function ChapterSelection({show, /*chapterStart, setChapterStart, chapter
 
   return (
     <>
-      <span className="section">
+      <span className="section route-section">
         <span className="prompt">{allChapters[1].route}</span>
         *<Select 
           // className="chapter-select" 

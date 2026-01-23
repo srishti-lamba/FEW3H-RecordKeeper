@@ -7,17 +7,15 @@
 // 6: Report! (Yellow)
 // 7: Warning!
 
-import React, {useEffect, useState, useRef, ReactNode} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import { RouteChapters, Chapter } from './settings-chapters';
-import { Container, createRoot } from 'react-dom/client';
 
 import {
   MaterialReactTable,
   useMaterialReactTable,
   createMRTColumnHelper,
-  MRT_TableInstance,
+  MRT_RowSelectionState,
 } from 'material-react-table';
-import TableRow from '@mui/material/TableRow';
 
 interface Row {
   id : number;
@@ -65,7 +63,7 @@ interface TableProps {
 export default function Table( {allMissions, allChapters, difficulty} : TableProps) {
 
   const [ data, setData ] = useState<Row[]>([])
-  const [ findDom, setFindDom ] = useState<boolean>(false)
+  const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
   
   function createData() : void {
     console.log("Starting Create Data");
@@ -104,7 +102,7 @@ export default function Table( {allMissions, allChapters, difficulty} : TablePro
           case 1: row.level = entry.general.level.normal; break;
           case 2: row.level = entry.general.level.hard; break;
           case 3:
-            if (entry.general.level.maddening == undefined)
+            if (entry.general.level.maddening == null)
               row.level =  entry.general.level.normal + 100;
             else
               row.level =  entry.general.level.maddening;
@@ -144,7 +142,7 @@ export default function Table( {allMissions, allChapters, difficulty} : TablePro
           case 1: row.level = allMissions[row.id].general.level.normal; break;
           case 2: row.level = allMissions[row.id].general.level.hard; break;
           case 3: 
-            if (allMissions[row.id].general.level.maddening == null)
+            if (allMissions[row.id].general.level.maddening == undefined)
               row.level =  allMissions[row.id].general.level.normal + 100;
             else
               row.level =  allMissions[row.id].general.level.maddening;
@@ -158,17 +156,20 @@ export default function Table( {allMissions, allChapters, difficulty} : TablePro
 
   }
 
-  // const rowWrapper = (row : Row) => {
-  //   <div><TableRow data={row}/></div>
-  // }
+  // ---------------
+  // --- Columns ---
+  // ---------------
 
   const columnHelper = createMRTColumnHelper<Row>();
 
   const columns = [
   columnHelper.accessor(
+    // === Route ===
     'route', 
     {
       header: 'Route',
+      filterVariant: 'multi-select',
+      filterSelectOptions: [allChapters[0].route, allChapters[1].route, allChapters[2].route, allChapters[3].route],
       Cell: ( {row} ) => {
         let src : string = "";
         switch (row.original.route) {
@@ -189,40 +190,70 @@ export default function Table( {allMissions, allChapters, difficulty} : TablePro
       }
     }
   ),
+  // === Chapter ===
   columnHelper.accessor('chapter', 
     {
       header: 'Chapter',
       size: 220,
     }
   ),
+  // === Level ===
   columnHelper.accessor((row : Row) => Number(row.level), 
     {
       id: "level", 
-      header: 'Level', 
-      size: 140,
+      header: 'Level',
+      size: 110,
+      filterVariant: 'range-slider',
+      filterFn: 'betweenInclusive', // default (or between)
+        muiFilterSliderProps: {
+          marks: false,
+          step: 1,
+        }, 
       muiTableBodyCellProps: {
         align: 'center',
       },
     }
   ),
+  // === Mission ===
   columnHelper.accessor('mission', {header: 'Mission'}),
 ];
+
+// -------------
+// --- Table ---
+// -------------
 
 const table = useMaterialReactTable({
     columns,
     data,
     enablePagination: false,
     enableBottomToolbar: false,
+    enableDensityToggle: false,
     enableColumnOrdering: true,
     enableColumnResizing: true,
     layoutMode: 'grid-no-grow',
-    // muiTableBodyProps: ({
-    //   children: () => {
-    //     return <></>
-    //   },
-    // })
-
-
+    enableFacetedValues: true,
+    initialState: { density: 'compact' },
+    muiTableBodyRowProps: ({ row }) => ({
+      //implement row selection click events manually
+      onClick: () =>
+        setRowSelection((prev) => {
+          console.log(prev);
+          let blankState : MRT_RowSelectionState = {};
+          return(
+          {
+          ...blankState,
+          [row.id]: !prev[row.id], //this is a simple toggle implementation
+        })}),
+      selected: rowSelection[row.id],
+      sx: {
+        cursor: 'pointer',
+      },
+    }),
+    enableRowSelection: false,
+    enableMultiRowSelection: false,
+    positionToolbarAlertBanner: 'none',
+    onRowSelectionChange: setRowSelection,
+    state: { rowSelection },
     // muiTableHeadCellProps: {
     //   sx: {
     //     '&[data-index="2"]': { //Level
@@ -252,42 +283,7 @@ const table = useMaterialReactTable({
   // Run once
   useEffect(() => {
     createData()
-    setFindDom(true)
   }, [])
-
-  // useEffect(() => {
-  //   let allRows : NodeListOf<Element> = document.querySelectorAll('table.MuiTable-root tbody.MuiTableBody-root tr.MuiTableRow-root');
-  //   // let query = Array.prototype.map(allRows);
-  //   allRows.forEach( (element : Element) => {
-  //     // console.log(element.parentNode?.appendChild(React.createElement(type: "div", children: element)));
-  //     // let root = createRoot(element);
-  //     // console.log(root)
-  //     const domNode = document.createElement('div');
-  //     domNode.classList.add("table-row-wrapper")
-  //     const root = createRoot(domNode); 
-  //     root.render(
-  //       <div>{(element as unknown) as ReactNode}</div>
-  //     );
-  //     try {
-  //       ((element as unknown) as Node).parentElement!.appendChild(domNode); // You can add it anywhere in the document
-  //     }
-  //     catch (e: unknown) { caughtError(e); }
-  //     // root.render(
-  //     //   <div className="table-row-wrapper">
-  //     //     {(element as unknown) as ReactNode}
-  //     //   </div>
-  //     // )
-  //     // console.log()
-
-  //     // let parentDiv = React.createElement(
-  //     //   "div",
-  //     //   {className: "table-row-wrapper"},
-  //     //   (element as ReactNode)
-  //     // )
-  //     // console.log(((element as unknown) as Node).parentElement?.appendChild(parentDiv as ReactNode));
-  //   })
-  //   // console.log(query);
-  // }, [findDom])
 
   useEffect(() => {
     updateLevels()
