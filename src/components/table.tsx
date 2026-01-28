@@ -66,7 +66,7 @@ export default function Table( {allMissions, allChapters, difficulty} : TablePro
   const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
   
   function createData() : void {
-    console.log("Starting Create Data");
+    console.log("Starting Create Table Data");
 
     if (data.length !== 0)
       return;
@@ -118,17 +118,17 @@ export default function Table( {allMissions, allChapters, difficulty} : TablePro
 
       rows.push(row);
 
-      console.log("Mission: ")
-      console.log(row)
     })
 
+    console.log("Table Data: ")
+    console.log(rows)
     setData(rows);
     
   }
 
   function updateLevels() {
 
-    console.log("Started Update Levels");
+    // console.log("Started Update Levels");
 
     if (data.length == 0)
       return;
@@ -234,15 +234,13 @@ const table = useMaterialReactTable({
     enableFacetedValues: true,
     initialState: { density: 'compact' },
     muiTableBodyRowProps: ({ row }) => ({
-      //implement row selection click events manually
       onClick: () =>
         setRowSelection((prev) => {
-          console.log(prev);
           let blankState : MRT_RowSelectionState = {};
           return(
           {
           ...blankState,
-          [row.id]: !prev[row.id], //this is a simple toggle implementation
+          [row.id]: !prev[row.id],
         })}),
       selected: rowSelection[row.id],
       sx: {

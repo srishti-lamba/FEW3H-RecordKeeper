@@ -33,6 +33,10 @@
     width: 75vw;
     height: 75vh;
     max-width: 40em;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
     
     border-radius: var(--popup-radius);
     box-shadow: 0 0 10px rgb(0,0,0,1);
@@ -153,11 +157,94 @@
 
       }
 
-      & .section-route {
-        & div {
-          & div:nth-child(2) {
-            background-color: aquamarine;
-            color: red;
+      & span.chapter-selection {
+        --option-padding: 0.5em;
+        --image-padding: 0.2em;
+        & > span.chapter-selection-wrapper {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          & > img {
+            height: 1em;
+            z-index: 1;
+            padding: var(--image-padding);
+            &:hover {
+              background-color: rgb(123,118,123,1);
+            }
+          }
+          & > img.chapter-selection-up-arrow {
+            -webkit-transform: scaleY(-1);
+            transform: scaleY(-1);
+            margin-bottom: calc(var(--option-padding)*0.5);
+          }
+          & > img.chapter-selection-down-arrow {
+            margin-top: calc(var(--option-padding)*0.5);
+          }
+          & > div.chapter-selection-dropdown {
+            & > div:nth-child(4) {
+              z-index: 2;
+              /* height: max-content; */
+              & > div[role="listbox"] {
+                width: max-content;
+                background-color: rgb(8,8,8,1);
+                text-align: center;
+                overflow: scroll;
+                /* height: calc(100% + 10em); */
+                & > div { /* Children: GroupLabel and ListOfOptions */
+                  padding: 0px;
+                  &:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(3)):not(:last-child) { /* Part Two subgroups */
+                    & > div:first-child {
+                      font-size: 0.8em;
+                    }
+                    & > div:not(:first-child) {
+                      & > div[role="option"] {
+                        padding-left: calc(var(--option-padding)*2);
+                      }
+                    }
+                  }
+                  & > div:first-child { /* GroupLabel */
+                    color: rgb(169,152,104);
+                    padding-top: 0.5em;
+                    position: relative;
+                    font-size: 0.95em;
+                    font-variant: small-caps;
+                    text-transform: none;
+                    &:after { /* Underline of GroupLabel */
+                      content: ' ';
+                      height: 1px;
+                      width: 100%;
+                      background-image: linear-gradient(to right, transparent 0%,rgb(169,152,104) 50%,transparent 100%) !important;
+                      position: absolute;
+                      z-index: 10;
+                      left: 0%;
+                      bottom: 0.1em;
+                    }
+                  }
+                  & > div:not(:first-child) { /* List of options */
+                    padding: 0 var(--option-padding);
+                    & > div[role="option"] /* Option */
+                    {
+                      color: rgb(223,218,223,1);
+                      background-color: inherit;
+                      text-align: left;
+                      font-size: 0.85em;
+                      padding: calc(var(--option-padding)*0.8) var(--option-padding);
+                      &[aria-selected="true"], &[aria-selected="true"]:hover {
+                        background-color: rgb(83,78,83);
+                        color: rgb(223,218,223,1);
+                      }
+                      &:hover {
+                        background-color: rgb(39,39,39,1);
+                        color: rgb(123,118,123,1);
+                      }
+                    }
+                  }
+                }
+                & div:last-child {
+                  padding-bottom: 1em;
+                }
+              }
+            }
           }
         }
       }

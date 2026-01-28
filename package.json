@@ -1,7 +1,7 @@
 {
   "name": "few3h-battle-list",
   "version": "0.1.0",
-  "homepage": "https://srishti-lamba.github.io/FEW3H-BattleList",
+  "homepage": "https://srishti-lamba.github.io/FEW3H-RecordKeeper",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.14.0",

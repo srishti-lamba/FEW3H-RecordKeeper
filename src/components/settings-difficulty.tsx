@@ -14,7 +14,7 @@ export const DifficultyButtons = ({show, difficulty, setDifficulty} : Difficulty
     const btnMadd = useRef(null);
 
     const handleClick_difficulty = ( (btn : any) => {
-        console.log("Difficulty clicked!")
+        // console.log("Difficulty clicked!")
         setDifficulty(Number(btn.current.value));
     })
 

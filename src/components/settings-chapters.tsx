@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
-import Select, {Props, GroupBase} from 'react-select';
+import Select, {Props, GroupBase, OptionsOrGroups, StylesConfig } from 'react-select';
 
 export interface Chapter {
   number: number;
@@ -16,10 +16,29 @@ export interface RouteChapters {
 }
 
 interface SelectOption {
-  value: string;
-  label: string;
-  disabled: boolean;
+  value: number[];
+  chapter: number;
+  name: string;
 }
+
+interface PrologueOption extends SelectOption {};
+interface PartOneOption extends SelectOption {};
+interface PartTwoOption extends SelectOption {};
+interface NotRecruitedOption extends SelectOption {};
+interface RecruitedOption extends SelectOption{};
+
+interface GroupedOption extends GroupBase<SelectOption> {
+  readonly label?: string,
+  readonly options: PrologueOption[] | PartOneOption[] | PartTwoOption[] | NotRecruitedOption[] | RecruitedOption[]
+}
+// interface GroupedOption extends GroupBase<PrologueOption[] | PartOneOption[] | PartTwoOption[] | NotRecruitedOption[] | RecruitedOption[]> {
+//   label?: string,
+//   options: PrologueOption[] | PartOneOption[] | PartTwoOption[] | NotRecruitedOption[] | RecruitedOption[]
+// }
+interface PartTwoOptionGroup extends GroupBase<NotRecruitedOption | RecruitedOption | PartTwoOption> {
+  label?: string,
+  options: Array<NotRecruitedOption | RecruitedOption | PartTwoOption>
+};
 
 interface ChapterSelectionProps {
   show: boolean;
@@ -32,7 +51,11 @@ interface ChapterSelectionProps {
 
 export function ChapterSelection({show, /*chapterStart, setChapterStart, chapterEnd, setChapterEnd,*/ allChapters} : ChapterSelectionProps) {
 
-  // const [selectOptions, setChapterOptions] = useState<SelectOption[]>([]);
+  // const [allOptions, setAllOptions] = useState<GroupedOption[]>([])
+  // const [selectedOption, setSelectedOption] = useState<ValueType<SelectOption>>([]);
+  // const allOptions : GroupedOption[] = [];
+  const [allOptions, setAllOptions] = useState<OptionsOrGroups<SelectOption, GroupedOption>>([]);
+  const [selectedOption, setSelectedOption] = useState<SelectOption>();
 
   // const selectStart = useRef(null);
 
@@ -51,116 +74,174 @@ export function ChapterSelection({show, /*chapterStart, setChapterStart, chapter
   //   setChapterStart(btn.current.value);
   // })
 
-  function createSelectOptions() : SelectOption[] {
-    console.log("Starting createSelectOptions")
-    let options : SelectOption[] = [];
+  function createSelectOptions() {
+    console.log("Starting Chapter createSelectOptions")
+    // let options : SelectOption[] = [];
     let pCh : number = 0;
     let rCh : number = 0;
     let pChs : Chapter[] = allChapters[0].chapters;
     let rChs : Chapter[] = allChapters[1].chapters;
     let routeID : number = allChapters[1].id;
-    let prologueLblPlaced : boolean = false;
-    let partOneLblPlaced : boolean = false;
-    let partTwoLblPlaced : boolean = false;
-    let recruitedLblPlaced : boolean = false;
-    let indent = "   ";
-    // let lastPCh : number = pChs.findLast
+    let prologueOptions : PrologueOption[] = [];
+    let partOneOptions : PartOneOption[] = [];
+    let partTwoOptions : PartTwoOption[] = [];
+    let notRecruitedOptions : NotRecruitedOption[] = [];
+    let recruitedOptions : RecruitedOption[] = [];
+    // let finalChapterOption : PartTwoOption = {id:[],chapter:0,name:""};
+    const finalChapterOption : PartTwoOption[] = [];
+
     // Prologue
     if (pCh < pChs.length) {
-      let curCh = pChs[pCh]
 
       // All : Prologue
+      let curCh = pChs[pCh]
       while ((pCh < pChs.length) && (curCh.part == 0)) {
-        if (!prologueLblPlaced) {
-          options.push({value:"Prologue", label:"Prologue:", disabled:true})
-          prologueLblPlaced = true;
-        }
-
-        options.push({value:"0-"+pCh, label:curCh.name, disabled:false})
-
+        prologueOptions.push({value:[0,pCh], chapter:curCh.number, name:curCh.name})
         pCh += 1;
         curCh = pChs[pCh]
       }
 
-      // Route : Prologue and Part 1 and 2: Before split
+      // Route : Prologue
       curCh = rChs[rCh]
-      while ((rCh < rChs.length) && (curCh.byleth == -1)) {
-        if (!partOneLblPlaced && curCh.part == 1) {
-          options.push({value:"PartOne", label:"Part One:", disabled:true})
-          partOneLblPlaced = true;
-        }
-        else if (!partTwoLblPlaced && curCh.part == 2) {
-          options.push({value:"PartTwo", label:"Part Two:", disabled:true})
-          partTwoLblPlaced = true;
-        }
-
-        options.push({value:routeID+"-"+rCh, label:curCh.name, disabled:false})
-
+      while ((rCh < rChs.length) && (curCh.part == 0)) {
+        prologueOptions.push({value:[routeID,rCh], chapter:curCh.number, name:curCh.name})
         rCh += 1;
         curCh = rChs[rCh]
       }
 
-      // Route : No Byleth
-      if (curCh.byleth == 0) {
-        options.push({value:"NoByleth", label:"Not recruited:", disabled:true})
-
-        while ((rCh < rChs.length) && (curCh.byleth == 0)) {
-          options.push({value:routeID+"-"+rCh, label:indent+curCh.name, disabled:false})
-
-          rCh += 1;
-          curCh = rChs[rCh]
-        }
+      // Route : Part 1
+      while ((rCh < rChs.length) && (curCh.part == 1)) {
+        partOneOptions.push({value:[routeID,rCh], chapter:curCh.number, name:curCh.name})
+        rCh += 1;
+        curCh = rChs[rCh]
       }
 
-      // Route : Yes Byleth
-      if (curCh.byleth == 1) {
-        options.push({value:"YesByleth", label:"Recruited:", disabled:true})
-        recruitedLblPlaced = true;
-
-        while ((rCh < rChs.length) && (curCh.byleth == 1)) {
-          options.push({value:routeID+"-"+rCh, label:indent+curCh.name, disabled:false})
-
-          rCh += 1;
-          curCh = rChs[rCh]
+      // Route : Part 2: Before split
+      while ((rCh < rChs.length) && (curCh.part == 2)) {
+        // Shared
+        if (curCh.byleth == -1) {
+          // Shared: Before split
+          if (curCh.number != -1) {
+            partTwoOptions.push({value:[routeID,rCh], chapter:curCh.number, name:curCh.name})
+          }
+          // Shared: After split
+          // else {
+          //   finalChapterOption.id = [routeID,rCh];
+          //   finalChapterOption.chapter = curCh.number;
+          // }
+          else {
+            finalChapterOption.push({value:[routeID,rCh], chapter:curCh.number, name:curCh.name})
+          }
         }
+        // Not Recruited
+        else if (curCh.byleth == 0) {
+          notRecruitedOptions.push({value:[routeID,rCh], chapter:curCh.number, name:curCh.name})
+        }
+        // Recruited
+        else if (curCh.byleth == 1) {
+          recruitedOptions.push({value:[routeID,rCh], chapter:curCh.number, name:curCh.name})
+        }
+        rCh += 1;
+        curCh = rChs[rCh]
       }
-
-      // All : Yes Byleth
-      curCh = pChs[pCh]
-      if (curCh.byleth == 1) {
-        if (!recruitedLblPlaced) {
-          options.push({value:"YesByleth", label:"Recruited:", disabled:true})
-          recruitedLblPlaced = true;
-        }
-
-        while ((pCh < pChs.length) && (curCh.byleth == 1)) {
-          options.push({value:"0-"+pCh, label:indent+curCh.name, disabled:false})
-
-          pCh += 1;
-          curCh = pChs[pCh]
-        }
-      }
-
-      // Route : Final Chapter
-      curCh = rChs[rCh]
-      options.push({value:routeID+"-"+rCh, label:curCh.name, disabled:false})
-      
     }
 
-    console.log("Options:")
-    console.log(options);
-    return options;
+  //   const partTwoOptionsGroup = [
+  //   {
+  //     options: partTwoOptions
+  //   },
+  //   {
+  //     label: "Not Recruited",
+  //     options: notRecruitedOptions
+  //   },
+  //   {
+  //     label: "Recruited",
+  //     options: recruitedOptions
+  //   },
+  //   {
+  //     options: finalChapterOption
+  //   }
+  // ]
+
+  // const groupedOptions = [
+  //   {
+  //     label: "Prologue",
+  //     options: prologueOptions
+  //   },
+  //   {
+  //     label : "Part One",
+  //     options: partOneOptions
+  //   },
+  //   {
+  //     label: "Part Two",
+  //     options: partTwoOptionsGroup
+  //   }
+  // ]
+
+  let groupedOptions : GroupedOption[] = [
+    {
+      label: "Prologue",
+      options: prologueOptions
+    },
+    {
+      label : "Part One",
+      options: partOneOptions
+    },
+    {
+      label : "Part Two",
+      options: partTwoOptions
+    },
+    {
+      label: "Not Recruited",
+      options: notRecruitedOptions
+    },
+    {
+      label: "Recruited",
+      options: recruitedOptions
+    },
+    {
+      options: finalChapterOption
+    }
+  ]
+
+    console.log("Chapter Select Options:")
+    console.log(groupedOptions);
+    setAllOptions(groupedOptions);
+    setSelectedOption(groupedOptions[0].options[0])
+    // allOptions = groupedOptions;
+    // groupedOptions.forEach(x=>allOptions.push(x))
+    // allOptions.push()
+    // return groupedOptions;
   }
 
   // ------------------------
   // --- Helper Functions ---
   // ------------------------
 
+  const handleChange_select = (event: any) => {
+    setSelectedOption(event);
+    console.log(event);
+  }
+
+  // const colourStyles : StylesConfig = {
+  //   control: (styles: any) => ({ ...styles, backgroundColor: 'white' }),
+  //   option: (styles: any, { data, isDisabled, isFocused, isSelected }: any) => {
+  //     // const color = chroma(data.color);
+  //     return {
+  //       ...styles,
+  //       backgroundColor: isSelected ? 'red' : 'blue',
+  //       color: '#FFF',
+  //       cursor: isDisabled ? 'not-allowed' : 'default',
+  //     };
+  //   }
+  // };
+
   // Run once
   useEffect(() => {
-    console.log("Passed Chapters:")
-    console.log(allChapters)
+    createSelectOptions();
   }, [])
+
+  // createSelectOptions();
 
 //   function CustomSelect<
 //     Option,
@@ -171,10 +252,6 @@ export function ChapterSelection({show, /*chapterStart, setChapterStart, chapter
 //       <Select {...props} theme={(theme) => ({ ...theme, borderRadius: 0 })} />
 //     );
 //   }
-
-  const customSelectProps = {
-    Option: {createSelectOptions}
-  }
 
   // useEffect(() => {
 
@@ -198,23 +275,65 @@ export function ChapterSelection({show, /*chapterStart, setChapterStart, chapter
 
   // }, [difficulty])
 
+  // ---------------------
+  // --- Type Checking ---
+  // ---------------------
+
+  function isSelectOption(object: any): object is SelectOption {
+    return 'id' in object;
+}
+
   if (!show) {
     return <></>;
   }
 
   return (
     <>
-      <span className="section route-section">
+      <span className="section chapter-selection">
         <span className="prompt">{allChapters[1].route}</span>
-        *<Select 
-          // className="chapter-select" 
-          // ref={selectStart} 
-          // Option={createSelectOptions()}
-          // {...customSelectProps}
-          options= {createSelectOptions()}
-         />
+        <span className="chapter-selection-wrapper">
+          <img 
+            className="chapter-selection-up-arrow"
+            src={process.env.PUBLIC_URL + "/images/ui-icons/down-arrow.png"}
+          />
+          <Select 
+            className="chapter-selection-dropdown"
+            // ref={selectStart} 
+            // Option={createSelectOptions()}
+            // {...customSelectProps}
+            // options = {createSelectOptions()}
+            options = {allOptions}
+            isClearable = {false}
+            onChange={handleChange_select}
+            value={selectedOption}
+              // allOptions.filter((option) => 
+              // option.options[] === 'Some label')
+            // menuIsOpen={true}
+            formatOptionLabel={(opt : unknown, { context }) => {
+              let option : SelectOption = (opt as SelectOption)
+              if (option.chapter == -1)
+                return context === "menu" ? "Final chapter" : "Final";
+              else if (option.value[0] == 1 && (option.value[1] == 11 || option.value[1] == 12))
+                return context === "menu" ? "└ Chapter " + option.chapter : option.chapter;
+              else
+                return context === "menu" ? "Chapter " + option.chapter : option.chapter;
+              }
+            }
+            // styles={colourStyles}
+            // styles={{
+            //   control: (baseStyles, state) => ({
+            //     ...baseStyles,
+            //     borderColor: state.isSelected ? 'grey' : 'red',
+            //   }),
+            //   options: ()
+            // }}
+          />
+          <img 
+            className="chapter-selection-down-arrow"
+            src={process.env.PUBLIC_URL + "/images/ui-icons/down-arrow.png"}
+          />
          
-
+          </span>
       </span>
     </>
   )
