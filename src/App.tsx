@@ -1,13 +1,17 @@
 import React, {useEffect, useState} from 'react';
+import { MRT_RowSelectionState } from 'material-react-table';
+import { SplitPane, Pane } from 'react-split-pane';
 import Settings from './components/settings';
 import Table from './components/table';
 import './App.css';
 import allChapters from './db/chapters.json';
 import allMissions from './db/missions.json';
+import { Details } from './components/details';
 
 function App() {
 
   const [difficulty, setDifficulty] = useState<number>(1);
+  const [selectedRow, setSelectedRow] = useState<MRT_RowSelectionState>({});
 
   // Run once
   useEffect(() => {
@@ -26,11 +30,22 @@ function App() {
         allChapters={allChapters}
         difficulty={difficulty} setDifficulty={setDifficulty}
       />
-      <Table
-        allMissions={allMissions}
-        allChapters={allChapters}
-        difficulty={difficulty}
-      />
+
+      <SplitPane direction="horizontal" resizable={true}>
+        <Pane minSize="200px" defaultSize="70%">
+          <Table
+            allMissions={allMissions}
+            allChapters={allChapters}
+            difficulty={difficulty}
+            selectedRow={selectedRow}
+            setSelectedRow={setSelectedRow}
+          />
+        </Pane>
+        <Pane>
+          <Details selectedRow={selectedRow} />
+        </Pane>
+      </SplitPane>
+
       <svg height="0" width="0">
         <defs>
           <clipPath id="three-diamonds-clip"  clipPathUnits="objectBoundingBox" preserveAspectRatio="xMidYMid meet">
@@ -46,4 +61,3 @@ function App() {
 }
 
 export default App;
-

@@ -1,6 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
 import Select, {Props, GroupBase, OptionsOrGroups, StylesConfig } from 'react-select';
-import { optionCSS } from 'react-select/dist/declarations/src/components/Option';
 
 export interface Chapter {
   number: number;
@@ -53,28 +52,8 @@ interface ChapterSelectionProps {
 
 export function ChapterSelection({show, /*chapterStart, setChapterStart, chapterEnd, setChapterEnd,*/ allChapters} : ChapterSelectionProps) {
 
-  // const [allOptions, setAllOptions] = useState<GroupedOption[]>([])
-  // const [selectedOption, setSelectedOption] = useState<ValueType<SelectOption>>([]);
-  // const allOptions : GroupedOption[] = [];
   const [allOptions, setAllOptions] = useState<OptionsOrGroups<SelectOption, GroupedOption>>([]);
   const [selectedOption, setSelectedOption] = useState<SelectOption>();
-
-  // const selectStart = useRef(null);
-
-  // const btnStartUp = useRef(null);
-  // const btnStartDown = useRef(null);
-  // const btnEndUp = useRef(null);
-  // const btnEndDown = useRef(null);
-
-  // const handleClick_select = ( (event : MouseEvent) => {
-  //   console.log("Select start clicked!");
-    
-  // })
-
-  // const handleClick_startUp = ( (btn : any) => {
-  //   console.log("Start Up clicked!")
-  //   setChapterStart(btn.current.value);
-  // })
 
   function createSelectOptions() {
     console.log("Starting Chapter createSelectOptions")
@@ -89,7 +68,6 @@ export function ChapterSelection({show, /*chapterStart, setChapterStart, chapter
     let partTwoOptions : PartTwoOption[] = [];
     let notRecruitedOptions : NotRecruitedOption[] = [];
     let recruitedOptions : RecruitedOption[] = [];
-    // let finalChapterOption : PartTwoOption = {id:[],chapter:0,name:""};
     const finalChapterOption : PartTwoOption[] = [];
 
     // Prologue
@@ -127,10 +105,6 @@ export function ChapterSelection({show, /*chapterStart, setChapterStart, chapter
             partTwoOptions.push({value:[routeID,rCh], chapter:curCh.number, name:curCh.name})
           }
           // Shared: After split
-          // else {
-          //   finalChapterOption.id = [routeID,rCh];
-          //   finalChapterOption.chapter = curCh.number;
-          // }
           else {
             finalChapterOption.push({value:[routeID,rCh], chapter:curCh.number, name:curCh.name})
           }

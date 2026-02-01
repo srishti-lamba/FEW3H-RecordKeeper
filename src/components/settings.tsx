@@ -10,7 +10,7 @@ interface SettingsProps {
 
 export default function Settings({allChapters, difficulty, setDifficulty} : SettingsProps) {
 
-  const [show, setShow] = useState<boolean>(true);
+  const [show, setShow] = useState<boolean>(false);
 
   // Chapters: Scarlet Blaze
   const [sbStart, setSbStart] = useState<number>(2);

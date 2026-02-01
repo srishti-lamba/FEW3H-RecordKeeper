@@ -58,12 +58,14 @@ interface TableProps {
   allMissions : Mission[]
   allChapters : RouteChapters[];
   difficulty : number;
+  selectedRow : MRT_RowSelectionState;
+  setSelectedRow : any;
 }
 
-export default function Table( {allMissions, allChapters, difficulty} : TableProps) {
+export default function Table( {allMissions, allChapters, difficulty, selectedRow, setSelectedRow} : TableProps) {
 
   const [ data, setData ] = useState<Row[]>([])
-  const [rowSelection, setRowSelection] = useState<MRT_RowSelectionState>({});
+  // const [selectedRow, setSelectedRow] = useState<MRT_RowSelectionState>({});
   
   function createData() : void {
     console.log("Starting Create Table Data");
@@ -235,14 +237,14 @@ const table = useMaterialReactTable({
     initialState: { density: 'compact' },
     muiTableBodyRowProps: ({ row }) => ({
       onClick: () =>
-        setRowSelection((prev) => {
+        setSelectedRow((prev : any) => {
           let blankState : MRT_RowSelectionState = {};
           return(
           {
           ...blankState,
           [row.id]: !prev[row.id],
         })}),
-      selected: rowSelection[row.id],
+      selected: selectedRow[row.id],
       sx: {
         cursor: 'pointer',
       },
@@ -250,8 +252,8 @@ const table = useMaterialReactTable({
     enableRowSelection: false,
     enableMultiRowSelection: false,
     positionToolbarAlertBanner: 'none',
-    onRowSelectionChange: setRowSelection,
-    state: { rowSelection },
+    onRowSelectionChange: setSelectedRow,
+    state: { rowSelection: selectedRow },
     // muiTableHeadCellProps: {
     //   sx: {
     //     '&[data-index="2"]': { //Level
@@ -286,6 +288,11 @@ const table = useMaterialReactTable({
   useEffect(() => {
     updateLevels()
   }, [difficulty])
+
+  useEffect(() => {
+    console.log("Selected row changed");
+    console.log(selectedRow);
+  }, [selectedRow])
 
   function caughtError( e : unknown ) : void {
     if (typeof e === "string") { 
