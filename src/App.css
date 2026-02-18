@@ -557,7 +557,7 @@
 
 }
 
-.test {
+/* .test {
   --height : 3em;
 
   height: var(--height);
@@ -575,8 +575,6 @@
       rgb(98,8,8) calc(var(--height) * 0.171428571),
       rgb(200,25,10) 50%,
       rgb(98,8,8) calc(100% + ((var(--height) * -0.171428571))),
-      /* orange calc(var(--height) * 0.171428571), 
-      orange calc(100% + ((var(--height) * -0.171428571))),  */
       transparent calc(100% + ((var(--height) * -0.171428571))))
   ;
   background-repeat: 
@@ -584,9 +582,44 @@
   background-position:
     left, right, center, left, right, center;
   background-size: auto, auto, calc(100% - 3.5em + 2px), auto;
-  /* background-image:
-    url(/public/images/ui-background/test.svg)
-  ; */
+} */
+
+.test {
+  --height : 3em;
+
+  height: var(--height);
+  width: 100%;
+  background-color: whitesmoke;
+  background-image:
+    url(/public/images/ui-background/missionRow/side-left-base.svg),
+    url(/public/images/ui-background/missionRow/side-right-base.svg),
+    url(/public/images/ui-background/missionRow/side-middle-base.svg),
+    linear-gradient(
+      90deg, 
+      transparent calc(var(--height) * 0.171428571), 
+      rgb(233,233,233) calc(var(--height) * 0.171428571),
+      rgb(233,233,233) 50%,
+      rgb(233,233,233) calc(100% + ((var(--height) * -0.171428571))),
+      transparent calc(100% + ((var(--height) * -0.171428571))));
+  background-repeat: 
+    no-repeat, no-repeat, no-repeat, no-repeat;
+  background-position:
+    left, right, center, center;
+  background-size: auto, auto, calc(100% - 3.5em + 2px), auto;
+
+  &:hover {
+    background-image:
+    url(/public/images/ui-background/missionRow/side-left-hover.svg),
+    url(/public/images/ui-background/missionRow/side-right-hover.svg),
+    url(/public/images/ui-background/missionRow/side-middle-hover.svg),
+    linear-gradient(
+      90deg, 
+      transparent calc(var(--height) * 0.171428571), 
+      rgb(98,8,8) calc(var(--height) * 0.171428571),
+      rgb(200,25,10) 50%,
+      rgb(98,8,8) calc(100% + ((var(--height) * -0.171428571))),
+      transparent calc(100% + ((var(--height) * -0.171428571))));
+  }
 
 }
 
@@ -599,21 +632,22 @@
   width: 100%;
   background-color: whitesmoke;
   background-image:
-    url(/public/images/ui-background/missionRow/main-left.svg),
-    url(/public/images/ui-background/missionRow/main-right.svg),
-    url(/public/images/ui-background/missionRow/main-middle.svg)
-    /* linear-gradient(
-      90deg, 
-      transparent calc(var(--height) * 0.171428571), 
-      rgb(98,8,8) calc(var(--height) * 0.171428571),
-      rgb(200,25,10) 50%,
-      rgb(98,8,8) calc(100% + ((var(--height) * -0.171428571))),
-      transparent calc(100% + ((var(--height) * -0.171428571)))) */
-  ;
-
+    url(/public/images/ui-background/missionRow/main-left-base.svg),
+    url(/public/images/ui-background/missionRow/main-right-base.svg),
+    url(/public/images/ui-background/missionRow/two-diamonds-base.svg),
+    url(/public/images/ui-background/missionRow/main-middle-base.svg);
   background-repeat: 
     no-repeat, no-repeat, no-repeat, no-repeat;
   background-position:
-    left, right, center;
-  background-size: auto, auto, calc(100% - ((var(--height) * 0.54285714285)*2) + 2px) 100%;
+    left, right, center, center;
+  background-size: auto, auto, calc(100% - ((var(--height) * 3.77142857143)*2) + 2px) 100%, calc(100% - ((var(--height) * 0.54285714285)*2) + 2px) 100%;
+
+  &:hover {
+    background-image:
+    url(/public/images/ui-background/missionRow/main-left-hover.svg),
+    url(/public/images/ui-background/missionRow/main-right-hover.svg),
+    url(/public/images/ui-background/missionRow/two-diamonds-hover.svg),
+    url(/public/images/ui-background/missionRow/main-middle-hover.svg);
+  }
+
 }

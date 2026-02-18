@@ -1,27 +1,65 @@
 <svg 
     xmlns="http://www.w3.org/2000/svg"  
-    viewBox="0 0 20 35" 
-    preserveAspectRatio="xMinYMid meet" >
+    viewBox="0 0 70 35" 
+    preserveAspectRatio="xMinYMid meet" 
+    transform="scale(-1,-1) translate(0,-0.1)"
+    >
 
     <defs>
-        <linearGradient id="linearOne" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="rgb(166,109,28)"/>
-            <stop offset="50%" stop-color="rgb(208,187,78)"/>
-            <stop offset="100%" stop-color="rgb(246,210,132)"/>
-        </linearGradient>
-        <linearGradient id="linearTwo" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="rgb(166,109,28)"/>
-            <stop offset="30%" stop-color="rgb(208,187,78)"/>
-            <stop offset="60%" stop-color="rgb(246,210,132)"/>
-            <stop offset="100%" stop-color="rgb(208,187,78)"/>
-        </linearGradient>
+        <clipPath id="clip-path">
+            <path 
+                transform="scale(3.5,3.5) translate(0.5,-10)"
+                d=" M 100 3.9
+                    L 8.58 3.9 
+                    L 7.9903 4.3298 
+                    C 6.7431 5.148 6.5044 5.8633 6.5021 8.7836 
+                    L 6.403 10.92 
+                    C 3.12 14.04 3.12 21.06 6.5325 24.18 
+                    L 6.5153 26.52 
+                    C 6.4919 29.2812 6.7135 29.9684 
+                    7.9303 30.8615 
+                    L 20 31.2 
+                    L 100 31.2 Z" 
+            />
+        </clipPath>
     </defs>
 
-<!-- rgb(169,152,104) -->
+    <!-- Edge Background -->
+    <path 
+        fill="rgb(233,233,233)"
+        d=" M 8 0
+            L 6 0 
+            L 5.244 0.551 
+            C 3.645 1.6 3.339 2.517 3.336 6.261 
+            L 3.209 9 
+            C -1 13 -1 22 3.375 26 
+            L 3.353 29 
+            C 3.323 32.54 3.607 33.421 5.167 34.566 
+            L 6 35 
+            L 8 35 "  
+    />
 
+    <!-- Background Design -->
+    <path 
+        fill="rgb(222,218,205)"
+        transform-origin="center"
+        transform="scale(0.45,0.45) translate(-49,-9.5)"
+        clip-path="url(#clip-path)"
+        d=" M 99 0 L 106 0 L 132 26 L 139.5 18.5 L 121 0 L 127 0 L 142.5 15.5 L 158 0 L 162 0 L 144.5 17.5 L 154.5 27.5 L 144.5 37.5 L 161 54 L 157 54 L 142.5 39.5 L 128 54 L 123 54 L 140 37 L 132 29 L 107 54 L 100 54 L 126.5 27.5 Z 
+        M 142 20 L 134.5 27.5 L 142 35 L 149.5 27.5 Z 
+        M 94 0 L 121.5 27.5 L 95 54 L 91 54 L 117.5 27.5 L 90 0 Z 
+        M 0 0 L 5 0 L 18.5 13.5 L 26.5 5.5 L 39.5 18.5 L 58 0 L 63 0 L 42 21 L 48 27 Q 49.5 24.4 52.5 24 Q 52.5 23 51.5 22.5 Q 56.5 17.5 58.5 21.5 Q 55.5 22 55.5 25 Q 56 26 56.5 25 C 56.5 23 58.5 23 60.5 23 C 61.5 23 62 23 62.5 22 C 64.5 18 63.5 16.5 59.5 17 Q 57.5 17 56.5 15.5 Q 56 14.5 57.5 14.5 C 61.5 14.5 56.5 9 66 11 C 68.5 12 70.5 14 70.5 17 C 70.5 20 66.5 22.5 63.5 24.25 C 62.5 24.75 61.5 25 60.5 25 C 59.5 25 59.5 26 60.5 26 C 64.5 26 66.5 24 69.5 22 Q 70.5 21 71.5 21 C 73.5 21 73.5 22 73.5 24 Q 77.5 23 81.5 27.5 Q 77.5 32 73.5 31 C 73.5 33 73.5 34 71.5 34 Q 70.5 34 69.5 33 C 66.5 31 64.5 29 60.5 29 C 59.5 29 59.5 30 60.5 30 C 61.5 30 62.5 30.25 63.5 30.75 C 66.5 32.5 70.5 35 70.5 38 C 70.5 41 68.5 43 66 44 C 56.5 46 61.5 40.5 57.5 40.5 Q 56 40.5 56.5 39.5 Q 57.5 38 59.5 38 C 63.5 38.5 64.5 37 62.5 33 C 62 32 61.5 32 60.5 32 C 58.5 32 56.5 32 56.5 30 Q 56 29 55.5 30 Q 55.5 33 58.5 33.5 Q 56.5 37.5 51.5 32.5 Q 52.5 32 52.5 31 Q 49.5 30.5 48 28 L 42 34 L 62 54 L 57 54 L 39.5 36.5 L 26.5 49.5 L 18.5 41.5 L 6 54 L 1 54 L 16 39 L 4.5 27.5 L 16 16 Z 
+        M 23 13 L 20.5 15.5 L 31.5 26.5 L 34 24 Z 
+        M 18 18 L 8.5 27.5 L 18 37 L 27.5 27.5 Z 
+        M 42.5 24.5 L 39.5 27.5 L 42.5 30.5 L 45.5 27.5 Z 
+        M 31.5 28.5 L 20.5 39.5 L 23 42 L 34 31 Z 
+        M 36 27.5 L 37 28.5 L 38 27.5 L 37 26.5 Z"
+    />
+
+    <!-- Inner Gold Border -->
     <path 
         fill="none"
-        stroke="url(#linearTwo)" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"
+        stroke="rgb(172,153,106)" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"
         d=" M 8.58 3.9 
             L 7.9903 4.3298 
             C 6.7431 5.148 6.5044 5.8633 6.5021 8.7836 
@@ -33,11 +71,12 @@
             L 20 31.2 " 
     />
 
+    <!-- Leaves Border Glow -->
     <g
         transform="scale(0.2,0.2) translate(20,2)"
     >
         <path
-            fill="rgb(98,8,8)"
+            fill="rgb(233,233,233)"
             d=" M 60 0 
                 C 62.5509 1.451 64.6784 3.2518 66.875 5.1875 
                 C 67.7645 5.9116 67.7645 5.9116 68.6719 6.6504 
@@ -81,10 +120,9 @@
                 C 47.4146 5.3888 49.4331 3.51 51.5859 1.5664 
                 C 54.7629 -0.4951 56.2676 -0.6499 60 0 Z "
         />
-
-        <!-- rgb(169,152,104) -->
+        <!-- Leaves -->
         <g 
-            fill="url(#linearOne)"
+            fill="rgb(172,153,106)"
         >
             <path
                 d=" M 58.4922 4.6133 
@@ -141,19 +179,9 @@
 
     <path
         fill="none"
-        stroke="rgb(208,187,78)" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"
+        stroke="rgb(172,153,106)" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"
         d=" M 18 3.9
             L 20 3.9 "
     />
 
 </svg>
-
-<!-- transform="translate(2.33333,2.33333) scale(0.5,0.828571429)" -->
-<!-- transform="translate(2.88888,2)" -->
-<!-- transform="translate(-12,0) scale(-1,1) scale(1.285714286,1.285714286) scale(0.777777778,0.777777778) scale(0.777777778,0.777777778) scale(-1,1)" -->
-<!-- transform="scale(1.285714286,1.285714286) scale(0.666666667,0.666666667) scale(0.777777778,0.777777778)" -->
-
-<!-- C 5 32 5 32 7.8125 29.5625 
-C 10.2007 27.3046 10.2007 27.3046 10.0664 24.9766 
-C 10.0032 24.2212 9.9401 23.4658 9.875 22.6875 
-C 9.6373 18.612 10.4269 16.806 13.0625 13.6875 -->

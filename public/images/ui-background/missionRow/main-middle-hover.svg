@@ -24,11 +24,11 @@
         </linearGradient>
         <linearGradient id="missionRow-main-middle-bottom" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stop-color="rgb(171,119,34)"/>
-            <stop offset="15%" stop-color="rgb(208,187,78)"/>
-            <stop offset="30%" stop-color="rgb(246,210,132)"/>
-            <stop offset="45%" stop-color="rgb(208,187,78)"/>
-            <stop offset="60%" stop-color="rgb(166,109,28)"/>
-            <stop offset="75%" stop-color="rgb(208,187,78)"/>
+            <stop offset="15%" stop-color="rgb(246,210,132)"/>
+            <stop offset="30%" stop-color="rgb(208,187,78)"/>
+            <stop offset="45%" stop-color="rgb(166,109,28)"/>
+            <stop offset="60%" stop-color="rgb(246,210,132)"/>
+            <stop offset="75%" stop-color="rgb(166,109,28)"/>
             <stop offset="100%" stop-color="rgb(209,187,79)"/>
         </linearGradient>
         <linearGradient id="background" x1="0%" y1="0%" x2="100%" y2="0%">
