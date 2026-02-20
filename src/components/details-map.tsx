@@ -1,6 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef, useMemo} from 'react';
 import { MRT_RowSelectionState } from 'material-react-table';
 import mapPath from '../db/map-path.json';
+import { JSX } from 'react/jsx-runtime';
+import { GridContainer } from './details-map-grid-container';
 
 /* 
     Websites
@@ -8,12 +10,22 @@ import mapPath from '../db/map-path.json';
     https://www.freeconvert.com/png-to-svg
 */
 
+interface fill_PotsType {
+    blue: string;
+    green: string;
+    purple : string;
+    red : string;
+    yellow : string;
+    label : string;
+}
+
 interface FillsType {
     base : string;
     strongholdAllied : string;
     strongholdRed : string;
     strongholdYellow : string;
     gate : string;
+    pot : fill_PotsType;
 }
 
 interface svg_AllType {
@@ -34,10 +46,18 @@ interface svg_GateType {
     fill ?: string;
 }
 
+interface svg_PotType {
+    colour : string;
+    m : CoordinateType;
+    coords : CoordinateType;
+    fill ?: string;
+}
+
 interface svg_PathType {
     full : svg_AllType;
     strongholds : svg_StrongholdType[];
     gates : svg_GateType[];
+    pots : svg_PotType[];
 }
 
 interface size_SpecificType {
@@ -50,7 +70,7 @@ interface size_CategoryType {
     squares : size_SpecificType;
 }
 
-interface SvgPropsType {
+export interface SvgPropsType {
     size : size_CategoryType;
     paths : svg_PathType;
 }
@@ -59,17 +79,31 @@ interface MapProps {
     selectedRow : MRT_RowSelectionState;
 }
 
+interface CoordinateType {
+    x : number;
+    y : number;
+}
+
 export function Map({selectedRow} : MapProps) {
 
     const [svgProps, setSvgProps] = useState<SvgPropsType | undefined | null>(undefined);
-
+    const [gridCords, setGridCords] = useState<CoordinateType | null>(null);
+    const gridCells = useRef<HTMLDivElement[]>([]);
     
     const fills : FillsType = {
         base: "#928A7D",
         strongholdAllied: "",
         strongholdRed: "#AE7A6C",
         strongholdYellow: "",
-        gate: "#d146d1"
+        gate: "#d146d1",
+        pot: {
+            blue: "#0580f4",
+            green: "#3FAF00",
+            purple: "#BD3AD3",
+            red: "#E04834",
+            yellow: "#CDBA08",
+            label: "#d0cb7b"
+        }
     }
 
     // Run once
@@ -106,36 +140,28 @@ export function Map({selectedRow} : MapProps) {
         return <>Select a chapter.</>;
     }
 
-    const createGridContainer = () => {
-        var rows = [];
-
-        for (let row : number = 1 ; row <= svgProps.size.squares.height ; row++ ) {
-            var cells = []
-            for (let col : number = 1 ; col <= svgProps.size.squares.width ; col++) {
-                cells.push(
-                    <div
-                        className="map-grid-cell-container"
-                        data-row = {row}
-                        data-col = {col}
-                        key={"mapGridCell-" + row + "-" + col}
-                    ></div>
-                )
-            }
-
-            rows.push(
-                <div 
-                    className="map-grid-row-container"
-                    key={"mapGridRow-" + row}
-                >
-                    {cells}
-                </div>
-            )   
-        }
-        return rows;
+    const getPotFill = (pot : svg_PotType) => {
+        if (pot.fill !== undefined)
+            return (pot.fill as unknown) as string;
+        switch (pot.colour) {
+            case "blue": return fills.pot.blue; break;
+            case "green": return fills.pot.green; break;
+            case "purple": return fills.pot.purple; break;
+            case "red": return fills.pot.red; break;
+            case "yellow": return fills.pot.yellow; break;
+        };
+        return fills.pot.label;
     }
 
     return (
         <div className="map-container">
+            {
+                gridCords && (
+                    <div className="map-coordinates-container">
+                        {"( " + gridCords.x + " , " + gridCords.y + " )"}
+                    </div>
+                )
+            }
             <svg 
                 version="1.1" 
                 xmlns="http://www.w3.org/2000/svg" 
@@ -169,10 +195,29 @@ export function Map({selectedRow} : MapProps) {
                         />
                     ))
                 }
+                {
+                    // Pots
+                    svgProps.paths.pots.map( (path : svg_PotType, index : number) => (
+                        <g
+                            data-col={path.coords.x}
+                            data-row={path.coords.y}
+                            key={"mapPot-" + index}
+                            transform={`translate(${path.m.x},${path.m.y}) scale(0.3125,0.3125)`}
+                        >
+                            <path 
+                                fill={getPotFill(path)} 
+                                stroke="black" stroke-width="3" stroke-linecap="round"
+                                d={"M 0 0 c 3.199 6.3981 3.199 7.4644 0.5332 10.1303 c -12.2631 10.1303 -10.1304 34.6564 15.462 34.6564 c 22.3934 0 27.7252 -24.5261 15.4621 -34.6564 c -2.6659 -2.6659 -2.6659 -3.7322 0.5332 -10.1303 z"}
+                            />
+                            <path
+                                fill={fills.pot.label}
+                                d={"M -2.5 27.5 c 0 8 3 8 8 8 l 19 0 c 5 0 8 0 8 -8 z"}
+                            />
+                        </g>
+                    ))
+                }
             </svg>
-            <div className="map-grid-container" >
-                {createGridContainer()}
-            </div>
+            <GridContainer svgProps={svgProps} gridCells={gridCells} setGridCords={setGridCords} />
         </div>
     )
     
