@@ -3,6 +3,7 @@ import { MRT_RowSelectionState } from 'material-react-table';
 import mapPath from '../db/map-path.json';
 import { JSX } from 'react/jsx-runtime';
 import { GridContainer } from './details-map-grid-container';
+import Slider from '@mui/material/Slider'
 
 /* 
     Websites
@@ -88,6 +89,10 @@ export function Map({selectedRow} : MapProps) {
 
     const [svgProps, setSvgProps] = useState<SvgPropsType | undefined | null>(undefined);
     const [gridCords, setGridCords] = useState<CoordinateType | null>(null);
+    const [mapZoomExpanded, setMapZoomExpanded] = useState<boolean>(false);
+    const scrollElement = useRef(null);
+    const [scrollElementScrollbarOn, setScrollElementScrollbarOn] = useState(false);
+    const [mapZoom, setMapZoom] = useState<number>(100);
     const gridCells = useRef<HTMLDivElement[]>([]);
     
     const fills : FillsType = {
@@ -111,6 +116,28 @@ export function Map({selectedRow} : MapProps) {
     }, [])
 
     useEffect(() => {
+
+        if (scrollElement.current) {
+            const observer = new ResizeObserver((entries) => {
+                for (let entry of entries) {
+                    setScrollElementScrollbarOn(
+                         entry.borderBoxSize[0].inlineSize !== entry.contentBoxSize[0].inlineSize ||
+                        entry.borderBoxSize[0].blockSize !== entry.contentBoxSize[0].blockSize
+                    )
+                }
+            });
+
+            observer.observe(scrollElement.current);
+
+            // Cleanup function
+            return () => {
+                observer.disconnect();
+            };
+        }
+
+    }, [scrollElement.current])
+
+    useEffect(() => {
         let keys = Object.keys(selectedRow) as Array<string>
         if (keys.length == 0) { // Only happens when page just loads
             setSvgProps(null);
@@ -132,14 +159,6 @@ export function Map({selectedRow} : MapProps) {
         // console.log(setSvgProps)
     }, [svgProps])
 
-    if (svgProps === undefined) {
-        return <>No data for this chapter yet...</>;
-    }
-
-    if (svgProps === null) {
-        return <>Select a chapter.</>;
-    }
-
     const getPotFill = (pot : svg_PotType) => {
         if (pot.fill !== undefined)
             return (pot.fill as unknown) as string;
@@ -153,71 +172,125 @@ export function Map({selectedRow} : MapProps) {
         return fills.pot.label;
     }
 
+    const toggleDisplayZoom = () => {
+        setMapZoomExpanded(!mapZoomExpanded);
+    }
+
+    const changeZoom = (event: Event, newValue: number) => {
+        setMapZoom(newValue);
+    }
+
+    if (svgProps === undefined) {
+        return <>No data for this chapter yet...</>;
+    }
+
+    if (svgProps === null) {
+        return <>Select a chapter.</>;
+    }
+
     return (
-        <div className="map-container">
-            {
-                gridCords && (
-                    <div className="map-coordinates-container">
-                        {"( " + gridCords.x + " , " + gridCords.y + " )"}
-                    </div>
-                )
-            }
-            <svg 
-                version="1.1" 
-                xmlns="http://www.w3.org/2000/svg" 
-                viewBox={"0 0 " + svgProps.size.pixels.width + " " + svgProps.size.pixels.height}
-            >
-                {/* Full */}
-                <path 
-                    fill={fills.base} 
-                    transform={svgProps.paths.full.transform} 
-                    d={svgProps.paths.full.d} 
-                />
-                {
-                    // Strongholds
-                    svgProps.paths.strongholds.map( (path : svg_StrongholdType, index : number) => (
-                        <path 
-                            fill={(path.fill !== undefined) ? path.fill : fills.strongholdRed} 
-                            transform={path.transform} 
-                            d={path.d}
-                            key={"mapStronghold-" + index}
-                        />
-                    ))
-                }
-                {
-                    // Gates
-                    svgProps.paths.gates.map( (path : svg_GateType, index : number) => (
-                        <path 
-                            fill={(path.fill !== undefined) ? path.fill : fills.gate} 
-                            transform={path.transform} 
-                            d={path.d}
-                            key={"mapGate-" + index}
-                        />
-                    ))
-                }
-                {
-                    // Pots
-                    svgProps.paths.pots.map( (path : svg_PotType, index : number) => (
-                        <g
-                            data-col={path.coords.x}
-                            data-row={path.coords.y}
-                            key={"mapPot-" + index}
-                            transform={`translate(${path.m.x},${path.m.y}) scale(0.3125,0.3125)`}
+        <div className="map-container-wrapper">
+            <div className="map-container">                
+                <div className="map-actions-container">
+                    <div className="map-zoom-container">
+                        <button 
+                            className="zoom-btn"
+                            onClick={() => toggleDisplayZoom()}
                         >
+                            Z
+                        </button>
+                        {
+                            mapZoomExpanded && (
+                                <div className="map-zoom-slider-wrapper">
+                                    <Slider
+                                        orientation="vertical"
+                                        valueLabelDisplay="auto"
+                                        defaultValue={100}
+                                        value={mapZoom}
+                                        onChange={changeZoom}
+                                        min={100}
+                                        step={10}
+                                        max={500}
+                                        size="small"
+                                        valueLabelFormat={(value:number, index:number) => `${value}%`}
+                                    />
+                                </div>
+                            )
+                        }
+                    </div>
+                    {
+                        gridCords && (
+                            <div className="map-coordinates-container">
+                                {"( " + gridCords.x + " , " + gridCords.y + " )"}
+                            </div>
+                        )
+                    }
+                </div>
+                <div 
+                    id="map-svg-grid-scroll-container"
+                    ref={scrollElement}
+                    className={scrollElementScrollbarOn ? "scrollbarOn" : ""}
+                >
+                    <div className="map-svg-grid-container" style={{"width" : `${mapZoom}%`}}>
+                        <svg 
+                            version="1.1" 
+                            xmlns="http://www.w3.org/2000/svg" 
+                            viewBox={"0 0 " + svgProps.size.pixels.width + " " + svgProps.size.pixels.height}
+                        >
+                            {/* Full */}
                             <path 
-                                fill={getPotFill(path)} 
-                                stroke="black" stroke-width="3" stroke-linecap="round"
-                                d={"M 0 0 c 3.199 6.3981 3.199 7.4644 0.5332 10.1303 c -12.2631 10.1303 -10.1304 34.6564 15.462 34.6564 c 22.3934 0 27.7252 -24.5261 15.4621 -34.6564 c -2.6659 -2.6659 -2.6659 -3.7322 0.5332 -10.1303 z"}
+                                fill={fills.base} 
+                                transform={svgProps.paths.full.transform} 
+                                d={svgProps.paths.full.d} 
                             />
-                            <path
-                                fill={fills.pot.label}
-                                d={"M -2.5 27.5 c 0 8 3 8 8 8 l 19 0 c 5 0 8 0 8 -8 z"}
-                            />
-                        </g>
-                    ))
-                }
-            </svg>
-            <GridContainer svgProps={svgProps} gridCells={gridCells} setGridCords={setGridCords} />
+                            {
+                                // Strongholds
+                                svgProps.paths.strongholds.map( (path : svg_StrongholdType, index : number) => (
+                                    <path 
+                                        fill={(path.fill !== undefined) ? path.fill : fills.strongholdRed} 
+                                        transform={path.transform} 
+                                        d={path.d}
+                                        key={"mapStronghold-" + index}
+                                    />
+                                ))
+                            }
+                            {
+                                // Gates
+                                svgProps.paths.gates.map( (path : svg_GateType, index : number) => (
+                                    <path 
+                                        fill={(path.fill !== undefined) ? path.fill : fills.gate} 
+                                        transform={path.transform} 
+                                        d={path.d}
+                                        key={"mapGate-" + index}
+                                    />
+                                ))
+                            }
+                            {
+                                // Pots
+                                svgProps.paths.pots.map( (path : svg_PotType, index : number) => (
+                                    <g
+                                        data-col={path.coords.x}
+                                        data-row={path.coords.y}
+                                        key={"mapPot-" + index}
+                                        transform={`translate(${path.m.x},${path.m.y}) scale(0.3125,0.3125)`}
+                                    >
+                                        <path 
+                                            fill={getPotFill(path)} 
+                                            stroke="black" stroke-width="3" stroke-linecap="round"
+                                            d={"M 0 0 c 3.199 6.3981 3.199 7.4644 0.5332 10.1303 c -12.2631 10.1303 -10.1304 34.6564 15.462 34.6564 c 22.3934 0 27.7252 -24.5261 15.4621 -34.6564 c -2.6659 -2.6659 -2.6659 -3.7322 0.5332 -10.1303 z"}
+                                        />
+                                        <path
+                                            fill={fills.pot.label}
+                                            d={"M -2.5 27.5 c 0 8 3 8 8 8 l 19 0 c 5 0 8 0 8 -8 z"}
+                                        />
+                                    </g>
+                                ))
+                            }
+                        </svg>
+                        <GridContainer svgProps={svgProps} gridCells={gridCells} setGridCords={setGridCords} />
+                    </div> {/* map-svg-grid-container */}
+                </div> { /* map-svg-grid-scroll-container */}
+            </div>
         </div>
     )
     

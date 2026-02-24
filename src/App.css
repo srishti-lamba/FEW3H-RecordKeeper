@@ -37,67 +37,198 @@
 
       container: rightPane / inline-size;
 
-      & .map-container {
-        position: relative;
+      & .map-container-wrapper {
+        /* width: min(100%, 50vh);
+        aspect-ratio: 1;
+        resize: both;
+        overflow: auto; */
+        /* position: relative; */
 
-        & svg {
-          width: 100% !important;
-          position: absolute;
-          z-index: 0;
-        }
+        & .map-container {
+          width: fit-content;
+          display: grid;
 
-        & .map-grid-container {
-          display: flex;
-          flex-flow: column nowrap;
+          /* Coordinate div accounting for scrollbar */
+          &:has( #map-svg-grid-scroll-container.scrollbarOn ) 
+            > .map-actions-container 
+            > .map-coordinates-container {
+              margin-right: 1em;
+            }
 
-          & .map-grid-row-container {
-            --border : 1px solid rgb(50, 25, 0, 0.5);
+          & #map-svg-grid-scroll-container {
+
+            grid-row-start: 1;
+            grid-column-start: 1;
+
+            width: 50vh;
+            aspect-ratio: 1;
+            resize: both;
+            overflow: auto;
+
+            & .map-svg-grid-container {
+              display: grid;
+
+              & svg {
+                grid-row-start: 1;
+                grid-column-start: 1;
+                
+                display: block;
+                min-width: 100%;
+                z-index: 0;
+              }
+
+              & .map-grid-container {
+                grid-row-start: 1;
+                grid-column-start: 1;
+
+                display: flex;
+                flex-flow: column nowrap;
+
+                & .map-grid-row-container {
+                  --border : 1px solid rgb(50, 25, 0, 0.5);
+
+                  display: flex;
+                  flex-flow: row nowrap;
+        
+                  &:last-child > .map-grid-cell-container {
+                    border-bottom: var(--border);
+                  }
+
+                  & .map-grid-cell-container {
+                    display: block;
+                    z-index: 1;
+                    width: 100%;
+                    aspect-ratio: 1;
+                    
+                    border-top: var(--border);
+                    border-left: var(--border);
+
+                    &:last-child {
+                      border-right: var(--border);
+                    }
+                  }
+                }
+              }
+            } /* .map-svg-grid-container */
+
+          } /* .map-svg-grid-scroll-container */
+
+          & .map-actions-container {
+            grid-row-start: 1;
+            grid-column-start: 1;
+            
+            width: 100%;
+            height: 100%;
 
             display: flex;
-            flex-flow: row nowrap;
-  
-            &:last-child > .map-grid-cell-container {
-              border-bottom: var(--border);
-            }
 
-            & .map-grid-cell-container {
+            & .map-coordinates-container {
+              --padding: 0.5em;
+
+              position: sticky;
               display: block;
-              z-index: 1;
-              width: 100%;
-              aspect-ratio: 1;
+              z-index: 2;
               
-              border-top: var(--border);
-              border-left: var(--border);
+              width: 4.5em;
+              height: fit-content;
+              top: 0;
+              right: 0;
 
-              &:last-child {
-                border-right: var(--border);
+              /* margin-top: calc(-1em - 2px - (var(--padding) * 2)); */
+              margin-left: auto;
+              padding: var(--padding);
+              text-align: center;
+
+              color: whitesmoke;
+              background-color: rgb(0,0,0,0.75);
+              border-radius: 5px;
+
+              pointer-events: none;
+            } /* .map-coordinates-container */
+
+            & .map-zoom-container {
+              --padding: 0.5em;
+
+              position: sticky;
+              display: block;
+              z-index: 2;
+
+              width: fit-content;
+              height: fit-content;
+              top: 0;
+              right: 0;
+
+              padding-top: var(--padding);
+              padding-left: var(--padding);
+
+              /* margin-top: calc(-1.5em + 2px - (var(--padding))); */
+
+              pointer-events: none;
+
+              &:has(> .map-zoom-slider-wrapper ) {
+                /* margin-top: calc(-1.5em + 2px - 100px - (var(--padding) * 2) - 2em); */
               }
-            }
-          }
-        }
 
-        & .map-coordinates-container {
-          --padding: 0.5em;
+              & button {
+                display:inline-block;
 
-          position: sticky;
-          display: block;
-          z-index: 2;
-          
-          width: fit-content;
-          top: 0;
-          right: 0;
+                height: 1.5em;
+                width: 1.5em;
+                padding: calc( var(--padding) / 2 );
 
-          margin-top: calc(-1em - 2px - (var(--padding) * 2));
-          margin-left: auto;
-          padding: var(--padding);
+                background-color: rgb(0,0,0,0.75);
+                color: whitesmoke;
 
-          color: whitesmoke;
-          background-color: rgb(0,0,0,0.75);
-          border-radius: 5px;
-        }
-      }
+                border: none;
+                border-radius: 50%;
 
-    }
+                pointer-events: all;
+
+                &:hover {
+                  background-color: rgb(0,0,0,1);
+                }
+              }
+
+              & .map-zoom-slider-wrapper {
+                height: 100px;
+                width: 1.5em;
+
+                display: block;
+
+                background-color: rgb(0,0,0,0.75);
+                border-radius: 10px;
+
+                padding: 1em 0;
+                margin-top: var(--padding);
+
+                & .MuiSlider-root {
+                  display: block;
+                  width: 4px;
+
+                  padding: 0;
+                  margin-left: auto;
+                  margin-right: auto;
+
+                  pointer-events: all;
+
+                  & .MuiSlider-valueLabel {
+                    left: 30px;
+                    top: 50%;
+                    width: fit-content;
+                    padding: var(--padding);
+
+                      &::before {
+                        transform: "translate(0, -50%) rotate(45deg)";
+                        left: -0px;
+                      }
+                  }
+                }
+              }
+            } /* .map-zoom-container */
+          } /* .map-actions-container */
+        } /* .map-container */
+      } /* .map-container-wrapper */
+    } /* #right-pane-contents */
   }
 }
 
