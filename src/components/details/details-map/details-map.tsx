@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useRef, useMemo} from 'react';
 import { MRT_RowSelectionState } from 'material-react-table';
-import mapPath from '../db/map-path.json';
+import mapPath from '../../../db/map-path.json';
 import { JSX } from 'react/jsx-runtime';
 import { GridContainer } from './details-map-grid-container';
 import Slider from '@mui/material/Slider'
@@ -11,6 +11,17 @@ import Slider from '@mui/material/Slider'
     https://www.freeconvert.com/png-to-svg
 */
 
+// === Fills ===
+
+export interface FillsType {
+    base : string;
+    strongholdAllied : string;
+    strongholdRed : string;
+    strongholdYellow : string;
+    gate : string;
+    pot : fill_PotsType;
+}
+
 interface fill_PotsType {
     blue: string;
     green: string;
@@ -20,16 +31,16 @@ interface fill_PotsType {
     label : string;
 }
 
-interface FillsType {
-    base : string;
-    strongholdAllied : string;
-    strongholdRed : string;
-    strongholdYellow : string;
-    gate : string;
-    pot : fill_PotsType;
+// === Map Objects ===
+
+interface svg_PathType {
+    full : svg_GroundType;
+    strongholds : svg_StrongholdType[];
+    gates : svg_GateType[];
+    pots : svg_PotType[];
 }
 
-interface svg_AllType {
+interface svg_GroundType { // Base ground path
     transform : string;
     d : string;
 }
@@ -54,11 +65,16 @@ interface svg_PotType {
     fill ?: string;
 }
 
-interface svg_PathType {
-    full : svg_AllType;
-    strongholds : svg_StrongholdType[];
-    gates : svg_GateType[];
-    pots : svg_PotType[];
+// === Map Size ===
+
+export interface SvgPropsType {
+    size : size_CategoryType;
+    paths : svg_PathType;
+}
+
+interface CoordinateType {
+    x : number;
+    y : number;
 }
 
 interface size_SpecificType {
@@ -71,18 +87,38 @@ interface size_CategoryType {
     squares : size_SpecificType;
 }
 
-export interface SvgPropsType {
-    size : size_CategoryType;
-    paths : svg_PathType;
+// Grid Cell Reference
+export interface GridCellType {
+    gridCell: HTMLDivElement | null;
+    data: GridCellDataType | null;
 }
+
+export interface GridCellDataType {
+    stronghold: StrongholdDataType | null;
+    pot: PotDataType | null;
+}
+
+export interface PotDataType {
+    icon: JSX.Element | undefined;
+    title: string;
+    description: string;
+}
+
+interface StrongholdDataType {
+    name: string;
+    captureRequired: boolean;
+    appear: string | null;
+    disappear: string | null;
+    captain: {
+        allied: string | null;
+        enemy: string[] | null;
+    }
+}
+
+// === Class Props ===
 
 interface MapProps {
     selectedRow : MRT_RowSelectionState;
-}
-
-interface CoordinateType {
-    x : number;
-    y : number;
 }
 
 export function Map({selectedRow} : MapProps) {
@@ -93,7 +129,7 @@ export function Map({selectedRow} : MapProps) {
     const scrollElement = useRef(null);
     const [scrollElementScrollbarOn, setScrollElementScrollbarOn] = useState(false);
     const [mapZoom, setMapZoom] = useState<number>(100);
-    const gridCells = useRef<HTMLDivElement[]>([]);
+    const gridCells = useRef<GridCellType[]>([]);
     
     const fills : FillsType = {
         base: "#928A7D",
@@ -117,6 +153,7 @@ export function Map({selectedRow} : MapProps) {
 
     useEffect(() => {
 
+        // Find out of scrollElement has a scrollbar active
         if (scrollElement.current) {
             const observer = new ResizeObserver((entries) => {
                 for (let entry of entries) {
@@ -196,21 +233,16 @@ export function Map({selectedRow} : MapProps) {
                         <button 
                             className="zoom-btn"
                             onClick={() => toggleDisplayZoom()}
-                        >
-                            Z
-                        </button>
+                        />
                         {
                             mapZoomExpanded && (
                                 <div className="map-zoom-slider-wrapper">
                                     <Slider
                                         orientation="vertical"
                                         valueLabelDisplay="auto"
-                                        defaultValue={100}
                                         value={mapZoom}
                                         onChange={changeZoom}
-                                        min={100}
-                                        step={10}
-                                        max={500}
+                                        min={100} max={500} step={10}
                                         size="small"
                                         valueLabelFormat={(value:number, index:number) => `${value}%`}
                                     />
@@ -287,7 +319,13 @@ export function Map({selectedRow} : MapProps) {
                                 ))
                             }
                         </svg>
-                        <GridContainer svgProps={svgProps} gridCells={gridCells} setGridCords={setGridCords} />
+                        <GridContainer 
+                            svgProps={svgProps} 
+                            fills={fills} 
+                            getPotFill={getPotFill}
+                            gridCells={gridCells} 
+                            setGridCords={setGridCords} 
+                        />
                     </div> {/* map-svg-grid-container */}
                 </div> { /* map-svg-grid-scroll-container */}
             </div>

@@ -8,7 +8,7 @@
 // 7: Warning!
 
 import React, {useEffect, useState, useRef} from 'react';
-import { RouteChapters, Chapter } from './settings-chapters';
+import { RouteChapters, Chapter } from './settings/settings-chapters';
 
 import {
   MaterialReactTable,

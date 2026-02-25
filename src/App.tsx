@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import { MRT_RowSelectionState } from 'material-react-table';
 import { SplitPane, Pane } from 'react-split-pane';
-import Settings from './components/settings';
+import Settings from './components/settings/settings';
 import Table from './components/table';
 import './App.css';
 import allChapters from './db/chapters.json';
 import allMissions from './db/missions.json';
-import { Details } from './components/details';
+import { Details } from './components/details/details';
 
 function App() {
 
