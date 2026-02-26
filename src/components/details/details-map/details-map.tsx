@@ -4,6 +4,7 @@ import mapPath from '../../../db/map-path.json';
 import { JSX } from 'react/jsx-runtime';
 import { GridContainer } from './details-map-grid-container';
 import Slider from '@mui/material/Slider'
+import { TooltipRefProps } from 'react-tooltip';
 
 /* 
     Websites
@@ -72,7 +73,7 @@ export interface SvgPropsType {
     paths : svg_PathType;
 }
 
-interface CoordinateType {
+export interface CoordinateType {
     x : number;
     y : number;
 }
@@ -87,9 +88,10 @@ interface size_CategoryType {
     squares : size_SpecificType;
 }
 
-// Grid Cell Reference
+// === Grid Cell Reference ===
 export interface GridCellType {
     gridCell: HTMLDivElement | null;
+    tooltipCell: TooltipRefProps | null;
     data: GridCellDataType | null;
 }
 

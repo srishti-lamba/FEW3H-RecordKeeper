@@ -1,5 +1,7 @@
 import { JSX, useMemo, useState } from "react";
 import { GridCellType, GridCellDataType, PotDataType, SvgPropsType, FillsType } from "./details-map";
+import { Grid } from "@mui/material";
+import { GridCell } from "./details-map-grid-cell";
 
 interface GridContainerProps {
     svgProps : SvgPropsType;
@@ -11,55 +13,13 @@ interface GridContainerProps {
 
 export function GridContainer({svgProps, fills, getPotFill, gridCells, setGridCords} : GridContainerProps) {
 
-    const [gridCellsRefState, setGridCellsRefState] = useState<React.RefObject<GridCellType[]> | undefined>(undefined)
-
-    const calculateIndex = (row : number, col : number ) => {
+    const calculateIndex = (col : number, row : number ) => {
         return ((row-1) * svgProps.size.squares.width) + col
     }
 
-    const createGrid = () => {
-        var rows = [];
-
-        for (let row : number = 1 ; row <= svgProps.size.squares.height ; row++ ) {
-            var cells = []
-            for (let col : number = 1 ; col <= svgProps.size.squares.width ; col++) {
-
-                let index = calculateIndex(row, col);
-
-                cells.push(
-                    <div
-                        className={`map-grid-cell-container${(gridCells.current[index] == undefined || gridCells.current[index].data == null) ? '' : ' has-data'}`}
-                        // className={`map-grid-cell-container${(gridCellsRefState?.current[index] == undefined || gridCellsRefState.current[index].data == null) ? '' : ' has-data'}`}
-                        data-row = {row}
-                        data-col = {col}
-                        onMouseEnter={() => setGridCords({x:col,y:row})}
-                        onMouseLeave={() => setGridCords(null)}
-                        ref={element => {
-                            if (element != null) {
-                                if (gridCells.current[index] === undefined)
-                                    gridCells.current[index] = {gridCell: element, data: null};
-                                else
-                                    gridCells.current[index].gridCell = element;
-                            }
-                        }}
-                        key={"mapGridCell-" + row + "-" + col}
-                    ></div>
-                )
-            }
-
-            rows.push(
-                <div 
-                    className="map-grid-row-container"
-                    key={"mapGridRow-" + row}
-                >
-                    {cells}
-                </div>
-            )   
-        }
-        return rows;
-    }
-
     const createData = () => {
+        var data : GridCellDataType[] = [];
+
         // Pots
         svgProps.paths.pots.forEach( (pot) => {
             var potData : PotDataType = {icon:undefined, title:"", description:""};
@@ -103,17 +63,49 @@ export function GridContainer({svgProps, fills, getPotFill, gridCells, setGridCo
                 </svg>
             );
             var index = calculateIndex(pot.coords.x, pot.coords.y);
-            let newData : GridCellDataType = {
-                stronghold: null,
-                pot: potData
-            }
-            if (gridCells.current[index] == undefined)
-                gridCells.current[index] = {gridCell:null, data:newData};
-            else if (gridCells.current[index].data == null)
-                gridCells.current[index].data = newData;
-            else if (gridCells.current[index].data?.pot == null)
-                gridCells.current[index].data!.pot = potData;
+            if (data[index] == undefined)
+                data[index] = {
+                    stronghold: null,
+                    pot: potData
+                };
+            else
+                data[index].pot = potData;
         })
+
+        return data;
+    }
+
+    const createGrid = (data : GridCellDataType[]) => {
+        var rows = [];
+
+        for (let row : number = 1 ; row <= svgProps.size.squares.height ; row++ ) {
+            var cells = []
+            for (let col : number = 1 ; col <= svgProps.size.squares.width ; col++) {
+
+                let index = calculateIndex(col, row);
+                var dataVar : GridCellDataType|null = (data[index] == undefined ? null : data[index])
+
+                cells.push(
+                    <GridCell
+                        data={dataVar}
+                        gridCells={gridCells}
+                        setGridCords={setGridCords}
+                        coords={{x:col,y:row}}
+                        calculateIndex={calculateIndex}
+                    />
+                )
+            }
+
+            rows.push(
+                <div 
+                    className="map-grid-row-container"
+                    key={"mapGridRow-" + row}
+                >
+                    {cells}
+                </div>
+            )   
+        }
+        return rows;
     }
 
     const createGridContainer = useMemo(() => {
@@ -122,14 +114,13 @@ export function GridContainer({svgProps, fills, getPotFill, gridCells, setGridCo
         if (svgProps === null || svgProps === undefined)
             return;
 
-        createData();
-        var rows = createGrid();
-        // setGridCellsRefState(gridCells);
+        var data : GridCellDataType[] = createData();
+        var rows = createGrid(data);
 
         console.log("Grid Cells:")
         console.log(gridCells)
         return rows;
-    },[svgProps, gridCellsRefState])
+    },[svgProps])
 
     return (
         <div 

@@ -106,7 +106,35 @@
                     &:last-child {
                       border-right: var(--border);
                     }
-                  }
+
+                    &.has-data {
+                      /* background-color: rgb(255, 0, 0, 0.5); */
+
+                      &:hover {
+                      position: relative;
+                      z-index : 2;
+                      background-color: rgb(255, 255, 255, 0.1);
+
+                      &::after {
+                        content: '';
+                        display: block;
+                        position: absolute;
+
+                        height: calc((100% + 1px) + 20%);
+                        aspect-ratio: 1;
+
+                        top: -10%;
+                        right: -10%;
+
+                        background-image: url(/public/images/ui-icons/map-tile-hover.svg);
+                      } /* .map-grid-cell-container.has-data:hover::after */
+                    } /* .map-grid-cell-container.has-data:hover */
+                    } /*.map-grid-cell-container.has-data*/
+                  } /* .map-grid-cell-container */
+
+                  & .react-tooltip {
+                    z-index: 2;
+                  } /* .react-tooltip */
                 }
               }
             } /* .map-svg-grid-container */
