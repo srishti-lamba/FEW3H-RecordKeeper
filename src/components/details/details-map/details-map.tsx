@@ -90,7 +90,7 @@ interface size_CategoryType {
 
 // === Grid Cell Reference ===
 export interface GridCellType {
-    gridCell: HTMLDivElement | null;
+    gridCell: JSX.Element | null;
     tooltipCell: TooltipRefProps | null;
     data: GridCellDataType | null;
 }
