@@ -78,7 +78,7 @@ export interface CoordinateType {
     y : number;
 }
 
-interface size_SpecificType {
+export interface size_SpecificType {
     width: number;
     height: number;
 }
@@ -90,8 +90,7 @@ interface size_CategoryType {
 
 // === Grid Cell Reference ===
 export interface GridCellType {
-    gridCell: JSX.Element | null;
-    tooltipCell: TooltipRefProps | null;
+    gridCell: Node | React.ReactNode | JSX.Element | null;
     data: GridCellDataType | null;
 }
 

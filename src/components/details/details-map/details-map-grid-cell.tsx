@@ -34,10 +34,10 @@ export function GridCell({data, gridCells, setGridCords, coords, calculateIndex}
         )
 
         // Adding gridCell reference
-        if (gridCells.current[index] === undefined) 
-            gridCells.current[index] = {gridCell: gridCell, tooltipCell: null, data: data};
-        else
-            gridCells.current[index].gridCell = gridCell;
+        // if (gridCells.current[index] === undefined) 
+        //     gridCells.current[index] = {gridCell: gridCell, tooltipCell: null, data: data};
+        // else
+        //     gridCells.current[index].gridCell = gridCell;
 
         return (
             <>
@@ -61,14 +61,14 @@ export function GridCell({data, gridCells, setGridCords, coords, calculateIndex}
                     openOnClick={true}
                     isOpen={show}       
                     key={`mapTooltip-${coords.x}-${coords.y}`}
-                    ref={element => {
-                        if (element != null) {
-                            if (gridCells.current[index] === undefined) 
-                                gridCells.current[index] = {gridCell: null, tooltipCell: element, data: data};
-                            else
-                                gridCells.current[index].tooltipCell = element;
-                        }
-                    }}
+                    // ref={element => {
+                    //     if (element != null) {
+                    //         if (gridCells.current[index] === undefined) 
+                    //             gridCells.current[index] = {gridCell: null, tooltipCell: element, data: data};
+                    //         else
+                    //             gridCells.current[index].tooltipCell = element;
+                    //     }
+                    // }}
                     clickable
                 />
             )}
