@@ -68,7 +68,7 @@
             & .map-svg-grid-container {
               display: grid;
 
-              & svg {
+              & > svg {
                 grid-row-start: 1;
                 grid-column-start: 1;
                 
@@ -131,12 +131,50 @@
                     } /* .map-grid-cell-container.has-data:hover */
                     } /*.map-grid-cell-container.has-data*/
                   } /* .map-grid-cell-container */
+                } /* .map-grid-row-container */
 
-                  & .react-tooltip {
-                    z-index: 2;
-                  } /* .react-tooltip */
-                }
-              }
+                & .react-tooltip {
+                  z-index: 3;
+                  resize: both;
+                  /* background-color: red; */
+
+                  & #map-tooltip-content {
+                    display: flex;
+                    flex-flow: column nowrap;
+                    align-items: stretch;
+
+                    & .map-tooltip-pot {
+                      display: flex;
+                      flex-flow: row nowrap;
+
+                      & .map-tooltip-pot-icon {
+                        display: block;
+                        height: 2.3em;
+
+                      } /* .map-tooltip-pot-icon */
+
+                      & .map-tooltip-pot-text {
+                        display: flex;
+                        flex-flow: column nowrap;
+
+                        padding-left: 0.5em;
+
+                        & .map-tooltip-pot-title {
+                          font-weight: bold;
+
+                        } /* .map-tooltip-pot-title */
+
+                        & .map-tooltip-pot-description {
+                          font-size: 0.9em;
+
+                        } /* .map-tooltip-pot-description */
+
+                      } /* .map-tooltip-pot-text */
+                    } /* .map-tooltip-pot */
+                  } /* #map-tooltip-content */
+                } /* .react-tooltip */
+
+              } /* .map-grid-container */
             } /* .map-svg-grid-container */
 
           } /* .map-svg-grid-scroll-container */

@@ -4,7 +4,6 @@ import mapPath from '../../../db/map-path.json';
 import { JSX } from 'react/jsx-runtime';
 import { GridContainer } from './details-map-grid-container';
 import Slider from '@mui/material/Slider'
-import { TooltipRefProps } from 'react-tooltip';
 
 /* 
     Websites
