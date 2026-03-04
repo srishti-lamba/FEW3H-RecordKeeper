@@ -1,4 +1,4 @@
-import React, { JSX, memo, useEffect, useMemo, useRef, useState } from "react";
+import React, { JSX, memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { GridCellType, GridCellDataType, PotDataType, SvgPropsType, FillsType, CoordinateType, size_SpecificType } from "./details-map";
 import { Tooltip } from "react-tooltip";
 
@@ -22,8 +22,8 @@ export function GridContainer({svgProps, fills, getPotFill, gridCells, setGridCo
     // }
 
     useEffect(() => {
-        console.log("TileCoords changed")
-        console.log(tileCoords)
+        // console.log("TileCoords changed")
+        // console.log(tileCoords)
 
         prevTileCoords.current[0] = prevTileCoords.current[1]
         prevTileCoords.current[1] = tileCoords;
@@ -35,7 +35,8 @@ export function GridContainer({svgProps, fills, getPotFill, gridCells, setGridCo
     // }, [tileID])
 
     const createData = useMemo(() => {
-        data.current = new Array(svgProps.size.squares.width+1)
+        // console.log("Called createData")
+        var data = new Array(svgProps.size.squares.width+1)
                             .fill(null).map( 
                                 () => new Array(svgProps.size.squares.height+1).fill(undefined) 
                             )
@@ -82,23 +83,22 @@ export function GridContainer({svgProps, fills, getPotFill, gridCells, setGridCo
                     />
                     <path
                         fill={fills.pot.label}
-                        d={"M -2.5 27.5 c 0 8 3 8 8 8 l 19 0 c 5 0 8 0 8 -8 z"}
+                        d={"M -2.25 27.5 c 0 8 3 8 8 8 l 19 0 c 5 0 8 0 8 -8 z"}
+
                     />
                 </svg>
             );
             // var index = calculateIndex(pot.coords.x, pot.coords.y);
-            if (data.current[pot.coords.x][pot.coords.y] == undefined)
-                data.current[pot.coords.x][pot.coords.y] = {
+            if (data[pot.coords.x][pot.coords.y] == undefined)
+                data[pot.coords.x][pot.coords.y] = {
                     stronghold: null,
                     pot: potData
                 };
             else
-                data.current[pot.coords.x][pot.coords.y].pot = potData;
-
-            console.log(`Added pot to ${pot.coords.x},${pot.coords.y}`)
+                data[pot.coords.x][pot.coords.y].pot = potData;
         })
 
-        console.log(data)
+        // console.log(data)
         return data;
     }, [svgProps])
 
@@ -108,7 +108,7 @@ export function GridContainer({svgProps, fills, getPotFill, gridCells, setGridCo
         if (svgProps === null || svgProps === undefined)
             return;
 
-        createData;
+        data.current = createData;
         var rows = [];
 
         for (let row : number = 1 ; row <= svgProps.size.squares.height ; row++ ) {
@@ -125,7 +125,7 @@ export function GridContainer({svgProps, fills, getPotFill, gridCells, setGridCo
         return rows;
     }
 
-    console.log(`rerender, tileID: ${tileID.current}`)
+    // console.log(`rerender, tileID: ${tileID.current}`)
     return (
         <div 
             className="map-grid-container" 
@@ -169,7 +169,7 @@ function GridRow({data, svgSquares, setGridCords, row, tileCoords, prevTileCoord
     // console.log(`[[[ Row rerendered: ${row } tileCoords: ${tileCoords?.x},${tileCoords?.y} ]]]`)
     // console.log(prevTileCoords)
 
-    const childrenRef = useRef<HTMLDivElement[]>([]);
+    const childrenRef = useRef<(HTMLDivElement|undefined)[]>([]);
     const childrenArray = useRef<JSX.Element[]>([]);
 
     const createTile = (col : number) => {
@@ -236,7 +236,7 @@ interface GridCellTileProps {
     setTileCoords : any;
     prevTileCoords : React.RefObject<(CoordinateType|null)[]>;
     tileID : React.RefObject<string|null>;
-    parentChildren : React.RefObject<HTMLDivElement[]>;
+    parentChildren : React.RefObject<(HTMLDivElement|undefined)[]>;
 }
 
 function GridCellTile({data, setGridCords, coords, tileCoords, setTileCoords, prevTileCoords, tileID, parentChildren} : GridCellTileProps) {
@@ -275,7 +275,7 @@ function GridCellTile({data, setGridCords, coords, tileCoords, setTileCoords, pr
             key={`mapTile-${coords.x}-${coords.y}`}
             ref={element => {
                 if (element == null)
-                    parentChildren.current[coords.x] == undefined
+                    parentChildren.current[coords.x] = undefined
                 else
                     parentChildren.current[coords.x] = element
             }}
@@ -320,7 +320,7 @@ function TooltipContent({data: dataAll, tileCoords} : TooltipContentProps) {
     var pot : PotDataType|null = data.pot;
     if ( pot !== null ) {
         children.push(
-            <span className="map-tooltip-pot">
+            <span className="map-tooltip-pot map-tooltip-row">
                 <span className="map-tooltip-pot-icon">{pot.icon}</span>
                 <span className="map-tooltip-pot-text">
                     <span className="map-tooltip-pot-title">{pot.title}</span>

@@ -313,7 +313,7 @@ export function Map({selectedRow} : MapProps) {
                                         />
                                         <path
                                             fill={fills.pot.label}
-                                            d={"M -2.5 27.5 c 0 8 3 8 8 8 l 19 0 c 5 0 8 0 8 -8 z"}
+                                            d={"M -2.25 27.5 c 0 8 3 8 8 8 l 19 0 c 5 0 8 0 8 -8 z"}
                                         />
                                     </g>
                                 ))

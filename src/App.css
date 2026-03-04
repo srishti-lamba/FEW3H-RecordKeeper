@@ -136,7 +136,29 @@
                 & .react-tooltip {
                   z-index: 3;
                   resize: both;
+                  /* padding: 8px 16px; */
+                  padding: 8px;
                   /* background-color: red; */
+
+                  & .map-tooltip-row {
+                    --height: 2.3em;
+                    padding: 0.5em 1em;
+
+                    color:rgb(30, 30, 30);
+
+                    background-image:
+                        url(/public/images/ui-background/row/left-base.svg),
+                        url(/public/images/ui-background/row/right-base.svg),
+                        url(/public/images/ui-background/row/middle-base.svg);
+                      background-repeat: 
+                        no-repeat, no-repeat, no-repeat;
+                      background-position:
+                        left, right, center;
+                      background-size: 
+                        auto, 
+                        auto, 
+                        calc(100% - ((var(--height) * 0.28571428571)*2) + 1px) 100%;
+                  }
 
                   & #map-tooltip-content {
                     display: flex;
