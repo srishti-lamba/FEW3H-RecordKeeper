@@ -15,9 +15,7 @@ import Slider from '@mui/material/Slider'
 
 export interface FillsType {
     base : string;
-    strongholdAllied : string;
-    strongholdRed : string;
-    strongholdYellow : string;
+    stronghold : fill_StrongholdAllType;
     gate : string;
     pot : fill_PotsType;
 }
@@ -29,6 +27,21 @@ interface fill_PotsType {
     red : string;
     yellow : string;
     label : string;
+}
+
+interface fill_StrongholdAllType {
+    blue : fill_StrongholdType;
+    green : fill_StrongholdType;
+    red : fill_StrongholdType;
+    yellow : fill_StrongholdType;
+}
+
+interface fill_StrongholdType {
+    ground : string;
+    icon : {
+        outer : string;
+        inner: string;
+    }
 }
 
 // === Map Objects ===
@@ -46,9 +59,13 @@ interface svg_GroundType { // Base ground path
 }
 
 interface svg_StrongholdType {
-    name : string;
     transform : string;
     d : string;
+    icon ?: {
+        transform : string;
+        coords : CoordinateType;
+    }
+    data ?: StrongholdDataType | undefined;
     fill ?: string;
 }
 
@@ -104,15 +121,27 @@ export interface PotDataType {
     description: string;
 }
 
-interface StrongholdDataType {
+export interface StrongholdDataType {
     name: string;
+    icon?: JSX.Element | undefined;
     captureRequired: boolean;
     appear: string | null;
     disappear: string | null;
-    captain: {
-        allied: string | null;
-        enemy: string[] | null;
-    }
+    captain: EnemyDataAllType;
+}
+
+export interface EnemyDataAllType {
+    blue ?: EnemyDataType;
+    green ?: EnemyDataType;
+    red ?: EnemyDataType;
+    yellow ?: EnemyDataType;
+}
+
+export interface EnemyDataType {
+    name: string;
+    icon?: string|JSX.Element;
+    class: string;
+    weapon: string;
 }
 
 // === Class Props ===
@@ -128,14 +157,41 @@ export function Map({selectedRow} : MapProps) {
     const [mapZoomExpanded, setMapZoomExpanded] = useState<boolean>(false);
     const scrollElement = useRef(null);
     const [scrollElementScrollbarOn, setScrollElementScrollbarOn] = useState(false);
-    const [mapZoom, setMapZoom] = useState<number>(100);
+    const [mapZoom, setMapZoom] = useState<number>(500);
     const gridCells = useRef<GridCellType[]>([]);
     
     const fills : FillsType = {
         base: "#928A7D",
-        strongholdAllied: "",
-        strongholdRed: "#AE7A6C",
-        strongholdYellow: "",
+        stronghold: {
+            blue: {
+                ground: "",
+                icon: {
+                    outer: "#2E71E6",
+                    inner: "#CDD5F4"
+                }
+            },
+            green: {
+                ground: "",
+                icon: {
+                    outer: "#5FBF4C",
+                    inner: "#D3E8D0"
+                }
+            },
+            red: {
+                ground: "#AE7A6C",
+                icon: {
+                    outer: "#E63E2D",
+                    inner: "#F4CECD"
+                }
+            },
+            yellow: {
+                ground: "",
+                icon: {
+                    outer: "#E6A82E",
+                    inner: "#F6E1CD"
+                }
+            }
+        },
         gate: "#d146d1",
         pot: {
             blue: "#0580f4",
@@ -278,12 +334,35 @@ export function Map({selectedRow} : MapProps) {
                             {
                                 // Strongholds
                                 svgProps.paths.strongholds.map( (path : svg_StrongholdType, index : number) => (
-                                    <path 
-                                        fill={(path.fill !== undefined) ? path.fill : fills.strongholdRed} 
-                                        transform={path.transform} 
-                                        d={path.d}
-                                        key={"mapStronghold-" + index}
-                                    />
+                                    (<>
+                                        <path 
+                                            fill={(path.fill !== undefined) ? path.fill : fills.stronghold.red.ground} 
+                                            transform={path.transform} 
+                                            d={path.d}
+                                            key={"mapStronghold-" + index}
+                                        />
+                                        {/* Icon */}
+                                        {
+                                            (path.icon != null) && (
+                                                <g
+                                                    transform={path.icon?.transform}
+                                                >
+                                                    {/* Background */}
+                                                    <rect
+                                                        width="28" height="28" 
+                                                        x="0" y="0" rx="2.5" ry="2.5" 
+                                                        fill={fills.stronghold.red.icon.outer}
+                                                    />
+                                                    {/* Castle */}
+                                                    <path
+                                                        fill={fills.stronghold.red.icon.inner}
+                                                        d=" M 3 3 v 17 l 5 5 h 12 l 5 -5 v -17 h -6 v 5.5 h -2 v -5.5 h -6 v 5.5 h -2 v -5.5 z 
+                                                            m 14 14 v 5 h -6 v -5 l 3 -3 z"
+                                                    />
+                                                </g>
+                                            )
+                                        }
+                                    </>)
                                 ))
                             }
                             {

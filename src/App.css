@@ -1,9 +1,15 @@
+html {
+  --font-family: "./public/fonts/Garamong-Regular";
+  --font-size: 15px;
+
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+}
+
 .App {
   background-color: white;
   color: black;
-  font-family: "./public/fonts/Garamong-Regular";
   letter-spacing: 0.025em;
-  font-size: 15px;
   display: flex; 
   flex-direction: column; 
   height: 100vh;
@@ -60,7 +66,8 @@
             grid-row-start: 1;
             grid-column-start: 1;
 
-            width: 50vh;
+            /* width: 50vh; */
+            width: 90vh;
             aspect-ratio: 1;
             resize: both;
             overflow: auto;
@@ -165,13 +172,60 @@
                     flex-flow: column nowrap;
                     align-items: stretch;
 
+                    & .MuiAccordion-root {
+                      background-color: unset;
+                      background-image: unset;
+                      /* font-size: 1em; */
+
+                      & .MuiAccordion-heading {
+
+                        & .MuiAccordionSummary-root {
+                          min-height: unset;
+                          font-size: 0.95rem;
+                          padding: 0;
+
+                          & .MuiAccordionSummary-content {
+                            margin: 0;
+                            font-family: var(--font-family);
+                            font-weight: bold;
+
+                            & .map-tooltip-stronghold-icon {
+                              display: block;
+                              height: 1em;
+                              align-self: center;
+                              padding-right: 0.5rem
+
+                            } /* .map-tooltip-stronghold-icon */
+
+                          } /* .MuiAccordionSummary-content */
+                          & .MuiAccordionSummary-expandIconWrapper {
+                            font-size: 1.25rem;
+                            margin: calc( (0.25rem/2) * -1 );
+                          } /* .MuiAccordionSummary-expandIconWrapper */
+                        } /* .MuiAccordionSummary-root */
+                      } /* .MuiAccordion-heading */
+                      & .MuiCollapse-root {
+
+                        & .MuiAccordionDetails-root {
+                          padding: 0;
+
+                          & .map-tooltip-stronghold-captain-icon {
+                            display: block;
+                            height: 1em;
+                            align-self: center;
+                          }
+                        } /* .MuiAccordionDetails-root */
+                      } /* .MuiCollapse-root */
+                    } /* .MuiAccordion-root */
+
                     & .map-tooltip-pot {
                       display: flex;
                       flex-flow: row nowrap;
 
                       & .map-tooltip-pot-icon {
                         display: block;
-                        height: 2.3em;
+                        height: 2em;
+                        align-self: center;
 
                       } /* .map-tooltip-pot-icon */
 

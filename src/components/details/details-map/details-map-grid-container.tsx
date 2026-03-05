@@ -1,6 +1,10 @@
 import React, { JSX, memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { GridCellType, GridCellDataType, PotDataType, SvgPropsType, FillsType, CoordinateType, size_SpecificType } from "./details-map";
+import { GridCellType, GridCellDataType, PotDataType, SvgPropsType, FillsType, CoordinateType, size_SpecificType, StrongholdDataType, EnemyDataType } from "./details-map";
 import { Tooltip } from "react-tooltip";
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 interface GridContainerProps {
     svgProps : SvgPropsType;
@@ -40,6 +44,42 @@ export function GridContainer({svgProps, fills, getPotFill, gridCells, setGridCo
                             .fill(null).map( 
                                 () => new Array(svgProps.size.squares.height+1).fill(undefined) 
                             )
+        // Stronghold
+        svgProps.paths.strongholds.forEach ( (base) => {
+            if (base.data == undefined || base.icon == undefined)
+                return;
+
+            var baseData : StrongholdDataType = base.data;
+            baseData.icon = (
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="100%"
+                    viewBox="0 0 28 28" 
+                    preserveAspectRatio="xMidYMid meet"
+                >
+                    {/* Background */}
+                    <rect
+                        width="28" height="28" 
+                        x="0" y="0" rx="2.5" ry="2.5" 
+                        fill={fills.stronghold.red.icon.outer}
+                    />
+                    {/* Castle */}
+                    <path
+                        fill={fills.stronghold.red.icon.inner}
+                        d=" M 3 3 v 17 l 5 5 h 12 l 5 -5 v -17 h -6 v 5.5 h -2 v -5.5 h -6 v 5.5 h -2 v -5.5 z 
+                            m 14 14 v 5 h -6 v -5 l 3 -3 z"
+                    />
+                </svg>
+            )
+
+            if (data[base.icon!.coords.x][base.icon!.coords.y] == undefined)
+                data[base.icon!.coords.x][base.icon!.coords.y] = {
+                    stronghold: baseData,
+                    pot: null
+                };
+            else
+                data[base.icon!.coords.x][base.icon!.coords.y].pot = baseData;
+        })
 
         // Pots
         svgProps.paths.pots.forEach( (pot) => {
@@ -70,9 +110,6 @@ export function GridContainer({svgProps, fills, getPotFill, gridCells, setGridCo
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     height="100%"
-                    // width="100%"
-                    // height="40"
-                    // width="40"
                     viewBox="-8.5 -2 48 48.5" 
                     preserveAspectRatio="xMidYMid meet"
                 >
@@ -315,6 +352,48 @@ function TooltipContent({data: dataAll, tileCoords} : TooltipContentProps) {
 
     var data : GridCellDataType = dataAll[tileCoords.x][tileCoords.y]
     var children = []
+
+    // === Strongholds ===
+    var base : StrongholdDataType|null = data.stronghold;
+    if ( base != null ) {  
+        
+        // Captains
+        var captains : EnemyDataType[] = [];
+        if (base!.captain.blue !== undefined) captains.push(base!.captain.blue)
+        if (base!.captain.green !== undefined) captains.push(base!.captain.green)
+        if (base!.captain.red !== undefined) captains.push(base!.captain.red)
+        if (base!.captain.yellow !== undefined) captains.push(base!.captain.yellow)
+        console.log("captains");
+        console.log(captains);
+        var captainElements = []
+        captainElements.push(captains.map( (unit : EnemyDataType) => (
+            <span className="map-tooltip-stronghold-captains">
+                <img
+                    className="map-tooltip-stronghold-captain-icon"
+                    src={process.env.PUBLIC_URL + unit.icon as string} 
+                />
+            </span>
+        )))
+        children.push(
+            <span className="map-tooltip-stronghold map-tooltip-row">
+                <Accordion>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+                    >
+                        <span className="map-tooltip-stronghold-icon">{base.icon}</span>
+                        <span className="map-tooltip-stronghold-title">{base.name}</span>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <span className="map-tooltip-stronghold-captains">Captains
+                            {captainElements}
+                        </span>
+                    </AccordionDetails>
+                </Accordion>
+            </span>
+        )
+    }
 
     // === Pots ===
     var pot : PotDataType|null = data.pot;

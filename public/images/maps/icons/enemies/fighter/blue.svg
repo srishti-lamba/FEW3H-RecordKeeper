@@ -1,0 +1,238 @@
+<svg 
+    xmlns="http://www.w3.org/2000/svg"
+    height="100%"  
+    viewBox="0 0 22 21" 
+    preserveAspectRatio="xMinYMin meet" 
+    shape-rendering="crispEdges"
+    >
+
+    <defs>
+        <rect
+            id="axe-outline" fill="#6B6B84"
+            x="0" y="0" width="1" height="1"
+        />
+        <rect
+            id="axe-highlight-shadow" fill="#E7E7E7"
+            x="0" y="0" width="1" height="1"
+        />
+        <rect
+            id="axe-highlight" fill="#F7F7F7"
+            x="0" y="0" width="1" height="1"
+        />
+        <rect
+            id="axe-shadow" fill="#393952"
+            x="0" y="0" width="1" height="1"
+        />
+        <rect
+            id="axe-blade-middle-darkest" fill="#8C8494"
+            x="0" y="0" width="1" height="1"
+        />
+        <rect
+            id="axe-blade-middle" fill="#ADA5AD"
+            x="0" y="0" width="1" height="1"
+        />
+        <rect
+            id="axe-blade-middle-lightest" fill="#C6BDC6"
+            x="0" y="0" width="1" height="1"
+        />
+
+        <rect
+            id="skin-base" fill="#EFC69C"
+            x="0" y="0" width="1" height="1"
+        />
+        <rect
+            id="skin-shadow" fill="#D6A573"
+            x="0" y="0" width="1" height="1"
+        />
+        <rect
+            id="skin-highlight" fill="#FFEFC6"
+            x="0" y="0" width="1" height="1"
+        />
+        <rect
+            id="skin-shade" fill="#B5846B"
+            x="0" y="0" width="1" height="1"
+        />
+
+        <rect
+            id="brown-outline" fill="#422929"
+            x="0" y="0" width="1" height="1"
+        />
+        <rect
+            id="brown-outline-darker" fill="#312121"
+            x="0" y="0" width="1" height="1"
+        />
+
+        <rect
+            id="leather-base" fill="#7B5252"
+            x="0" y="0" width="1" height="1"
+        />
+        <rect
+            id="leather-shadow" fill="#634242"
+            x="0" y="0" width="1" height="1"
+        />
+        <rect
+            id="leather-highlight" fill="#946363"
+            x="0" y="0" width="1" height="1"
+        />
+
+        <rect
+            id="clothes-base" fill="#085A94"
+            x="0" y="0" width="1" height="1"
+        />
+    </defs>
+
+    <!-- Axe -->
+    <use href="#axe-outline" transform="translate(4,0) scale(4,1)" />
+    <use href="#axe-outline" transform="translate(3,1)" />
+    <use href="#axe-outline" transform="translate(2,2) scale(1,2)" />
+    <use href="#axe-outline" transform="translate(1,4) scale(1,4)" />
+    <use href="#axe-outline" transform="translate(1,9)" />
+    <use href="#axe-outline" transform="translate(0,10) scale(1,2)" />
+    <use href="#axe-outline" transform="translate(3,9)" />
+
+    <use href="#axe-highlight-shadow" transform="translate(6,1)" />
+    <use href="#axe-highlight-shadow" transform="translate(4,1)" />
+    <use href="#axe-highlight-shadow" transform="translate(3,2)" />
+    <use href="#axe-highlight-shadow" transform="translate(2,4)" />
+    <use href="#axe-highlight-shadow" transform="translate(2,6)" />
+
+    <use href="#axe-highlight" transform="translate(5,1)" />
+    <use href="#axe-highlight" transform="translate(4,2)" />
+    <use href="#axe-highlight" transform="translate(3,3) scale(1,2)" />
+    <use href="#axe-highlight" transform="translate(2,5)" />
+    <use href="#axe-highlight" transform="translate(8,3)" />
+    <use href="#axe-highlight" transform="translate(7,4)" />
+    <use href="#axe-highlight" transform="translate(6,5)" />
+    <use href="#axe-highlight" transform="translate(5,6)" />
+    <use href="#axe-highlight" transform="translate(2,9)" />
+    <use href="#axe-highlight" transform="translate(1,10)" />
+
+    <use href="#axe-shadow" transform="translate(7,1)" />
+    <use href="#axe-shadow" transform="translate(6,2) scale(1,2)" />
+    <use href="#axe-shadow" transform="translate(6,3) scale(2,1)" />
+    <use href="#axe-shadow" transform="translate(8,2)" />
+    <use href="#axe-shadow" transform="translate(3,6) scale(2,1)" />
+    <use href="#axe-shadow" transform="translate(2,7) scale(1,2)" />
+    <use href="#axe-shadow" transform="translate(4,9)" />
+    <use href="#axe-shadow" transform="translate(3,10)" />
+    <use href="#axe-shadow" transform="translate(1,11) scale(2,1)" />
+    
+    <use href="#axe-blade-middle-darkest" transform="translate(5,4) scale(1,2)" />
+    <use href="#axe-blade-middle-darkest" transform="translate(4,5) scale(2,1)" />
+    <use href="#axe-blade-middle-darkest" transform="translate(6,6)" />
+    <use href="#axe-blade-middle-darkest" transform="translate(2,10)" />
+
+    <use href="#axe-blade-middle" transform="translate(5,3)" />
+    <use href="#axe-blade-middle" transform="translate(4,4)" />
+    <use href="#axe-blade-middle" transform="translate(6,4)" />
+
+    <use href="#axe-blade-middle-lightest" transform="translate(5,2)" />
+    <use href="#axe-blade-middle-lightest" transform="translate(4,3)" />
+    <use href="#axe-blade-middle-lightest" transform="translate(3,5)" />
+
+    <!-- Skin -->
+    <use href="#skin-base" transform="translate(4,7)" />
+    <use href="#skin-base" transform="translate(11,7) scale(2,1)" />
+    <use href="#skin-base" transform="translate(10,8)" />
+    <use href="#skin-base" transform="translate(12,10) scale(2,1)" />
+    <use href="#skin-base" transform="translate(12,13) scale(2,1)" />
+    <use href="#skin-base" transform="translate(19,14)" />
+
+    <use href="#skin-shadow" transform="translate(3,7) scale(1,2)" />
+    <use href="#skin-shadow" transform="translate(3,8) scale(2,1)" />
+    <use href="#skin-shadow" transform="translate(5,9)" />
+    <use href="#skin-shadow" transform="translate(13,8)" />
+    <use href="#skin-shadow" transform="translate(18,10)" />
+    <use href="#skin-shadow" transform="translate(11,13)" />
+    <use href="#skin-shadow" transform="translate(14,13)" />
+    <use href="#skin-shadow" transform="translate(19,13) scale(2,1)" />
+    <use href="#skin-shadow" transform="translate(20,13) scale(1,2)" />
+    <use href="#skin-shadow" transform="translate(7,19)" />
+
+    <use href="#skin-highlight" transform="translate(11,8) scale(2,1)" />
+
+    <use href="#skin-shade" transform="translate(13,9)" />
+    <use href="#skin-shade" transform="translate(11,10)" />
+    <use href="#skin-shade" transform="translate(14,10)" />
+    <use href="#skin-shade" transform="translate(10,12)" />
+    <use href="#skin-shade" transform="translate(15,12)" />
+    <use href="#skin-shade" transform="translate(19,10)" />
+    <use href="#skin-shade" transform="translate(17,11)" />
+
+    <use href="#brown-outline" transform="translate(11,1) scale(4,1)" />
+    <use href="#brown-outline" transform="translate(9,2) scale(2,1)" />
+    <use href="#brown-outline" transform="translate(9,2) scale(1,2)" />
+    <use href="#brown-outline" transform="translate(8,4)" />
+    <use href="#brown-outline" transform="translate(7,5) scale(1,3)" />
+    <use href="#brown-outline" transform="translate(7,6) scale(2,1)" />
+    <use href="#brown-outline" transform="translate(6,7) scale(2,1)" />
+    <use href="#brown-outline" transform="translate(6,7) scale(1,4)" />
+    <use href="#brown-outline" transform="translate(6,10) scale(3,1)" />
+    <use href="#brown-outline" transform="translate(9,8)" />
+    <use href="#brown-outline" transform="translate(10,9)" />
+    <use href="#brown-outline" transform="translate(16,7) scale(2,1)" />
+    <use href="#brown-outline" transform="translate(15,8) scale(1,2)" />
+    <use href="#brown-outline" transform="translate(18,8)" />
+    <use href="#brown-outline" transform="translate(19,9)" />
+    <use href="#brown-outline" transform="translate(16,10)" />
+
+    <use href="#brown-outline-darker" transform="translate(15,1) scale(2,1)" />
+    <use href="#brown-outline-darker" transform="translate(16,1) scale(1,2)" />
+    <use href="#brown-outline-darker" transform="translate(17,3) scale(1,2)" />
+    <use href="#brown-outline-darker" transform="translate(16,6)" />
+    <use href="#brown-outline-darker" transform="translate(6,18) scale(1,3)" />
+    <use href="#brown-outline-darker" transform="translate(6,20) scale(3,1)" />
+    <use href="#brown-outline-darker" transform="translate(9,19)" />
+    <use href="#brown-outline-darker" transform="translate(10,18)" />
+    <use href="#brown-outline-darker" transform="translate(16,19) scale(3,1)" />
+    <use href="#brown-outline-darker" transform="translate(18,18) scale(1,2)" />
+
+    <use href="#leather-base" transform="translate(12,2)" />
+    <use href="#leather-base" transform="translate(15,2)" />
+    <use href="#leather-base" transform="translate(14,3)" />
+    <use href="#leather-base" transform="translate(16,4)" />
+    <use href="#leather-base" transform="translate(8,7)" />
+    <use href="#leather-base" transform="translate(7,8)" />
+    <use href="#leather-base" transform="translate(8,9)" />
+    <use href="#leather-base" transform="translate(17,8)" />
+    <use href="#leather-base" transform="translate(18,9)" />
+
+    <use href="#leather-shadow" transform="translate(11,2)" />
+    <use href="#leather-shadow" transform="translate(15,3) scale(2,1)" />
+    <use href="#leather-shadow" transform="translate(7,9)" />
+    <use href="#leather-shadow" transform="translate(5,7) scale(1,2)" />
+    <use href="#leather-shadow" transform="translate(4,10) scale(2,1)" />
+    <use href="#leather-shadow" transform="translate(11,9)" />
+    <use href="#leather-shadow" transform="translate(14,9)" />
+    <use href="#leather-shadow" transform="translate(16,8) scale(1,2)" />
+    <use href="#leather-shadow" transform="translate(17,10)" />
+    <use href="#leather-shadow" transform="translate(20,10)" />
+    <use href="#leather-shadow" transform="translate(18,13) scale(1,2)" />
+    <use href="#leather-shadow" transform="translate(19,15) scale(2,1)" />
+    <use href="#leather-shadow" transform="translate(21,13) scale(1,2)" />
+    <use href="#leather-shadow" transform="translate(7,18) scale(3,1)" />
+
+    <use href="#leather-highlight" transform="translate(13,2) scale(2,1)" />
+    <use href="#leather-highlight" transform="translate(13,2) scale(1,2)" />
+    <use href="#leather-highlight" transform="translate(8,8)" />
+    <use href="#leather-highlight" transform="translate(12,9)" />
+    <use href="#leather-highlight" transform="translate(17,9)" />
+    <use href="#leather-highlight" transform="translate(8,19)" />
+    <use href="#leather-highlight" transform="translate(16,18) scale(2,1)" />
+
+    <!-- =============== -->
+    <!-- === Clothes === -->
+    <!-- =============== -->
+
+    <use href="#clothes-base" transform="translate(9,9)" />
+    <use href="#clothes-base" transform="translate(10,10) scale(1,2)" />
+    <use href="#clothes-base" transform="translate(11,12) scale(4,1)" />
+    <use href="#clothes-base" transform="translate(15,10) scale(1,2)" />
+    <use href="#clothes-base" transform="translate(10,13)" />
+    <use href="#clothes-base" transform="translate(8,16)" />
+    <use href="#clothes-base" transform="translate(10,16)" />
+    <use href="#clothes-base" transform="translate(11,14) scale(3,2)" />
+    <use href="#clothes-base" transform="translate(14,16)" />
+    <use href="#clothes-base" transform="translate(15,17)" />
+
+</svg>
