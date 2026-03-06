@@ -40,7 +40,7 @@
                                 "weapon": "Iron Axe"
                             },
                             "red": {
-                                "icon": "/images/maps/icons/enemies/fighter/red.png",
+                                "icon": "/images/maps/icons/enemies/fighter/red.svg",
                                 "name": "Thief",
                                 "class": "Fighter",
                                 "weapon": "Iron Axe"

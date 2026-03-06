@@ -7,6 +7,7 @@ import './App.css';
 import allChapters from './db/chapters.json';
 import allMissions from './db/missions.json';
 import { Details } from './components/details/details';
+import { PixelsToSVG } from './components/pixel-art-to-svg';
 
 function App() {
 
@@ -19,6 +20,8 @@ function App() {
     console.log(allChapters)
     console.log("All Missions:")
     console.log(allMissions)
+
+    // PixelsToSVG()
   }, [])
 
   return (

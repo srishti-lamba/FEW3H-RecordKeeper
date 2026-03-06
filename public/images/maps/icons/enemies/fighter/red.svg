@@ -27,23 +27,23 @@
             x="0" y="0" width="1" height="1"
         />
         <rect
-            id="colour-5" fill="rgb(8,66,123,255)"
+            id="colour-5" fill="rgb(99,33,16,255)"
             x="0" y="0" width="1" height="1"
         />
         <rect
-            id="colour-6" fill="rgb(8,107,173,255)"
+            id="colour-6" fill="rgb(173,57,33,255)"
             x="0" y="0" width="1" height="1"
         />
         <rect
-            id="colour-7" fill="rgb(8,132,198,255)"
+            id="colour-7" fill="rgb(198,74,41,255)"
             x="0" y="0" width="1" height="1"
         />
         <rect
-            id="colour-8" fill="rgb(8,156,222,255)"
+            id="colour-8" fill="rgb(222,99,57,255)"
             x="0" y="0" width="1" height="1"
         />
         <rect
-            id="colour-9" fill="rgb(8,173,247,255)"
+            id="colour-9" fill="rgb(247,115,74,255)"
             x="0" y="0" width="1" height="1"
         />
         <rect
@@ -71,15 +71,15 @@
             x="0" y="0" width="1" height="1"
         />
         <rect
-            id="colour-16" fill="rgb(8,90,148,255)"
+            id="colour-16" fill="rgb(140,41,24,255)"
             x="0" y="0" width="1" height="1"
         />
         <rect
-            id="colour-17" fill="rgb(8,49,82,255)"
+            id="colour-17" fill="rgb(66,16,8,255)"
             x="0" y="0" width="1" height="1"
         />
         <rect
-            id="colour-18" fill="rgb(8,24,41,255)"
+            id="colour-18" fill="rgb(33,8,0,255)"
             x="0" y="0" width="1" height="1"
         />
         <rect
@@ -107,7 +107,7 @@
     <use href="#colour-0" transform="translate(6,7)" />
     <use href="#colour-0" transform="translate(12,7)  scale(1,2)" />
     <use href="#colour-0" transform="translate(15,7)" />
-    <use href="#colour-0" transform="translate(5,8)  scale(1,2)" />
+    <use href="#colour-0" transform="translate(5,8)" />
     <use href="#colour-0" transform="translate(7,8)" />
     <use href="#colour-0" transform="translate(16,8)" />
     <use href="#colour-0" transform="translate(13,9)" />
@@ -257,7 +257,8 @@
     <use href="#colour-17" transform="translate(15,14)" />
     <use href="#colour-17" transform="translate(7,16)" />
     <use href="#colour-17" transform="translate(11,16)" />
-    <use href="#colour-18" transform="translate(6,9)  scale(1,2)" />
+    <use href="#colour-18" transform="translate(5,9)  scale(2,1)" />
+    <use href="#colour-18" transform="translate(5,10)  scale(2,1)" />
     <use href="#colour-18" transform="translate(13,10)  scale(1,2)" />
     <use href="#colour-18" transform="translate(12,17)" />
     <use href="#colour-19" transform="translate(4,15)" />
