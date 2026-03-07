@@ -1,10 +1,7 @@
-import React, { JSX, memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { JSX, memo, useEffect, useMemo, useRef, useState } from "react";
 import { GridCellType, GridCellDataType, PotDataType, SvgPropsType, FillsType, CoordinateType, size_SpecificType, StrongholdDataType, EnemyDataType } from "./details-map";
 import { Tooltip } from "react-tooltip";
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { MemoizedTooptipContent } from "./details-map-tooltip";
 
 interface GridContainerProps {
     svgProps : SvgPropsType;
@@ -70,6 +67,11 @@ export function GridContainer({svgProps, fills, getPotFill, gridCells, setGridCo
                             m 14 14 v 5 h -6 v -5 l 3 -3 z"
                     />
                 </svg>
+            )
+
+            // Fill in captain icons
+            Object.entries(base.data.captain).forEach(
+                ([key, value] : [string, EnemyDataType]) => value.icon = `${process.env.PUBLIC_URL}/images/maps/icons/enemies/${value.class.toLowerCase()}/${key.toLowerCase()}.svg`
             )
 
             if (data[base.icon!.coords.x][base.icon!.coords.y] == undefined)
@@ -330,103 +332,6 @@ const MemoizedGridCellTile = memo(
               (nextProps.tileCoords?.y === nextProps.coords.y && nextProps.tileCoords?.x === nextProps.coords.x)    ) &&
             // The current and previous are different
             (prevProps.tileCoords?.x !== nextProps.tileCoords?.x && prevProps.tileCoords?.y !== nextProps.tileCoords?.y)
-        )
-    }
-)
-
-// -------------------
-// --- Map Tooltip ---
-// -------------------
-
-interface TooltipContentProps {
-    data : GridCellDataType[][];
-    tileCoords : CoordinateType|null;
-}
-
-function TooltipContent({data: dataAll, tileCoords} : TooltipContentProps) {
-
-    console.log("[[[ Tooltip rerender ]]]")
-
-    if (tileCoords === null)
-        return <></>
-
-    var data : GridCellDataType = dataAll[tileCoords.x][tileCoords.y]
-    var children = []
-
-    // === Strongholds ===
-    var base : StrongholdDataType|null = data.stronghold;
-    if ( base != null ) {  
-        
-        // Captains
-        var captains : EnemyDataType[] = [];
-        if (base!.captain.blue !== undefined) captains.push(base!.captain.blue)
-        if (base!.captain.green !== undefined) captains.push(base!.captain.green)
-        if (base!.captain.red !== undefined) captains.push(base!.captain.red)
-        if (base!.captain.yellow !== undefined) captains.push(base!.captain.yellow)
-        console.log("captains");
-        console.log(captains);
-        var captainElements = []
-        captainElements.push(captains.map( (unit : EnemyDataType) => (
-            <span className="map-tooltip-stronghold-captains">
-                <img
-                    className="map-tooltip-stronghold-captain-icon"
-                    src={process.env.PUBLIC_URL + unit.icon as string} 
-                />
-            </span>
-        )))
-        children.push(
-            <span className="map-tooltip-stronghold map-tooltip-row">
-                <Accordion>
-                    <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel1-content"
-                        id="panel1-header"
-                    >
-                        <span className="map-tooltip-stronghold-icon">{base.icon}</span>
-                        <span className="map-tooltip-stronghold-title">{base.name}</span>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <span className="map-tooltip-stronghold-captains">Captains
-                            {captainElements}
-                        </span>
-                    </AccordionDetails>
-                </Accordion>
-            </span>
-        )
-    }
-
-    // === Pots ===
-    var pot : PotDataType|null = data.pot;
-    if ( pot !== null ) {
-        children.push(
-            <span className="map-tooltip-pot map-tooltip-row">
-                <span className="map-tooltip-pot-icon">{pot.icon}</span>
-                <span className="map-tooltip-pot-text">
-                    <span className="map-tooltip-pot-title">{pot.title}</span>
-                    <span className="map-tooltip-pot-description">{pot.description}</span>
-                </span>
-            </span>
-        )
-    }
-
-    return (
-        <div 
-            id="map-tooltip-content"
-        >
-            {children}
-        </div>
-    )
-}
-
-const MemoizedTooptipContent = memo( 
-    TooltipContent, 
-    (prevProps: Readonly<TooltipContentProps>, nextProps: Readonly<TooltipContentProps>) => {
-        return !(
-            // tileCoords !== null (prevents tooltip shrinking right before close)
-            ( nextProps.tileCoords !== null ) &&
-            // tileCoords are different
-            ( ( prevProps.tileCoords?.x !== nextProps.tileCoords?.x ) || 
-              ( prevProps.tileCoords?.y !== nextProps.tileCoords?.y )    )
         )
     }
 )

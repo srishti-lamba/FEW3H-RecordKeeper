@@ -13,6 +13,7 @@ html {
   display: flex; 
   flex-direction: column; 
   height: 100vh;
+  font-family: var(--font-family);
 
   & > div.split-pane {
     --divider-width: 5px;
@@ -148,7 +149,7 @@ html {
                   /* background-color: red; */
 
                   & .map-tooltip-row {
-                    --height: 2.3em;
+                    /* --height: 2.3em;
                     padding: 0.5em 1em;
 
                     color:rgb(30, 30, 30);
@@ -164,7 +165,7 @@ html {
                       background-size: 
                         auto, 
                         auto, 
-                        calc(100% - ((var(--height) * 0.28571428571)*2) + 1px) 100%;
+                        calc(100% - ((var(--height) * 0.28571428571)*2) + 1px) 100%; */
                   }
 
                   & #map-tooltip-content {
@@ -179,9 +180,39 @@ html {
 
                       & .MuiAccordion-heading {
 
+                        --padding-height: 0.4rem;
+                        --content-font-size: 0.95rem;
+                        --height: calc( (var(--padding-height)*2) + var(--content-font-size) );
+
+                        height: var(--height);
+                        display:block;
+                        align-content: center;
+                        
+                        padding: var(--padding-height) 1em;
+                        margin-top: var(--padding-height);
+
+                        color:rgb(30, 30, 30);
+
+                        background-image:
+                            url(/public/images/ui-background/row/left-base.svg),
+                            url(/public/images/ui-background/row/right-base.svg),
+                            url(/public/images/ui-background/row/middle-base.svg);
+                          background-repeat: 
+                            no-repeat, no-repeat, no-repeat;
+                          background-position:
+                            left, right, center;
+                          background-size: 
+                            auto, 
+                            auto, 
+                            calc(100% - ((var(--height) * 0.28571428571)*2) + 1px) 100%;
+
+                        &:first-of-type {
+                          margin-top: 0;
+                        }
+
                         & .MuiAccordionSummary-root {
                           min-height: unset;
-                          font-size: 0.95rem;
+                          font-size: var(--content-font-size);
                           padding: 0;
 
                           & .MuiAccordionSummary-content {
@@ -189,13 +220,18 @@ html {
                             font-family: var(--font-family);
                             font-weight: bold;
 
-                            & .map-tooltip-stronghold-icon {
+                            & .map-tooltip-category-icon {
                               display: block;
                               height: 1em;
                               align-self: center;
                               padding-right: 0.5rem
 
-                            } /* .map-tooltip-stronghold-icon */
+                            } /* .map-tooltip-category-icon */
+
+                            & .map-tooltip-category-title {
+                              margin-bottom: -0.2rem;
+                              letter-spacing: 0.01rem;
+                            }
 
                           } /* .MuiAccordionSummary-content */
                           & .MuiAccordionSummary-expandIconWrapper {
@@ -207,46 +243,57 @@ html {
                       & .MuiCollapse-root {
 
                         & .MuiAccordionDetails-root {
-                          padding: 0;
+                          --padding: 0.5rem;
 
-                          & .map-tooltip-stronghold-captain-icon {
-                            display: block;
-                            height: 1em;
-                            align-self: center;
-                          }
+                          display: flex;
+                          flex-flow: column nowrap;
+                          gap: var(--padding);
+
+                          margin: var(--padding);
+                          margin-bottom: 0;
+                          padding: var(--padding);
+
+                          color: white;
+                          /* background-color: rgb(233,233,233,0.5); */
+                          /* border-radius: 5px; */
+                          border: 1px solid #625D3F;
+
+                          letter-spacing: 0.05rem;
+
+                          & .map-tooltip-subcategory {
+                            display: flex;
+                            flex-flow: column nowrap;
+                            gap: 0.25rem;
+                            background-color: rgb(233,233,233,0.2);
+                            border-radius: 5px;
+                            padding: var(--padding) 0;
+
+                            & .map-tooltip-subcategory-header {
+                              padding: 0 var(--padding);
+                            }
+
+                            & .map-tooltip-subcategory-row {
+                              display: flex;
+                              flex-flow: row nowrap;
+                              gap: 0.5rem;
+                              letter-spacing: 0.05rem;
+                              font-size: 0.8rem;
+                              padding: 0 var(--padding) 0 calc(var(--padding) * 2);
+
+                              &:hover {
+                                background-color: rgb(233,233,233,0.15);
+                              }
+
+                              & .map-tooltip-subcategory-row-icon {
+                                display: block;
+                                height: 1rem;
+                                align-self: center;
+                              }/* .map-tooltip-subcategory-row-icon */
+                            }/* map-tooltip-subcategory-row */
+                          }/* .map-tooltip-subcategory */
                         } /* .MuiAccordionDetails-root */
                       } /* .MuiCollapse-root */
                     } /* .MuiAccordion-root */
-
-                    & .map-tooltip-pot {
-                      display: flex;
-                      flex-flow: row nowrap;
-
-                      & .map-tooltip-pot-icon {
-                        display: block;
-                        height: 2em;
-                        align-self: center;
-
-                      } /* .map-tooltip-pot-icon */
-
-                      & .map-tooltip-pot-text {
-                        display: flex;
-                        flex-flow: column nowrap;
-
-                        padding-left: 0.5em;
-
-                        & .map-tooltip-pot-title {
-                          font-weight: bold;
-
-                        } /* .map-tooltip-pot-title */
-
-                        & .map-tooltip-pot-description {
-                          font-size: 0.9em;
-
-                        } /* .map-tooltip-pot-description */
-
-                      } /* .map-tooltip-pot-text */
-                    } /* .map-tooltip-pot */
                   } /* #map-tooltip-content */
                 } /* .react-tooltip */
 
