@@ -1,7 +1,8 @@
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { memo } from "react";
-import { GridCellDataType, CoordinateType, StrongholdDataType, EnemyDataType, PotDataType } from "./details-map";
+import { GridCellDataType, CoordinateType, StrongholdDataType, UnitDataSummaryType, PotDataType } from "./details-map";
+import { WeaponDataType, Weapons } from "../weapon-data";
 
 interface TooltipContentProps {
     data : GridCellDataType[][];
@@ -21,25 +22,41 @@ function TooltipContent({data: dataAll, tileCoords} : TooltipContentProps) {
     // -------------------
     // --- Strongholds ---
     // -------------------
-    var base : StrongholdDataType|null = data.stronghold;
-    if ( base != null ) {
+    var base : StrongholdDataType|undefined = data.stronghold;
+    if ( base != undefined ) {
         
-        // Captains
-        var captains : EnemyDataType[] = [];
+        // Captains                             // Proof Stronghold Weapon Type can change (look at text under map): https://youtu.be/rT5Wo1qZMVs?si=tAzSfQjecAHuon8q&t=2683
+        var captains : UnitDataSummaryType[] = [];
         if (base!.captain.blue !== undefined) captains.push(base!.captain.blue)
         if (base!.captain.green !== undefined) captains.push(base!.captain.green)
         if (base!.captain.red !== undefined) captains.push(base!.captain.red)
         if (base!.captain.yellow !== undefined) captains.push(base!.captain.yellow)
         var captainElements = []
-        captainElements.push(captains.map( (unit : EnemyDataType) => (
-            <span className="map-tooltip-subcategory-row">
-                <img
-                    className="map-tooltip-subcategory-row-icon"
-                    src={unit.icon as string} 
-                />
-                {unit.class}
-            </span>
-        )))
+        captainElements.push(captains.map( (unit : UnitDataSummaryType) => {
+            var weapon : WeaponDataType|null = Weapons.getData(unit.weapon)
+            return (
+                <span className="map-tooltip-subcategory-row">
+                    <span className="map-tooltip-subcategory-row-info">
+                        <img
+                            className="map-tooltip-subcategory-row-icon"
+                            src={unit.icon as string} 
+                        />
+                        {unit.class}
+                    </span>
+                    {
+                        (weapon !== null) &&
+                        <span className="map-tooltip-subcategory-row-info">
+                            <img
+                                className="map-tooltip-subcategory-row-icon"
+                                src={weapon.icon as string} 
+                            />
+                            {unit.weapon}
+                        </span>  
+                    }
+                    
+                </span>
+            )
+        }))
 
         // Result
         children.push(
@@ -69,8 +86,8 @@ function TooltipContent({data: dataAll, tileCoords} : TooltipContentProps) {
     // ------------
     // --- Pots ---
     // ------------
-    var pot : PotDataType|null = data.pot;
-    if ( pot !== null ) {
+    var pot : PotDataType|undefined = data.pot;
+    if ( pot !== undefined ) {
         children.push(
             <Accordion>
                     <AccordionSummary

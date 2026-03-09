@@ -239,7 +239,31 @@
                     "m" : {"x" : 2768 , "y" : 2940},
                     "coords" : { "x" : 58 , "y" : 62 }
                 }
-            ]
+            ],
+            "units" : {
+                "-" : {
+                    "name" : "",
+                    "class" : "",
+                    "weapon" : "",
+                    "type" : "",
+                    "allegiance": "",
+                    "profile" : "",
+                    "showSprite" : false,
+                    "appear" : "",
+                    "disappear" : "",
+                    "coords" : {"x":-1 , "y":-1}
+                },
+                "7-7-0": {
+                    "name" : "Myrmidon",
+                    "class" : "Myrmidon",
+                    "weapon" : "Iron Sword",
+                    "type" : "Infantry",
+                    "allegiance": "red",
+                    "profile" : "690",
+                    "showSprite" : true,
+                    "coords" : {"x":7 , "y":7}
+                }
+            }
         }
     }
 ]

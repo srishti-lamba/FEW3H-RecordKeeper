@@ -83,6 +83,23 @@ html {
                 display: block;
                 min-width: 100%;
                 z-index: 0;
+
+                & .map-grid-tile-unit-sprite {
+                  /* --ratio : calc( 100% / 35.5555555px ); */
+                  /* transform : scale(var(--ratio), var(--ratio)) translate(50%,0); */
+                  /* transform : scale(calc( 100% / 35.5555555px ), calc( 100% / 35.5555555px )) translate(50%,0); */
+                  /* margin: 0 auto calc(-35.5555555px * (1 - 0.5625)); */
+
+                  --transformX : 0;
+                  --transformY : 0;
+
+                  transform-box: fill-box;
+                  /* transform-origin: 50% 50%; */
+                  transform: translate(100%,75%);
+                  x: var(--transformX);
+                  y: var(--transformY);
+
+                } /* .map-grid-tile-unit-sprite */
               }
 
               & .map-grid-container {
@@ -117,6 +134,7 @@ html {
 
                     &.has-data {
                       /* background-color: rgb(255, 0, 0, 0.5); */
+                      align-content: center;
 
                       &:hover {
                       position: relative;
@@ -221,6 +239,7 @@ html {
                             font-weight: bold;
 
                             & .map-tooltip-category-icon {
+                              opacity: 1;
                               display: block;
                               height: 1em;
                               align-self: center;
@@ -284,11 +303,18 @@ html {
                                 background-color: rgb(233,233,233,0.15);
                               }
 
-                              & .map-tooltip-subcategory-row-icon {
-                                display: block;
-                                height: 1rem;
-                                align-self: center;
-                              }/* .map-tooltip-subcategory-row-icon */
+                              & .map-tooltip-subcategory-row-info {
+                                display: flex;
+                                flex-flow: row nowrap;
+                                gap: 0.25rem;
+
+                                & .map-tooltip-subcategory-row-icon {
+                                  opacity: 1;
+                                  display: block;
+                                  height: 1rem;
+                                  align-self: center;
+                                }/* .map-tooltip-subcategory-row-icon */
+                              }/* .map-tooltip-subcategory-row-info */
                             }/* map-tooltip-subcategory-row */
                           }/* .map-tooltip-subcategory */
                         } /* .MuiAccordionDetails-root */

@@ -11,6 +11,10 @@ import Slider from '@mui/material/Slider'
     https://www.freeconvert.com/png-to-svg
 */
 
+interface Dictionary<T> {
+    [key: string]: T;
+}
+
 // === Fills ===
 
 export interface FillsType {
@@ -51,6 +55,7 @@ interface svg_PathType {
     strongholds : svg_StrongholdType[];
     gates : svg_GateType[];
     pots : svg_PotType[];
+    units : Dictionary<UnitDataType>;
 }
 
 interface svg_GroundType { // Base ground path
@@ -111,8 +116,9 @@ export interface GridCellType {
 }
 
 export interface GridCellDataType {
-    stronghold: StrongholdDataType | null;
-    pot: PotDataType | null;
+    stronghold ?: StrongholdDataType;
+    pot ?: PotDataType;
+    unit ?: UnitDataType;
 }
 
 export interface PotDataType {
@@ -127,21 +133,35 @@ export interface StrongholdDataType {
     captureRequired: boolean;
     appear: string | null;
     disappear: string | null;
-    captain: EnemyDataAllType;
+    captain: UnitDataSummaryAllType;
 }
 
-export interface EnemyDataAllType {
-    blue ?: EnemyDataType;
-    green ?: EnemyDataType;
-    red ?: EnemyDataType;
-    yellow ?: EnemyDataType;
+export interface UnitDataSummaryAllType {
+    blue ?: UnitDataSummaryType;
+    green ?: UnitDataSummaryType;
+    red ?: UnitDataSummaryType;
+    yellow ?: UnitDataSummaryType;
 }
 
-export interface EnemyDataType {
-    name: string;
-    icon?: string|JSX.Element;
-    class: string;
-    weapon: string;
+export interface UnitDataSummaryType {
+    name : string;
+    icon ?: string|JSX.Element;
+    class : string;
+    weapon : string;
+}
+
+export interface UnitDataType {
+    name : string;
+    class : string;
+    weapon : string;
+    type : string;
+    allegiance: string;
+    profile ?: string|JSX.Element;
+    sprite ?: string|JSX.Element;
+    showSprite : boolean;
+    appear ?: string;
+    disappear ?: string;
+    coords : CoordinateType;
 }
 
 // === Class Props ===
@@ -396,6 +416,26 @@ export function Map({selectedRow} : MapProps) {
                                         />
                                     </g>
                                 ))
+                            }
+                            {
+                                // Units
+                                Object.values(svgProps.paths.units).map( (unit) => {
+                                    // Make sure it's not dummy entry
+                                    if (unit.coords.x === -1 && unit.coords.y === -1)
+                                        return <></>
+
+                                    let tileWidth : number = svgProps.size.pixels.width / svgProps.size.squares.width;
+
+                                    return (
+                                        <use 
+                                            // style={`--transformX: ${ (unit.coords.x-0.75)*tileWidth }; transformY: ${ (unit.coords.y-0.75)*tileWidth }`}
+                                            style={{ "--transformX": (unit.coords.x-1)*tileWidth , "--transformY" : (unit.coords.y-1)*tileWidth } as React.CSSProperties}
+                                            // style={{"--transfromX": (unit.coords.x-0.75)*tileWidth }}
+                                            className="map-grid-tile-unit-sprite"
+                                            // transform={`translate(${ (unit.coords.x-0.75)*tileWidth },${ (unit.coords.y-0.75)*tileWidth })`}
+                                            xlinkHref={`${process.env.PUBLIC_URL}/images/icons/sprites/${unit.class.toLowerCase()}/${unit.allegiance}.svg`} 
+                                        />
+                                )})
                             }
                         </svg>
                         <GridContainer 

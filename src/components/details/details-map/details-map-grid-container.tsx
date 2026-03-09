@@ -1,5 +1,5 @@
 import React, { JSX, memo, useEffect, useMemo, useRef, useState } from "react";
-import { GridCellType, GridCellDataType, PotDataType, SvgPropsType, FillsType, CoordinateType, size_SpecificType, StrongholdDataType, EnemyDataType } from "./details-map";
+import { GridCellType, GridCellDataType, PotDataType, SvgPropsType, FillsType, CoordinateType, size_SpecificType, StrongholdDataType, UnitDataSummaryType, UnitDataType } from "./details-map";
 import { Tooltip } from "react-tooltip";
 import { MemoizedTooptipContent } from "./details-map-tooltip";
 
@@ -35,13 +35,20 @@ export function GridContainer({svgProps, fills, getPotFill, gridCells, setGridCo
     //     console.log(`Tile ID Changed! ${tileID.current}`)
     // }, [tileID])
 
+    const coordsEqual = (one : CoordinateType, two : CoordinateType) => {
+        return (
+            ( one.x === two.x ) &&
+            ( one.y === two.y )
+        )
+    }
+
     const createData = useMemo(() => {
         // console.log("Called createData")
-        var data = new Array(svgProps.size.squares.width+1)
+        var data : GridCellDataType[][] = new Array(svgProps.size.squares.width+1)
                             .fill(null).map( 
                                 () => new Array(svgProps.size.squares.height+1).fill(undefined) 
                             )
-        // Stronghold
+        // === Stronghold ===
         svgProps.paths.strongholds.forEach ( (base) => {
             if (base.data == undefined || base.icon == undefined)
                 return;
@@ -71,19 +78,16 @@ export function GridContainer({svgProps, fills, getPotFill, gridCells, setGridCo
 
             // Fill in captain icons
             Object.entries(base.data.captain).forEach(
-                ([key, value] : [string, EnemyDataType]) => value.icon = `${process.env.PUBLIC_URL}/images/maps/icons/enemies/${value.class.toLowerCase()}/${key.toLowerCase()}.svg`
+                ([key, value] : [string, UnitDataSummaryType]) => value.icon = `${process.env.PUBLIC_URL}/images/icons/sprites/${value.class.toLowerCase()}/${key.toLowerCase()}.svg`
             )
 
             if (data[base.icon!.coords.x][base.icon!.coords.y] == undefined)
-                data[base.icon!.coords.x][base.icon!.coords.y] = {
-                    stronghold: baseData,
-                    pot: null
-                };
+                data[base.icon!.coords.x][base.icon!.coords.y] = {stronghold: baseData};
             else
-                data[base.icon!.coords.x][base.icon!.coords.y].pot = baseData;
+                data[base.icon!.coords.x][base.icon!.coords.y].stronghold = baseData;
         })
 
-        // Pots
+        // === Pots ===
         svgProps.paths.pots.forEach( (pot) => {
             var potData : PotDataType = {icon:undefined, title:"", description:""};
             switch (pot.colour) {
@@ -127,15 +131,29 @@ export function GridContainer({svgProps, fills, getPotFill, gridCells, setGridCo
                     />
                 </svg>
             );
-            // var index = calculateIndex(pot.coords.x, pot.coords.y);
             if (data[pot.coords.x][pot.coords.y] == undefined)
-                data[pot.coords.x][pot.coords.y] = {
-                    stronghold: null,
-                    pot: potData
-                };
+                data[pot.coords.x][pot.coords.y] = {pot: potData};
             else
                 data[pot.coords.x][pot.coords.y].pot = potData;
         })
+
+        // === Units ===
+        Object.values(svgProps.paths.units).forEach(
+            (unit) => {
+                // Make sure it's not dummy entry
+                if (unit.coords.x === -1 && unit.coords.y === -1)
+                    return;
+
+                var unitData : UnitDataType = unit;
+                unitData.profile = `${process.env.PUBLIC_URL}/images/icons/profiles/${unitData.profile}.png`
+                unitData.sprite = `${process.env.PUBLIC_URL}/images/icons/sprites/${unitData.class.toLowerCase()}/${unitData.allegiance}.svg`
+                
+                if (data[unit.coords.x][unit.coords.y] == undefined)
+                    data[unit.coords.x][unit.coords.y] = {unit: unitData};
+                else
+                    data[unit.coords.x][unit.coords.y].unit = unitData;
+            }
+        )
 
         // console.log(data)
         return data;
@@ -212,11 +230,9 @@ function GridRow({data, svgSquares, setGridCords, row, tileCoords, prevTileCoord
     const childrenArray = useRef<JSX.Element[]>([]);
 
     const createTile = (col : number) => {
-        var dataVar : GridCellDataType|null = (data[col][row] == undefined ? null : data[col][row])
-
         var tile = (
             <MemoizedGridCellTile 
-                data={dataVar} 
+                data={data[col][row]} 
                 setGridCords={setGridCords} coords={{x:col,y:row}}
                 tileCoords={tileCoords} setTileCoords={setTileCoords} prevTileCoords={prevTileCoords}
                 tileID={tileID}
@@ -268,7 +284,7 @@ const MemoizedGridRow = memo(
 // -----------------
 
 interface GridCellTileProps {
-    data : GridCellDataType|null;
+    data : GridCellDataType|undefined;
     setGridCords : any;
     coords : CoordinateType;
     tileCoords : CoordinateType|null;
@@ -318,7 +334,15 @@ function GridCellTile({data, setGridCords, coords, tileCoords, setTileCoords, pr
                 else
                     parentChildren.current[coords.x] = element
             }}
-        />
+        >
+            {/* {
+                ((data !== undefined) && (data.unit !== undefined) && (data.unit.showSprite === true) && (data.unit.sprite !== undefined)) && 
+                <img 
+                    className="map-grid-tile-unit-sprite"
+                    src={data.unit.sprite as string} 
+                /> //Height on map is 27px, height of image is 20px, height of tile is 48px
+            } */}
+        </div>
     )
 }
 

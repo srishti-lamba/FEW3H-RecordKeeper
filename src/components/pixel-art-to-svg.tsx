@@ -8,7 +8,7 @@ interface Dictionary<T> {
 
 export async function PixelsToSVG() {
     const image = await Jimp.read(
-        process.env.PUBLIC_URL + "/images/maps/icons/enemies/fighter/Ma_fewa2_fighter_third.png"
+        process.env.PUBLIC_URL + "/images/icons/sprites/monk/yellow.png"
     );
 
     function getPixel(x:number, y:number) {
@@ -16,7 +16,7 @@ export async function PixelsToSVG() {
     }
 
     function colourToString(colour : RGBAColor) {
-        return `rgb(${colour.r},${colour.g},${colour.b},${colour.a})`
+        return `rgb(${colour.r},${colour.g},${colour.b})`
     }
 
     function compareRGBA(one : RGBAColor, two : RGBAColor) {
@@ -39,6 +39,13 @@ export async function PixelsToSVG() {
     var colourCount : number = 0;
 
     resultDefs.push("    <defs>")
+    resultDefs.push(
+`        <rect
+            id="rect"
+            x="0" y="0" width="1" height="1"
+        />`
+
+    )
 
     for (let row = 0 ; row < image.height; row++ ) {
         for (let col = 0; col < image.width; col++) {
@@ -69,12 +76,13 @@ export async function PixelsToSVG() {
 
             // Else, add to set, add to defs, then findAllColours
             colours[colourStr] = colourCount;
-            resultDefs.push(
-`        <rect
-            id="colour-${colourCount}" fill="${colourStr}"
-            x="0" y="0" width="1" height="1"
-        />`
-            )
+            resultDefs.push(`        <use href="#rect" id="colour-${colourCount}" fill="${colourStr}" />`)
+//             resultDefs.push(
+// `        <rect
+//             id="colour-${colourCount}" fill="${colourStr}"
+//             x="0" y="0" width="1" height="1"
+//         />`
+//             )
             resultUse[colourStr] = []
             resultUse[colourStr].push(findSiblings(col,row,colour,colourCount))
             colourCount++;
