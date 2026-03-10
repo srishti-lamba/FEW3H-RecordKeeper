@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { MRT_RowSelectionState } from 'material-react-table';
 import { SplitPane, Pane } from 'react-split-pane';
 import Settings from './components/settings/settings';
-import Table from './components/table';
+import Table, { Row } from './components/table';
 import './App.css';
 import allChapters from './db/chapters.json';
 import allMissions from './db/missions.json';
@@ -13,6 +13,7 @@ function App() {
 
   const [difficulty, setDifficulty] = useState<number>(1);
   const [selectedRow, setSelectedRow] = useState<MRT_RowSelectionState>({});
+  const selectedRowData = useRef<Row|null>(null)
 
   // Run once
   useEffect(() => {
@@ -42,6 +43,7 @@ function App() {
             difficulty={difficulty}
             selectedRow={selectedRow}
             setSelectedRow={setSelectedRow}
+            selectedRowData={selectedRowData}
           />
         </Pane>
         <Pane>

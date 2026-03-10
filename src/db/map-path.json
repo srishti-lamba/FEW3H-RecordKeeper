@@ -247,7 +247,7 @@
                     "weapon" : "",
                     "type" : "",
                     "allegiance": "",
-                    "profile" : "",
+                    "profile" : {"name":""},
                     "showSprite" : false,
                     "appear" : "",
                     "disappear" : "",
@@ -259,7 +259,7 @@
                     "weapon" : "Iron Sword",
                     "type" : "Infantry",
                     "allegiance": "red",
-                    "profile" : "690",
+                    "profile" : {"name":"690"},
                     "showSprite" : true,
                     "coords" : {"x":7 , "y":7}
                 }

@@ -145,7 +145,7 @@ export function GridContainer({svgProps, fills, getPotFill, gridCells, setGridCo
                     return;
 
                 var unitData : UnitDataType = unit;
-                unitData.profile = `${process.env.PUBLIC_URL}/images/icons/profiles/${unitData.profile}.png`
+                unitData.profile.url = `${process.env.PUBLIC_URL}/images/icons/profiles/${unit.profile?.name}.png`
                 unitData.sprite = `${process.env.PUBLIC_URL}/images/icons/sprites/${unitData.class.toLowerCase()}/${unitData.allegiance}.svg`
                 
                 if (data[unit.coords.x][unit.coords.y] == undefined)
@@ -223,7 +223,7 @@ interface GridRowProps {
 }
 
 function GridRow({data, svgSquares, setGridCords, row, tileCoords, prevTileCoords, tileID, setTileCoords} : GridRowProps) {
-    // console.log(`[[[ Row rerendered: ${row } tileCoords: ${tileCoords?.x},${tileCoords?.y} ]]]`)
+    // console.log(`[[[ Row rerendered: ${row } tileCoords: (${tileCoords?.x},${tileCoords?.y}) prevTileCoords: (${prevTileCoords.current[1]?.x},${prevTileCoords.current[1]?.y}) ]]]`)
     // console.log(prevTileCoords)
 
     const childrenRef = useRef<(HTMLDivElement|undefined)[]>([]);
@@ -326,7 +326,7 @@ function GridCellTile({data, setGridCords, coords, tileCoords, setTileCoords, pr
             data-col = {coords.x}
             onMouseEnter={() => setGridCords(coords)}
             onMouseLeave={() => setGridCords(null)}
-            onClick={ () => (data === null) ? handleClickNoData() : handleClickYesData() }
+            onClick={ () => (data === undefined) ? handleClickNoData() : handleClickYesData() }
             key={`mapTile-${coords.x}-${coords.y}`}
             ref={element => {
                 if (element == null)

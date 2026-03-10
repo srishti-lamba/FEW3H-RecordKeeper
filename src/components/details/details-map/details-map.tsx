@@ -156,7 +156,10 @@ export interface UnitDataType {
     weapon : string;
     type : string;
     allegiance: string;
-    profile ?: string|JSX.Element;
+    profile : {
+        name ?: string;
+        url ?: string;
+    };
     sprite ?: string|JSX.Element;
     showSprite : boolean;
     appear ?: string;
@@ -250,17 +253,16 @@ export function Map({selectedRow} : MapProps) {
 
     }, [scrollElement.current])
 
+    // -----------------------
+    // --- Fetch SVG Props ---
+    // -----------------------
     useEffect(() => {
         let keys = Object.keys(selectedRow) as Array<string>
-        if (keys.length == 0) { // Only happens when page just loads
+        if (keys.length == 0) { // No selection
             setSvgProps(null);
             return;
         }
         let key = (keys[0] as unknown) as number
-        if (selectedRow[key] == false) { // Row was unselected
-            setSvgProps(null);
-            return;
-        }
         if (mapPath.length > key) // Map data exists
             setSvgProps(mapPath[key]);
         else

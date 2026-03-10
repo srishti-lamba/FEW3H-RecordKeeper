@@ -212,9 +212,9 @@ html {
                         color:rgb(30, 30, 30);
 
                         background-image:
-                            url(/public/images/ui-background/row/left-base.svg),
-                            url(/public/images/ui-background/row/right-base.svg),
-                            url(/public/images/ui-background/row/middle-base.svg);
+                            url(/public/images/ui-background/categoryRow/left-base.svg),
+                            url(/public/images/ui-background/categoryRow/right-base.svg),
+                            url(/public/images/ui-background/categoryRow/middle-base.svg);
                           background-repeat: 
                             no-repeat, no-repeat, no-repeat;
                           background-position:
@@ -262,11 +262,11 @@ html {
                       & .MuiCollapse-root {
 
                         & .MuiAccordionDetails-root {
-                          --padding: 0.5rem;
+                          --padding: 0.6rem;
 
                           display: flex;
                           flex-flow: column nowrap;
-                          gap: var(--padding);
+                          gap: calc(var(--padding) * 2);
 
                           margin: var(--padding);
                           margin-bottom: 0;
@@ -283,25 +283,73 @@ html {
                             display: flex;
                             flex-flow: column nowrap;
                             gap: 0.25rem;
-                            background-color: rgb(233,233,233,0.2);
+                            /* background-color: rgb(233,233,233,0.2); */
                             border-radius: 5px;
-                            padding: var(--padding) 0;
+                            /* padding: var(--padding) 0; */
+
+                            & .map-tooltip-subcategory-info {
+
+                            } /* .map-tooltip-subcategory-info */
 
                             & .map-tooltip-subcategory-header {
+                              color: rgb(180,169,123);
                               padding: 0 var(--padding);
+                              margin-bottom: calc(var(--padding)/2);
+                              position: relative;
+
+                              &:after { /* Underline of subcategory header */
+                                content: ' ';
+                                height: 1px;
+                                width: 100%;
+                                background-image: linear-gradient(
+                                  to right, 
+                                  transparent 0%,
+                                  /* rgb(169,152,104) 10%,
+                                  rgb(169,152,104) 90%, */
+                                  /* rgb(207,194,175) 10%,
+                                  rgb(207,194,175) 90%, */
+                                  rgb(180,169,123) 10%,
+                                  rgb(180,169,123) 90%,
+                                  transparent 100%
+                                ) !important;
+                                position: absolute;
+                                z-index: 10;
+                                left: 0%;
+                                bottom: -0.2em;
+                              }
                             }
 
                             & .map-tooltip-subcategory-row {
+                              --font-size: 0.8rem;
+                              --height: 0.8rem;
+                              --height: calc( var(--font-size)  * 1.25);
+
                               display: flex;
                               flex-flow: row nowrap;
+                              height: var(--height);
                               gap: 0.5rem;
                               letter-spacing: 0.05rem;
-                              font-size: 0.8rem;
-                              padding: 0 var(--padding) 0 calc(var(--padding) * 2);
+                              font-size: var(--font-size);
+                              padding: 0 var(--padding);
+                              align-items: center;
+                              justify-content: center;
 
-                              &:hover {
+                              background-image:
+                                url(/public/images/ui-background/subCategoryRow/left-base.svg),
+                                url(/public/images/ui-background/subCategoryRow/right-base.svg),
+                                url(/public/images/ui-background/subCategoryRow/middle-base.svg);
+                              background-repeat: 
+                                no-repeat, no-repeat, no-repeat;
+                              background-position:
+                                left, right, center;
+                              background-size: 
+                                auto, 
+                                auto, 
+                                calc(100% - ((var(--height) * 0.25)*2) + 1px) 100%;
+
+                              /* &:hover {
                                 background-color: rgb(233,233,233,0.15);
-                              }
+                              } */
 
                               & .map-tooltip-subcategory-row-info {
                                 display: flex;
@@ -311,12 +359,92 @@ html {
                                 & .map-tooltip-subcategory-row-icon {
                                   opacity: 1;
                                   display: block;
-                                  height: 1rem;
+                                  height: var(--font-size);
                                   align-self: center;
                                 }/* .map-tooltip-subcategory-row-icon */
                               }/* .map-tooltip-subcategory-row-info */
                             }/* map-tooltip-subcategory-row */
                           }/* .map-tooltip-subcategory */
+
+                          & .map-tooltip-unit {
+                            --header-height: 2em;
+
+                            display: flex;
+                            flex-flow: column nowrap;
+
+                            background-color: rgb(10,10,10);
+
+                            width: calc( var(--header-height) * 7.9 );
+
+                            &.blue > .map-tooltip-unit-name:before {
+                              background-image: url(../public/images/ui-background/unit-header/blue.png);
+                            }
+                            &.red > .map-tooltip-unit-name:before {
+                              background-image: url(../public/images/ui-background/unit-header/red.png);
+                            }
+                            &.green > .map-tooltip-unit-name:before {
+                              background-image: url(../public/images/ui-background/unit-header/green.png);
+                            }
+                            &.yellow > .map-tooltip-unit-name:before {
+                              background-image: url(../public/images/ui-background/unit-header/yellow.png);
+                            }
+
+                            & > .map-tooltip-unit-name {
+                              display: block;
+                              height: var(--header-height);
+                              aspect-ratio: 8;
+                              /* margin-bottom: calc( var(--height) * -0.10447761194); */
+                              overflow: visible;
+                              position: relative;
+                              
+                              align-content: center;
+
+                              /* background-image: url(../public/images/ui-background/unit-header/red.png);
+                              background-size: 100% calc( var(--header-height) * 0.10447761194); */
+                              
+                              & > span {
+                                display: block;
+                                position: relative;
+                                width: 100%;
+                                text-align: center;
+                              }
+
+                              &:before {
+                                content: ' ';
+                                display: block;
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                /* height: calc(var(--header-height) * 1.10447761194); */
+                                height: calc(var(--header-height) * 1.113);
+                                /* aspect-ratio: 7.16417910448; */
+                                /* aspect-ratio: 7.12; */
+                                width: 100%;
+                                background-size: contain;
+                              }
+                            }/* .map-tooltip-unit-name */
+
+                            & .map-tooltip-unit-details {
+
+                              padding: 0.5rem;
+                              padding-top: -1px;
+
+                              border: 1px solid rgb(121,98,66);
+                              border-top: none;
+
+                              & .map-tooltip-unit-details-basic {
+
+                                & .map-tooltip-unit-details-basic-profile {
+                                  height: 4em;
+                                  opacity: 1;
+                                }/* .map-tooltip-unit-details-basic-profile */
+
+                              } /* .map-tooltip-unit-details-basic */
+
+                            } /* .map-tooltip-unit-details */
+
+                          }/* .map-tooltip-unit */
+
                         } /* .MuiAccordionDetails-root */
                       } /* .MuiCollapse-root */
                     } /* .MuiAccordion-root */

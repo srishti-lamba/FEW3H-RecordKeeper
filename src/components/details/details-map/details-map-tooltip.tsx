@@ -1,8 +1,9 @@
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { memo } from "react";
-import { GridCellDataType, CoordinateType, StrongholdDataType, UnitDataSummaryType, PotDataType } from "./details-map";
+import { GridCellDataType, CoordinateType, StrongholdDataType, UnitDataSummaryType, PotDataType, UnitDataType } from "./details-map";
 import { WeaponDataType, Weapons } from "../weapon-data";
+import { LanguageVariant } from "typescript";
 
 interface TooltipContentProps {
     data : GridCellDataType[][];
@@ -98,7 +99,44 @@ function TooltipContent({data: dataAll, tileCoords} : TooltipContentProps) {
                     </AccordionSummary>
                     <AccordionDetails>
                         <span className="map-tooltip-subcategory">
-                            <span className="map-tooltip-subcategory-header">{pot.description}</span>
+                            <span className="map-tooltip-subcategory-info">{pot.description}</span>
+                        </span>
+                    </AccordionDetails>
+            </Accordion>
+        )
+    }
+
+    // -------------
+    // --- Units ---
+    // -------------
+    var unit : UnitDataType|undefined = data.unit;
+    if ( unit !== undefined ) {
+        children.push(
+            <Accordion>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                    >
+                        <img 
+                            className="map-tooltip-category-icon"
+                            src={unit.sprite as string}
+                        />
+                        <span className="map-tooltip-category-title">{unit.class}</span>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <span className={`map-tooltip-unit ${unit.allegiance}`}>
+                            <span className="map-tooltip-unit-name">
+                                <span>{unit.name}</span>
+                            </span>
+                            <span className="map-tooltip-unit-details">
+                                <span className="map-tooltip-unit-details-basic">
+                                    <img
+                                        className="map-tooltip-unit-details-basic-profile"
+                                        src={unit.profile.url as string}
+                                    />
+                                    <span className="map-tooltip-unit-details-level">Lv. ???</span>
+                                </span>
+                                
+                            </span>
                         </span>
                     </AccordionDetails>
             </Accordion>

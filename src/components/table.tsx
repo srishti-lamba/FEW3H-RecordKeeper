@@ -15,9 +15,10 @@ import {
   useMaterialReactTable,
   createMRTColumnHelper,
   MRT_RowSelectionState,
+  MRT_Row,
 } from 'material-react-table';
 
-interface Row {
+export interface Row {
   id : number;
   route : string;
   chapter : string;
@@ -61,13 +62,18 @@ interface TableProps {
   difficulty : number;
   selectedRow : MRT_RowSelectionState;
   setSelectedRow : any;
+  selectedRowData : React.RefObject<Row|null>;
 }
 
-export default function Table( {allMissions, allChapters, difficulty, selectedRow, setSelectedRow} : TableProps) {
+export default function Table( {allMissions, allChapters, difficulty, selectedRow, setSelectedRow, selectedRowData} : TableProps) {
 
   const [ data, setData ] = useState<Row[]>([])
   // const [selectedRow, setSelectedRow] = useState<MRT_RowSelectionState>({});
   
+
+  // -------------------
+  // --- Create Data ---
+  // -------------------
   function createData() : void {
     console.log("Starting Create Table Data");
 
@@ -133,6 +139,9 @@ export default function Table( {allMissions, allChapters, difficulty, selectedRo
     
   }
 
+  // ---------------------
+  // --- Update Levels ---
+  // ---------------------
   function updateLevels() {
 
     // console.log("Started Update Levels");
@@ -244,11 +253,17 @@ const table = useMaterialReactTable({
       onClick: () =>
         setSelectedRow((prev : any) => {
           let blankState : MRT_RowSelectionState = {};
-          return(
-          {
-          ...blankState,
-          [row.id]: !prev[row.id],
-        })}),
+          // Row was selected previously
+          if (prev[row.id] !== undefined) {
+            selectedRowData.current = null;
+            return blankState;
+          }
+          // Row not selected previously
+          else {
+            selectedRowData.current = row.original;
+            return {[row.id]: true};
+          }
+        }),
       selected: selectedRow[row.id],
       className: row.original.type == 0 ? "side-mission" : "main-mission",
       sx: {
@@ -260,30 +275,6 @@ const table = useMaterialReactTable({
     positionToolbarAlertBanner: 'none',
     onRowSelectionChange: setSelectedRow,
     state: { rowSelection: selectedRow },
-    // muiTableHeadCellProps: {
-    //   sx: {
-    //     '&[data-index="2"]': { //Level
-    //       color: "red",
-    //       "width": "min-content",
-    //       "min-width": "min-content"
-    //     }
-    //   }
-    // },
-    // muiTableBodyCellProps: { // Level
-    //   sx: {
-    //     color: "blue",
-    //     '&.MuiTableRow-root': {
-    //       color: "red",
-    //     }   
-    //     '&[data-index="2"]': {
-    //       color: "red",
-    //       "width": "min-content",
-    //       "min-width": "min-content"
-    //     }
-    //   }
-    //   }
-    // }
- 
   });
 
   // Run once
