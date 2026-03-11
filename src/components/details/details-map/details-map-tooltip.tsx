@@ -1,16 +1,19 @@
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { memo } from "react";
+import { Tooltip } from "react-tooltip";
+import { ClassType, memo } from "react";
 import { GridCellDataType, CoordinateType, StrongholdDataType, UnitDataSummaryType, PotDataType, UnitDataType } from "./details-map";
 import { WeaponDataType, Weapons } from "../weapon-data";
-import { LanguageVariant } from "typescript";
+import { Row } from "../../table";
+import { Classes } from "../class-data";
 
 interface TooltipContentProps {
     data : GridCellDataType[][];
     tileCoords : CoordinateType|null;
+    selectedRowData : React.RefObject<Row|null>;
 }
 
-function TooltipContent({data: dataAll, tileCoords} : TooltipContentProps) {
+function TooltipContent({data: dataAll, tileCoords, selectedRowData} : TooltipContentProps) {
 
     console.log("[[[ Tooltip rerender ]]]")
 
@@ -111,6 +114,102 @@ function TooltipContent({data: dataAll, tileCoords} : TooltipContentProps) {
     // -------------
     var unit : UnitDataType|undefined = data.unit;
     if ( unit !== undefined ) {
+
+        // LevelTypeRow
+        var levelTypeRow = (
+            <span className="map-tooltip-unit-details-info-leveltypeRow">
+                {/* === Level === */}
+                <span className="map-tooltip-unit-details-info-level">
+                    {`Lv ${selectedRowData.current?.level}`}
+                </span>
+                {/* === Class Type === */}
+                <span className="map-tooltip-unit-details-info-type">
+                    {
+                        Classes.class[unit.class].types.map( (type : string) => {
+                            let typeLower : string = type.toLowerCase();
+                            let typeID : string = `tile-${unit?.coords.x}-${unit?.coords.y}-unit-${typeLower}Type`;
+                            let icon : string = `${process.env.PUBLIC_URL}/images/icons/class-types/${typeLower}.png`;
+                            return (<>
+                                <img
+                                    id={typeID}
+                                    src={icon}
+                                />
+                                <Tooltip
+                                    anchorSelect={`#${typeID}`}
+                                    content={`${type}`}
+                                    key={`${typeID}-tooltip`}
+                                    place="bottom"
+                                />
+                            </>)
+                        })
+                    }
+                </span>
+            </span>
+        )
+
+        // ClassRow
+        let classData = Classes.class[unit.class];
+        let classLower = unit.class.toLowerCase();
+        let classID = `tile-${unit.coords.x}-${unit.coords.y}-unit-${classLower}Class`
+        var classRow = (
+            <span className="map-tooltip-unit-details-info-classRow">
+                <img src={unit.sprite as string} />
+                <span id={classID}>
+                    {unit.class}
+                </span>
+                <Tooltip
+                    anchorSelect={`#${classID}`}
+                    content={classData.description}
+                    key={`${classID}-tooltip`}
+                    place="bottom"
+                />
+            </span>
+        )
+
+        // WeaponRow
+        let weaponData : WeaponDataType|null = Weapons.getData(unit.weapon);
+        var weaponRow = <></>
+        if (weaponData !== null) {
+            console.log("WeaponData")
+            console.log(weaponData)
+            let weaponID : string = `tile-${unit?.coords.x}-${unit?.coords.y}-unit-weapon`
+            weaponRow = (
+                <span 
+                    className="map-tooltip-unit-details-info-weaponRow" 
+                    id={weaponID}
+                >
+                    <img src={weaponData.icon} />
+                    <span >
+                        {unit.weapon}
+                    </span>
+                    <Tooltip
+                        anchorSelect={`#${weaponID}`}
+                        children={
+                            <>
+                                <span>
+                                    Advantage: {
+                                        (weaponData.advantage !== undefined) && 
+                                        Array.from(weaponData.advantage).map( (weapon) => (
+                                        <img src={Weapons.getIcon(weapon, Weapons.type.REGULAR)} />
+                                    ))}
+                                </span>
+                                <span>
+                                    Disadvantage: {
+                                        (weaponData.disadvantage !== undefined) && 
+                                        Array.from(weaponData.disadvantage).map( (weapon) => (
+                                        <img src={Weapons.getIcon(weapon, Weapons.type.REGULAR)} />
+                                    ))}
+                                </span>
+                            </>
+                        }
+                        key={`${weaponID}-tooltip`}
+                        place="bottom"
+                    />
+                </span>
+            )
+        }
+
+        // All together
         children.push(
             <Accordion>
                     <AccordionSummary
@@ -128,13 +227,17 @@ function TooltipContent({data: dataAll, tileCoords} : TooltipContentProps) {
                                 <span>{unit.name}</span>
                             </span>
                             <span className="map-tooltip-unit-details">
-                                <span className="map-tooltip-unit-details-basic">
-                                    <img
-                                        className="map-tooltip-unit-details-basic-profile"
-                                        src={unit.profile.url as string}
-                                    />
-                                    <span className="map-tooltip-unit-details-level">Lv. ???</span>
+                                <span
+                                    className="map-tooltip-unit-details-profile"
+                                >
+                                    {/* === Profile === */}
+                                    <img src={unit.profile.url as string} />
                                 </span>
+                                <span className="map-tooltip-unit-details-info">
+                                    {levelTypeRow}
+                                    {classRow}
+                                    {weaponRow}
+                                </span> {/* .map-tooltip-unit-details-info */}
                                 
                             </span>
                         </span>

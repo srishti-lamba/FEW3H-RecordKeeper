@@ -47,7 +47,7 @@ function App() {
           />
         </Pane>
         <Pane>
-          <Details selectedRow={selectedRow} />
+          <Details selectedRow={selectedRow} selectedRowData={selectedRowData} />
         </Pane>
       </SplitPane>
 

@@ -369,12 +369,14 @@ html {
                           & .map-tooltip-unit {
                             --header-height: 2em;
 
+                            box-sizing: border-box;
                             display: flex;
                             flex-flow: column nowrap;
 
                             background-color: rgb(10,10,10);
 
-                            width: calc( var(--header-height) * 7.9 );
+                            /* width: calc( var(--header-height) * 8 ); */
+                            width: calc( var(--header-height) * (480/60) - 6px );
 
                             &.blue > .map-tooltip-unit-name:before {
                               background-image: url(../public/images/ui-background/unit-header/blue.png);
@@ -389,10 +391,36 @@ html {
                               background-image: url(../public/images/ui-background/unit-header/yellow.png);
                             }
 
+                            &.blue .map-tooltip-unit-details-profile {
+                              background-image: url(../public/images/ui-background/unit-profile/blue.png);
+                            }
+                            &.red .map-tooltip-unit-details-profile {
+                              background-image: url(../public/images/ui-background/unit-profile/red.png);
+                            }
+                            &.green .map-tooltip-unit-details-profile {
+                              background-image: url(../public/images/ui-background/unit-profile/green.png);
+                            }
+                            &.yellow .map-tooltip-unit-details-profile {
+                              background-image: url(../public/images/ui-background/unit-profile/yellow.png);
+                            }
+
+                            &.blue .react-tooltip {
+                              background-color: rgb(50, 50, 100);
+                            }
+                            &.red .react-tooltip {
+                              background-color: rgb(100, 50, 50);
+                            }
+                            &.green .react-tooltip {
+                              background-color: rgb(50, 100, 50);
+                            }
+                            &.yellow .react-tooltip {
+                              background-color: rgb(100, 100, 50);
+                            }
+
                             & > .map-tooltip-unit-name {
                               display: block;
                               height: var(--header-height);
-                              aspect-ratio: 8;
+                              /* aspect-ratio: 7.16417910448; */
                               /* margin-bottom: calc( var(--height) * -0.10447761194); */
                               overflow: visible;
                               position: relative;
@@ -415,31 +443,130 @@ html {
                                 position: absolute;
                                 top: 0;
                                 left: 0;
-                                /* height: calc(var(--header-height) * 1.10447761194); */
-                                height: calc(var(--header-height) * 1.113);
+                                height: calc(var(--header-height) * 1.10447761194);
+                                /* height: calc(var(--header-height) * 1.113); */
                                 /* aspect-ratio: 7.16417910448; */
                                 /* aspect-ratio: 7.12; */
                                 width: 100%;
                                 background-size: contain;
+                                background-repeat: no-repeat;
                               }
                             }/* .map-tooltip-unit-name */
 
                             & .map-tooltip-unit-details {
+                              --padding: 0.5rem;
 
-                              padding: 0.5rem;
-                              padding-top: -1px;
+                              box-sizing: border-box;
+                              padding: var(--padding);
+                              margin-top: -1px;
 
                               border: 1px solid rgb(121,98,66);
                               border-top: none;
 
-                              & .map-tooltip-unit-details-basic {
+                              display: flex;
+                              flex-flow: row nowrap;
+                              gap: var(--padding);
 
-                                & .map-tooltip-unit-details-basic-profile {
+                                & .map-tooltip-unit-details-profile {
+                                  display: block;
                                   height: 4em;
-                                  opacity: 1;
+                                  aspect-ratio: 1;
+                                  position: relative;
+                                  background-size: cover;
+
+                                  &::after {
+                                    content: ' ';
+                                    display: block;
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    height: 100%;
+                                    width: 100%;
+                                    background-image: url(../public/images/ui-background/unit-profile-border.svg);
+                                  }
+
+                                  & > img {
+                                    height: 100%;
+                                    width: 100%;
+                                  }
+
                                 }/* .map-tooltip-unit-details-basic-profile */
 
-                              } /* .map-tooltip-unit-details-basic */
+                                & .map-tooltip-unit-details-info {
+                                  flex-grow: 1;
+                                  display: flex;
+                                  flex-flow: column nowrap;
+                                  justify-content: space-between;
+
+                                  & .map-tooltip-unit-details-info-leveltypeRow {
+                                    display: flex;
+                                    flex-flow: row nowrap;
+                                    justify-content: space-between;
+
+                                    & .map-tooltip-unit-details-info-level {
+                                      letter-spacing: -0.05em;
+                                    }/* .map-tooltip-unit-details-info-level */
+
+                                    & .map-tooltip-unit-details-info-type {
+                                      & > img {
+                                        height: 1em;
+                                      }
+                                    }/* .map-tooltip-unit-details-info-type */
+                                  }/* .map-tooltip-unit-details-info-leveltypeRow */
+
+                                  & .map-tooltip-unit-details-info-classRow {
+                                    display: flex;
+                                    flex-flow: row nowrap;
+                                    align-content: center;
+                                    gap: var(--padding);
+
+                                    & img {
+                                      height: 1.25em;
+                                    }
+
+                                    & .react-tooltip {
+                                      font-size: 0.85em;
+                                      max-width: 15em;
+                                    }
+                                  } /* .map-tooltip-unit-details-info-classRow */
+
+                                  & .map-tooltip-unit-details-info-weaponRow {
+                                    --height : 1.25em;
+                                    
+                                    display: flex;
+                                    flex-flow: row nowrap;
+                                    align-items: center;
+                                    gap: var(--padding);
+                                    height: var(--height);
+                                    padding: 0 var(--padding);
+
+                                    background-image:
+                                      url(/public/images/ui-background/subCategoryRow/left-base.svg),
+                                      url(/public/images/ui-background/subCategoryRow/right-base.svg),
+                                      url(/public/images/ui-background/subCategoryRow/middle-base.svg);
+                                    background-repeat: 
+                                      no-repeat, no-repeat, no-repeat;
+                                    background-position:
+                                      left, right, center;
+                                    background-size: 
+                                      auto, 
+                                      auto, 
+                                      calc(100% - ((var(--height) * 0.25)*2) + 1px) 100%;
+
+                                    & img {
+                                      height: 1em;
+                                    }
+
+                                    & .react-tooltip {
+                                      display: flex;
+                                      flex-flow: column nowrap;
+                                    }
+
+                                  } /* .map-tooltip-unit-details-info-weaponRow */
+
+                                }/* .map-tooltip-unit-details-info */
+
+                              /* } .map-tooltip-unit-details-basic */
 
                             } /* .map-tooltip-unit-details */
 
@@ -1240,3 +1367,74 @@ html {
     background-color: blue !important;
   }
 } */
+
+/* 
+
+=== JANUARY ===
+
+4-10: 32 hours
+   - Sun 4th:  8 hours
+   - Thu 8th:  8 hours
+   - Fri 9th:  8 hours
+   - Sat 10th: 8 hours
+
+11-17: 39 hours
+   - Sun 11th: 8 hours
+   - Wed 14th: 7 hours
+   - Thu 15th: 8 hours
+   - Fri 16th: 8 hours
+   - Sat 17th: 8 hours
+
+18-24: 38 hours
+   - Sun 18th: 8 hours
+   - Mon 19th: 8 hours
+   - Thu 22nd: 8 hours
+   - Fri 23rd: 6 hours
+   - Sat 24th: 8 hours
+
+25-31: 34 hours
+   - Sun 25th: 8 hours
+   - Mon 26th: 8 hours
+   - Thu 29th: 5 hours
+   - Fri 30th: 5 hours
+   - Sat 31st: 8 hours 
+
+=== FEBRUARY ===
+
+1-7: 22 hours
+   - Sun 1st: 8 hours
+   - Mon 2nd: 6 hours
+   - Sat 7th: 8 hours
+
+8-14: 28 hours
+   - Sun 8th:  8 hours
+   - Thu 12th: 6 hours
+   - Fri 13th: 6 hours
+   - Sat 14th: 8 hours
+
+15-21: 24 hours
+   - Sun 15th: 8 hours
+   - Mon 16th: 8 hours
+   - Sat 21st: 8 hours
+
+22-28: 32 hours
+   - Mon 23rd: 8 hours
+   - Wed 25th: 6 hours
+   - Thu 26th: 6 hours
+   - Fri 27th: 6 hours
+   - Sat 28th: 6 hours
+
+=== MARCH ===
+
+1-7: 36 hours
+   - Sun 1st: 8 hours
+   - Mon 2nd: 8 hours
+   - Thu 5th: 6 hours
+   - Fri 6th: 6 hours
+   - Sat 7th: 8 hours
+
+8-14: 16 hours
+   - Sun 8th:  8 hours
+   - Sat 14th: 8 hours
+
+*/

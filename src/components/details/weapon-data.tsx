@@ -6,7 +6,8 @@ export interface WeaponDataType {
     icon ?: string;
     category : string;
     type : string;
-    effective ?: string[];
+    advantage ?: Set<string>;
+    disadvantage ?: Set<string>;
 }
 
 interface WeaponListType {
@@ -27,7 +28,7 @@ interface WeaponType {
 
 export class Weapons {
 
-    static categories : WeaponListType = {
+    public static categories : WeaponListType = {
         SWORD : "sword",
         LANCE : "lance",
         AXE : "axe",
@@ -36,7 +37,16 @@ export class Weapons {
         BRAWL : "brawl"
     }
 
-    static weakness : Dictionary<string> = {
+    static advantage : Dictionary<string> = {
+        sword: Weapons.categories.AXE,
+        lance: Weapons.categories.SWORD,
+        axe: Weapons.categories.LANCE,
+        bow: Weapons.categories.BRAWL,
+        reason: Weapons.categories.BOW,
+        brawl: Weapons.categories.REASON
+    }
+
+    static disadvantage : Dictionary<string> = {
         sword: Weapons.categories.LANCE,
         lance: Weapons.categories.AXE,
         axe: Weapons.categories.SWORD,
@@ -45,7 +55,7 @@ export class Weapons {
         brawl: Weapons.categories.BOW
     }
 
-    static type : WeaponType = {
+    public static type : WeaponType = {
         REGULAR: "Regular",
         SACRED_WEAPON: "Sacred Weapon",
         HEROS_RELIC: "Hero's Relic",
@@ -53,6 +63,10 @@ export class Weapons {
     }
 
     static weapons : Dictionary<WeaponDataType> = {
+        "Iron Sword" : {
+            category : Weapons.categories.SWORD,
+            type : Weapons.type.REGULAR
+        },
         "Iron Axe" : {
             category : Weapons.categories.AXE,
             type : Weapons.type.REGULAR
@@ -67,15 +81,25 @@ export class Weapons {
 
         // Icon
         if (weapon.icon === undefined)
-            weapon.icon = `${process.env.PUBLIC_URL}/images/icons/weapons/${weapon.category.toLowerCase()}-${weapon.type.toLowerCase().replaceAll(" ","").replaceAll("'","")}.png`
+            weapon.icon = Weapons.getIcon(weapon.category, weapon.type);
         
-        // Effectiveness
-        if (weapon.effective === undefined)
-            weapon.effective = [Weapons.weakness[weapon.category]];
+        // Advantage
+        if (weapon.advantage === undefined)
+            weapon.advantage = new Set([Weapons.advantage[weapon.category]]);
         else
-            weapon.effective.unshift(Weapons.weakness[weapon.category]);
+            weapon.advantage = new Set([Weapons.advantage[weapon.category]]).union(weapon.advantage);
+
+        // Disadvantage
+        if (weapon.disadvantage === undefined)
+            weapon.disadvantage = new Set([Weapons.disadvantage[weapon.category]]);
+        else
+            weapon.disadvantage = new Set([Weapons.disadvantage[weapon.category]]).union(weapon.disadvantage);
         
         return weapon;
+    }
+
+    public static getIcon(category : string, type : string) {
+        return `${process.env.PUBLIC_URL}/images/icons/weapons/${category.toLowerCase()}-${type.toLowerCase().replaceAll(" ","").replaceAll("'","")}.png`
     }
 
 }

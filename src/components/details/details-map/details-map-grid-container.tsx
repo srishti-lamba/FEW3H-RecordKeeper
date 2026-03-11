@@ -2,16 +2,18 @@ import React, { JSX, memo, useEffect, useMemo, useRef, useState } from "react";
 import { GridCellType, GridCellDataType, PotDataType, SvgPropsType, FillsType, CoordinateType, size_SpecificType, StrongholdDataType, UnitDataSummaryType, UnitDataType } from "./details-map";
 import { Tooltip } from "react-tooltip";
 import { MemoizedTooptipContent } from "./details-map-tooltip";
+import { Row } from "../../table";
 
 interface GridContainerProps {
     svgProps : SvgPropsType;
+    selectedRowData : React.RefObject<Row|null>;
     fills : FillsType;
     getPotFill : any;
     gridCells : React.RefObject<GridCellType[]>;
     setGridCords : any;
 }
 
-export function GridContainer({svgProps, fills, getPotFill, gridCells, setGridCords} : GridContainerProps) {
+export function GridContainer({svgProps, selectedRowData, fills, getPotFill, gridCells, setGridCords} : GridContainerProps) {
 
     const [tileCoords, setTileCoords] = useState<CoordinateType|null>(null);
     const prevTileCoords = useRef<(CoordinateType|null)[]>([null, null]);
@@ -182,6 +184,10 @@ export function GridContainer({svgProps, fills, getPotFill, gridCells, setGridCo
         return rows;
     }
 
+    // --------------
+    // --- Return ---
+    // --------------
+
     // console.log(`rerender, tileID: ${tileID.current}`)
     return (
         <div 
@@ -196,6 +202,7 @@ export function GridContainer({svgProps, fills, getPotFill, gridCells, setGridCo
                     < MemoizedTooptipContent 
                         data={data.current} 
                         tileCoords={tileCoords}
+                        selectedRowData={selectedRowData}
                     />
                 )}
                 openOnClick={true}

@@ -4,6 +4,7 @@ import mapPath from '../../../db/map-path.json';
 import { JSX } from 'react/jsx-runtime';
 import { GridContainer } from './details-map-grid-container';
 import Slider from '@mui/material/Slider'
+import { Row } from '../../table';
 
 /* 
     Websites
@@ -154,7 +155,6 @@ export interface UnitDataType {
     name : string;
     class : string;
     weapon : string;
-    type : string;
     allegiance: string;
     profile : {
         name ?: string;
@@ -171,9 +171,10 @@ export interface UnitDataType {
 
 interface MapProps {
     selectedRow : MRT_RowSelectionState;
+    selectedRowData : React.RefObject<Row|null>;
 }
 
-export function Map({selectedRow} : MapProps) {
+export function Map({selectedRow, selectedRowData} : MapProps) {
 
     const [svgProps, setSvgProps] = useState<SvgPropsType | undefined | null>(undefined);
     const [gridCords, setGridCords] = useState<CoordinateType | null>(null);
@@ -442,6 +443,7 @@ export function Map({selectedRow} : MapProps) {
                         </svg>
                         <GridContainer 
                             svgProps={svgProps} 
+                            selectedRowData={selectedRowData}
                             fills={fills} 
                             getPotFill={getPotFill}
                             gridCells={gridCells} 
