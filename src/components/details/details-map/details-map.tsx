@@ -5,6 +5,7 @@ import { JSX } from 'react/jsx-runtime';
 import { GridContainer } from './details-map-grid-container';
 import Slider from '@mui/material/Slider'
 import { Row } from '../../table';
+import { Classes } from '../class-data';
 
 /* 
     Websites
@@ -165,6 +166,7 @@ export interface UnitDataType {
     appear ?: string;
     disappear ?: string;
     coords : CoordinateType;
+    notes ?: string;
 }
 
 // === Class Props ===
@@ -436,7 +438,7 @@ export function Map({selectedRow, selectedRowData} : MapProps) {
                                             // style={{"--transfromX": (unit.coords.x-0.75)*tileWidth }}
                                             className="map-grid-tile-unit-sprite"
                                             // transform={`translate(${ (unit.coords.x-0.75)*tileWidth },${ (unit.coords.y-0.75)*tileWidth })`}
-                                            xlinkHref={`${process.env.PUBLIC_URL}/images/icons/sprites/${unit.class.toLowerCase()}/${unit.allegiance}.svg`} 
+                                            xlinkHref={Classes.getClassSprite(unit.class, unit.allegiance)} 
                                         />
                                 )})
                             }

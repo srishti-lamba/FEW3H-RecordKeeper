@@ -3,6 +3,7 @@ import { GridCellType, GridCellDataType, PotDataType, SvgPropsType, FillsType, C
 import { Tooltip } from "react-tooltip";
 import { MemoizedTooptipContent } from "./details-map-tooltip";
 import { Row } from "../../table";
+import { Classes } from "../class-data";
 
 interface GridContainerProps {
     svgProps : SvgPropsType;
@@ -147,8 +148,8 @@ export function GridContainer({svgProps, selectedRowData, fills, getPotFill, gri
                     return;
 
                 var unitData : UnitDataType = unit;
-                unitData.profile.url = `${process.env.PUBLIC_URL}/images/icons/profiles/${unit.profile?.name}.png`
-                unitData.sprite = `${process.env.PUBLIC_URL}/images/icons/sprites/${unitData.class.toLowerCase()}/${unitData.allegiance}.svg`
+                unitData.profile.url = Classes.getClassProfile(unit.class, unit.profile.name as string);
+                unitData.sprite = Classes.getClassSprite(unit.class, unit.allegiance);
                 
                 if (data[unit.coords.x][unit.coords.y] == undefined)
                     data[unit.coords.x][unit.coords.y] = {unit: unitData};

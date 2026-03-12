@@ -6,6 +6,31 @@ html {
   font-size: var(--font-size);
 }
 
+& .header-brown-underlined {
+  display: block;
+  color: rgb(180,169,123);
+  padding: 0 var(--padding);
+  margin-bottom: calc(var(--padding)/2);
+  position: relative;
+
+  &:after { /* Underline of subcategory header */
+    content: ' ';
+    height: 0.75px;
+    width: 100%;
+    background-image: linear-gradient(
+      to right, 
+      transparent 0%,
+      rgb(180,169,123) 10%,
+      rgb(180,169,123) 90%,
+      transparent 100%
+    ) !important;
+    position: absolute;
+    z-index: 10;
+    left: 0%;
+    bottom: -0.2em;
+  }
+}
+
 .App {
   background-color: white;
   color: black;
@@ -190,6 +215,7 @@ html {
                     display: flex;
                     flex-flow: column nowrap;
                     align-items: stretch;
+                    gap: 0.6rem;
 
                     & .MuiAccordion-root {
                       background-color: unset;
@@ -236,7 +262,7 @@ html {
                           & .MuiAccordionSummary-content {
                             margin: 0;
                             font-family: var(--font-family);
-                            font-weight: bold;
+                            /* font-weight: bold; */
 
                             & .map-tooltip-category-icon {
                               opacity: 1;
@@ -248,8 +274,9 @@ html {
                             } /* .map-tooltip-category-icon */
 
                             & .map-tooltip-category-title {
-                              margin-bottom: -0.2rem;
-                              letter-spacing: 0.01rem;
+                              font-size: 0.9rem;
+                              margin-bottom: 0.1rem;
+                              letter-spacing: 0.02rem;
                             }
 
                           } /* .MuiAccordionSummary-content */
@@ -292,31 +319,10 @@ html {
                             } /* .map-tooltip-subcategory-info */
 
                             & .map-tooltip-subcategory-header {
-                              color: rgb(180,169,123);
+                              /* color: rgb(180,169,123);
                               padding: 0 var(--padding);
                               margin-bottom: calc(var(--padding)/2);
-                              position: relative;
-
-                              &:after { /* Underline of subcategory header */
-                                content: ' ';
-                                height: 1px;
-                                width: 100%;
-                                background-image: linear-gradient(
-                                  to right, 
-                                  transparent 0%,
-                                  /* rgb(169,152,104) 10%,
-                                  rgb(169,152,104) 90%, */
-                                  /* rgb(207,194,175) 10%,
-                                  rgb(207,194,175) 90%, */
-                                  rgb(180,169,123) 10%,
-                                  rgb(180,169,123) 90%,
-                                  transparent 100%
-                                ) !important;
-                                position: absolute;
-                                z-index: 10;
-                                left: 0%;
-                                bottom: -0.2em;
-                              }
+                              position: relative; */
                             }
 
                             & .map-tooltip-subcategory-row {
@@ -373,7 +379,7 @@ html {
                             display: flex;
                             flex-flow: column nowrap;
 
-                            background-color: rgb(10,10,10);
+                            /* background-color: rgb(10,10,10); */
 
                             /* width: calc( var(--header-height) * 8 ); */
                             width: calc( var(--header-height) * (480/60) - 6px );
@@ -460,6 +466,8 @@ html {
                               padding: var(--padding);
                               margin-top: -1px;
 
+                               background-color: rgb(10,10,10);
+
                               border: 1px solid rgb(121,98,66);
                               border-top: none;
 
@@ -508,6 +516,10 @@ html {
                                     }/* .map-tooltip-unit-details-info-level */
 
                                     & .map-tooltip-unit-details-info-type {
+                                      display: flex;
+                                      flex-flow: row nowrap;
+                                      gap: calc( var(--padding) / 2 );
+
                                       & > img {
                                         height: 1em;
                                       }
@@ -560,7 +572,14 @@ html {
                                     & .react-tooltip {
                                       display: flex;
                                       flex-flow: column nowrap;
-                                    }
+                                      max-width: 15em;
+                                      font-size: 0.85em;
+
+                                      & .map-tooltip-unit-details-info-weapon-description {
+                                        
+                                      } /* .map-tooltip-unit-details-info-weapon-description */
+                                      
+                                    } /* .react-tooltip */
 
                                   } /* .map-tooltip-unit-details-info-weaponRow */
 
@@ -569,6 +588,102 @@ html {
                               /* } .map-tooltip-unit-details-basic */
 
                             } /* .map-tooltip-unit-details */
+
+                            & .map-tooltip-unit-details-info-weapon-advantages {
+
+                              margin-top: var(--padding);
+                              padding: var(--padding);
+
+                              border: 1px solid rgb(121,98,66);
+                              background-color: rgb(10,10,10);
+
+                              font-size: 0.8rem;
+
+                              & .map-tooltip-unit-details-info-weapon-advantageRow {
+                                display: flex;
+                                flex-flow: row nowrap;
+                                gap: calc(var(--padding) / 2);
+                                width: 100%;
+                                justify-content: center;
+
+                                & .map-tooltip-unit-details-info-weapon-advantageCol {
+                                  --height: 2.5em;
+                                  --padding: 4px;
+
+                                  height: var(--height);
+                                  width: calc( var(--height) / 2);
+                                  display: flex;
+                                  flex-flow: column nowrap;
+                                  align-items: stretch;
+                                  padding: var(--padding) calc( var(--padding) / 1.5 );
+
+                                  background-image:
+                                    url(/public/images/ui-background/subCategoryColumn/top.svg),
+                                    url(/public/images/ui-background/subCategoryColumn/bottom.svg),
+                                    url(/public/images/ui-background/subCategoryColumn/middle.svg);
+                                  background-repeat: 
+                                    no-repeat, no-repeat, no-repeat;
+                                  background-position:
+                                    top, bottom, center;
+                                  background-size: 
+                                    auto, 
+                                    auto, 
+                                    100% calc(100% - ( ((var(--height) * (10/35))*2) - (var(--padding)*2) ) );
+
+                                  & img {
+                                    aspect-ratio: 1;
+                                    flex-basis: fit-content;
+                                  }
+
+                                } /* .map-tooltip-unit-details-info-weapon-advantageCol */
+                              } /* .map-tooltip-unit-details-info-weapon-advantageRow */
+
+                            } /* .map-tooltip-unit-details-info-weapon-advantages */
+
+                            & .map-tooltip-unit-details-info-miscRow {
+
+                              display: flex;
+                              flex-flow: column nowrap;
+                              gap: calc( var(--padding) / 2 );
+
+                              margin-top: var(--padding);
+                              padding: var(--padding);
+
+                              border: 1px solid rgb(121,98,66);
+                              background-color: rgb(10,10,10);
+
+                              & > span:first-child {
+                                width: 100%;
+                                box-sizing: border-box;
+                              }
+
+                              & > span:not(:first-child) {
+                                font-size: 0.8rem;
+                              }
+
+                              /* There is body above note */
+                              & > .map-tooltip-unit-details-info-miscRow-notes:not(:nth-of-type(2)) {
+                                position: relative;
+                                margin-top: calc( var(--padding) / 2);
+
+                                &:after {
+                                  content: ' ';
+                                  height: 0.5px;
+                                  width: 100%;
+                                  background-image: linear-gradient(
+                                    to right, 
+                                    transparent 0%,
+                                    rgb(180,169,123) 10%,
+                                    rgb(180,169,123) 90%,
+                                    transparent 100%
+                                  ) !important;
+                                  position: absolute;
+                                  left: 0%;
+                                  top: calc( (var(--padding) / 2) * -1 );
+                                }
+                              }
+
+                            } /* .map-tooltip-unit-details-info-miscRow */
 
                           }/* .map-tooltip-unit */
 
@@ -1367,74 +1482,3 @@ html {
     background-color: blue !important;
   }
 } */
-
-/* 
-
-=== JANUARY ===
-
-4-10: 32 hours
-   - Sun 4th:  8 hours
-   - Thu 8th:  8 hours
-   - Fri 9th:  8 hours
-   - Sat 10th: 8 hours
-
-11-17: 39 hours
-   - Sun 11th: 8 hours
-   - Wed 14th: 7 hours
-   - Thu 15th: 8 hours
-   - Fri 16th: 8 hours
-   - Sat 17th: 8 hours
-
-18-24: 38 hours
-   - Sun 18th: 8 hours
-   - Mon 19th: 8 hours
-   - Thu 22nd: 8 hours
-   - Fri 23rd: 6 hours
-   - Sat 24th: 8 hours
-
-25-31: 34 hours
-   - Sun 25th: 8 hours
-   - Mon 26th: 8 hours
-   - Thu 29th: 5 hours
-   - Fri 30th: 5 hours
-   - Sat 31st: 8 hours 
-
-=== FEBRUARY ===
-
-1-7: 22 hours
-   - Sun 1st: 8 hours
-   - Mon 2nd: 6 hours
-   - Sat 7th: 8 hours
-
-8-14: 28 hours
-   - Sun 8th:  8 hours
-   - Thu 12th: 6 hours
-   - Fri 13th: 6 hours
-   - Sat 14th: 8 hours
-
-15-21: 24 hours
-   - Sun 15th: 8 hours
-   - Mon 16th: 8 hours
-   - Sat 21st: 8 hours
-
-22-28: 32 hours
-   - Mon 23rd: 8 hours
-   - Wed 25th: 6 hours
-   - Thu 26th: 6 hours
-   - Fri 27th: 6 hours
-   - Sat 28th: 6 hours
-
-=== MARCH ===
-
-1-7: 36 hours
-   - Sun 1st: 8 hours
-   - Mon 2nd: 8 hours
-   - Thu 5th: 6 hours
-   - Fri 6th: 6 hours
-   - Sat 7th: 8 hours
-
-8-14: 16 hours
-   - Sun 8th:  8 hours
-   - Sat 14th: 8 hours
-
-*/

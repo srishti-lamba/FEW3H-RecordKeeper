@@ -135,7 +135,7 @@ export async function PixelsToSVG() {
     result.push(
 `<svg 
     xmlns="http://www.w3.org/2000/svg"
-    height="100%"  
+    height="${image.height}" width=${image.width}
     viewBox="0 0 ${image.width} ${image.height}" 
     preserveAspectRatio="xMinYMin meet" 
     shape-rendering="crispEdges"

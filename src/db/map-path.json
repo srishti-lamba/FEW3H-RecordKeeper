@@ -250,16 +250,27 @@
                     "showSprite" : false,
                     "appear" : "",
                     "disappear" : "",
-                    "coords" : {"x":-1 , "y":-1}
+                    "coords" : {"x":-1 , "y":-1},
+                    "notes" : ""
                 },
-                "7-7-0": {
+                "7-7-red": {
                     "name" : "Myrmidon",
                     "class" : "Myrmidon",
                     "weapon" : "Iron Sword",
                     "allegiance": "red",
-                    "profile" : {"name":"690"},
+                    "profile" : {"name":"12"},
                     "showSprite" : true,
-                    "coords" : {"x":7 , "y":7}
+                    "coords" : {"x":7 , "y":7},
+                    "notes" : "Test note test test note!! :)"
+                },
+                "33-46-blue": {
+                    "name" : "Stronghold Captain",
+                    "class" : "Fighter",
+                    "weapon" : "Iron Axe",
+                    "allegiance": "blue",
+                    "profile" : {"name":"1"},
+                    "showSprite" : true,
+                    "coords" : {"x":33 , "y":46}
                 }
             }
         }

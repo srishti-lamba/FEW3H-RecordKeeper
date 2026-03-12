@@ -15,7 +15,7 @@ interface TooltipContentProps {
 
 function TooltipContent({data: dataAll, tileCoords, selectedRowData} : TooltipContentProps) {
 
-    console.log("[[[ Tooltip rerender ]]]")
+    // console.log("[[[ Tooltip rerender ]]]")
 
     if (tileCoords === null)
         return <></>
@@ -74,11 +74,11 @@ function TooltipContent({data: dataAll, tileCoords, selectedRowData} : TooltipCo
                     </AccordionSummary>
                     <AccordionDetails>
                         <span className="map-tooltip-subcategory map-tooltip-stronghold-details">
-                            <span className="map-tooltip-subcategory-header">Details</span>
+                            <span className="map-tooltip-subcategory-header header-brown-underlined">Details</span>
                             <span className="map-tooltip-subcategory-row">Capture Required: <b>{(base.captureRequired) ? "True" : "False"}</b></span>
                         </span>
                         <span className="map-tooltip-subcategory map-tooltip-stronghold-captains ">
-                            <span className="map-tooltip-subcategory-header">Captains</span>
+                            <span className="map-tooltip-subcategory-header header-brown-underlined">Captains</span>
                             {captainElements}
                         </span>
                     </AccordionDetails>
@@ -185,22 +185,7 @@ function TooltipContent({data: dataAll, tileCoords, selectedRowData} : TooltipCo
                     <Tooltip
                         anchorSelect={`#${weaponID}`}
                         children={
-                            <>
-                                <span>
-                                    Advantage: {
-                                        (weaponData.advantage !== undefined) && 
-                                        Array.from(weaponData.advantage).map( (weapon) => (
-                                        <img src={Weapons.getIcon(weapon, Weapons.type.REGULAR)} />
-                                    ))}
-                                </span>
-                                <span>
-                                    Disadvantage: {
-                                        (weaponData.disadvantage !== undefined) && 
-                                        Array.from(weaponData.disadvantage).map( (weapon) => (
-                                        <img src={Weapons.getIcon(weapon, Weapons.type.REGULAR)} />
-                                    ))}
-                                </span>
-                            </>
+                            <span className="map-tooltip-unit-details-info-weapon-description">{weaponData.description}</span>
                         }
                         key={`${weaponID}-tooltip`}
                         place="bottom"
@@ -208,6 +193,76 @@ function TooltipContent({data: dataAll, tileCoords, selectedRowData} : TooltipCo
                 </span>
             )
         }
+
+        // Advantages and Disadvantages
+        var advantagesRows = <></>
+        if (weaponData !== null) {
+            advantagesRows = (
+                <span className="map-tooltip-unit-details-info-weapon-advantages">
+                    <span className="map-tooltip-unit-details-info-weapon-advantageRow">
+                        {
+                            Object.values(Weapons.categories).map( (category : string) => (
+                                <span className="map-tooltip-unit-details-info-weapon-advantageCol">
+                                    <img src={Weapons.getIcon(category, Weapons.type.REGULAR)} />
+                                    {
+                                        ( weaponData.advantage !== undefined && weaponData.advantage.has(category) ) &&
+                                        <img src={`${process.env.PUBLIC_URL}/images/icons/advantages/advantage-weapon.png`} />
+                                    }
+                                    {
+                                        ( weaponData.disadvantage !== undefined && weaponData.disadvantage.has(category) ) &&
+                                        <img src={`${process.env.PUBLIC_URL}/images/icons/advantages/disadvantage-weapon.png`} />
+                                    }
+                                </span>
+                            ))
+                        }
+                    </span>
+                    <span className="map-tooltip-unit-details-info-weapon-advantageRow">
+                        {
+                            Object.values(Classes.types).map( (type : string) => {
+                                var advantage = 0;
+                                if (type !== Classes.types.INFANTRY) { // Skip infantry
+                                    if ( (weaponData.advantage !== undefined) && (weaponData.advantage.has(type)) )
+                                            advantage = 1;
+                                    if ( (classData.types !== undefined) && (classData.types.includes(type)) )
+                                            advantage = advantage - 2;
+                                }
+                                var advantageSrc = `${process.env.PUBLIC_URL}/images/icons/advantages/`;
+                                switch (advantage) {
+                                    case 0: advantageSrc = ""; break;
+                                    case 1: advantageSrc = advantageSrc.concat("advantage-type.png"); break;
+                                    case -1: advantageSrc = advantageSrc.concat("opposite-type.png"); break;
+                                    case -2: advantageSrc = advantageSrc.concat("disadvantage-type.png"); break;
+                                }
+                                return (
+                                    <span className="map-tooltip-unit-details-info-weapon-advantageCol">
+                                        <img src={Classes.getTypeIcon(type)} />
+                                        {
+                                            ( advantage !== 0 ) && 
+                                            <img src={advantageSrc} />
+                                        }
+                                    </span>
+                                )
+                            })
+                        }
+                    </span>
+                </span>
+            )
+        }
+
+        // Misc
+        var miscRow = <></> 
+        if (unit.appear!==undefined || unit.disappear!==undefined || unit.notes!==undefined)
+            miscRow = (
+                <span className="map-tooltip-unit-details-info-miscRow" >
+                    <span className="header-brown-underlined">Other Information</span>
+                    {(unit.appear !== undefined) && <span>{`Spawn condition: ${unit.appear}`}</span>}
+                    {(unit.disappear !== undefined) && <span>{`Despawn condition: ${unit.appear}`}</span>}
+                    {
+                        (unit.notes !== undefined) && 
+                        <span className="map-tooltip-unit-details-info-miscRow-notes">{unit.notes}</span>
+                    }
+                </span>
+            )
 
         // All together
         children.push(
@@ -219,7 +274,7 @@ function TooltipContent({data: dataAll, tileCoords, selectedRowData} : TooltipCo
                             className="map-tooltip-category-icon"
                             src={unit.sprite as string}
                         />
-                        <span className="map-tooltip-category-title">{unit.class}</span>
+                        <span className="map-tooltip-category-title">{unit.name}</span>
                     </AccordionSummary>
                     <AccordionDetails>
                         <span className={`map-tooltip-unit ${unit.allegiance}`}>
@@ -238,8 +293,9 @@ function TooltipContent({data: dataAll, tileCoords, selectedRowData} : TooltipCo
                                     {classRow}
                                     {weaponRow}
                                 </span> {/* .map-tooltip-unit-details-info */}
-                                
                             </span>
+                            {advantagesRows}
+                            {miscRow}
                         </span>
                     </AccordionDetails>
             </Accordion>
