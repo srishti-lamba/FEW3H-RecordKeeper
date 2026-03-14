@@ -6,20 +6,20 @@ interface Dictionary<T> {
 
 export interface WeaponDataType {
     icon ?: string;
-    category : string;
-    type ?: string;
+    category : CategoryType;
+    make ?: string;
     description ?: string;
-    advantage ?: Set<string>;
-    disadvantage ?: Set<string>;
+    advantage ?: Set<CategoryType>;
+    disadvantage ?: Set<CategoryType>;
 }
 
 interface WeaponListType {
-    SWORD : string;
-    LANCE : string;
-    AXE : string;
-    BOW : string;
-    TOME : string;
-    GAUNTLETS : string;
+    SWORD : CategoryType;
+    LANCE : CategoryType;
+    AXE : CategoryType;
+    BOW : CategoryType;
+    TOME : CategoryType;
+    GAUNTLETS : CategoryType;
 }
 
 interface WeaponType {
@@ -29,18 +29,31 @@ interface WeaponType {
     AGARTHAN : string;
 }
 
+export interface CategoryType {
+    name : string;
+    nameLower ?: string;
+    icon ?: string;
+}
+
 export class Weapons {
 
-    public static categories : WeaponListType = {
-        SWORD : "sword",
-        LANCE : "lance",
-        AXE : "axe",
-        BOW : "bow",
-        TOME : "tome",
-        GAUNTLETS : "gauntlets"
+    public static make : WeaponType = {
+        REGULAR: "Regular",
+        SACRED_WEAPON: "Sacred Weapon",
+        HEROS_RELIC: "Hero's Relic",
+        AGARTHAN: "Agarthan"
     }
 
-    static advantage : Dictionary<string> = {
+    public static categories : WeaponListType = {
+        SWORD : Weapons.getCategoryType("Sword"),
+        LANCE : Weapons.getCategoryType("Lance"),
+        AXE : Weapons.getCategoryType("Axe"),
+        BOW : Weapons.getCategoryType("Bow"),
+        TOME : Weapons.getCategoryType("Tome"),
+        GAUNTLETS : Weapons.getCategoryType("Gauntlets")
+    }
+
+    static advantage : Dictionary<CategoryType> = {
         sword: Weapons.categories.AXE,
         lance: Weapons.categories.SWORD,
         axe: Weapons.categories.LANCE,
@@ -49,20 +62,13 @@ export class Weapons {
         brawl: Weapons.categories.TOME
     }
 
-    static disadvantage : Dictionary<string> = {
+    static disadvantage : Dictionary<CategoryType> = {
         sword: Weapons.categories.LANCE,
         lance: Weapons.categories.AXE,
         axe: Weapons.categories.SWORD,
         bow: Weapons.categories.TOME,
         reason: Weapons.categories.GAUNTLETS,
         brawl: Weapons.categories.BOW
-    }
-
-    public static type : WeaponType = {
-        REGULAR: "Regular",
-        SACRED_WEAPON: "Sacred Weapon",
-        HEROS_RELIC: "Hero's Relic",
-        AGARTHAN: "Agarthan"
     }
 
     static weapons : Dictionary<WeaponDataType> = {
@@ -202,34 +208,40 @@ export class Weapons {
         "Training Tome" : {category : Weapons.categories.TOME}
     }
 
-    public static getData(weaponName : string) : WeaponDataType|null {
+    public static getData(weaponName : string) : WeaponDataType|undefined {
         let weapon : WeaponDataType|undefined = Weapons.weapons[weaponName];
 
         if (weapon === undefined)
-            return null;
+            return undefined;
 
-        // Type
-        if (weapon.type === undefined)
-            weapon.type = Weapons.type.REGULAR;
+        // Make
+        if (weapon.make === undefined)
+            weapon.make = Weapons.make.REGULAR;
+
+        // Category
+        // if (weapon.category.nameLower === undefined)
+        //     weapon.category.nameLower = weapon.category.name.toLowerCase();
+        // if (weapon.category.icon === undefined)
+        //     weapon.category.icon = Weapons.getIcon(weapon.category.nameLower, weapon.make)
 
         // Icon
         if (weapon.icon === undefined)
-            weapon.icon = Weapons.getIcon(weapon.category, weapon.type);
+            weapon.icon = Weapons.getIcon(weapon.category.nameLower as string, weapon.make);
         
         // Description
         if (weapon.description !== undefined) {}
         else if (weaponName.startsWith("Iron "))
-            weapon.description = `A standard ${weapon.category} made of iron—simple but effective.`
+            weapon.description = `A standard ${weapon.category.nameLower} made of iron—simple but effective.`
         else if (weaponName.startsWith("Steel "))
-            weapon.description = `A weighty steel ${weapon.category} that deals significant blows.`
+            weapon.description = `A weighty steel ${weapon.category.nameLower} that deals significant blows.`
         else if (weaponName.startsWith("Silver "))
-            weapon.description = `A ${weapon.category} crafted from shining silver.`
+            weapon.description = `A ${weapon.category.nameLower} crafted from shining silver.`
         else if (weaponName.startsWith("Brave "))
-            weapon.description = `A light but sturdy ${weapon.category} that emboldens its wielder.`
+            weapon.description = `A light but sturdy ${weapon.category.nameLower} that emboldens its wielder.`
         else if (weaponName.startsWith("Killer "))
-            weapon.description = `This keenly honed ${weapon.category} is exceedingly lethal.`
+            weapon.description = `This keenly honed ${weapon.category.nameLower} is exceedingly lethal.`
         else if (weaponName.startsWith("Training "))
-            weapon.description = `This simple ${weapon.category} is perfect for training purposes.`;
+            weapon.description = `This simple ${weapon.category.nameLower} is perfect for training purposes.`;
         // else if (weaponName.startsWith(" "))
         //     weapon.description = ``
         // else if (weaponName.startsWith(" "))
@@ -242,7 +254,7 @@ export class Weapons {
         //     weapon.description = ``
 
         // Advantage
-        let newAdvantage = new Set([Weapons.advantage[weapon.category]]);
+        let newAdvantage = new Set([Weapons.advantage[weapon.category.nameLower as string]]);
         if (weapon.category === Weapons.categories.BOW) // Advantage : Bow
             newAdvantage.add(Classes.types.FLYING)
         if (weapon.advantage === undefined)
@@ -251,7 +263,7 @@ export class Weapons {
             weapon.advantage = newAdvantage.union(weapon.advantage);
 
         // Disadvantage
-        let newDisadvantage = new Set([Weapons.disadvantage[weapon.category]]);
+        let newDisadvantage = new Set([Weapons.disadvantage[weapon.category.nameLower as string]]);
         if (weapon.disadvantage === undefined)
             weapon.disadvantage = newDisadvantage;
         else
@@ -260,8 +272,18 @@ export class Weapons {
         return weapon;
     }
 
-    public static getIcon(category : string, type : string) {
-        return `${process.env.PUBLIC_URL}/images/icons/weapons/${category.toLowerCase()}-${type.toLowerCase().replaceAll(" ","").replaceAll("'","")}.png`
+    public static getIcon(category : string, make : string) {
+        return `${process.env.PUBLIC_URL}/images/icons/weapons/${category}-${make.toLowerCase().replaceAll(" ","").replaceAll("'","")}.png`
+    }
+
+    private static getCategoryType(name : string) : CategoryType {
+        let nameLower = name.toLowerCase();
+        let icon = Weapons.getIcon(nameLower, Weapons.make.REGULAR)
+        return {
+            name : name,
+            nameLower : nameLower,
+            icon : icon
+        }
     }
 
 }

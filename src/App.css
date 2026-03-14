@@ -13,7 +13,7 @@ html {
   margin-bottom: calc(var(--padding)/2);
   position: relative;
 
-  &:after { /* Underline of subcategory header */
+  &:after { /* Underline of header */
     content: ' ';
     height: 0.75px;
     width: 100%;
@@ -191,6 +191,10 @@ html {
                   padding: 8px;
                   /* background-color: red; */
 
+                  & .MuiPaper-root {
+                    margin: 0px;
+                  }
+
                   & .map-tooltip-row {
                     /* --height: 2.3em;
                     padding: 0.5em 1em;
@@ -275,7 +279,7 @@ html {
 
                             & .map-tooltip-category-title {
                               font-size: 0.9rem;
-                              margin-bottom: 0.1rem;
+                              /* margin-bottom: -0.0rem; */
                               letter-spacing: 0.02rem;
                             }
 

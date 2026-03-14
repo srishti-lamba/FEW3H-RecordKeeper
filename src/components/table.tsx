@@ -7,7 +7,7 @@
 // 6: Report! (Yellow)
 // 7: Warning!
 
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useContext} from 'react';
 import { RouteChapters, Chapter } from './settings/settings-chapters';
 
 import {
@@ -17,6 +17,7 @@ import {
   MRT_RowSelectionState,
   MRT_Row,
 } from 'material-react-table';
+import { AllChapters, AllMissions, Difficulty } from '../context';
 
 export interface Row {
   id : number;
@@ -27,7 +28,7 @@ export interface Row {
   type: number;
 }
 
-interface Mission {
+export interface Mission {
   general : { 
     route : number;
     chapter : number;
@@ -57,19 +58,20 @@ interface Mission {
 }
 
 interface TableProps {
-  allMissions : Mission[]
-  allChapters : RouteChapters[];
-  difficulty : number;
+  // allMissions : Mission[]
+  // allChapters : RouteChapters[];
+  // difficulty : number;
   selectedRow : MRT_RowSelectionState;
   setSelectedRow : any;
   selectedRowData : React.RefObject<Row|null>;
 }
 
-export default function Table( {allMissions, allChapters, difficulty, selectedRow, setSelectedRow, selectedRowData} : TableProps) {
+export default function Table( {/*allMissions, allChapters, difficulty,*/ selectedRow, setSelectedRow, selectedRowData} : TableProps) {
 
   const [ data, setData ] = useState<Row[]>([])
-  // const [selectedRow, setSelectedRow] = useState<MRT_RowSelectionState>({});
-  
+  const allMissions = useContext(AllMissions);
+  const allChapters = useContext(AllChapters);
+  const difficulty = useContext(Difficulty)[0];
 
   // -------------------
   // --- Create Data ---

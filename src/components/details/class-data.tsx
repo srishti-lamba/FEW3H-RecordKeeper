@@ -1,31 +1,47 @@
+import { CategoryType } from "./weapon-data";
+
 interface Dictionary<T> {
     [key: string]: T;
 }
 
 interface TypeListType {
-    INFANTRY : string;
-    FLYING : string;
-    ARMOURED : string;
-    CALVARY : string;
-    MONSTER : string;
+    INFANTRY : CategoryType;
+    FLYING : CategoryType;
+    ARMOURED : CategoryType;
+    CALVARY : CategoryType;
+    MONSTER : CategoryType;
 }
 
-interface ClassType {
+export interface ClassType {
+    name : string;
+    data ?: ClassDataType;
+    sprite : {
+        url ?: string;
+        show : boolean; 
+    };
+    profile : {
+        file : string;
+        url ?: string;
+    };
+}
+
+interface ClassDataType {
+    nameLower ?: string;
     description: string;
-    types : string[];
+    types : CategoryType[];
 }
 
 export class Classes {
 
     static types : TypeListType = {
-        INFANTRY : "Infantry",
-        FLYING : "Flying",
-        ARMOURED : "Armoured",
-        CALVARY : "Calvary",
-        MONSTER : "Monster"
+        INFANTRY : Classes.getCategoryType("Infantry"),
+        FLYING : Classes.getCategoryType("Flying"),
+        ARMOURED : Classes.getCategoryType("Armoured"),
+        CALVARY : Classes.getCategoryType("Calvary"),
+        MONSTER : Classes.getCategoryType("Monster")
     }
 
-    static class : Dictionary<ClassType> = {
+    static class : Dictionary<ClassDataType> = {
 
         // Beginner Classes
         "Myrmidon": {description: "Especially swift, with high avoidance, the Myrmidon deftly wields the sword.", types: [Classes.types.INFANTRY]},
@@ -96,6 +112,35 @@ export class Classes {
         "Avesta": {description: "", types: [Classes.types.INFANTRY]}
     }
 
+    public static getClassData(c : ClassType, allegiance : string) {
+
+        // Data
+        if (c.data === undefined)
+            c.data = Classes.class[c.name]
+
+        // Name Lower
+        if (c.data.nameLower === undefined)
+            c.data.nameLower = c.name.toLowerCase()
+
+        // // Data Types
+        // c.data.types.forEach( (type : CategoryType) => {
+        //     if (type.nameLower === undefined)
+        //         type.nameLower = type.name.toLowerCase();
+        //     if (type.icon === undefined)
+        //         type.icon = `${process.env.PUBLIC_URL}/images/icons/class-types/${type.nameLower}.png`;
+        // })
+
+        // Sprite URL
+        if (c.sprite.url === undefined)
+            c.sprite.url = Classes.getClassSprite(c.name, allegiance)
+
+        // Profile URL
+        if (c.profile.url === undefined)
+            c.profile.url = Classes.getClassProfile(c.name, c.profile.file)
+
+        return c;
+    }
+
     public static getTypeIcon(type : string) {
         return `${process.env.PUBLIC_URL}/images/icons/class-types/${type.toLowerCase()}.png`
     }
@@ -104,7 +149,17 @@ export class Classes {
         return `${process.env.PUBLIC_URL}/images/icons/sprites/${className.toLowerCase()}/${allegiance}.svg`
     }
 
-    public static getClassProfile(className : string, profile : string) {
-        return `${process.env.PUBLIC_URL}/images/icons/profiles/${className}/${profile}.png`
+    public static getClassProfile(className : string, fileName : string) {
+        return `${process.env.PUBLIC_URL}/images/icons/profiles/${className}/${fileName}.png`
+    }
+
+    private static getCategoryType(name : string) : CategoryType {
+        let nameLower = name.toLowerCase();
+        let icon = Classes.getTypeIcon(nameLower)
+        return {
+            name : name,
+            nameLower : nameLower,
+            icon : icon
+        }
     }
 }

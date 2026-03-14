@@ -5,7 +5,8 @@ import { JSX } from 'react/jsx-runtime';
 import { GridContainer } from './details-map-grid-container';
 import Slider from '@mui/material/Slider'
 import { Row } from '../../table';
-import { Classes } from '../class-data';
+import { Classes, ClassType } from '../class-data';
+import { WeaponDataType } from '../weapon-data';
 
 /* 
     Websites
@@ -120,7 +121,7 @@ export interface GridCellType {
 export interface GridCellDataType {
     stronghold ?: StrongholdDataType;
     pot ?: PotDataType;
-    unit ?: UnitDataType;
+    unit ?: UnitDataType[];
 }
 
 export interface PotDataType {
@@ -135,7 +136,7 @@ export interface StrongholdDataType {
     captureRequired: boolean;
     appear: string | null;
     disappear: string | null;
-    captain: UnitDataSummaryAllType;
+    captain: (string|UnitDataType)[];
 }
 
 export interface UnitDataSummaryAllType {
@@ -154,15 +155,12 @@ export interface UnitDataSummaryType {
 
 export interface UnitDataType {
     name : string;
-    class : string;
-    weapon : string;
-    allegiance: string;
-    profile : {
-        name ?: string;
-        url ?: string;
+    class : ClassType;
+    weapon : {
+        name : string;
+        data ?: WeaponDataType;
     };
-    sprite ?: string|JSX.Element;
-    showSprite : boolean;
+    allegiance: string;
     appear ?: string;
     disappear ?: string;
     coords : CoordinateType;
@@ -438,7 +436,7 @@ export function Map({selectedRow, selectedRowData} : MapProps) {
                                             // style={{"--transfromX": (unit.coords.x-0.75)*tileWidth }}
                                             className="map-grid-tile-unit-sprite"
                                             // transform={`translate(${ (unit.coords.x-0.75)*tileWidth },${ (unit.coords.y-0.75)*tileWidth })`}
-                                            xlinkHref={Classes.getClassSprite(unit.class, unit.allegiance)} 
+                                            xlinkHref={unit.class.sprite.url} 
                                         />
                                 )})
                             }

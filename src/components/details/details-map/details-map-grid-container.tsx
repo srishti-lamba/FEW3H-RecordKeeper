@@ -4,6 +4,7 @@ import { Tooltip } from "react-tooltip";
 import { MemoizedTooptipContent } from "./details-map-tooltip";
 import { Row } from "../../table";
 import { Classes } from "../class-data";
+import { Weapons } from "../weapon-data";
 
 interface GridContainerProps {
     svgProps : SvgPropsType;
@@ -77,11 +78,16 @@ export function GridContainer({svgProps, selectedRowData, fills, getPotFill, gri
                             m 14 14 v 5 h -6 v -5 l 3 -3 z"
                     />
                 </svg>
-            )
+            );
 
             // Fill in captain icons
-            Object.entries(base.data.captain).forEach(
-                ([key, value] : [string, UnitDataSummaryType]) => value.icon = `${process.env.PUBLIC_URL}/images/icons/sprites/${value.class.toLowerCase()}/${key.toLowerCase()}.svg`
+            (base.data.captain).forEach(
+                (c : any, index : number) => {
+                    // Make sure it's string
+                    // if (typeof c !== 'string' || (c as any) instanceof String !== true)
+                    if (c.name === undefined)
+                        baseData.captain[index] = svgProps.paths.units[c as any];
+                }
             )
 
             if (data[base.icon!.coords.x][base.icon!.coords.y] == undefined)
@@ -148,13 +154,17 @@ export function GridContainer({svgProps, selectedRowData, fills, getPotFill, gri
                     return;
 
                 var unitData : UnitDataType = unit;
-                unitData.profile.url = Classes.getClassProfile(unit.class, unit.profile.name as string);
-                unitData.sprite = Classes.getClassSprite(unit.class, unit.allegiance);
+                unitData.class = Classes.getClassData(unitData.class, unitData.allegiance)
+                unitData.weapon.data = Weapons.getData(unitData.weapon.name)
                 
                 if (data[unit.coords.x][unit.coords.y] == undefined)
-                    data[unit.coords.x][unit.coords.y] = {unit: unitData};
-                else
-                    data[unit.coords.x][unit.coords.y].unit = unitData;
+                    data[unit.coords.x][unit.coords.y] = {unit: [unitData]};
+                else {
+                    if (data[unit.coords.x][unit.coords.y].unit === undefined)
+                        data[unit.coords.x][unit.coords.y].unit = [unitData]
+                    else
+                        data[unit.coords.x][unit.coords.y].unit?.push(unitData);
+                }
             }
         )
 

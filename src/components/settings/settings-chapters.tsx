@@ -1,5 +1,6 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useContext} from 'react';
 import Select, {Props, GroupBase, OptionsOrGroups, StylesConfig } from 'react-select';
+import { AllChapters } from '../../context';
 
 export interface Chapter {
   number: number;
@@ -47,16 +48,18 @@ interface ChapterSelectionProps {
   // setChapterStart: any;
   // chapterEnd: number;
   // setChapterEnd: any;
-  allChapters: RouteChapters[];
+  // allChapters: RouteChapters[];
 }
 
-export function ChapterSelection({show, /*chapterStart, setChapterStart, chapterEnd, setChapterEnd,*/ allChapters} : ChapterSelectionProps) {
+export function ChapterSelection({show, /*chapterStart, setChapterStart, chapterEnd, setChapterEnd, allChapters*/} : ChapterSelectionProps) {
 
+  const allChapters = useContext(AllChapters);
   const [allOptions, setAllOptions] = useState<OptionsOrGroups<SelectOption, GroupedOption>>([]);
   const [selectedOption, setSelectedOption] = useState<SelectOption>();
 
   function createSelectOptions() {
     console.log("Starting Chapter createSelectOptions")
+
     // let options : SelectOption[] = [];
     let pCh : number = 0;
     let rCh : number = 0;

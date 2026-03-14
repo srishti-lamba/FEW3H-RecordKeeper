@@ -32,18 +32,7 @@
                         "captureRequired" : true,
                         "appear": null,
                         "disappear": null,
-                        "captain": {
-                            "blue": {
-                                "name": "Base Captain",
-                                "class": "Fighter",
-                                "weapon": "Iron Axe"
-                            },
-                            "red": {
-                                "name": "Thief",
-                                "class": "Fighter",
-                                "weapon": "Iron Axe"
-                            }
-                        }
+                        "captain": ["33-46-blue", "33-46-red"]
                     }
                 },
                 {
@@ -243,11 +232,13 @@
             "units" : {
                 "-" : {
                     "name" : "",
-                    "class" : "",
-                    "weapon" : "",
+                    "class" : {
+                        "name" : "",
+                        "sprite" : { "show" : false },
+                        "profile" : { "file" : "" }
+                    },
+                    "weapon" : { "name" : "" },
                     "allegiance": "",
-                    "profile" : {"name":""},
-                    "showSprite" : false,
                     "appear" : "",
                     "disappear" : "",
                     "coords" : {"x":-1 , "y":-1},
@@ -255,21 +246,36 @@
                 },
                 "7-7-red": {
                     "name" : "Myrmidon",
-                    "class" : "Myrmidon",
-                    "weapon" : "Iron Sword",
+                    "class" : {
+                        "name" : "Myrmidon",
+                        "sprite" : { "show" : true },
+                        "profile" : { "file" : "12" }
+                    },
+                    "weapon" : { "name" : "Iron Sword" },
                     "allegiance": "red",
-                    "profile" : {"name":"12"},
-                    "showSprite" : true,
                     "coords" : {"x":7 , "y":7},
                     "notes" : "Test note test test note!! :)"
                 },
                 "33-46-blue": {
                     "name" : "Stronghold Captain",
-                    "class" : "Fighter",
-                    "weapon" : "Iron Axe",
+                    "class" : {
+                        "name" : "Fighter",
+                        "sprite" : { "show" : true },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Axe" },
                     "allegiance": "blue",
-                    "profile" : {"name":"1"},
-                    "showSprite" : true,
+                    "coords" : {"x":33 , "y":46}
+                },
+                "33-46-red": {
+                    "name" : "Thief",
+                    "class" : {
+                        "name" : "Fighter",
+                        "sprite" : { "show" : true },
+                        "profile" : { "file" : "5" }
+                    },
+                    "weapon" : { "name" : "Iron Axe" },
+                    "allegiance": "red",
                     "coords" : {"x":33 , "y":46}
                 }
             }
