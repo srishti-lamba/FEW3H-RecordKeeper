@@ -1,19 +1,22 @@
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Tooltip } from "react-tooltip";
-import { ClassType, memo } from "react";
+import { ClassType, memo, useContext } from "react";
 import { GridCellDataType, CoordinateType, StrongholdDataType, UnitDataSummaryType, PotDataType, UnitDataType } from "./details-map";
 import { CategoryType, WeaponDataType, Weapons } from "../weapon-data";
-import { Row } from "../../table";
+// import { BattleRow } from "../../table";
 import { Classes } from "../class-data";
+import { DatabaseContext, SelectedBattleRowContext } from "../../../context";
+import { MRT_Row } from "material-react-table";
+import { BattleRow } from "../../table";
 
 interface TooltipContentProps {
     data : GridCellDataType[][];
     tileCoords : CoordinateType|null;
-    selectedRowData : React.RefObject<Row|null>;
+    // selectedRowData : React.RefObject<BattleRow|null>;
 }
 
-function TooltipContent({data: dataAll, tileCoords, selectedRowData} : TooltipContentProps) {
+function TooltipContent({data: dataAll, tileCoords/*, selectedRowData*/} : TooltipContentProps) {
 
     // console.log("[[[ Tooltip rerender ]]]")
 
@@ -121,11 +124,12 @@ function TooltipContent({data: dataAll, tileCoords, selectedRowData} : TooltipCo
         // LevelTypeRow
         var levelTypeRow = <></>
         if (unit.class.data !== undefined)
+            // let lvl = (useContext(DatabaseContext)[1] as MRT_Row<BattleRow>).original.level
             levelTypeRow = (
                 <span className="map-tooltip-unit-details-info-leveltypeRow">
                     {/* === Level === */}
                     <span className="map-tooltip-unit-details-info-level">
-                        {`Lv ${selectedRowData.current?.level}`}
+                        {`Lv ${(useContext(SelectedBattleRowContext)![1].current as MRT_Row<BattleRow>).original.level}`}
                     </span>
                     {/* === Class Type === */}
                     <span className="map-tooltip-unit-details-info-type">
@@ -153,7 +157,7 @@ function TooltipContent({data: dataAll, tileCoords, selectedRowData} : TooltipCo
         // ClassRow
         // let classData = Classes.class[unit.class];
         let classData = Classes.getClassData(unit.class, unit.allegiance)
-        let classID = `tile-${unit.coords.x}-${unit.coords.y}-unit-${classData.data?.nameLower}Class`
+        let classID = `tile-${unit.coords.x}-${unit.coords.y}-unit-${classData.nameLower}Class`
         var classRow = (
             <span className="map-tooltip-unit-details-info-classRow">
                 <img src={unit.class.sprite.url as string} />

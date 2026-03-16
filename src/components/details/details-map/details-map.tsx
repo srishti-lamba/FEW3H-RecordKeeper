@@ -1,12 +1,13 @@
-import React, {useEffect, useState, useRef, useMemo} from 'react';
+import React, {useEffect, useState, useRef, useMemo, useContext} from 'react';
 import { MRT_RowSelectionState } from 'material-react-table';
-import mapPath from '../../../db/map-path.json';
+// import mapPath from '../../../db/map-path.json';
 import { JSX } from 'react/jsx-runtime';
 import { GridContainer } from './details-map-grid-container';
 import Slider from '@mui/material/Slider'
-import { Row } from '../../table';
+// import { BattleRow } from '../../table';
 import { Classes, ClassType } from '../class-data';
 import { WeaponDataType } from '../weapon-data';
+import { DatabaseContext, SelectedBattleRowContext } from '../../../context';
 
 /* 
     Websites
@@ -24,17 +25,18 @@ export interface FillsType {
     base : string;
     stronghold : fill_StrongholdAllType;
     gate : string;
-    pot : fill_PotsType;
+    // pot : fill_PotsType;
+    pot : Dictionary<string>;
 }
 
-interface fill_PotsType {
-    blue: string;
-    green: string;
-    purple : string;
-    red : string;
-    yellow : string;
-    label : string;
-}
+// interface fill_PotsType {
+//     blue: string;
+//     green: string;
+//     purple : string;
+//     red : string;
+//     yellow : string;
+//     label : string;
+// }
 
 interface fill_StrongholdAllType {
     blue : fill_StrongholdType;
@@ -169,20 +171,18 @@ export interface UnitDataType {
 
 // === Class Props ===
 
-interface MapProps {
-    selectedRow : MRT_RowSelectionState;
-    selectedRowData : React.RefObject<Row|null>;
-}
+interface MapProps {}
 
-export function Map({selectedRow, selectedRowData} : MapProps) {
+export function Map({} : MapProps) {
 
+    var selectedBattleRow = useContext(SelectedBattleRowContext)![0][0];
     const [svgProps, setSvgProps] = useState<SvgPropsType | undefined | null>(undefined);
     const [gridCords, setGridCords] = useState<CoordinateType | null>(null);
     const [mapZoomExpanded, setMapZoomExpanded] = useState<boolean>(false);
     const scrollElement = useRef(null);
     const [scrollElementScrollbarOn, setScrollElementScrollbarOn] = useState(false);
     const [mapZoom, setMapZoom] = useState<number>(500);
-    const gridCells = useRef<GridCellType[]>([]);
+    const maps = useContext(DatabaseContext).map;
     
     const fills : FillsType = {
         base: "#928A7D",
@@ -258,35 +258,17 @@ export function Map({selectedRow, selectedRowData} : MapProps) {
     // --- Fetch SVG Props ---
     // -----------------------
     useEffect(() => {
-        let keys = Object.keys(selectedRow) as Array<string>
+        let keys = Object.keys(selectedBattleRow) as Array<string>
         if (keys.length == 0) { // No selection
             setSvgProps(null);
             return;
         }
         let key = (keys[0] as unknown) as number
-        if (mapPath.length > key) // Map data exists
-            setSvgProps(mapPath[key]);
+        if (maps!.length > key) // Map data exists
+            setSvgProps(maps![key]);
         else
             setSvgProps(undefined); // Map data does not exist
-    }, [selectedRow])
-
-    useEffect(() => {
-        // console.log("SVG Props:")
-        // console.log(setSvgProps)
-    }, [svgProps])
-
-    const getPotFill = (pot : svg_PotType) => {
-        if (pot.fill !== undefined)
-            return (pot.fill as unknown) as string;
-        switch (pot.colour) {
-            case "blue": return fills.pot.blue; break;
-            case "green": return fills.pot.green; break;
-            case "purple": return fills.pot.purple; break;
-            case "red": return fills.pot.red; break;
-            case "yellow": return fills.pot.yellow; break;
-        };
-        return fills.pot.label;
-    }
+    }, [selectedBattleRow])
 
     const toggleDisplayZoom = () => {
         setMapZoomExpanded(!mapZoomExpanded);
@@ -409,7 +391,7 @@ export function Map({selectedRow, selectedRowData} : MapProps) {
                                         transform={`translate(${path.m.x},${path.m.y}) scale(0.3125,0.3125)`}
                                     >
                                         <path 
-                                            fill={getPotFill(path)} 
+                                            fill={fills.pot[path.colour]} 
                                             stroke="black" stroke-width="3" stroke-linecap="round"
                                             d={"M 0 0 c 3.199 6.3981 3.199 7.4644 0.5332 10.1303 c -12.2631 10.1303 -10.1304 34.6564 15.462 34.6564 c 22.3934 0 27.7252 -24.5261 15.4621 -34.6564 c -2.6659 -2.6659 -2.6659 -3.7322 0.5332 -10.1303 z"}
                                         />
@@ -431,11 +413,8 @@ export function Map({selectedRow, selectedRowData} : MapProps) {
 
                                     return (
                                         <use 
-                                            // style={`--transformX: ${ (unit.coords.x-0.75)*tileWidth }; transformY: ${ (unit.coords.y-0.75)*tileWidth }`}
                                             style={{ "--transformX": (unit.coords.x-1)*tileWidth , "--transformY" : (unit.coords.y-1)*tileWidth } as React.CSSProperties}
-                                            // style={{"--transfromX": (unit.coords.x-0.75)*tileWidth }}
                                             className="map-grid-tile-unit-sprite"
-                                            // transform={`translate(${ (unit.coords.x-0.75)*tileWidth },${ (unit.coords.y-0.75)*tileWidth })`}
                                             xlinkHref={unit.class.sprite.url} 
                                         />
                                 )})
@@ -443,10 +422,7 @@ export function Map({selectedRow, selectedRowData} : MapProps) {
                         </svg>
                         <GridContainer 
                             svgProps={svgProps} 
-                            selectedRowData={selectedRowData}
                             fills={fills} 
-                            getPotFill={getPotFill}
-                            gridCells={gridCells} 
                             setGridCords={setGridCords} 
                         />
                     </div> {/* map-svg-grid-container */}

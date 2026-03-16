@@ -1,23 +1,28 @@
-import { createContext, useState, useRef } from 'react';
-import allChapters from './db/chapters.json';
-import { MRT_RowSelectionState } from 'material-react-table';
-import { Mission, Row } from './components/table';
+import { createContext } from 'react';
+// import allChapters from './db/chapters.json';
+import { MRT_Row, MRT_RowSelectionState } from 'material-react-table';
+import { Battle, BattleRow } from './components/table';
 import { RouteChapters } from './components/settings/settings-chapters';
+import { SvgPropsType } from './components/details/details-map/details-map';
 
-export const AllChapters = createContext<RouteChapters[]>(allChapters);
-export const AllMissions = createContext<Mission[]>([]);
+interface DatabaseType {
+    chapters ?: RouteChapters[];
+    battles ?: Battle[];
+    map ?: SvgPropsType[];
+};
 
-export const MainSelectedRow = createContext<{}>(
-    []
-    // const [selectedRow, setSelectedRow] = useState<MRT_RowSelectionState>({});
-);
+export const DatabaseContext = createContext<DatabaseType>({});
 
-export const MainSelectedRowData = createContext(
-    null
-    //   const selectedRowData = useRef<Row|null>(null);
-);
+export const SelectedBattleRowContext = createContext<
+    [
+        [
+            MRT_RowSelectionState, 
+            React.Dispatch<React.SetStateAction<MRT_RowSelectionState>>
+        ], 
+        React.RefObject<MRT_Row<BattleRow>|undefined>
+    ]
+    |undefined
+>(undefined);
 
-export const Difficulty = createContext<[number, React.Dispatch<React.SetStateAction<number>>|null]>(
-    [0, null]
-);
+export const DifficultyContext = createContext<[number, React.Dispatch<React.SetStateAction<number>>|null]>([0, null]);
 

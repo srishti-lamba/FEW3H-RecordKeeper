@@ -1,7 +1,7 @@
 import {useState, useEffect, useContext} from 'react';
 import { DifficultyButtons } from './settings-difficulty';
 import { ChapterSelection, RouteChapters } from './settings-chapters';
-import { Difficulty } from '../../context';
+import { DifficultyContext } from '../../context';
 
 interface SettingsProps {
   // allChapters : RouteChapters[];
@@ -11,7 +11,7 @@ interface SettingsProps {
 
 export default function Settings({/*allChapters, difficulty, setDifficulty*/} : SettingsProps) {
 
-  const [difficulty, setDifficulty] = useContext(Difficulty)
+  const [difficulty, setDifficulty] = useContext(DifficultyContext)
   const [show, setShow] = useState<boolean>(false);
 
   // Chapters: Scarlet Blaze

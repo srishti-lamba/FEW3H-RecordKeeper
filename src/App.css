@@ -1130,7 +1130,7 @@ html {
 
 }
 
-.MuiPaper-root {
+.MuiPaper-root.battles-table {
   --Paper-shadow: none !important;
 
   & table.MuiTable-root {
@@ -1339,6 +1339,39 @@ html {
   }
 
 }
+
+.MuiPaper-root.missions-table {
+  & .MuiTableContainer-root {
+    & table.MuiTable-root {
+      & thead.MuiTableHead-root {
+      } /* thead.MuiTableHead-root */
+      & tbody.MuiTableBody-root {
+
+        & tr.MuiTableRow-root {
+
+          & td.MuiTableCell-root[data-index="1"] {
+            
+            & div.mission-table-row {
+
+              & div.mission-table-row-title {
+                display: block;
+              } /* div.mission-table-row-title */
+
+              & div.mission-table-row-text {
+                font-size: 0.9em;
+                display: block;
+              } /* div.mission-table-row-text */
+
+            } /* div.mission-table-row */
+
+          } /* td.MuiTableCell-root */
+
+        } /* tr.MuiTableRow-root */
+
+      } /* tbody.MuiTableBody-root */
+    } /* table.MuiTable-root */
+  } /* .MuiTableContainer-root */
+} /* .MuiPaper-root.missions-table */
 
 /* .test {
   --height : 3em;

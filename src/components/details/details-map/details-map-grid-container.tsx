@@ -2,20 +2,17 @@ import React, { JSX, memo, useEffect, useMemo, useRef, useState } from "react";
 import { GridCellType, GridCellDataType, PotDataType, SvgPropsType, FillsType, CoordinateType, size_SpecificType, StrongholdDataType, UnitDataSummaryType, UnitDataType } from "./details-map";
 import { Tooltip } from "react-tooltip";
 import { MemoizedTooptipContent } from "./details-map-tooltip";
-import { Row } from "../../table";
+// import { BattleRow } from "../../table";
 import { Classes } from "../class-data";
 import { Weapons } from "../weapon-data";
 
 interface GridContainerProps {
     svgProps : SvgPropsType;
-    selectedRowData : React.RefObject<Row|null>;
     fills : FillsType;
-    getPotFill : any;
-    gridCells : React.RefObject<GridCellType[]>;
     setGridCords : any;
 }
 
-export function GridContainer({svgProps, selectedRowData, fills, getPotFill, gridCells, setGridCords} : GridContainerProps) {
+export function GridContainer({svgProps, fills, setGridCords} : GridContainerProps) {
 
     const [tileCoords, setTileCoords] = useState<CoordinateType|null>(null);
     const prevTileCoords = useRef<(CoordinateType|null)[]>([null, null]);
@@ -129,7 +126,7 @@ export function GridContainer({svgProps, selectedRowData, fills, getPotFill, gri
                     preserveAspectRatio="xMidYMid meet"
                 >
                     <path 
-                        fill={getPotFill(pot)}
+                        fill={fills.pot[pot.colour]} 
                         stroke="black" stroke-width="3" stroke-linecap="round"
                         d="M 0 0 c 3.199 6.3981 3.199 7.4644 0.5332 10.1303 c -12.2631 10.1303 -10.1304 34.6564 15.462 34.6564 c 22.3934 0 27.7252 -24.5261 15.4621 -34.6564 c -2.6659 -2.6659 -2.6659 -3.7322 0.5332 -10.1303 z"
                     />
@@ -213,7 +210,7 @@ export function GridContainer({svgProps, selectedRowData, fills, getPotFill, gri
                     < MemoizedTooptipContent 
                         data={data.current} 
                         tileCoords={tileCoords}
-                        selectedRowData={selectedRowData}
+                        // selectedRowData={selectedRowData}
                     />
                 )}
                 openOnClick={true}

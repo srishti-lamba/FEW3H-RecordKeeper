@@ -14,6 +14,7 @@ interface TypeListType {
 
 export interface ClassType {
     name : string;
+    nameLower ?: string;
     data ?: ClassDataType;
     sprite : {
         url ?: string;
@@ -26,7 +27,6 @@ export interface ClassType {
 }
 
 interface ClassDataType {
-    nameLower ?: string;
     description: string;
     types : CategoryType[];
 }
@@ -119,8 +119,8 @@ export class Classes {
             c.data = Classes.class[c.name]
 
         // Name Lower
-        if (c.data.nameLower === undefined)
-            c.data.nameLower = c.name.toLowerCase()
+        if (c.nameLower === undefined)
+            c.nameLower = c.name.toLowerCase()
 
         // // Data Types
         // c.data.types.forEach( (type : CategoryType) => {
@@ -132,11 +132,11 @@ export class Classes {
 
         // Sprite URL
         if (c.sprite.url === undefined)
-            c.sprite.url = Classes.getClassSprite(c.name, allegiance)
+            c.sprite.url = Classes.getClassSprite(c.nameLower, allegiance)
 
         // Profile URL
         if (c.profile.url === undefined)
-            c.profile.url = Classes.getClassProfile(c.name, c.profile.file)
+            c.profile.url = Classes.getClassProfile(c.nameLower, c.profile.file)
 
         return c;
     }
