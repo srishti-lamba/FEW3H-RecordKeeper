@@ -1344,27 +1344,75 @@ html {
   & .MuiTableContainer-root {
     & table.MuiTable-root {
       & thead.MuiTableHead-root {
+
+        & th.MuiTableCell-root {
+          font-family: inherit;
+          font-size: inherit;
+        } /* th.MuiTableCell-root */
+
       } /* thead.MuiTableHead-root */
       & tbody.MuiTableBody-root {
 
         & tr.MuiTableRow-root {
 
-          & td.MuiTableCell-root[data-index="1"] {
+          & td.MuiTableCell-root {
+            font-family: inherit;
+            font-size: inherit;
+
+            &[data-index="1"] {
             
-            & div.mission-table-row {
+              & div.mission-table-row {
 
-              & div.mission-table-row-title {
-                display: block;
-              } /* div.mission-table-row-title */
+                & div.mission-table-row-title {
+                  display: block;
+                } /* div.mission-table-row-title */
 
-              & div.mission-table-row-text {
-                font-size: 0.9em;
-                display: block;
-              } /* div.mission-table-row-text */
+                & div.mission-table-row-text {
+                  font-size: 0.9em;
+                  display: block;
 
-            } /* div.mission-table-row */
+                  & span.mission-table-row-text-blue {
+                    color: #5EB1DD;
+                  }
+                  & span.mission-table-row-text-green {
+                    color: #52B652;
+                  }
+                  & span.mission-table-row-text-red {
+                    color: #EA7E72;
+                  }
+                  & span.mission-table-row-text-yellow {
+                    color: #F3B65E;
+                  }
+                } /* div.mission-table-row-text */
 
-          } /* td.MuiTableCell-root */
+              } /* div.mission-table-row */
+
+            } /* td.MuiTableCell-root[data-index="1"] */
+
+            &[data-index="0"] {
+
+              & button.MuiButtonBase-root.Mui-disabled {
+                display: none;
+                visibility: hidden;
+
+              } /* button.MuiButtonBase-root.Mui-disabled */
+
+            } /* td.MuiTableCell-root[data-index="0"] */
+          }
+
+          &.main-row {
+
+          } /* tr.MuiTableBody-root.main-row */
+
+          &.sub-row {
+            
+            & td.MuiTableCell-root[data-index="1"] {
+              & div.mission-table-row {
+                margin-left: 2em;
+              }
+            } /* td.MuiTableCell-root[data-index="1"] */
+
+          } /* tr.MuiTableRow-root.sub-row */
 
         } /* tr.MuiTableRow-root */
 

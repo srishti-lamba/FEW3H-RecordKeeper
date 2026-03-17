@@ -1,6 +1,6 @@
-import React, {useEffect, useState, useRef, useContext} from 'react';
-import Select, {Props, GroupBase, OptionsOrGroups, StylesConfig } from 'react-select';
-import { AllChapters } from '../../context';
+import React, {useEffect, useState, useContext} from 'react';
+import Select, {GroupBase, OptionsOrGroups } from 'react-select';
+import { DatabaseContext } from '../../context';
 
 export interface Chapter {
   number: number;
@@ -53,7 +53,7 @@ interface ChapterSelectionProps {
 
 export function ChapterSelection({show, /*chapterStart, setChapterStart, chapterEnd, setChapterEnd, allChapters*/} : ChapterSelectionProps) {
 
-  const allChapters = useContext(AllChapters);
+  const allChapters = useContext(DatabaseContext).chapters;
   const [allOptions, setAllOptions] = useState<OptionsOrGroups<SelectOption, GroupedOption>>([]);
   const [selectedOption, setSelectedOption] = useState<SelectOption>();
 
@@ -63,9 +63,9 @@ export function ChapterSelection({show, /*chapterStart, setChapterStart, chapter
     // let options : SelectOption[] = [];
     let pCh : number = 0;
     let rCh : number = 0;
-    let pChs : Chapter[] = allChapters[0].chapters;
-    let rChs : Chapter[] = allChapters[1].chapters;
-    let routeID : number = allChapters[1].id;
+    let pChs : Chapter[] = allChapters![0].chapters;
+    let rChs : Chapter[] = allChapters![1].chapters;
+    let routeID : number = allChapters![1].id;
     let prologueOptions : PrologueOption[] = [];
     let partOneOptions : PartOneOption[] = [];
     let partTwoOptions : PartTwoOption[] = [];
@@ -189,7 +189,7 @@ export function ChapterSelection({show, /*chapterStart, setChapterStart, chapter
   return (
     <>
       <span className="section chapter-selection">
-        <span className="prompt">{allChapters[1].route}</span>
+        <span className="prompt">{allChapters![1].route}</span>
         <span className="chapter-selection-wrapper">
           <span className="chapter-selection-arrow-wrapper">
             <img 

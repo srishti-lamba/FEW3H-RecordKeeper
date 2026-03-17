@@ -3,8 +3,8 @@ import { GridCellType, GridCellDataType, PotDataType, SvgPropsType, FillsType, C
 import { Tooltip } from "react-tooltip";
 import { MemoizedTooptipContent } from "./details-map-tooltip";
 // import { BattleRow } from "../../table";
-import { Classes } from "../class-data";
-import { Weapons } from "../weapon-data";
+import { Classes } from "../../data-classes/class-data";
+import { Weapons } from "../../data-classes/weapon-data";
 
 interface GridContainerProps {
     svgProps : SvgPropsType;

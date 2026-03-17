@@ -5,8 +5,8 @@ import { JSX } from 'react/jsx-runtime';
 import { GridContainer } from './details-map-grid-container';
 import Slider from '@mui/material/Slider'
 // import { BattleRow } from '../../table';
-import { Classes, ClassType } from '../class-data';
-import { WeaponDataType } from '../weapon-data';
+import { Classes, ClassType } from '../../data-classes/class-data';
+import { WeaponDataType } from '../../data-classes/weapon-data';
 import { DatabaseContext, SelectedBattleRowContext } from '../../../context';
 
 /* 
