@@ -43,10 +43,10 @@ export function Missions({ }: MissionsProps) {
     const [data, setData] = useState<MissionRow[]>([]);
     const title: Dictionary<string> = {
         "ms": "Main Mission Start",
-        "mu": "Main Mission Updated",
-        "mc": "Main Mission Completed",
+        "mc": "Main Mission Changed",
+        "me": "Main Mission Successful",
         "ss": "Side Mission Start",
-        "sc": "Side Mission Completed",
+        "se": "Side Mission Successful",
         "rb": "Report!",
         "ry": "Report!",
         "w": "Warning!"
@@ -156,7 +156,8 @@ export function Missions({ }: MissionsProps) {
             {
                 header: 'Missions',
                 filterVariant: 'multi-select',
-                filterSelectOptions: Object.values(title),
+                filterSelectOptions: Array.from(new Set(Object.values(title))),
+                enableColumnFilter: true,
                 filterFn: (row, id, filterValue: string[]) => {
                     if (filterValue.length == 0)
                         return true
@@ -170,21 +171,24 @@ export function Missions({ }: MissionsProps) {
                     })
                     return equals
                 },
-                enableResizing: false,
                 Cell: ({ row }) => {
                     // formatText(row.original.text);
                     return (
-                        <div className="mission-table-row">
-                            <div
-                                className="mission-table-row-title"
-                            >
-                                {title[row.original.type]}
-                            </div>
-                            <div
-                                className="mission-table-row-text"
-                            >
-                                {/* {row.original.text} */}
-                                {formatText(row.original.text)}
+                        <div className={`mission-table-row type-${row.original.type}`}>
+                            <div className="mission-table-row-main-wrapper">
+                                <div className="mission-table-row-main">
+                                    <div
+                                        className="mission-table-row-main-title"
+                                    >
+                                        {title[row.original.type]}
+                                    </div>
+                                    <div
+                                        className="mission-table-row-main-text"
+                                    >
+                                        {/* {row.original.text} */}
+                                        {formatText(row.original.text)}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     )
@@ -207,6 +211,7 @@ export function Missions({ }: MissionsProps) {
         enableBottomToolbar: false,
         enableDensityToggle: false,
         enableColumnResizing: false,
+        enableHiding: false,
         layoutMode: 'semantic',
         enableFacetedValues: true,
         initialState: { 
@@ -215,6 +220,10 @@ export function Missions({ }: MissionsProps) {
             //     "mrt-row-expand": false,
             // },
         },
+        // muiFilterCheckboxProps: ({column, table}) => ({
+        //     className: 'missions-filter'
+        // }),
+        // columnFilterDisplayMode: 'popover',
         muiTablePaperProps: ({ table }) => ({
             className: 'missions-table'
         }),
@@ -234,15 +243,13 @@ export function Missions({ }: MissionsProps) {
         state: { rowSelection: selectedMissionRow },
         displayColumnDefOptions: {
             'mrt-row-expand': {
-                enableResizing: false,
-                minSize: 20,
-                size: 20,
-                maxSize: 20,
+                minSize: 1,
+                size: 1,
+                maxSize: 1,
                 grow: false,
-                // icons : (row: MRT_Row<MissionRow>) => (row.original.subRows === undefined || row.original.subRows.length === 0) ? undefined : (row.getIsExpanded()) ? <ExpandMoreIcon /> : <ExpandLessIcon />,
-                // Cell: (props) => (props.row.original.subRows === undefined || props.row.original.subRows.length === 0) ? undefined : (props.row.getIsExpanded()) ? <ExpandMoreIcon onClick={() => {props.row.toggleExpanded(true)}} /> : <ExpandLessIcon />,
             } as Partial<MRT_DisplayColumnDef<MissionRow, unknown>>,
         },
+        filterFromLeafRows: true,
         enableExpanding: true,
         enableExpandAll: true,
         getRowCanExpand: (row) => row.original.subRows !== undefined,

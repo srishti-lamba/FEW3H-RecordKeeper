@@ -70,13 +70,13 @@
         "missions": [
             {"type": "ms", "text": "Defeat the [red]Gatekeeper[/red]!", "prereq": "If the Player heads north of [red]Fortress Main Gates[/red].", "notes": "Gatekeeper stands north of Fortress Main Gates. Once you defeat him, the closed gates directly to his north, west, and east open.",
               "subRows": [
-                  {"type": "mc", "text": "Defeated the [red]Gatekeeper[/red]!"},
+                  {"type": "me", "text": "Defeated the [red]Gatekeeper[/red]!"},
                   {"type": "rb", "text": "Defeated the [red]Gatekeeper[/red]! The stronghold gates opened!"}
               ]
             },
             {"type": "ms", "text": "Seize the [red]Thieves'[/red] [green]base[/green]!", "notes": "Sieze [red][/red] and [red][/red].",
               "subRows": [
-                  {"type": "mc", "text": "Seized the [red]Thieves'[/red] [green]base[/green]!"}
+                  {"type": "me", "text": "Seized the [red]Thieves'[/red] [green]base[/green]!"}
               ]
             },
             {"type": "w", "text": "A [red]Thief[/red] appeared with a [green]chest key[/green]!", "prereq": "Player attacks the Plaza.", "notes": "The Thief appears in the hallway directly south of the [red]Command Post[/red]. They are heading towards the [red]Chapel[/red].",
@@ -87,9 +87,9 @@
               ]
             },
             {"type": "ms", "text": "Investigate the [green]dungeon[/green]!"},
-            {"type": "mu", "text": "Seize the [red]Dungeon[/red] and rescue the captive [blue]Officers Academy student[/blue]!",
+            {"type": "mc", "text": "Seize the [red]Dungeon[/red] and rescue the captive [blue]Officers Academy student[/blue]!",
               "subRows": [
-                  {"type": "mc", "text": "Rescued the [blue]Officers Academy student[/blue]!"},
+                  {"type": "me", "text": "Rescued the [blue]Officers Academy student[/blue]!"},
                   {"type": "w", "text": "A [yellow]Mysterious Soldier[/yellow] and their allies appeared!", "notes": "Plaza, Chapel and Guardhouse were taken over by the third faction. A new stronghold has also appeared in the West."}
               ]
             },
@@ -97,19 +97,19 @@
               "subRows": [
                   {"type": "ry", "text": "Don't let [blue]Monica[/blue] be routed!", "notes": "This is your new defeat condition."},
                   {"type": "w", "text": "[blue]Monica[/blue] is being attacked by a [yellow]Mysterious Soldier[/yellow]! She stopped advancing!", "notes": "Defeat the enemy unit stopping the allied unit from advancing."},
-                  {"type": "mc", "text": "Protected [blue]Monica[/blue]!"}
+                  {"type": "me", "text": "Protected [blue]Monica[/blue]!"}
               ]
             },
             {"type": "w", "text": "A surviving [red]Thief[/red] appeared and is retreating to their [green]evacuation point[/green]!", "notes": "TBA",
               "subRows" : [
                 {"type": "ss", "text": "Don't let the [red]Thief[/red] retreat!"},
-                {"type": "sc", "text": "Defeated the [red]Thief[/red]!"}
+                {"type": "se", "text": "Defeated the [red]Thief[/red]!"}
               ]
             },
             {"type": "w", "text": "[yellow]Kronya[/yellow] appeared!",
               "subRows" : [
                 {"type": "ms", "text": "Defeat [yellow]Kronya[/yellow]!"},
-                {"type": "mc", "text": "Defeated [yellow]Kronya[/yellow]!"}
+                {"type": "me", "text": "Defeated [yellow]Kronya[/yellow]!"}
               ]
             },
             {"type": "w", "text": "A [yellow]Wild Demonic Beast[/yellow] has appeared!",
