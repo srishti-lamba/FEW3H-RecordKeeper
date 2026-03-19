@@ -2,6 +2,7 @@ import React, {useEffect, useState, useRef} from 'react';
 import { Map } from './details-map/details-map'
 import { MRT_RowSelectionState } from 'material-react-table';
 import { Missions } from './missions-table';
+import { SelectedMissionRowContext } from '../../context';
 // import { BattleRow } from '../table';
 
 interface DetailsProps {
@@ -13,11 +14,13 @@ export function Details( {/*selectedRow, selectedRowData*/} : DetailsProps ) {
 
     return (
         <div id="right-pane-contents">
-            <Map />
-            <Missions />
-            <div className="test"></div>
-            <div className="test2"></div>
-            {/* <img src={process.env.PUBLIC_URL + "/images/ui-background/test.svg"} width="100%" height="100px" /> */}
+            <SelectedMissionRowContext value={useState<MRT_RowSelectionState>({})}>
+                <Map />
+                <Missions />
+                <div className="test"></div>
+                <div className="test2"></div>
+                {/* <img src={process.env.PUBLIC_URL + "/images/ui-background/test.svg"} width="100%" height="100px" /> */}
+            </SelectedMissionRowContext>
         </div>
     )
 }

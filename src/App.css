@@ -31,6 +31,34 @@ html {
   }
 }
 
+& .row-black-background {
+  --font-size: 0.8rem;
+  --height: calc( var(--font-size)  * 1.25);
+
+  display: flex;
+  flex-flow: row nowrap;
+  height: var(--height);
+  gap: 0.5rem;
+  letter-spacing: 0.05rem;
+  font-size: var(--font-size);
+  padding: 0 var(--padding);
+  align-items: center;
+  justify-content: center;
+
+  background-image:
+    url(/public/images/ui-background/subCategoryRow/left-base.svg),
+    url(/public/images/ui-background/subCategoryRow/right-base.svg),
+    url(/public/images/ui-background/subCategoryRow/middle-base.svg);
+  background-repeat: 
+    no-repeat, no-repeat, no-repeat;
+  background-position:
+    left, right, center;
+  background-size: 
+    auto, 
+    auto, 
+    calc(100% - ((var(--height) * 0.25)*2) + 1px) 100%;
+}
+
 .App {
   background-color: white;
   color: black;
@@ -1363,6 +1391,8 @@ html {
               text-align: right;
               flex-grow: 0;
               width: 1.75rem;
+              padding-left: 0;
+              padding-right: 0;
 
               & .Mui-TableHeadCell-Content {
                 justify-content: right;
@@ -1379,20 +1409,25 @@ html {
 
       } /* thead.MuiTableHead-root */
       & tbody.MuiTableBody-root {
+        --gap: 0.5rem;
+
         display: flex;
         flex-flow: column nowrap;
+        gap: var(--gap);
 
         & tr.MuiTableRow-root {
           display: flex;
-          flex-direction: row nowrap;
+          flex-flow: row nowrap;
           align-content: stretch;
 
           & td.MuiTableCell-root {
             font-family: inherit;
-            font-size: inherit;
+            font-size: 0.9rem;
 
             background-image: unset !important;
             border: none;
+
+            padding: 0;
 
             &:after {
               background-color: transparent !important;
@@ -1403,7 +1438,7 @@ html {
               overflow: hidden;
               flex-grow: 0;
               width: 1.75rem;
-              padding-top: 0.5rem;
+              padding-top: 0.25rem;
 
               & button.MuiButtonBase-root.Mui-disabled {
                 display: none;
@@ -1417,21 +1452,24 @@ html {
               flex-grow: 2;
             
               & div.mission-table-row {
+                --background-colour: rgb(10,10,10);
+                --border-radius: 5px;
+                --border-width: 2px;
+                --border-colour: #292621;
+                --padding: 0.25rem;
+                --transition-duration: 300ms;
+
                 color: white;
+                white-space: pre-wrap;
 
                 & div.mission-table-row-main-wrapper {
-                  --border-radius: 5px;
-                  --padding: 0.25rem;
-
-                  background-color: rgb(10,10,10);
+                  background-color: var(--background-colour);
                   padding: var(--padding);
                   border-radius: var(--border-radius);
 
                   & div.mission-table-row-main {
-                    --border-width: 1.75px;
-
                     background-color: transparent;
-                    border: var(--border-width) solid #292621;
+                    border: var(--border-width) solid var(--border-colour);
                     border-radius: var(--border-radius);
 
                     & div.mission-table-row-main-title {
@@ -1441,6 +1479,8 @@ html {
                       
                       padding-left: 3.5em;
                       align-content: center;
+
+                      color: #F1E495;
 
                       background-size: 100% 100%;
                       background-repeat: no-repeat;
@@ -1468,13 +1508,6 @@ html {
                       text-wrap-mode: wrap;
                       min-height: 2.9em;
                     } /* div.mission-table-row-text */
-
-                    &:hover {
-                      box-shadow: 
-                        0px 0px var(--padding) 0.75px rgb(255, 255, 255, 0.75),
-                        0px 0px var(--padding) 2px rgb(255, 255, 255, 0.25);
-                      border-color: rgb(255, 255, 255, 0.75);
-                    }
 
                   } /* div.mission-table-row-main */
 
@@ -1542,6 +1575,50 @@ html {
                   color: #F3B65E;
                 }
 
+                & div.mission-table-row-details-wrapper {
+                  padding: var(--padding);
+                  background-color: var(--background-colour);
+                  border-radius: var(--border-radius);
+                  
+                  pointer-events: all;
+
+                  overflow: hidden;
+                  transition: 
+                    max-height var(--transition-duration) cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+                    padding var(--transition-duration) step-end 0ms,
+                    margin-top var(--transition-duration) cubic-bezier(0.4, 0, 0.2, 1) 0ms
+                  ;
+                  overflow: visible;
+
+                  & div.mission-table-row-details {
+                    display: flex;
+                    flex-flow: column nowrap;
+                    gap: calc(var(--padding) * 3);
+
+                    padding: var(--padding);
+
+                    border: var(--border-width) solid var(--border-colour);
+                    border-radius: var(--border-radius);
+
+                    & div.mission-table-row-details-row {
+                      padding: 0 var(--padding);
+
+                      & span.mission-table-row-details-row-info {
+                        display: block;
+                        font-size: 0.9em;
+                        text-wrap-mode: wrap;
+                        margin: 0 var(--padding);
+                        padding-top: var(--padding);
+                      } /* span.mission-table-row-details-row-info */
+                    } /* div.mission-table-row-details-row */
+                  } /* div.mission-table-row-details */
+                } /*div.mission-table-row-details-wrapper */
+
+                & ul {
+                  margin: 0;
+                  padding-left: calc(var(--padding)*5);
+                }
+
               } /* div.mission-table-row */
 
             } /* td.MuiTableCell-root[data-index="1"] */
@@ -1560,6 +1637,41 @@ html {
             } /* td.MuiTableCell-root[data-index="1"] */
 
           } /* tr.MuiTableRow-root.sub-row */
+
+          /* Hover and Select */
+          &[data-selected="true"] {
+            & div.mission-table-row-main-wrapper {
+              position: relative;
+
+              &::before {
+                content: '';
+                position: absolute;
+                height: 100%;
+                width: 100%;
+                background-color: rgb(255, 255, 255, 0.15);
+                top: 0;
+                left: 0;
+                border-radius: var(--border-radius);
+                /* z-index: 2; */
+              }
+            }
+            & div.mission-table-row-details-wrapper {
+              transition: 
+                max-height var(--transition-duration) cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+                padding var(--transition-duration) step-start 0ms,
+                margin-top var(--transition-duration) cubic-bezier(0.4, 0, 0.2, 1) 0ms
+              !important;
+            }
+          }
+          &:hover, &[data-selected="true"] {
+
+            & div.mission-table-row-main {
+              box-shadow: 
+                0px 0px var(--padding) 0.75px rgb(255, 255, 255, 0.75),
+                0px 0px var(--padding) 2px rgb(255, 255, 255, 0.25);
+              border-color: rgb(255, 255, 255, 0.75);
+            }
+          }
 
         } /* tr.MuiTableRow-root */
 

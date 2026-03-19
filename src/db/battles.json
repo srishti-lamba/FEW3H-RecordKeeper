@@ -68,52 +68,58 @@
         "restriction": "",
         "strategy": [],
         "missions": [
-            {"type": "ms", "text": "Defeat the [red]Gatekeeper[/red]!", "prereq": "If the Player heads north of [red]Fortress Main Gates[/red].", "notes": "Gatekeeper stands north of Fortress Main Gates. Once you defeat him, the closed gates directly to his north, west, and east open.",
+            {"type": "ry", "text": "Advance into the [red]Thieves'[/red] [green]base[/green]!"},
+            {"type": "ms", "text": "Defeat the [red]Gatekeeper[/red]!", "prereq": "If the [blue]player[/blue] heads north of the [red]Fortress Main Gates[/red].", "notes": "The [red]Gatekeeper[/red] stands north of the [red]Fortress Main Gates[/red]. Once you defeat him, the closed gates directly to his north, west, and east open.",
               "subRows": [
                   {"type": "me", "text": "Defeated the [red]Gatekeeper[/red]!"},
                   {"type": "rb", "text": "Defeated the [red]Gatekeeper[/red]! The stronghold gates opened!"}
               ]
             },
-            {"type": "ms", "text": "Seize the [red]Thieves'[/red] [green]base[/green]!", "notes": "Sieze [red][/red] and [red][/red].",
+            {"type": "ms", "text": "Seize the [red]Thieves'[/red] [green]base[/green]!", "notes": "Seize the [red]Plaza[/red] and [red]Command Post[/red].",
               "subRows": [
                   {"type": "me", "text": "Seized the [red]Thieves'[/red] [green]base[/green]!"}
               ]
             },
-            {"type": "w", "text": "A [red]Thief[/red] appeared with a [green]chest key[/green]!", "prereq": "Player attacks the Plaza.", "notes": "The Thief appears in the hallway directly south of the [red]Command Post[/red]. They are heading towards the [red]Chapel[/red].",
+            {"type": "w", "text": "A [red]Thief[/red] appeared with a [green]chest key[/green]!", "prereq": "Player enters the [red]Plaza[/red].", "notes": "The [red]Thief[/red] appears in the hallway directly south of the [red]Command Post[/red]. They are heading towards the [red]Chapel[/red].",
               "subRows": [
                   {"type": "w", "text": "Defeat the [red]Thief[/red] and take the [green]chest key[/green]!"},
                   {"type": "rb", "text": "Got a [green]chest key[/green] by defeating the [red]Thief[/red]!"},
-                  {"type": "ry", "text": "Use the [green]chest key[/green] to open the [green]chest[/green]!"}
+                  {"type": "ry", "text": "Use the [green]chest key[/green] to open the [green]chest[/green]!", "notes": "The [green]chest[/green] is in the [red]Chapel[/red]."}
               ]
             },
             {"type": "ms", "text": "Investigate the [green]dungeon[/green]!"},
             {"type": "mc", "text": "Seize the [red]Dungeon[/red] and rescue the captive [blue]Officers Academy student[/blue]!",
               "subRows": [
                   {"type": "me", "text": "Rescued the [blue]Officers Academy student[/blue]!"},
-                  {"type": "w", "text": "A [yellow]Mysterious Soldier[/yellow] and their allies appeared!", "notes": "Plaza, Chapel and Guardhouse were taken over by the third faction. A new stronghold has also appeared in the West."}
+                  {"type": "w", "text": "A [yellow]Mysterious Soldier[/yellow] and their allies appeared!", "notes": "The strongholds [yellow]Plaza[/yellow], [yellow]Chapel[/yellow] and [yellow]Guardhouse[/yellow] were taken over by the third faction. A new stronghold, [yellow]Kitchen[/yellow] has also appeared in the west and the gate to its east is removed."}
               ]
             },
             {"type": "ms", "text": "Escort [blue]Monica[/blue] to [green]safety[/green]!", "notes": "Lead [blue]Monica[/blue] from the [blue]Dungeon[/blue] to north of the [blue]Fortress Main Gates[/blue]",
               "subRows": [
-                  {"type": "ry", "text": "Don't let [blue]Monica[/blue] be routed!", "notes": "This is your new defeat condition."},
-                  {"type": "w", "text": "[blue]Monica[/blue] is being attacked by a [yellow]Mysterious Soldier[/yellow]! She stopped advancing!", "notes": "Defeat the enemy unit stopping the allied unit from advancing."},
-                  {"type": "me", "text": "Protected [blue]Monica[/blue]!"}
+                  {"type": "ry", "text": "Defeat conditions have changed!", "notes": "Defeat Condition: [blue]Monica[/blue] is routed."},
+                  {"type": "ry", "text": "Don't let [blue]Monica[/blue] be routed!"},
+                  {"type": "w", "text": "[blue]Monica[/blue] is being attacked by a [yellow]Mysterious Soldier[/yellow]! She stopped advancing!", "prereq": "[blue]Monica[/blue] encounters a [yellow]Mysterious Soldier[/yellow] on her way."},
+                  {"type": "w", "text": "Defeat the [yellow]Mysterious Soldier[/yellow] and escort [blue]Monica[/blue]!"},
+                  {"type": "rb", "text": "[blue]Monica[/blue] is advancing again!", "prereq": "The [yellow]Mysterious Soldier[/yellow] attacking [blue]Monica[/blue] is defeated."},
+                  {"type": "me", "text": "Protected [blue]Monica[/blue]!", "prereq": "[blue]Monica[/blue] has reached her destination."}
               ]
             },
-            {"type": "w", "text": "A surviving [red]Thief[/red] appeared and is retreating to their [green]evacuation point[/green]!", "notes": "TBA",
+            {"type": "w", "text": "A surviving [red]Thief[/red] appeared and is retreating to their [green]evacuation point[/green]!", "prereq": "Either<ul><li>[blue]Monica[/blue] was attacked by a [yellow]Mysterious Soldier[/yellow] and the [yellow]Mysterious Soldier[/yellow] was defeated.</li></ul>or<ul><li>[blue]Monica[/blue] reaches the [blue]Plaza[/blue].</li></ul>Whichever condition is met first.",
               "subRows" : [
                 {"type": "ss", "text": "Don't let the [red]Thief[/red] retreat!"},
                 {"type": "se", "text": "Defeated the [red]Thief[/red]!"}
               ]
             },
-            {"type": "w", "text": "[yellow]Kronya[/yellow] appeared!",
+            {"type": "w", "text": "[yellow]Kronya[/yellow] appeared!", "prereq": "[blue]Monica[/blue] has reached her destination.",
               "subRows" : [
+                {"type": "ry", "text": "Victory conditions have changed!", "notes": "Victory Condition: Defeat [yellow]Kronya[/yellow]."},
                 {"type": "ms", "text": "Defeat [yellow]Kronya[/yellow]!"},
                 {"type": "me", "text": "Defeated [yellow]Kronya[/yellow]!"}
               ]
             },
             {"type": "w", "text": "A [yellow]Wild Demonic Beast[/yellow] has appeared!",
               "subRows" : [
+                {"type": "ry", "text": "Victory conditions have changed!", "notes": "Victory Condition: Defeat the [yellow]Wild Demonic Beast[/yellow]."},
                 {"type": "ms", "text": "Defeat the [yellow]Wild Demonic Beast[/yellow]!"}
               ]
             }

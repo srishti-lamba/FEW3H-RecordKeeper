@@ -24,5 +24,13 @@ export const SelectedBattleRowContext = createContext<
     |undefined
 >(undefined);
 
+export const SelectedMissionRowContext = createContext<
+    [
+        MRT_RowSelectionState,
+        React.Dispatch<React.SetStateAction<MRT_RowSelectionState>>
+    ]
+    |undefined
+>(undefined)
+
 export const DifficultyContext = createContext<[number, React.Dispatch<React.SetStateAction<number>>|null]>([0, null]);
 

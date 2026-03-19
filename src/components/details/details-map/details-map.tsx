@@ -7,7 +7,7 @@ import Slider from '@mui/material/Slider'
 // import { BattleRow } from '../../table';
 import { Classes, ClassType } from '../../data-classes/class-data';
 import { WeaponDataType } from '../../data-classes/weapon-data';
-import { DatabaseContext, SelectedBattleRowContext } from '../../../context';
+import { DatabaseContext, SelectedBattleRowContext, SelectedMissionRowContext } from '../../../context';
 
 /* 
     Websites
@@ -176,6 +176,7 @@ interface MapProps {}
 export function Map({} : MapProps) {
 
     var selectedBattleRow = useContext(SelectedBattleRowContext)![0][0];
+    var selectedMissionRow = useContext(SelectedMissionRowContext)![0]
     const [svgProps, setSvgProps] = useState<SvgPropsType | undefined | null>(undefined);
     const [gridCords, setGridCords] = useState<CoordinateType | null>(null);
     const [mapZoomExpanded, setMapZoomExpanded] = useState<boolean>(false);
