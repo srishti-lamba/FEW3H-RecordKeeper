@@ -87,7 +87,7 @@
                   {"type": "ry", "text": "Use the [green]chest key[/green] to open the [green]chest[/green]!", "notes": "The [green]chest[/green] is in the [red]Chapel[/red]."}
               ]
             },
-            {"type": "ms", "text": "Investigate the [green]dungeon[/green]!"},
+            {"type": "ms", "text": "Investigate the [green]dungeon[/green]!", "notes": "The gate leading to the [red]Dungeon[/red] is removed."},
             {"type": "mc", "text": "Seize the [red]Dungeon[/red] and rescue the captive [blue]Officers Academy student[/blue]!",
               "subRows": [
                   {"type": "me", "text": "Rescued the [blue]Officers Academy student[/blue]!"},

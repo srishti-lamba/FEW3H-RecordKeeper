@@ -6,7 +6,7 @@ import { GridCellDataType, CoordinateType, StrongholdDataType, UnitDataSummaryTy
 import { CategoryType, WeaponDataType, Weapons } from "../../data-classes/weapon-data";
 // import { BattleRow } from "../../table";
 import { Classes } from "../../data-classes/class-data";
-import { DatabaseContext, SelectedBattleRowContext } from "../../../context";
+import { DatabaseContext, BattlesTableContext } from "../../../context";
 import { MRT_Row } from "material-react-table";
 import { BattleRow } from "../../table";
 
@@ -19,6 +19,10 @@ interface TooltipContentProps {
 function TooltipContent({data: dataAll, tileCoords/*, selectedRowData*/} : TooltipContentProps) {
 
     // console.log("[[[ Tooltip rerender ]]]")
+
+    // Hooks
+    let battleTable = useContext(BattlesTableContext).table
+    // (useContext(BattlesTableContext)![1].current as MRT_Row<BattleRow>).original.level;
 
     if (tileCoords === null)
         return <></>
@@ -108,7 +112,7 @@ function TooltipContent({data: dataAll, tileCoords/*, selectedRowData*/} : Toolt
                     </AccordionSummary>
                     <AccordionDetails>
                         <span className="map-tooltip-subcategory">
-                            <span className="map-tooltip-subcategory-info">{pot.description}</span>
+                            <span className="map-tooltip-subcategory-info row-black-background">{pot.description}</span>
                         </span>
                     </AccordionDetails>
             </Accordion>
@@ -118,6 +122,10 @@ function TooltipContent({data: dataAll, tileCoords/*, selectedRowData*/} : Toolt
     // -------------
     // --- Units ---
     // -------------
+    let level = 0;
+    if (battleTable?.current !== undefined) {
+        level = battleTable!.current!.getRow(Object.keys(battleTable!.current!.getState().rowSelection)![0])!.original.level!;
+    }
     (data.unit)?.map( (unit : UnitDataType) => {
         // var unit : UnitDataType|undefined = data.unit;
 
@@ -129,7 +137,7 @@ function TooltipContent({data: dataAll, tileCoords/*, selectedRowData*/} : Toolt
                 <span className="map-tooltip-unit-details-info-leveltypeRow">
                     {/* === Level === */}
                     <span className="map-tooltip-unit-details-info-level">
-                        {`Lv ${(useContext(SelectedBattleRowContext)![1].current as MRT_Row<BattleRow>).original.level}`}
+                        {`Lv ${level}`}
                     </span>
                     {/* === Class Type === */}
                     <span className="map-tooltip-unit-details-info-type">

@@ -6,7 +6,7 @@ import {
   useMaterialReactTable,
   createMRTColumnHelper,
 } from 'material-react-table';
-import { DifficultyContext, DatabaseContext, SelectedBattleRowContext } from '../context';
+import { DifficultyContext, DatabaseContext, BattlesTableContext } from '../context';
 import { MissionRow } from './details/missions-table';
 
 export interface BattleRow {
@@ -55,7 +55,17 @@ export default function Table( {} : TableProps) {
   const allBattles = useContext(DatabaseContext).battles;
   const allChapters = useContext(DatabaseContext).chapters;
   const difficulty = useContext(DifficultyContext)[0];
-  const [[selectedRow, setSelectedRow], selectedRowData] = useContext(SelectedBattleRowContext)!;
+  const table = useContext(BattlesTableContext).table!;
+  const [selectedRow, setSelectedRow] = useContext(BattlesTableContext).selectedRow!;
+  
+  // const selectedRowData = 
+  // (
+  //   useContext(BattlesTableContext).table?.current !== undefined && 
+  //   Object.keys(useContext(BattlesTableContext).table!.current!.getState().rowSelection).length > 0 
+  // ) 
+  //   ? useContext(BattlesTableContext).table!.current!.getRow()
+  //   : undefined
+  // const [[selectedRow, setSelectedRow], selectedRowData] = useContext(BattlesTableContext)!;
 
   // -------------------
   // --- Create Data ---
@@ -224,7 +234,7 @@ export default function Table( {} : TableProps) {
 // --- Table ---
 // -------------
 
-const table = useMaterialReactTable({
+table.current = useMaterialReactTable({
     columns,
     data,
     enablePagination: false,
@@ -243,12 +253,12 @@ const table = useMaterialReactTable({
         setSelectedRow((prev : any) => {
           // Row was selected previously
           if (prev[row.id] !== undefined) {
-            selectedRowData.current = undefined;
+            // selectedRowData.current = undefined;
             return {};
           }
           // Row not selected previously
           else {
-            selectedRowData.current = row;
+            // selectedRowData.current = row;
             return {[row.id]: true};
           }
         }),
@@ -289,7 +299,7 @@ const table = useMaterialReactTable({
 
   return (
     <div id="left-pane-contents">
-      <MaterialReactTable table={table} />
+      <MaterialReactTable table={table.current} />
     </div>
   )
 }

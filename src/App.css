@@ -34,6 +34,7 @@ html {
 & .row-black-background {
   --font-size: 0.8rem;
   --height: calc( var(--font-size)  * 1.25);
+  --padding: 0.5rem;
 
   display: flex;
   flex-flow: row nowrap;
@@ -97,12 +98,37 @@ html {
 
       container: rightPane / inline-size;
 
+      /* @container rightPane (width > 0) { 
+        & #map-mission-container {
+          --right-pane-width : 100cqw;
+        }
+      } */
+
+      & #map-mission-container {
+        display: flex;
+        flex-flow: row wrap;
+        width: 100%;
+
+        & > .MuiPaper-root#missions-table {
+          min-width: 250px;
+          flex-grow: 1;
+          flex-shrink: 1;
+
+          container: missionsTable / inline-size;
+
+          /* @container missionsTable ((width >= 250px) and (width < var(--right-pane-width))) { 
+            & .MuiTableContainer-root {
+              background-color: red;
+            }
+          } */
+        } /* .MuiPaper-root.missions-table */
+      } /* #map-mission-container */
+
+      /* ----------- */
+      /* --- Map --- */
+      /* ----------- */
+
       & .map-container-wrapper {
-        /* width: min(100%, 50vh);
-        aspect-ratio: 1;
-        resize: both;
-        overflow: auto; */
-        /* position: relative; */
 
         & .map-container {
           width: fit-content;
@@ -347,7 +373,7 @@ html {
                             /* padding: var(--padding) 0; */
 
                             & .map-tooltip-subcategory-info {
-
+                              --font-size: 0.9rem;
                             } /* .map-tooltip-subcategory-info */
 
                             & .map-tooltip-subcategory-header {
@@ -1368,7 +1394,7 @@ html {
 
 }
 
-.MuiPaper-root.missions-table {
+.MuiPaper-root#missions-table {
   --Paper-shadow: none !important;
   & .MuiTableContainer-root {
     & table.MuiTable-root {
@@ -1461,6 +1487,8 @@ html {
 
                 color: white;
                 white-space: pre-wrap;
+                
+                container: missionContainer / inline-size;
 
                 & div.mission-table-row-main-wrapper {
                   background-color: var(--background-colour);
@@ -1475,7 +1503,7 @@ html {
                     & div.mission-table-row-main-title {
                       display: block;
                       position: relative;
-                      height: 1.75em;
+                      min-height: 1.75em;
                       
                       padding-left: 3.5em;
                       align-content: center;
@@ -1512,6 +1540,20 @@ html {
                   } /* div.mission-table-row-main */
 
                 } /* div.mission-table-row-main-wrapper */
+
+                /* Prevents "Main/Side Mission Sucessful" text wrapping */
+                @container missionContainer (width < 16em) {
+                  &.type-me 
+                  > div.mission-table-row-main-wrapper 
+                  > div.mission-table-row-main 
+                  > div.mission-table-row-main-title,
+                  &.type-se 
+                  > div.mission-table-row-main-wrapper 
+                  > div.mission-table-row-main 
+                  > div.mission-table-row-main-title {
+                    font-size: min(6.5cqw, 0.9rem);
+                  }
+                }
 
                 /* === Main Mission === */
                 &.type-ms, &.type-mc, &.type-me {

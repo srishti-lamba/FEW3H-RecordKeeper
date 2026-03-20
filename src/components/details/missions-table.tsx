@@ -8,7 +8,7 @@
 // 7: Warning!
 
 import { JSX, useContext, useEffect, useRef, useState } from "react";
-import { DatabaseContext, SelectedBattleRowContext, SelectedMissionRowContext } from "../../context";
+import { DatabaseContext, BattlesTableContext, MissionsTableContext, MapContext } from "../../context";
 import {
     MaterialReactTable,
     useMaterialReactTable,
@@ -16,6 +16,7 @@ import {
     MRT_RowSelectionState,
     MRT_DisplayColumnDef,
     MRT_Row,
+    MRT_TableInstance,
 } from 'material-react-table';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandMore';
@@ -25,7 +26,7 @@ interface Dictionary<T> {
 }
 
 export interface MissionRow {
-    id?: string;
+    id?: number[];
     type: string;
     text: string;
     prereq?: string;
@@ -39,13 +40,19 @@ interface TextRefType {
     notes ?: (string | JSX.Element)[];
 }
 
-interface MissionsProps { }
+interface MissionsProps { 
+    isTableWidthFull : boolean;
+    tableHeight : string;
+}
 
-export function Missions({ }: MissionsProps) {
+export function Missions({ isTableWidthFull: tableWidthFull, tableHeight }: MissionsProps) {
 
     const allBattles = useContext(DatabaseContext).battles
-    const selectedBattleRow = useContext(SelectedBattleRowContext)![0][0];
-    const [selectedMissionRow, setSelectedMissionRow] = useContext(SelectedMissionRowContext)!;
+    const selectedBattleRow = useContext(BattlesTableContext).selectedRow![0];
+
+    const table = useContext(MissionsTableContext).table!;
+    const [selectedMissionRow, setSelectedMissionRow] = useContext(MissionsTableContext).selectedRow!;
+
     const [data, setData] = useState<MissionRow[]>([]);
     const textRef = useRef<Dictionary<TextRefType>>({})
     const title: Dictionary<string> = {
@@ -75,6 +82,16 @@ export function Missions({ }: MissionsProps) {
         console.log(data)
     }, [data])
 
+    // useEffect(() => {
+    //     console.log(`[TableWidthRef: ${widthPercent}]`)
+    //     if (widthPercent === 0)
+    //         setTableWidthFull(!tableWidthFull)
+    //     else if (widthPercent == 1)
+    //         setTableWidthFull(true)
+    //     else
+    //         setTableWidthFull(false)
+    // }, [widthPercent])
+
     // ------------------------
     // --- Helper Functions ---
     // ------------------------
@@ -82,12 +99,12 @@ export function Missions({ }: MissionsProps) {
     const addDataIDs = ( data : MissionRow[] ) => {
         data.forEach( (row : MissionRow, index : number) => {
             // Main rows
-            row.id = `${index}`;
+            row.id = [index];
             
             // Sub rows
             if (row.subRows !== undefined)
                 row.subRows.forEach( 
-                    (subRow : MissionRow, subIndex : number) => subRow.id = `${index}-${subIndex}` 
+                    (subRow : MissionRow, subIndex : number) => subRow.id = [index,subIndex] 
                 )
         } )
         return data;
@@ -303,10 +320,11 @@ export function Missions({ }: MissionsProps) {
                     return equals
                 },
                 Cell: ({ row }) => {
-                    let curText = textRef.current[row.original.id as string]
+                    let idStr : string = row.original.id!.join("-")
+                    let curText = textRef.current[idStr]
                     if (curText === undefined)
                         curText = {main : formatText(row.original.text)}
-                    textRef.current[row.original.id as string] = curText
+                    textRef.current[idStr] = curText
                     if (row.getIsSelected()) {
                         if (row.original.prereq !== undefined && curText.prereq === undefined)
                             curText.prereq = formatText(row.original.prereq)
@@ -379,12 +397,9 @@ export function Missions({ }: MissionsProps) {
     // --- Table ---
     // -------------
 
-    const table = useMaterialReactTable({
+    table.current = useMaterialReactTable({
         columns,
         data,
-        icons: {
-            // ExpandMoreIcon: (props: any) =>  null
-        },
         enablePagination: false,
         enableBottomToolbar: false,
         enableDensityToggle: false,
@@ -394,16 +409,13 @@ export function Missions({ }: MissionsProps) {
         enableFacetedValues: true,
         initialState: { 
             density: 'compact',
-            // columnVisibility: {
-            //     "mrt-row-expand": false,
-            // },
         },
-        // muiFilterCheckboxProps: ({column, table}) => ({
-        //     className: 'missions-filter'
-        // }),
-        // columnFilterDisplayMode: 'popover',
         muiTablePaperProps: ({ table }) => ({
-            className: 'missions-table'
+            id: "missions-table",
+            sx: {
+                "overflow-y" : (tableWidthFull) ? "visible" : "scroll",
+                "max-height" : (tableWidthFull) ? "auto" : tableHeight,
+            }
         }),
         muiTableBodyRowProps: ({ row }) => ({
             onClick: () =>
@@ -453,7 +465,7 @@ export function Missions({ }: MissionsProps) {
         return <></>
 
     return (
-        <MaterialReactTable table={table} />
+        <MaterialReactTable table={table.current} />
     )
 
 }

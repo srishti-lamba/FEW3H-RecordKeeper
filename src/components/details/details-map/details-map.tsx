@@ -1,13 +1,10 @@
 import React, {useEffect, useState, useRef, useMemo, useContext} from 'react';
-import { MRT_RowSelectionState } from 'material-react-table';
-// import mapPath from '../../../db/map-path.json';
 import { JSX } from 'react/jsx-runtime';
 import { GridContainer } from './details-map-grid-container';
 import Slider from '@mui/material/Slider'
-// import { BattleRow } from '../../table';
-import { Classes, ClassType } from '../../data-classes/class-data';
+import { ClassType } from '../../data-classes/class-data';
 import { WeaponDataType } from '../../data-classes/weapon-data';
-import { DatabaseContext, SelectedBattleRowContext, SelectedMissionRowContext } from '../../../context';
+import { DatabaseContext, BattlesTableContext, MissionsTableContext, MapContext } from '../../../context';
 
 /* 
     Websites
@@ -25,18 +22,8 @@ export interface FillsType {
     base : string;
     stronghold : fill_StrongholdAllType;
     gate : string;
-    // pot : fill_PotsType;
     pot : Dictionary<string>;
 }
-
-// interface fill_PotsType {
-//     blue: string;
-//     green: string;
-//     purple : string;
-//     red : string;
-//     yellow : string;
-//     label : string;
-// }
 
 interface fill_StrongholdAllType {
     blue : fill_StrongholdType;
@@ -80,9 +67,11 @@ interface svg_StrongholdType {
 }
 
 interface svg_GateType {
-    transform : string;
-    d : string;
+    transform ?: string;
+    d ?: string;
     fill ?: string;
+    appear ?: number[];
+    disappear ?: number[];
 }
 
 interface svg_PotType {
@@ -136,9 +125,16 @@ export interface StrongholdDataType {
     name: string;
     icon?: JSX.Element | undefined;
     captureRequired: boolean;
-    appear: string | null;
-    disappear: string | null;
+    appear ?: {
+        text : string;
+        mission : number[]
+    };
+    disappear ?: {
+        text : string;
+        mission : number[]
+    };
     captain: (string|UnitDataType)[];
+    colours : [number[], string][];
 }
 
 export interface UnitDataSummaryAllType {
@@ -169,20 +165,31 @@ export interface UnitDataType {
     notes ?: string;
 }
 
+// === Mission Data ===
+interface MissionDataType {
+    stronghold : {appear: boolean, allegiance: string}[];
+    gates : {appear: boolean}[];
+}
+
 // === Class Props ===
 
-interface MapProps {}
+interface MapProps {
+    shouldSetHeight : React.RefObject<boolean>,
+    setHeight : any
+}
 
-export function Map({} : MapProps) {
+export function Map({ shouldSetHeight, setHeight } : MapProps) {
 
-    var selectedBattleRow = useContext(SelectedBattleRowContext)![0][0];
-    var selectedMissionRow = useContext(SelectedMissionRowContext)![0]
+    const selectedBattleRow = useContext(BattlesTableContext).selectedRow![0];
+    const selectedMissionRow = useContext(MissionsTableContext).selectedRow![0]
+    const scollElementSize = useContext(MapContext).size!;
     const [svgProps, setSvgProps] = useState<SvgPropsType | undefined | null>(undefined);
     const [gridCords, setGridCords] = useState<CoordinateType | null>(null);
+    const [missionData, setMissionData] = useState<MissionDataType>({stronghold:[],gates:[]})
     const [mapZoomExpanded, setMapZoomExpanded] = useState<boolean>(false);
     const scrollElement = useRef(null);
     const [scrollElementScrollbarOn, setScrollElementScrollbarOn] = useState(false);
-    const [mapZoom, setMapZoom] = useState<number>(500);
+    const [mapZoom, setMapZoom] = useState<number>(200);
     const maps = useContext(DatabaseContext).map;
     
     const fills : FillsType = {
@@ -233,18 +240,18 @@ export function Map({} : MapProps) {
     }, [])
 
     useEffect(() => {
-
-        // Find out of scrollElement has a scrollbar active
         if (scrollElement.current) {
             const observer = new ResizeObserver((entries) => {
                 for (let entry of entries) {
+                    scollElementSize.current = entry
+                    if (shouldSetHeight.current)
+                        setHeight(`${entry.borderBoxSize[0].blockSize}px`)
                     setScrollElementScrollbarOn(
-                         entry.borderBoxSize[0].inlineSize !== entry.contentBoxSize[0].inlineSize ||
+                        entry.borderBoxSize[0].inlineSize !== entry.contentBoxSize[0].inlineSize ||
                         entry.borderBoxSize[0].blockSize !== entry.contentBoxSize[0].blockSize
                     )
                 }
             });
-
             observer.observe(scrollElement.current);
 
             // Cleanup function
@@ -252,7 +259,6 @@ export function Map({} : MapProps) {
                 observer.disconnect();
             };
         }
-
     }, [scrollElement.current])
 
     // -----------------------
@@ -271,6 +277,35 @@ export function Map({} : MapProps) {
             setSvgProps(undefined); // Map data does not exist
     }, [selectedBattleRow])
 
+
+    // --------------------
+    // --- Mission Data ---
+    // --------------------
+    useEffect(() => {
+        async function recalculateMissionData() {
+            var stronghold : MissionDataType["stronghold"] = [];
+            var gates : MissionDataType["gates"] = [];
+
+            // Gates
+            if (svgProps !== undefined && svgProps !== null && svgProps.paths.gates !== undefined) {
+                (svgProps.paths.gates).forEach( (gate:svg_GateType, index:number) => {
+                    let hasAppeared = selectedMissionPassed(gate.appear, true)
+                    let hasDisappeared = selectedMissionPassed(gate.disappear, false)
+                    let show = (hasAppeared && !hasDisappeared)
+                    gates[index] = {appear: show}
+                    // if (index == 0)
+                    //     console.log(`Gate [hasAppeared: ${hasAppeared}] [hasDisappeaered: ${hasDisappeared}]`)
+                })
+            }
+            setMissionData({stronghold:stronghold,gates:gates})
+        };
+        recalculateMissionData();
+    }, [selectedMissionRow, svgProps])
+
+    // ------------------------
+    // --- Helper Functions ---
+    // ------------------------
+
     const toggleDisplayZoom = () => {
         setMapZoomExpanded(!mapZoomExpanded);
     }
@@ -279,6 +314,49 @@ export function Map({} : MapProps) {
         setMapZoom(newValue);
     }
 
+    /**
+     * Compares the currently selected mission to the target.
+     * Returns true if the selected mission is at, or has passed the target.
+     * 
+     * @param target: When your object appears/dissappears.
+     * @param appear: True if you're using the appear data. 
+     * False if you're using the dissapear data.
+     */
+    function selectedMissionPassed(target : number[]|undefined, appear : boolean) {
+        // If no specified appear time, return true if appear, false if disappear
+        if (target === undefined || target === null)
+            return appear
+
+        let keys = Object.keys(selectedMissionRow) as unknown as Array<string>
+        // If no mission is selected, return true if appear, false if disappear
+        if (keys.length == 0)
+            return appear;
+        let selected : number[] = keys[0].split('.').map(x=>Number(x));
+
+        // Compare first rows
+        if (selected[0] < target[0])
+            return false
+        else if (selected[0] > target[0])
+            return true
+        else { // First row is equal.
+            // If both don't have a second row, pass
+            if (selected.length === 1 && target.length === 1)
+                return true
+            // If one doesn't have a second row
+            if (target.length === 1)
+                return true
+            if (selected.length === 1)
+                return false
+            // Both have second rows
+            if (selected[1] < target[1])
+                return false
+            // If selected[1] is >= target[1]
+            return true
+        }
+    }
+
+    // console.log(`Details-Map rerendered`)
+
     if (svgProps === undefined) {
         return <>No data for this chapter yet...</>;
     }
@@ -286,6 +364,10 @@ export function Map({} : MapProps) {
     if (svgProps === null) {
         return <>Select a chapter.</>;
     }
+
+    // --------------
+    // --- Return ---
+    // --------------
 
     return (
         <div className="map-container-wrapper">
@@ -373,14 +455,23 @@ export function Map({} : MapProps) {
                             }
                             {
                                 // Gates
-                                svgProps.paths.gates.map( (path : svg_GateType, index : number) => (
-                                    <path 
-                                        fill={(path.fill !== undefined) ? path.fill : fills.gate} 
-                                        transform={path.transform} 
-                                        d={path.d}
-                                        key={"mapGate-" + index}
-                                    />
-                                ))
+                                svgProps.paths.gates.map( (path : svg_GateType, index : number) => {
+                                    let show = (missionData.gates[index] !== undefined) ? missionData.gates[index].appear : true;
+                                    let d = (path.d !== undefined) 
+                                        ? path.d 
+                                        : "M 0 0 l -5.4 5.6 l 21 20.9 l -21 21.1 l 5.6 5.4 l 20.9 -21 l 21.1 21 l 5.4 -5.6 l -21 -20.9 l 21 -21.1 l -5.6 -5.4 l -20.9 21 Z"
+                                    if (show)
+                                        return (
+                                            <path 
+                                                fill={(path.fill !== undefined) ? path.fill : fills.gate} 
+                                                transform={path.transform} 
+                                                d={d}
+                                                key={"mapGate-" + index}
+                                            />
+                                        )
+                                    else
+                                        return <></>
+                                })
                             }
                             {
                                 // Pots

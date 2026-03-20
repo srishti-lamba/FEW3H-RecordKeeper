@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import { MRT_Row, MRT_RowSelectionState } from 'material-react-table';
+import { MRT_Row, MRT_RowSelectionState, MRT_TableInstance } from 'material-react-table';
 import { SplitPane, Pane } from 'react-split-pane';
 import Settings from './components/settings/settings';
 import Table, { BattleRow } from './components/table';
@@ -9,7 +9,7 @@ import allBattles from './db/battles.json';
 import allMaps from './db/map-path.json';
 import { Details } from './components/details/details';
 import { PixelsToSVG } from './components/pixel-art-to-svg';
-import { DatabaseContext, DifficultyContext, SelectedBattleRowContext } from './context';
+import { DatabaseContext, DifficultyContext, BattlesTableContext } from './context';
 
 function App() {
 
@@ -38,7 +38,10 @@ function App() {
           // difficulty={difficulty} setDifficulty={setDifficulty}
         />
 
-        <SelectedBattleRowContext value={[useState<MRT_RowSelectionState>({}), useRef<MRT_Row<BattleRow>>(undefined)]}>
+        <BattlesTableContext value={{
+          table: useRef<MRT_TableInstance<BattleRow>>(undefined),
+          selectedRow: useState<MRT_RowSelectionState>({})
+        }}>
           <SplitPane direction="horizontal" resizable={true}>
             <Pane minSize="200px" defaultSize="30%">
               <Table
@@ -71,7 +74,7 @@ function App() {
               </symbol>
             </defs>
           </svg>
-        </SelectedBattleRowContext>
+        </BattlesTableContext>
       </div>
     {/* </Difficulty></AllChapters></AllBattles> */}
     </DifficultyContext></DatabaseContext>
