@@ -69,10 +69,10 @@
         "strategy": [],
         "missions": [
             {"type": "ry", "text": "Advance into the [red]Thieves'[/red] [green]base[/green]!"},
-            {"type": "ms", "text": "Defeat the [red]Gatekeeper[/red]!", "prereq": "If the [blue]player[/blue] heads north of the [red]Fortress Main Gates[/red].", "notes": "The [red]Gatekeeper[/red] stands north of the [red]Fortress Main Gates[/red]. Once you defeat him, the closed gates directly to his north, west, and east open.",
+            {"type": "ms", "text": "Defeat the [red]Gatekeeper[/red]!", "prereq": "If the [blue]player[/blue] heads north of the [red]Fortress Main Gates[/red].",
               "subRows": [
                   {"type": "me", "text": "Defeated the [red]Gatekeeper[/red]!"},
-                  {"type": "rb", "text": "Defeated the [red]Gatekeeper[/red]! The stronghold gates opened!"}
+                  {"type": "rb", "text": "Defeated the [red]Gatekeeper[/red]! The stronghold gates opened!", "notes": "The gates directly to the [red]Gatekeeper's[/red] north, west, and east are open."}
               ]
             },
             {"type": "ms", "text": "Seize the [red]Thieves'[/red] [green]base[/green]!", "notes": "Seize the [red]Plaza[/red] and [red]Command Post[/red].",

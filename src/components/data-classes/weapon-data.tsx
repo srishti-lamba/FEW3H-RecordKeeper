@@ -58,7 +58,7 @@ export class Weapons {
         lance: Weapons.categories.SWORD,
         axe: Weapons.categories.LANCE,
         bow: Weapons.categories.GAUNTLETS,
-        reason: Weapons.categories.BOW,
+        tome: Weapons.categories.BOW,
         brawl: Weapons.categories.TOME
     }
 
@@ -67,7 +67,7 @@ export class Weapons {
         lance: Weapons.categories.AXE,
         axe: Weapons.categories.SWORD,
         bow: Weapons.categories.TOME,
-        reason: Weapons.categories.GAUNTLETS,
+        tome: Weapons.categories.GAUNTLETS,
         brawl: Weapons.categories.BOW
     }
 

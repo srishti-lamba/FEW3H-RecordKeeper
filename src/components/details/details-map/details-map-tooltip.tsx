@@ -1,14 +1,11 @@
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Tooltip } from "react-tooltip";
-import { ClassType, memo, useContext } from "react";
-import { GridCellDataType, CoordinateType, StrongholdDataType, UnitDataSummaryType, PotDataType, UnitDataType } from "./details-map";
+import { memo, useContext } from "react";
+import { GridCellDataType, CoordinateType, StrongholdDataType, PotDataType, UnitDataType, MissionDataType } from "./details-map";
 import { CategoryType, WeaponDataType, Weapons } from "../../data-classes/weapon-data";
-// import { BattleRow } from "../../table";
 import { Classes } from "../../data-classes/class-data";
-import { DatabaseContext, BattlesTableContext } from "../../../context";
-import { MRT_Row } from "material-react-table";
-import { BattleRow } from "../../table";
+import { BattlesTableContext } from "../../../context";
 
 interface TooltipContentProps {
     data : GridCellDataType[][];
@@ -16,13 +13,12 @@ interface TooltipContentProps {
     // selectedRowData : React.RefObject<BattleRow|null>;
 }
 
-function TooltipContent({data: dataAll, tileCoords/*, selectedRowData*/} : TooltipContentProps) {
+function TooltipContent({data: dataAll, tileCoords} : TooltipContentProps) {
 
     // console.log("[[[ Tooltip rerender ]]]")
 
     // Hooks
     let battleTable = useContext(BattlesTableContext).table
-    // (useContext(BattlesTableContext)![1].current as MRT_Row<BattleRow>).original.level;
 
     if (tileCoords === null)
         return <></>
@@ -42,10 +38,6 @@ function TooltipContent({data: dataAll, tileCoords/*, selectedRowData*/} : Toolt
             if (captain instanceof String !== true)
                 captains.push(captain as UnitDataType)
         })
-        // if (base!.captain.blue !== undefined) captains.push(base!.captain.blue)
-        // if (base!.captain.green !== undefined) captains.push(base!.captain.green)
-        // if (base!.captain.red !== undefined) captains.push(base!.captain.red)
-        // if (base!.captain.yellow !== undefined) captains.push(base!.captain.yellow)
         var captainElements = []
         captainElements.push(captains.map( (unit : UnitDataType) => {
             // var weapon : WeaponDataType|undefined = unit.weapon.
@@ -143,7 +135,7 @@ function TooltipContent({data: dataAll, tileCoords/*, selectedRowData*/} : Toolt
                     <span className="map-tooltip-unit-details-info-type">
                         {
                             unit.class.data.types.map( (type : CategoryType) => {
-                                let typeID : string = `tile-${unit?.coords.x}-${unit?.coords.y}-unit-${type.nameLower}Type`;
+                                let typeID : string = `tile-${unit?.coords.x}-${unit?.coords.y}-unit-${unit.allegiance}-${type.nameLower}Type`;
                                 return (<>
                                     <img
                                         id={typeID}
@@ -164,8 +156,11 @@ function TooltipContent({data: dataAll, tileCoords/*, selectedRowData*/} : Toolt
 
         // ClassRow
         // let classData = Classes.class[unit.class];
-        let classData = Classes.getClassData(unit.class, unit.allegiance)
-        let classID = `tile-${unit.coords.x}-${unit.coords.y}-unit-${classData.nameLower}Class`
+        // let classData = Classes.getClassData(unit.class, unit.allegiance)
+        let classData = unit.class
+        let classID = `tile-${
+            unit.coords.x}-${unit.coords.y}-unit-${unit.allegiance}-${
+            classData.nameLower?.replace(" ","")}Class`
         var classRow = (
             <span className="map-tooltip-unit-details-info-classRow">
                 <img src={unit.class.sprite.url as string} />
@@ -185,7 +180,9 @@ function TooltipContent({data: dataAll, tileCoords/*, selectedRowData*/} : Toolt
         let weaponData : WeaponDataType|undefined = Weapons.getData(unit.weapon.name);
         var weaponRow = <></>
         if (weaponData !== null) {
-            let weaponID : string = `tile-${unit?.coords.x}-${unit?.coords.y}-unit-weapon`
+            let weaponID : string = `tile-${
+                unit?.coords.x}-${unit?.coords.y}-unit-${unit.allegiance}-${
+                unit.weapon.name.toLowerCase().replace(" ","").replace("'","")}Weapon`
             weaponRow = (
                 <span 
                     className="map-tooltip-unit-details-info-weaponRow" 
@@ -328,11 +325,15 @@ export const MemoizedTooptipContent = memo(
     TooltipContent, 
     (prevProps: Readonly<TooltipContentProps>, nextProps: Readonly<TooltipContentProps>) => {
         return !(
-            // tileCoords !== null (prevents tooltip shrinking right before close)
-            ( nextProps.tileCoords !== null ) &&
-            // tileCoords are different
-            ( ( prevProps.tileCoords?.x !== nextProps.tileCoords?.x ) || 
-              ( prevProps.tileCoords?.y !== nextProps.tileCoords?.y )    )
+            // Data is different
+            ( prevProps.data !== nextProps.data ) ||
+            (
+                // tileCoords !== null (prevents tooltip shrinking right before close)
+                ( nextProps.tileCoords !== null ) &&
+                // tileCoords are different
+                ( ( prevProps.tileCoords?.x !== nextProps.tileCoords?.x ) || 
+                ( prevProps.tileCoords?.y !== nextProps.tileCoords?.y )    )
+            )
         )
     }
 )

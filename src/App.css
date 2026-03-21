@@ -15,7 +15,7 @@ html {
 
   &:after { /* Underline of header */
     content: ' ';
-    height: 0.75px;
+    height: 0.6px;
     width: 100%;
     background-image: linear-gradient(
       to right, 
@@ -147,7 +147,7 @@ html {
             grid-column-start: 1;
 
             /* width: 50vh; */
-            width: 90vh;
+            width: 85vh;
             aspect-ratio: 1;
             resize: both;
             overflow: auto;
@@ -173,8 +173,7 @@ html {
                   --transformY : 0;
 
                   transform-box: fill-box;
-                  /* transform-origin: 50% 50%; */
-                  transform: translate(100%,75%);
+                  transform: translate(-50%,-50%);
                   x: var(--transformX);
                   y: var(--transformY);
 

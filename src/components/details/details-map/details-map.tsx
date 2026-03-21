@@ -20,17 +20,17 @@ interface Dictionary<T> {
 
 export interface FillsType {
     base : string;
-    stronghold : fill_StrongholdAllType;
+    stronghold : Dictionary<fill_StrongholdType>;
     gate : string;
     pot : Dictionary<string>;
 }
 
-interface fill_StrongholdAllType {
-    blue : fill_StrongholdType;
-    green : fill_StrongholdType;
-    red : fill_StrongholdType;
-    yellow : fill_StrongholdType;
-}
+// interface fill_StrongholdAllType {
+//     blue : fill_StrongholdType;
+//     green : fill_StrongholdType;
+//     red : fill_StrongholdType;
+//     yellow : fill_StrongholdType;
+// }
 
 interface fill_StrongholdType {
     ground : string;
@@ -55,7 +55,7 @@ interface svg_GroundType { // Base ground path
     d : string;
 }
 
-interface svg_StrongholdType {
+export interface svg_StrongholdType {
     transform : string;
     d : string;
     icon ?: {
@@ -134,7 +134,7 @@ export interface StrongholdDataType {
         mission : number[]
     };
     captain: (string|UnitDataType)[];
-    colours : [number[], string][];
+    colour : [number[], string][];
 }
 
 export interface UnitDataSummaryAllType {
@@ -153,6 +153,7 @@ export interface UnitDataSummaryType {
 
 export interface UnitDataType {
     name : string;
+    gender ?: string;
     class : ClassType;
     weapon : {
         name : string;
@@ -166,7 +167,7 @@ export interface UnitDataType {
 }
 
 // === Mission Data ===
-interface MissionDataType {
+export interface MissionDataType {
     stronghold : {appear: boolean, allegiance: string}[];
     gates : {appear: boolean}[];
 }
@@ -191,19 +192,19 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
     const [scrollElementScrollbarOn, setScrollElementScrollbarOn] = useState(false);
     const [mapZoom, setMapZoom] = useState<number>(200);
     const maps = useContext(DatabaseContext).map;
-    
+
     const fills : FillsType = {
         base: "#928A7D",
         stronghold: {
             blue: {
-                ground: "",
+                ground: "rgb(120, 120, 165)",
                 icon: {
                     outer: "#2E71E6",
                     inner: "#CDD5F4"
                 }
             },
             green: {
-                ground: "",
+                ground: "rgb(120, 165, 120)",
                 icon: {
                     outer: "#5FBF4C",
                     inner: "#D3E8D0"
@@ -217,7 +218,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                 }
             },
             yellow: {
-                ground: "",
+                ground: "rgb(175, 175, 110)",
                 icon: {
                     outer: "#E6A82E",
                     inner: "#F6E1CD"
@@ -283,11 +284,50 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
     // --------------------
     useEffect(() => {
         async function recalculateMissionData() {
+            if (svgProps === undefined || svgProps === null)
+                return
+
             var stronghold : MissionDataType["stronghold"] = [];
             var gates : MissionDataType["gates"] = [];
 
+            // Strongholds
+            if (svgProps.paths.strongholds !== undefined) {
+                (svgProps.paths.strongholds).forEach( (base:svg_StrongholdType, index:number) => {
+                    let baseData = base.data
+                    if (baseData === undefined)
+                        return
+
+                    // Show
+                    let hasAppeared = selectedMissionPassed(baseData.appear?.mission, true)
+                    let hasDisappeared = selectedMissionPassed(baseData.disappear?.mission, false)
+                    let show = (hasAppeared && !hasDisappeared)
+
+                    // Colour
+                    let allegiance = "red";
+                    if (Object.keys(selectedMissionRow).length === 0) { // No mission selected
+                        let c = baseData.colour[0][1]; // Select first colour
+                        if (c !== undefined)
+                            allegiance = c;
+                    }
+                    else {
+                        let stopFlag = false;
+                        (baseData.colour).forEach( ([mission, colour]:[number[],string]) => {
+                            if (stopFlag) 
+                                return;
+                            // If selected mission has passed requirements, make it that allegiance
+                            if (selectedMissionPassed(mission, true))
+                                allegiance = colour;
+                            else
+                                stopFlag = true
+                        })
+                    }
+                    
+                    stronghold[index] = {appear: show, allegiance: allegiance}
+                })
+            }
+
             // Gates
-            if (svgProps !== undefined && svgProps !== null && svgProps.paths.gates !== undefined) {
+            if (svgProps.paths.gates !== undefined) {
                 (svgProps.paths.gates).forEach( (gate:svg_GateType, index:number) => {
                     let hasAppeared = selectedMissionPassed(gate.appear, true)
                     let hasDisappeared = selectedMissionPassed(gate.disappear, false)
@@ -421,10 +461,15 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                             />
                             {
                                 // Strongholds
-                                svgProps.paths.strongholds.map( (path : svg_StrongholdType, index : number) => (
-                                    (<>
+                                svgProps.paths.strongholds.map( (path : svg_StrongholdType, index : number) => {
+                                    let show = (missionData.stronghold[index] !== undefined) ? missionData.stronghold[index].appear : true;
+                                    if (!show)
+                                        return <></>
+
+                                    let allegiance = (missionData.stronghold[index] !== undefined) ? missionData.stronghold[index].allegiance : "red";
+                                    return (<>
                                         <path 
-                                            fill={(path.fill !== undefined) ? path.fill : fills.stronghold.red.ground} 
+                                            fill={(path.fill !== undefined) ? path.fill : fills.stronghold[allegiance].ground} 
                                             transform={path.transform} 
                                             d={path.d}
                                             key={"mapStronghold-" + index}
@@ -439,11 +484,11 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                                                     <rect
                                                         width="28" height="28" 
                                                         x="0" y="0" rx="2.5" ry="2.5" 
-                                                        fill={fills.stronghold.red.icon.outer}
+                                                        fill={fills.stronghold[allegiance].icon.outer}
                                                     />
                                                     {/* Castle */}
                                                     <path
-                                                        fill={fills.stronghold.red.icon.inner}
+                                                        fill={fills.stronghold[allegiance].icon.inner}
                                                         d=" M 3 3 v 17 l 5 5 h 12 l 5 -5 v -17 h -6 v 5.5 h -2 v -5.5 h -6 v 5.5 h -2 v -5.5 z 
                                                             m 14 14 v 5 h -6 v -5 l 3 -3 z"
                                                     />
@@ -451,7 +496,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                                             )
                                         }
                                     </>)
-                                ))
+                                })
                             }
                             {
                                 // Gates
@@ -505,7 +550,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
 
                                     return (
                                         <use 
-                                            style={{ "--transformX": (unit.coords.x-1)*tileWidth , "--transformY" : (unit.coords.y-1)*tileWidth } as React.CSSProperties}
+                                            style={{ "--transformX": (unit.coords.x-0.5)*tileWidth , "--transformY" : (unit.coords.y-0.5)*tileWidth } as React.CSSProperties}
                                             className="map-grid-tile-unit-sprite"
                                             xlinkHref={unit.class.sprite.url} 
                                         />
@@ -516,6 +561,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                             svgProps={svgProps} 
                             fills={fills} 
                             setGridCords={setGridCords} 
+                            missionData={missionData}
                         />
                     </div> {/* map-svg-grid-container */}
                 </div> { /* map-svg-grid-scroll-container */}

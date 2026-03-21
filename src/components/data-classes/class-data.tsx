@@ -66,7 +66,7 @@ export class Classes {
         "Paladin": {description: "", types: [Classes.types.CALVARY]},
         "Fortress Knight": {description: "", types: [Classes.types.INFANTRY, Classes.types.ARMOURED]},
         "Bishop": {description: "", types: [Classes.types.INFANTRY]},
-        "Dark Mage": {description: "", types: [Classes.types.INFANTRY]},
+        "Dark Mage": {description: "The Dark Mage shatters the defenses of their foes by employing dark magic.", types: [Classes.types.INFANTRY]},
         "Wyvern Rider": {description: "", types: [Classes.types.FLYING]},
         "Assassin": {description: "", types: [Classes.types.INFANTRY]},
         "Warrior": {description: "", types: [Classes.types.INFANTRY]},
@@ -112,7 +112,7 @@ export class Classes {
         "Avesta": {description: "", types: [Classes.types.INFANTRY]}
     }
 
-    public static getClassData(c : ClassType, allegiance : string) {
+    public static getClassData(c : ClassType, allegiance : string, gender : string|undefined) {
 
         // Data
         if (c.data === undefined)
@@ -122,17 +122,9 @@ export class Classes {
         if (c.nameLower === undefined)
             c.nameLower = c.name.toLowerCase()
 
-        // // Data Types
-        // c.data.types.forEach( (type : CategoryType) => {
-        //     if (type.nameLower === undefined)
-        //         type.nameLower = type.name.toLowerCase();
-        //     if (type.icon === undefined)
-        //         type.icon = `${process.env.PUBLIC_URL}/images/icons/class-types/${type.nameLower}.png`;
-        // })
-
         // Sprite URL
         if (c.sprite.url === undefined)
-            c.sprite.url = Classes.getClassSprite(c.nameLower, allegiance)
+            c.sprite.url = Classes.getClassSprite(c.nameLower, allegiance, gender)
 
         // Profile URL
         if (c.profile.url === undefined)
@@ -145,8 +137,8 @@ export class Classes {
         return `${process.env.PUBLIC_URL}/images/icons/class-types/${type.toLowerCase()}.png`
     }
 
-    public static getClassSprite(className : string, allegiance : string) {
-        return `${process.env.PUBLIC_URL}/images/icons/sprites/${className.toLowerCase()}/${allegiance}.svg`
+    public static getClassSprite(className : string, allegiance : string, gender : string|undefined) {
+        return `${process.env.PUBLIC_URL}/images/icons/sprites/${className.toLowerCase()}/${allegiance}${(gender)?`-${gender}`:""}.svg`
     }
 
     public static getClassProfile(className : string, fileName : string) {
