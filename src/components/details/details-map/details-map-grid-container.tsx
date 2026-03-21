@@ -1,5 +1,5 @@
 import React, { JSX, memo, useEffect, useMemo, useRef, useState } from "react";
-import { GridCellDataType, PotDataType, SvgPropsType, FillsType, CoordinateType, size_SpecificType, StrongholdDataType, UnitDataSummaryType, UnitDataType, MissionDataType, svg_StrongholdType } from "./details-map";
+import { GridCellDataType, PotDataType, SvgPropsType, FillsType, CoordinateType, size_SpecificType, StrongholdDataType, UnitDataType, MissionDataType, svg_StrongholdType } from "./details-map";
 import { Tooltip } from "react-tooltip";
 import { MemoizedTooptipContent } from "./details-map-tooltip";
 // import { BattleRow } from "../../table";

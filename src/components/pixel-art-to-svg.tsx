@@ -8,7 +8,7 @@ interface Dictionary<T> {
 
 export async function PixelsToSVG() {
     const image = await Jimp.read(
-        process.env.PUBLIC_URL + "/images/icons/sprites/myrmidon/yellow-f.png"
+        process.env.PUBLIC_URL + "/images/icons/sprites/soldier/red-f.png"
     );
 
     function getPixel(x:number, y:number) {

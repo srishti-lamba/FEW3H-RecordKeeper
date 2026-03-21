@@ -14,8 +14,10 @@ html {
   position: relative;
 
   &:after { /* Underline of header */
+    all: unset;
     content: ' ';
-    height: 0.6px;
+    height: 2px;
+    transform: scale(100%,50%);
     width: 100%;
     background-image: linear-gradient(
       to right, 

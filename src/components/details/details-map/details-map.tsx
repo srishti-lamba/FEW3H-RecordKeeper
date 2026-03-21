@@ -137,20 +137,6 @@ export interface StrongholdDataType {
     colour : [number[], string][];
 }
 
-export interface UnitDataSummaryAllType {
-    blue ?: UnitDataSummaryType;
-    green ?: UnitDataSummaryType;
-    red ?: UnitDataSummaryType;
-    yellow ?: UnitDataSummaryType;
-}
-
-export interface UnitDataSummaryType {
-    name : string;
-    icon ?: string|JSX.Element;
-    class : string;
-    weapon : string;
-}
-
 export interface UnitDataType {
     name : string;
     gender ?: string;
@@ -218,7 +204,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                 }
             },
             yellow: {
-                ground: "rgb(175, 175, 110)",
+                ground: "rgb(180, 155, 100)",
                 icon: {
                     outer: "#E6A82E",
                     inner: "#F6E1CD"
