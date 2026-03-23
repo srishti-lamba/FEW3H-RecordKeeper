@@ -1,10 +1,7 @@
 import { Jimp, RGBAColor } from "jimp";
 import { intToRGBA, cssColorToHex } from "@jimp/utils";
 import { CoordinateType } from "./details/details-map/details-map";
-
-interface Dictionary<T> {
-    [key: string]: T;
-}
+import { Dictionary } from "../context";
 
 export async function PixelsToSVG() {
     const image = await Jimp.read(

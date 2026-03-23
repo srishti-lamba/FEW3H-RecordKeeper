@@ -347,7 +347,7 @@
                         "profile" : { "file" : "" }
                     },
                     "weapon" : { "name" : "" },
-                    "allegiance": "",
+                    "allegiance" : "",
                     "appear" : "",
                     "disappear" : "",
                     "coords" : {"x":-1 , "y":-1},
@@ -362,7 +362,7 @@
                         "profile" : { "file" : "1" }
                     },
                     "weapon" : { "name" : "Iron Sword" },
-                    "allegiance": "blue",
+                    "allegiance" : "blue",
                     "appear" : [5,0],
                     "coords" : {"x":7 , "y":7}
                 },
@@ -374,7 +374,7 @@
                         "profile" : { "file" : "12" }
                     },
                     "weapon" : { "name" : "Iron Sword" },
-                    "allegiance": "red",
+                    "allegiance" : "red",
                     "disappear" : [5,0],
                     "coords" : {"x":7 , "y":7},
                     "notes" : "Test note test test note!! :)"
@@ -389,7 +389,8 @@
                         "profile" : { "file" : "9" }
                     },
                     "weapon" : { "name" : "Iron Lance" },
-                    "allegiance": "blue",
+                    "allegiance" : "blue",
+                    "appear" : [2,0],
                     "coords" : {"x":22 , "y":7}
                 },
                 "22-7-red": {
@@ -400,7 +401,8 @@
                         "profile" : { "file" : "7" }
                     },
                     "weapon" : { "name" : "Iron Sword" },
-                    "allegiance": "red",
+                    "allegiance" : "red",
+                    "disappear" : [2,0],
                     "coords" : {"x":22 , "y":7}
                 },
 
@@ -412,7 +414,8 @@
                         "profile" : { "file" : "1" }
                     },
                     "weapon" : { "name" : "Iron Axe" },
-                    "allegiance": "blue",
+                    "allegiance" : "blue",
+                    "disappear" : [-1],
                     "coords" : {"x":59 , "y":9}
                 },
                 "59-9-red": {
@@ -423,7 +426,8 @@
                         "profile" : { "file" : "5" }
                     },
                     "weapon" : { "name" : "Iron Lance" },
-                    "allegiance": "red",
+                    "allegiance" : "red",
+                    "disappear" : [5,1],
                     "coords" : {"x":59 , "y":9}
                 },
                 "59-9-yellow": {
@@ -434,7 +438,8 @@
                         "profile" : { "file" : "1" }
                     },
                     "weapon" : { "name" : "Iron Tome" },
-                    "allegiance": "yellow",
+                    "allegiance" : "yellow",
+                    "appear" : [5,1],
                     "coords" : {"x":59 , "y":9}
                 },
 
@@ -447,7 +452,13 @@
                         "profile" : { "file" : "13" }
                     },
                     "weapon" : { "name" : "Iron Sword" },
-                    "allegiance": "blue",
+                    "allegiance" : "blue",
+                    "appearAndDisappear" : [
+                        [[-1], false],
+                        [[2,0], true],
+                        [[5,1], false],
+                        [[6,5], true]
+                    ],
                     "coords" : {"x":43 , "y":12}
                 },
                 "43-12-red": {
@@ -458,7 +469,8 @@
                         "profile" : { "file" : "11" }
                     },
                     "weapon" : { "name" : "Iron Sword" },
-                    "allegiance": "red",
+                    "allegiance" : "red",
+                    "disappear" : [2,0],
                     "coords" : {"x":43 , "y":12}
                 },
                 "43-12-yellow": {
@@ -469,7 +481,9 @@
                         "profile" : { "file" : "1" }
                     },
                     "weapon" : { "name" : "Iron Tome" },
-                    "allegiance": "yellow",
+                    "allegiance" : "yellow",
+                    "appear" : [5,1],
+                    "disappear" : [6,5],
                     "coords" : {"x":43 , "y":12}
                 },
 
@@ -481,7 +495,8 @@
                         "profile" : { "file" : "1" }
                     },
                     "weapon" : { "name" : "Iron Lance" },
-                    "allegiance": "blue",
+                    "allegiance" : "blue",
+                    "disappear" : [-1],
                     "coords" : {"x":10 , "y":22}
                 },
                 "10-22-yellow": {
@@ -492,7 +507,8 @@
                         "profile" : { "file" : "1" }
                     },
                     "weapon" : { "name" : "Iron Tome" },
-                    "allegiance": "yellow",
+                    "allegiance" : "yellow",
+                    "appear" : [5,1],
                     "coords" : {"x":10 , "y":22}
                 },
 
@@ -505,7 +521,8 @@
                         "profile" : { "file" : "9" }
                     },
                     "weapon" : { "name" : "Iron Axe" },
-                    "allegiance": "blue",
+                    "allegiance" : "blue",
+                    "disappear" : [-1],
                     "coords" : {"x":58 , "y":29}
                 },
                 "58-29-red": {
@@ -516,7 +533,9 @@
                         "profile" : { "file" : "8" }
                     },
                     "weapon" : { "name" : "Iron Lance" },
-                    "allegiance": "red",
+                    "allegiance" : "red",
+                    "appear" : [-1],
+                    "disappear" : [5,1],
                     "coords" : {"x":58 , "y":29}
                 },
                 "58-29-yellow": {
@@ -527,7 +546,8 @@
                         "profile" : { "file" : "1" }
                     },
                     "weapon" : { "name" : "Iron Tome" },
-                    "allegiance": "yellow",
+                    "allegiance" : "yellow",
+                    "appear" : [5,1],
                     "coords" : {"x":58 , "y":29}
                 },
 
@@ -539,7 +559,8 @@
                         "profile" : { "file" : "1" }
                     },
                     "weapon" : { "name" : "Iron Axe" },
-                    "allegiance": "blue",
+                    "allegiance" : "blue",
+                    "appear" : [1],
                     "coords" : {"x":33 , "y":46}
                 },
                 "33-46-red": {
@@ -550,7 +571,9 @@
                         "profile" : { "file" : "5" }
                     },
                     "weapon" : { "name" : "Iron Axe" },
-                    "allegiance": "red",
+                    "allegiance" : "red",
+                    "appear" : [-1],
+                    "disappear" : [1],
                     "coords" : {"x":33 , "y":46}
                 },
 
@@ -562,7 +585,8 @@
                         "profile" : { "file" : "1" }
                     },
                     "weapon" : { "name" : "Iron Lance" },
-                    "allegiance": "blue",
+                    "allegiance" : "blue",
+                    "appear" : [-1],
                     "coords" : {"x":34 , "y":58}
                 }
             }

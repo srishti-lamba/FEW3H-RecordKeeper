@@ -33,17 +33,6 @@ export function GridContainer({svgProps, fills, setGridCords, missionData} : Gri
 
     }, [tileCoords])
 
-    // useEffect(() => {
-    //     console.log(`Tile ID Changed! ${tileID.current}`)
-    // }, [tileID])
-
-    const coordsEqual = (one : CoordinateType, two : CoordinateType) => {
-        return (
-            ( one.x === two.x ) &&
-            ( one.y === two.y )
-        )
-    }
-
     const createData = useMemo(() => {
         // console.log("Called createData")
         var data : GridCellDataType[][] = new Array(svgProps.size.squares.width+1)
@@ -58,7 +47,7 @@ export function GridContainer({svgProps, fills, setGridCords, missionData} : Gri
             var baseData : StrongholdDataType = base.data;
 
             // Mission
-            var mission = missionData.stronghold[index]
+            var mission = missionData.strongholds[index]
             let allegiance = (mission !== undefined) ? mission.allegiance : "red"
             
             baseData.icon = createStrongholdIcon(allegiance);
@@ -74,9 +63,9 @@ export function GridContainer({svgProps, fills, setGridCords, missionData} : Gri
             )
 
             if (data[base.icon!.coords.x][base.icon!.coords.y] == undefined)
-                data[base.icon!.coords.x][base.icon!.coords.y] = {stronghold: baseData};
+                data[base.icon!.coords.x][base.icon!.coords.y] = {stronghold: [index, baseData]};
             else
-                data[base.icon!.coords.x][base.icon!.coords.y].stronghold = baseData;
+                data[base.icon!.coords.x][base.icon!.coords.y].stronghold = [index, baseData];
         })
 
         // === Pots ===
@@ -130,8 +119,8 @@ export function GridContainer({svgProps, fills, setGridCords, missionData} : Gri
         })
 
         // === Units ===
-        Object.values(svgProps.paths.units).forEach(
-            (unit) => {
+        Object.entries(svgProps.paths.units).forEach(
+            ([key, unit]) => {
                 // Make sure it's not dummy entry
                 if (unit.coords.x === -1 && unit.coords.y === -1)
                     return;
@@ -147,12 +136,12 @@ export function GridContainer({svgProps, fills, setGridCords, missionData} : Gri
                 unitData.weapon.data = Weapons.getData(unitData.weapon.name)
                 
                 if (data[unit.coords.x][unit.coords.y] == undefined)
-                    data[unit.coords.x][unit.coords.y] = {unit: [unitData]};
+                    data[unit.coords.x][unit.coords.y] = {unit: {key: unitData}};
                 else {
                     if (data[unit.coords.x][unit.coords.y].unit === undefined)
-                        data[unit.coords.x][unit.coords.y].unit = [unitData]
+                        data[unit.coords.x][unit.coords.y].unit = { [key] : unitData }
                     else
-                        data[unit.coords.x][unit.coords.y].unit?.push(unitData);
+                        data[unit.coords.x][unit.coords.y].unit![key] = unitData;
                 }
             }
         )
@@ -211,8 +200,8 @@ export function GridContainer({svgProps, fills, setGridCords, missionData} : Gri
 
     useEffect(() => {
         // Update stronghold icons when Mission changes
-        if (missionData.stronghold === undefined 
-            || missionData.stronghold.length === 0 
+        if (missionData.strongholds === undefined 
+            || missionData.strongholds.length === 0 
             || data === undefined)
             return
 
@@ -226,10 +215,10 @@ export function GridContainer({svgProps, fills, setGridCords, missionData} : Gri
                 return;
 
             // Mission
-            var mission = missionData.stronghold[index]
+            var mission = missionData.strongholds[index]
             let allegiance = (mission !== undefined) ? mission.allegiance : "red"
 
-            newData[base.icon!.coords.x][base.icon!.coords.y].stronghold!.icon = createStrongholdIcon(allegiance);
+            newData[base.icon!.coords.x][base.icon!.coords.y].stronghold![1].icon = createStrongholdIcon(allegiance);
         })
 
         setData(newData);
@@ -254,6 +243,7 @@ export function GridContainer({svgProps, fills, setGridCords, missionData} : Gri
                     < MemoizedTooptipContent 
                         data={data} 
                         tileCoords={tileCoords}
+                        missionData={missionData}
                     />
                 )}
                 openOnClick={true}

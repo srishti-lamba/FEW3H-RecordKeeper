@@ -1,8 +1,5 @@
+import { Dictionary } from "../../context";
 import { Classes } from "./class-data";
-
-interface Dictionary<T> {
-    [key: string]: T;
-}
 
 export interface WeaponDataType {
     icon ?: string;

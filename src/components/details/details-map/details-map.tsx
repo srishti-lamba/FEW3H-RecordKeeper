@@ -4,17 +4,13 @@ import { GridContainer } from './details-map-grid-container';
 import Slider from '@mui/material/Slider'
 import { ClassType } from '../../data-classes/class-data';
 import { WeaponDataType } from '../../data-classes/weapon-data';
-import { DatabaseContext, BattlesTableContext, MissionsTableContext, MapContext } from '../../../context';
+import { DatabaseContext, BattlesTableContext, MissionsTableContext, MapContext, Dictionary } from '../../../context';
 
 /* 
     Websites
     https://www.photopea.com/
     https://www.freeconvert.com/png-to-svg
 */
-
-interface Dictionary<T> {
-    [key: string]: T;
-}
 
 // === Fills ===
 
@@ -110,9 +106,9 @@ export interface GridCellType {
 }
 
 export interface GridCellDataType {
-    stronghold ?: StrongholdDataType;
+    stronghold ?: [number, StrongholdDataType];
     pot ?: PotDataType;
-    unit ?: UnitDataType[];
+    unit ?: Dictionary<UnitDataType>;
 }
 
 export interface PotDataType {
@@ -146,16 +142,18 @@ export interface UnitDataType {
         data ?: WeaponDataType;
     };
     allegiance: string;
-    appear ?: string;
-    disappear ?: string;
+    appear ?: number[];
+    disappear ?: number[];
+    appearAndDisappear ?: [number[],boolean][];
     coords : CoordinateType;
     notes ?: string;
 }
 
 // === Mission Data ===
 export interface MissionDataType {
-    stronghold : {appear: boolean, allegiance: string}[];
+    strongholds : {appear: boolean, allegiance: string}[];
     gates : {appear: boolean}[];
+    units : Dictionary<{show : boolean}>;
 }
 
 // === Class Props ===
@@ -172,7 +170,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
     const scollElementSize = useContext(MapContext).size!;
     const [svgProps, setSvgProps] = useState<SvgPropsType | undefined | null>(undefined);
     const [gridCords, setGridCords] = useState<CoordinateType | null>(null);
-    const [missionData, setMissionData] = useState<MissionDataType>({stronghold:[],gates:[]})
+    const [missionData, setMissionData] = useState<MissionDataType>({strongholds:[],gates:[],units:{}})
     const [mapZoomExpanded, setMapZoomExpanded] = useState<boolean>(false);
     const scrollElement = useRef(null);
     const [scrollElementScrollbarOn, setScrollElementScrollbarOn] = useState(false);
@@ -273,8 +271,9 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
             if (svgProps === undefined || svgProps === null)
                 return
 
-            var stronghold : MissionDataType["stronghold"] = [];
+            var strongholds : MissionDataType["strongholds"] = [];
             var gates : MissionDataType["gates"] = [];
+            var units : MissionDataType["units"] = {};
 
             // Strongholds
             if (svgProps.paths.strongholds !== undefined) {
@@ -284,9 +283,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                         return
 
                     // Show
-                    let hasAppeared = selectedMissionPassed(baseData.appear?.mission, true)
-                    let hasDisappeared = selectedMissionPassed(baseData.disappear?.mission, false)
-                    let show = (hasAppeared && !hasDisappeared)
+                    let show = calculateShow(baseData.appear?.mission, baseData.disappear?.mission)
 
                     // Colour
                     let allegiance = "red";
@@ -308,22 +305,36 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                         })
                     }
                     
-                    stronghold[index] = {appear: show, allegiance: allegiance}
+                    strongholds[index] = {appear: show, allegiance: allegiance}
                 })
             }
 
             // Gates
             if (svgProps.paths.gates !== undefined) {
                 (svgProps.paths.gates).forEach( (gate:svg_GateType, index:number) => {
-                    let hasAppeared = selectedMissionPassed(gate.appear, true)
-                    let hasDisappeared = selectedMissionPassed(gate.disappear, false)
-                    let show = (hasAppeared && !hasDisappeared)
+                    let show = calculateShow(gate.appear, gate.disappear)
                     gates[index] = {appear: show}
                     // if (index == 0)
                     //     console.log(`Gate [hasAppeared: ${hasAppeared}] [hasDisappeaered: ${hasDisappeared}]`)
                 })
             }
-            setMissionData({stronghold:stronghold,gates:gates})
+
+            // Units
+            if (svgProps.paths.units !== undefined) {
+                Object.entries(svgProps.paths.units).forEach( ([key,unit] : [string,UnitDataType]) => {
+                    let show = false;
+                    // If has a 0-2 triggers
+                    if (unit.appearAndDisappear == undefined)
+                        show = calculateShow(unit.appear, unit.disappear)
+                    // If has more triggers
+                    else
+                        show = calculateShow_multipleTriggers(unit.appearAndDisappear)
+
+                    units[key] = {show: show}
+                })
+            }
+
+            setMissionData({strongholds:strongholds,gates:gates,units:units})
         };
         recalculateMissionData();
     }, [selectedMissionRow, svgProps])
@@ -338,6 +349,33 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
 
     const changeZoom = (event: Event, newValue: number) => {
         setMapZoom(newValue);
+    }
+
+    function calculateShow(appear : number[]|undefined, disappear : number[]|undefined) {
+        let hasAppeared = selectedMissionPassed(appear, true)
+        let hasDisappeared = selectedMissionPassed(disappear, false)
+        return (hasAppeared && !hasDisappeared)
+    }
+
+    function calculateShow_multipleTriggers(appearAndDisappear : [number[],boolean][]) {
+        let show = false;
+
+        // If there is no mission selected, then show
+        if (Object.keys(selectedMissionRow).length == 0)
+            return true
+
+        for (let index = 0; index < appearAndDisappear.length; index++) {
+            let [mission, appear] : [number[],boolean] = appearAndDisappear[index]
+            // Has mission passed yet?
+            let missionPassed = selectedMissionPassed(mission, true)
+            // If passed, update show
+            if (missionPassed)
+                show = appear
+            // If not passed, break
+            else
+                break;
+        }
+        return show;
     }
 
     /**
@@ -448,11 +486,11 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                             {
                                 // Strongholds
                                 svgProps.paths.strongholds.map( (path : svg_StrongholdType, index : number) => {
-                                    let show = (missionData.stronghold[index] !== undefined) ? missionData.stronghold[index].appear : true;
+                                    let show = (missionData.strongholds[index] !== undefined) ? missionData.strongholds[index].appear : true;
                                     if (!show)
                                         return <></>
 
-                                    let allegiance = (missionData.stronghold[index] !== undefined) ? missionData.stronghold[index].allegiance : "red";
+                                    let allegiance = (missionData.strongholds[index] !== undefined) ? missionData.strongholds[index].allegiance : "red";
                                     return (<>
                                         <path 
                                             fill={(path.fill !== undefined) ? path.fill : fills.stronghold[allegiance].ground} 
@@ -527,20 +565,26 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                             }
                             {
                                 // Units
-                                Object.values(svgProps.paths.units).map( (unit) => {
+                                Object.entries(svgProps.paths.units).map( ([key, unit] : [string,UnitDataType]) => {
                                     // Make sure it's not dummy entry
                                     if (unit.coords.x === -1 && unit.coords.y === -1)
                                         return <></>
 
-                                    let tileWidth : number = svgProps.size.pixels.width / svgProps.size.squares.width;
+                                    let show = (missionData.units[key] !== undefined) ? missionData.units[key].show : true;
+                                    if (show) {
+                                        let tileWidth : number = svgProps.size.pixels.width / svgProps.size.squares.width;
 
-                                    return (
-                                        <use 
-                                            style={{ "--transformX": (unit.coords.x-0.5)*tileWidth , "--transformY" : (unit.coords.y-0.5)*tileWidth } as React.CSSProperties}
-                                            className="map-grid-tile-unit-sprite"
-                                            xlinkHref={unit.class.sprite.url} 
-                                        />
-                                )})
+                                        return (
+                                            <use 
+                                                style={{ "--transformX": (unit.coords.x-0.5)*tileWidth , "--transformY" : (unit.coords.y-0.5)*tileWidth } as React.CSSProperties}
+                                                className="map-grid-tile-unit-sprite"
+                                                xlinkHref={unit.class.sprite.url} 
+                                            />
+                                        )
+                                    }
+                                    else
+                                        return <></>
+                                })
                             }
                         </svg>
                         <GridContainer 

@@ -62,6 +62,19 @@ html {
     calc(100% - ((var(--height) * 0.25)*2) + 1px) 100%;
 }
 
+& span.mission-table-row-text-blue {
+  color: #5EB1DD;
+}
+& span.mission-table-row-text-green {
+  color: #52B652;
+}
+& span.mission-table-row-text-red {
+  color: #EA7E72;
+}
+& span.mission-table-row-text-yellow {
+  color: #F3B65E;
+}
+
 .App {
   background-color: white;
   color: black;
@@ -276,6 +289,10 @@ html {
                     align-items: stretch;
                     gap: 0.6rem;
 
+                    & .map-tooltip-nodata {
+                      text-align: center;
+                    }
+
                     & .MuiAccordion-root {
                       background-color: unset;
                       background-image: unset;
@@ -432,16 +449,14 @@ html {
                           }/* .map-tooltip-subcategory */
 
                           & .map-tooltip-unit {
-                            --header-height: 2em;
+                            --tooltip-unit-header-height: 2em;
+                            --tooltip-unit-header-width: calc( var(--tooltip-unit-header-height) * (480/60) - 6px );
 
                             box-sizing: border-box;
                             display: flex;
                             flex-flow: column nowrap;
 
-                            /* background-color: rgb(10,10,10); */
-
-                            /* width: calc( var(--header-height) * 8 ); */
-                            width: calc( var(--header-height) * (480/60) - 6px );
+                            width: var(--tooltip-unit-header-width);
 
                             &.blue > .map-tooltip-unit-name:before {
                               background-image: url(../public/images/ui-background/unit-header/blue.png);
@@ -484,7 +499,7 @@ html {
 
                             & > .map-tooltip-unit-name {
                               display: block;
-                              height: var(--header-height);
+                              height: var(--tooltip-unit-header-height);
                               /* aspect-ratio: 7.16417910448; */
                               /* margin-bottom: calc( var(--height) * -0.10447761194); */
                               overflow: visible;
@@ -508,7 +523,7 @@ html {
                                 position: absolute;
                                 top: 0;
                                 left: 0;
-                                height: calc(var(--header-height) * 1.10447761194);
+                                height: calc(var(--tooltip-unit-header-height) * 1.10447761194);
                                 /* height: calc(var(--header-height) * 1.113); */
                                 /* aspect-ratio: 7.16417910448; */
                                 /* aspect-ratio: 7.12; */
@@ -727,7 +742,8 @@ html {
 
                                 &:after {
                                   content: ' ';
-                                  height: 0.5px;
+                                  height: 2px;
+                                  transform: scale(100%,50%);
                                   width: 100%;
                                   background-image: linear-gradient(
                                     to right, 
@@ -739,6 +755,66 @@ html {
                                   position: absolute;
                                   left: 0%;
                                   top: calc( (var(--padding) / 2) * -1 );
+                                }
+                              }
+
+                               .map-tooltip-unit-details-info-miscRow-mission {
+
+                                & .row-black-background {
+                                  --border-width: 0.5em;
+                                  --padding-hor: 0.5em;
+                                  --padding-ver: 0.2em;
+
+                                  text-wrap-mode: wrap;
+                                  height: auto;
+                                  padding: 0.2em 0.5em;
+                                  align-content: center;
+                                  display: flex;
+                                  flex-flow: row nowrap;
+
+                                  background-image:
+                                    url(/public/images/ui-background/subCategoryRow/left-base-stretch.svg),
+                                    url(/public/images/ui-background/subCategoryRow/right-base-stretch.svg),
+                                    url(/public/images/ui-background/subCategoryRow/middle-base-stretch.svg);
+
+                                  background-size: 
+                                    var(--border-width) 100%, 
+                                    var(--border-width) 100%, 
+                                    calc(100% - (var(--border-width) * 2) ) 100%;
+
+                                  & .map-tooltip-unit-details-info-miscRow-mission-icon {
+                                    height: 2em;
+                                    width: 2em;
+                                    display: block;
+                                    background-repeat: no-repeat;
+                                    background-size: contain;
+                                    background-position: center;
+                                    &.type-ms, &.type-mc, &.type-me {
+                                      background-image: url(../public/images/ui-icons/battleMission/main-mission.png)
+                                    }
+                                    &.type-ss, &.type-sc, &.type-se {
+                                      background-image: url(../public/images/ui-icons/battleMission/side-mission.png)
+                                    }
+                                    &.type-rb {
+                                      background-image: url(../public/images/ui-icons/battleMission/report-flag.png)
+                                    }
+                                    &.type-ry {
+                                      background-image: url(../public/images/ui-icons/battleMission/report-speaker.png)
+                                    }
+                                    &.type-w {
+                                      background-image: url(../public/images/ui-icons/battleMission/warning.png)
+                                    }
+                                  }
+
+                                  & > {
+                                    display: inline-block;
+                                    white-space:normal;
+                                  }
+
+                                  & > span {
+                                    font-size: 0.7rem;
+                                  }
+
                                 }
                               }
 
@@ -1605,7 +1681,7 @@ html {
                   }
                 }
 
-                & span.mission-table-row-text-blue {
+                /* & span.mission-table-row-text-blue {
                   color: #5EB1DD;
                 }
                 & span.mission-table-row-text-green {
@@ -1616,7 +1692,7 @@ html {
                 }
                 & span.mission-table-row-text-yellow {
                   color: #F3B65E;
-                }
+                } */
 
                 & div.mission-table-row-details-wrapper {
                   padding: var(--padding);

@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useRef, useContext} from 'react';
 import { Map } from './details-map/details-map'
-import { MRT_RowSelectionState, MRT_TableInstance } from 'material-react-table';
+import { MRT_TableInstance } from 'material-react-table';
 import { MissionRow, Missions } from './missions-table';
 import { MapContext, MissionsTableContext } from '../../context';
 // import { BattleRow } from '../table';
@@ -68,7 +68,8 @@ export function Details( {/*selectedRow, selectedRowData*/} : DetailsProps ) {
             <MapContext value={{size: mapSize}} >
             <MissionsTableContext value={{
                 table: missionsTable,
-                selectedRow: useState<MRT_RowSelectionState>({})
+                selectedRow: useState({}),
+                text : useRef({})
             }}>
 
                 <div id="map-mission-container">

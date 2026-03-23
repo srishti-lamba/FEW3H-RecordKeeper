@@ -1,8 +1,5 @@
+import { Dictionary } from "../../context";
 import { CategoryType } from "./weapon-data";
-
-interface Dictionary<T> {
-    [key: string]: T;
-}
 
 interface TypeListType {
     INFANTRY : CategoryType;

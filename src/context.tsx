@@ -1,10 +1,13 @@
 import { createContext } from 'react';
-// import allChapters from './db/chapters.json';
-import { MRT_Row, MRT_RowSelectionState, MRT_TableInstance } from 'material-react-table';
+import { MRT_RowSelectionState, MRT_TableInstance } from 'material-react-table';
 import { Battle, BattleRow } from './components/table';
 import { RouteChapters } from './components/settings/settings-chapters';
 import { SvgPropsType } from './components/details/details-map/details-map';
-import { MissionRow } from './components/details/missions-table';
+import { MissionRow, TextRefType } from './components/details/missions-table';
+
+export interface Dictionary<T> {
+    [key: string]: T;
+}
 
 interface DatabaseType {
     chapters ?: RouteChapters[];
@@ -23,7 +26,8 @@ interface MissionsTableType {
     table ?: React.RefObject<MRT_TableInstance<MissionRow> | undefined>;
     selectedRow ?: 
     [   MRT_RowSelectionState,
-        React.Dispatch<React.SetStateAction<MRT_RowSelectionState>>  ]
+        React.Dispatch<React.SetStateAction<MRT_RowSelectionState>>  ];
+    text ?: React.RefObject<Dictionary<TextRefType>>;
 }
 
 interface MapType {
