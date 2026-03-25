@@ -4,6 +4,14 @@ html {
 
   font-family: var(--font-family);
   font-size: var(--font-size);
+
+  background-image: url(/public/images/ui-background/title-screen.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  background-color: rgba(10,10,10,0.8);
+  background-blend-mode: darken;
 }
 
 & .header-brown-underlined {
@@ -76,13 +84,15 @@ html {
 }
 
 .App {
-  background-color: white;
   color: black;
   letter-spacing: 0.025em;
   display: flex; 
   flex-direction: column; 
   height: 100vh;
   font-family: var(--font-family);
+
+  backdrop-filter: blur(8px);
+  
 
   & > div.split-pane {
     --divider-width: 5px;
@@ -165,10 +175,19 @@ html {
             width: 85vh;
             aspect-ratio: 1;
             resize: both;
-            overflow: auto;
+            overflow: scroll;
+            padding-bottom: 1px;
+
+            container: mapSvgGridScrollContainer / size;
+            @container mapSvgGridScrollContainer (width >= 0px) { 
+              #map-tooltip-content {
+                max-height: calc(90cqh);
+            } }
 
             & .map-svg-grid-container {
               display: grid;
+              position: relative;
+              overflow:hidden;
 
               & > svg {
                 grid-row-start: 1;
@@ -207,6 +226,7 @@ html {
 
                   display: flex;
                   flex-flow: row nowrap;
+                  border-right: var(--border);
         
                   &:last-child > .map-grid-cell-container {
                     border-bottom: var(--border);
@@ -220,10 +240,6 @@ html {
                     
                     border-top: var(--border);
                     border-left: var(--border);
-
-                    &:last-child {
-                      border-right: var(--border);
-                    }
 
                     &.has-data {
                       /* background-color: rgb(255, 0, 0, 0.5); */
@@ -252,35 +268,16 @@ html {
                   } /* .map-grid-cell-container */
                 } /* .map-grid-row-container */
 
-                & .react-tooltip {
+                & > .react-tooltip {
                   z-index: 3;
                   resize: both;
-                  /* padding: 8px 16px; */
                   padding: 8px;
-                  /* background-color: red; */
 
                   & .MuiPaper-root {
                     margin: 0px;
                   }
 
                   & .map-tooltip-row {
-                    /* --height: 2.3em;
-                    padding: 0.5em 1em;
-
-                    color:rgb(30, 30, 30);
-
-                    background-image:
-                        url(/public/images/ui-background/row/left-base.svg),
-                        url(/public/images/ui-background/row/right-base.svg),
-                        url(/public/images/ui-background/row/middle-base.svg);
-                      background-repeat: 
-                        no-repeat, no-repeat, no-repeat;
-                      background-position:
-                        left, right, center;
-                      background-size: 
-                        auto, 
-                        auto, 
-                        calc(100% - ((var(--height) * 0.28571428571)*2) + 1px) 100%; */
                   }
 
                   & #map-tooltip-content {
@@ -288,6 +285,7 @@ html {
                     flex-flow: column nowrap;
                     align-items: stretch;
                     gap: 0.6rem;
+                    overflow-y: auto;
 
                     & .map-tooltip-nodata {
                       text-align: center;
@@ -1263,6 +1261,7 @@ html {
 
 .MuiPaper-root.battles-table {
   --Paper-shadow: none !important;
+  background-color: transparent;
 
   & table.MuiTable-root {
 
@@ -1473,6 +1472,12 @@ html {
 
 .MuiPaper-root#missions-table {
   --Paper-shadow: none !important;
+  background-color: transparent;
+
+  & .MuiBox-root {
+    background-color: transparent;
+  }
+
   & .MuiTableContainer-root {
     & table.MuiTable-root {
       display: flex;
@@ -1480,7 +1485,9 @@ html {
       /* table-layout: fixed;
       width: 100%; */
       & thead.MuiTableHead-root {
-        & tr.MuiTableRow-root {
+        border-color: transparent;
+        & tr.MuiTableRow-root {        
+          background-color: transparent;
           display: flex;
           flex-flow: row nowrap;
           width: 100%;
@@ -1489,6 +1496,7 @@ html {
           & th.MuiTableCell-root {
             font-family: inherit;
             font-size: inherit;
+            color: white;
 
             &[data-index="0"] {
               text-align: right;
@@ -1522,6 +1530,7 @@ html {
           display: flex;
           flex-flow: row nowrap;
           align-content: stretch;
+          background-color: transparent !important;
 
           & td.MuiTableCell-root {
             font-family: inherit;
@@ -1935,6 +1944,112 @@ div.MuiPaper-root:has(
     url(/public/images/ui-background/missionRow/main-middle-hover.svg);
   }
 
+}
+
+/* ----------------- */
+/* --- Scrollbar --- */
+/* ----------------- */
+
+html {
+  --scrollbar-color-thumb: rgb(157, 152, 121);
+  --scrollbar-color-track: transparent;
+  --scrollbar-width: 5px;
+  --scrollbar-width-legacy: 15px;
+}
+
+/* @supports (scrollbar-width: auto) {
+  html {
+    scrollbar-color: var(--scrollbar-color-thumb) var(--scrollbar-color-track);
+    scrollbar-width: var(--scrollbar-width);
+  }
+} */
+
+@supports selector(::-webkit-scrollbar) {
+
+  ::-webkit-scrollbar {
+    max-height: var(--scrollbar-width-legacy);
+    max-width: var(--scrollbar-width-legacy);
+  }
+
+  ::-webkit-scrollbar-thumb {
+      /* background: var(--scrollbar-color-thumb); */
+      background-clip: content-box;
+      background-repeat: no-repeat;
+  }
+  ::-webkit-scrollbar-thumb:vertical {
+      /* border-left: calc(var(--scrollbar-width-legacy) / 5) solid transparent;
+      border-top: calc(var(--scrollbar-width-legacy) / 1) solid transparent; */
+      border-style: solid;
+      border-color: transparent;
+      border-width: calc(var(--scrollbar-width-legacy) / 2) calc(var(--scrollbar-width-legacy) / 15);
+      background-image: 
+        url(/public/images/ui-icons/scrollbar/top.png),
+        url(/public/images/ui-icons/scrollbar/bottom.png),
+        url(/public/images/ui-icons/scrollbar/middle-vertical.png);
+      background-size: 
+        100% auto, 
+        100% auto,
+        100% calc( 100% - ( ( ( var(--scrollbar-width-legacy) / 2 ) * 0.78947368421 ) * 2 ) );
+      background-position: top, bottom, center;
+  }
+  ::-webkit-scrollbar-thumb:horizontal {
+      border-style: solid;
+      border-color: transparent;
+      border-width: calc(var(--scrollbar-width-legacy) / 15) calc(var(--scrollbar-width-legacy) / 2);
+      background-image: 
+        url(/public/images/ui-icons/scrollbar/left.png),
+        url(/public/images/ui-icons/scrollbar/right.png),
+        url(/public/images/ui-icons/scrollbar/middle-horizontal.png);
+      background-size: 
+        auto 100%, 
+        auto 100%,
+        calc( 100% - ( ( ( var(--scrollbar-width-legacy) / 2 ) * 0.78947368421 ) * 2 ) ) 100%;
+      background-position: left, right, center;
+  }
+
+  ::-webkit-scrollbar-track {
+      background: var(--scrollbar-color-track);
+      background-repeat: no-repeat;
+  }
+  ::-webkit-scrollbar-track:vertical {
+    background-image:
+      url(/public/images/ui-background/scrollbar/top.svg),
+      url(/public/images/ui-background/scrollbar/bottom.svg),
+      url(/public/images/ui-background/scrollbar/middle-vertical.svg);
+    background-size: 
+      100% auto, 
+      100% auto, 
+      100% calc( 100% - ( ( ( var(--scrollbar-width-legacy) ) * 0.74285714285 ) * 2 ) + 2px );
+    background-position: top, bottom, center;
+  }
+  ::-webkit-scrollbar-track:horizontal {
+    background-image:
+      url(/public/images/ui-background/scrollbar/right.svg),
+      url(/public/images/ui-background/scrollbar/left.svg),
+      url(/public/images/ui-background/scrollbar/middle-horizontal.svg);
+    background-size: 
+      auto 100%, 
+      auto 100%, 
+      calc( 100% - ( ( ( var(--scrollbar-width-legacy) ) * 0.74285714285 ) * 2 ) + 2px ) 100%;
+    background-position: right, left, center;
+  }
+
+
+  ::-webkit-scrollbar:vertical {
+    /* background-color: red; */
+  }
+
+  /* the bottom corner of the scrollbar, 
+  where both horizontal and vertical scrollbars meet. */
+  ::-webkit-scrollbar-corner {}
+
+  /* Up and down arrows */
+  ::-webkit-scrollbar-button {
+    display: none;
+    :hover {
+      display: none;
+    }
+  }
 }
 
 /* @container mission-row (width < calc(150px - ((var(--height) * 3.77142857143) * 2) + 2px - 100px)) { */

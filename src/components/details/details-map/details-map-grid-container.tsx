@@ -1,6 +1,6 @@
 import React, { JSX, memo, useEffect, useMemo, useRef, useState } from "react";
 import { GridCellDataType, PotDataType, SvgPropsType, FillsType, CoordinateType, size_SpecificType, StrongholdDataType, UnitDataType, MissionDataType, svg_StrongholdType } from "./details-map";
-import { Tooltip } from "react-tooltip";
+import { Tooltip, TooltipRefProps } from "react-tooltip";
 import { MemoizedTooptipContent } from "./details-map-tooltip";
 // import { BattleRow } from "../../table";
 import { Classes } from "../../data-classes/class-data";
@@ -19,6 +19,8 @@ export function GridContainer({svgProps, fills, setGridCords, missionData} : Gri
     const prevTileCoords = useRef<(CoordinateType|null)[]>([null, null]);
     const tileID = useRef<string|null>(null);
     const [data, setData] = useState<(GridCellDataType)[][]>([]);
+
+    const tooltip = useRef<TooltipRefProps|null>(null);
 
     // const calculateIndex = (col : number, row : number ) => {
     //     return ((row-1) * svgProps.size.squares.width) + col
@@ -136,7 +138,7 @@ export function GridContainer({svgProps, fills, setGridCords, missionData} : Gri
                 unitData.weapon.data = Weapons.getData(unitData.weapon.name)
                 
                 if (data[unit.coords.x][unit.coords.y] == undefined)
-                    data[unit.coords.x][unit.coords.y] = {unit: {key: unitData}};
+                    data[unit.coords.x][unit.coords.y] = {unit: {[key]: unitData}};
                 else {
                     if (data[unit.coords.x][unit.coords.y].unit === undefined)
                         data[unit.coords.x][unit.coords.y].unit = { [key] : unitData }
@@ -238,12 +240,13 @@ export function GridContainer({svgProps, fills, setGridCords, missionData} : Gri
             {createGridContainer()}
             <Tooltip
                 anchorSelect={`#${tileID.current}`}
-                // content="TEST test TEST"
+                ref={tooltip}
                 children={ (
                     < MemoizedTooptipContent 
                         data={data} 
                         tileCoords={tileCoords}
                         missionData={missionData}
+                        // tileID={tileID.current}
                     />
                 )}
                 openOnClick={true}

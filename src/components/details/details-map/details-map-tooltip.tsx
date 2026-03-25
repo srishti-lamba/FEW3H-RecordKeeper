@@ -1,7 +1,7 @@
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Tooltip } from "react-tooltip";
-import { memo, useContext } from "react";
+import { CSSProperties, memo, useContext } from "react";
 import { GridCellDataType, CoordinateType, StrongholdDataType, PotDataType, UnitDataType, MissionDataType } from "./details-map";
 import { CategoryType, WeaponDataType, Weapons } from "../../data-classes/weapon-data";
 import { Classes } from "../../data-classes/class-data";
@@ -13,6 +13,7 @@ interface TooltipContentProps {
     tileCoords : CoordinateType|null;
     missionData : MissionDataType;
     // selectedRowData : React.RefObject<BattleRow|null>;
+    // tileID: any;
 }
 
 function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipContentProps) {
@@ -368,9 +369,14 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
     if (children.length == 0)
         children.push(<span className="map-tooltip-nodata">There is no data to display for this tile during this mission!<br/>Try selecting another mission.</span>)
 
+    console.log("Top offset")
+    // console.log(topOffset?.activeAnchor?.offsetTop)
+    // console.log(document.getElementById(`${topOffset}`))
+
     return (
         <div 
             id="map-tooltip-content"
+            // style={{"--top": `${document.getElementById(`${topOffset}`)?.offsetTop}px`} as CSSProperties}
         >
             {children}
         </div>
