@@ -252,6 +252,7 @@ export function GridContainer({svgProps, fills, setGridCords, missionData} : Gri
                 openOnClick={true}
                 isOpen={tileCoords !== null}       
                 key={`mapTooltip`}
+                // variant="light"
                 clickable
             />
         </div>

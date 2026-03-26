@@ -41,11 +41,10 @@
                     },
                     "data": {
                         "name" : "Fortress Main Gates",
-                        "captureRequired" : true,
+                        "captureRequired" : false,
                         "captain" : ["33-46-blue", "33-46-red"],
                         "colour" : [
-                            [[-1],"red"],
-                            [[1],"blue"]
+                            [[-1],"red"]
                         ]
                     }
                 },
@@ -560,7 +559,7 @@
                     },
                     "weapon" : { "name" : "Iron Axe" },
                     "allegiance" : "blue",
-                    "appear" : [1],
+                    "disappear" : [-1],
                     "coords" : {"x":33 , "y":46}
                 },
                 "33-46-red": {
@@ -573,7 +572,6 @@
                     "weapon" : { "name" : "Iron Axe" },
                     "allegiance" : "red",
                     "appear" : [-1],
-                    "disappear" : [1],
                     "coords" : {"x":33 , "y":46}
                 },
 

@@ -84,7 +84,7 @@ html {
 }
 
 .App {
-  color: black;
+  color: white;
   letter-spacing: 0.025em;
   display: flex; 
   flex-direction: column; 
@@ -139,13 +139,7 @@ html {
           flex-grow: 1;
           flex-shrink: 1;
 
-          container: missionsTable / inline-size;
-
-          /* @container missionsTable ((width >= 250px) and (width < var(--right-pane-width))) { 
-            & .MuiTableContainer-root {
-              background-color: red;
-            }
-          } */
+          container: missionsTable / inline-size; /* This keeps filter search bar inline */
         } /* .MuiPaper-root.missions-table */
       } /* #map-mission-container */
 
@@ -273,6 +267,8 @@ html {
                   resize: both;
                   padding: 8px;
 
+                  --rt-color-dark: rgba(20, 20, 20, 1);
+
                   & .MuiPaper-root {
                     margin: 0px;
                   }
@@ -370,7 +366,7 @@ html {
                           gap: calc(var(--padding) * 2);
 
                           margin: var(--padding);
-                          margin-bottom: 0;
+                          margin-bottom: 1px;
                           padding: var(--padding);
 
                           color: white;
@@ -493,6 +489,10 @@ html {
                             }
                             &.yellow .react-tooltip {
                               background-color: rgb(100, 100, 50);
+                            }
+
+                            & .react-tooltip {
+                              font-size: 0.765rem;
                             }
 
                             & > .map-tooltip-unit-name {
@@ -1259,244 +1259,335 @@ html {
 
 }
 
-.MuiPaper-root.battles-table {
+div.MuiPaper-root:has(div.MuiTableContainer-root) {
   --Paper-shadow: none !important;
   background-color: transparent;
+  color: white;
 
-  & table.MuiTable-root {
+  /* --- Full Screen --- */
+  &.full-screen {
+    background-color: rgba(25,20,20, 0.95) !important;
+    backdrop-filter: blur(10px); 
+  }
 
-    & thead.MuiTableHead-root {
+  /* --- Global Search --- */
+  & .MuiBox-root {
+    background-color: inherit;
 
-      & tr.MuiTableRow-root {
-
-        & th.MuiTableCell-head {
-          font-family: inherit;
-          font-size: inherit;
-        }
+    &:has(.Mui-ToolbarDropZone) {
+      & > div.Mui-ToolbarDropZone {
+        display: none;
       }
-    }
+      & > div.MuiBox-root {
+        position: unset;
 
-    & tbody.MuiTableBody-root {
-
-      --edge: 8px;
-      --var: 1.74;
-      --end: 98.5;
-      --border: 3px;
-      --row-clip-path: shape(
-        from calc( var(--edge)*(1.74/var(--var))) 1.6%,
-        curve to calc(var(--edge)*(1.08/var(--var))) 17.84% with calc(var(--edge)*(1.19/var(--var))) 04.58%/calc(var(--edge)*(1.08/var(--var))) 7.195%,
-        curve to calc(var(--edge)*(1.04/var(--var))) 25.66% with calc(var(--edge)*(1.08/var(--var))) 22.05%/calc(var(--edge)*(1.06/var(--var))) 25.57%,
-        curve to calc(var(--edge)*(0.27/var(--var))) 36.80% with calc(var(--edge)*(0.89/var(--var))) 26.20%/calc(var(--edge)*(0.27/var(--var))) 35.19%,
-        curve to calc(var(--edge)*(0.22/var(--var))) 38.27% with calc(var(--edge)*(0.27/var(--var))) 37.15%/calc(var(--edge)*(0.25/var(--var))) 37.81%,
-        curve to calc(var(--edge)*(0.22/var(--var))) 61.72% with calc(var(--edge)*(0.07/var(--var))) 43.05%/calc(var(--edge)*(0.07/var(--var))) 56.99%,
-        curve to calc(var(--edge)*(0.27/var(--var))) 63.29% with calc(var(--edge)*(0.25/var(--var))) 62.17%/calc(var(--edge)*(0.27/var(--var))) 62.88%,
-        curve to calc(var(--edge)*(0.92/var(--var))) 73.31% with calc(var(--edge)*(0.27/var(--var))) 64.43%/calc(var(--edge)*(0.73/var(--var))) 71.52%,
-        line to calc(var(--edge)*(01.09/var(--var))) 74.9%,
-        line to calc(var(--edge)*(01.09/var(--var))) 82.35%,
-        curve to calc(var(--edge)*(1.71/var(--var))) 98.34% with calc(var(--edge)*(1.08/var(--var))) 92.58%/calc(var(--edge)*(1.17/var(--var))) 95.08%,
-        line to calc(var(--edge)*(01.99/var(--var))) 100%,
-        line to calc(var(--edge)*(50.00/var(--var))) 100%,
-        line to calc((var(--edge)*((98.02 - var(--end))/var(--var))) + (100% - var(--edge))) 99.99%,
-        line to calc((var(--edge)*((98.30 - var(--end))/var(--var))) + (100% - var(--edge))) 98.22%,
-        curve to calc((var(--edge)*((98.90 - var(--end))/var(--var))) + (100% - var(--edge))) 83.49% with calc((var(--edge)*((98.80 - var(--end))/var(--var))) + (100% - var(--edge))) 95.10%/calc((var(--edge)*((98.88 - var(--end))/var(--var))) + (100% - var(--edge))) 93.23%,
-        curve to calc((var(--edge)*((99.26 - var(--end))/var(--var))) + (100% - var(--edge))) 71.08% with calc((var(--edge)*((98.92 - var(--end))/var(--var))) + (100% - var(--edge))) 75.12%/calc((var(--edge)*((98.99 - var(--end))/var(--var))) + (100% - var(--edge))) 72.81%,
-        curve to calc((var(--edge)*((99.72 - var(--end))/var(--var))) + (100% - var(--edge))) 63.22% with calc((var(--edge)*((99.35 - var(--end))/var(--var))) + (100% - var(--edge))) 70.57%/calc((var(--edge)*((99.72 - var(--end))/var(--var))) + (100% - var(--edge))) 64.15%,
-        curve to calc((var(--edge)*((99.76 - var(--end))/var(--var))) + (100% - var(--edge))) 61.91% with calc((var(--edge)*((99.72 - var(--end))/var(--var))) + (100% - var(--edge))) 62.68%/calc((var(--edge)*((99.74 - var(--end))/var(--var))) + (100% - var(--edge))) 62.09%,
-        curve to calc((var(--edge)*((99.92 - var(--end))/var(--var))) + (100% - var(--edge))) 42.14% with calc((var(--edge)*((99.98 - var(--end))/var(--var))) + (100% - var(--edge))) 60.08%/calc((var(--edge)*((100.0 - var(--end))/var(--var))) + (100% - var(--edge))) 47.05%,
-        curve to calc((var(--edge)*((99.76 - var(--end))/var(--var))) + (100% - var(--edge))) 37.67% with calc((var(--edge)*((99.87 - var(--end))/var(--var))) + (100% - var(--edge))) 40.72%/calc((var(--edge)*((99.80 - var(--end))/var(--var))) + (100% - var(--edge))) 38.71%,
-        curve to calc((var(--edge)*((99.11 - var(--end))/var(--var))) + (100% - var(--edge))) 26.97% with calc((var(--edge)*((99.67 - var(--end))/var(--var))) + (100% - var(--edge))) 35.02%/calc((var(--edge)*((99.34 - var(--end))/var(--var))) + (100% - var(--edge))) 29.55%,
-        line to calc((var(--edge)*((98.92 - var(--end))/var(--var))) + (100% - var(--edge))) 24.8%,
-        line to calc((var(--edge)*((98.89 - var(--end))/var(--var))) + (100% - var(--edge))) 16.78%,
-        curve to calc((var(--edge)*((98.15 - var(--end))/var(--var))) + (100% - var(--edge))) 0.92% with calc((var(--edge)*((98.86 - var(--end))/var(--var))) + (100% - var(--edge))) 5.99%/calc((var(--edge)*((98.74 - var(--end))/var(--var))) + (100% - var(--edge))) 3.27%,
-        curve to calc((var(--edge)*((49.97 - var(--end))/var(--var))) + (100% - var(--edge))) 0.01% with calc((var(--edge)*((97.91 - var(--end))/var(--var))) + (100% - var(--edge))) 0.01%/calc((var(--edge)*((97.67 - var(--end))/var(--var))) + (100% - var(--edge))) 0.02%,
-        line to calc((var(--edge)*((2.03 - var(--end))/var(--var))) + (100% - var(--edge))) 0.03%,
-      );
-
-      gap: 0.5em;
-      overflow:visible !important;
-
-      & tr.MuiTableRow-root {
-
-        position: relative;
-
-        color: rgb(55, 55, 55);
-        background-color: rgb(233,233,233) !important;
-        transition: background-color 0ms;
-        height: 3em;
-      	aspect-ratio: 8.222;
-      	clip-path: var(--row-clip-path);
-        overflow:visible;
-        z-index: 1;
-
-        /* mask-image: var(--row-clip-path);
-        mask-repeat: no-repeat;
-        mask-clip: padding-box;
-        mask-size: 100%;
-        mask-position: center; */
-
-        &:before {
-          all: unset;
-          content: '';
-          position: absolute;
-          background-color: rgb(169,152,104);
-          height: calc(100% - var(--border)*2);
-          width: calc(100% - var(--border)*2);
-          top: var(--border);
-          left: var(--border);
-          font-size: 1em;
-          clip-path: var(--row-clip-path);
-          z-index: 2;
-          overflow:visible;
+        fieldset {
+          border-color: rgba(255, 255, 255, 0.23);
+          color: inherit;
         }
-
-        &:after {
-          all: unset;
-          content: ' ';
-          position: absolute;
-          background: 
-            url(../public/images/ui-background/three-diamonds-white.svg) repeat-x center center, 
-            rgb(233,233,233);
-          background-size: 21%, 100%;
-          transition: background-color 0ms;
-          height: calc(100% - var(--border)*4);
-          width: calc(100% - var(--border)*4);
-          top: calc(var(--border)*2);
-          left: calc(var(--border)*2);
-          font-size: 1em;
-          clip-path: var(--row-clip-path);
-          z-index: 3;
-          overflow:visible;
-        }
-
-        &:hover, &[data-selected="true"] {
-          background: linear-gradient(45deg, rgb(98,8,8) 0%,rgb(200,25,10) 50%,rgb(98,8,8) 100%) !important;
-          background-repeat: repeat-x, no-repeat;
-          background-size: 100%;
-          color: rgb(233,233,233);
-          transition: background-color 0ms;
-          z-index: 1;
-
-          &:after {
-            background-image: unset !important;
-            background: 
-              url(../public/images/ui-background/three-diamonds-red.svg) center center,
-              linear-gradient(45deg, rgb(98,8,8) 0%,rgb(200,25,10) 50%,rgb(98,8,8) 100%) !important;
-            background-repeat: repeat-x, no-repeat;
-            background-size: 21%, 100% !important;
-            z-index: 3;
+        & div.MuiInputBase-root {
+          color: inherit;
+          input {
+            color: inherit;
+            font-family: var(--font-family);
           }
+        } /* div.MuiInputBase-root */
+        & div.MuiInputAdornment-root {
+          & button:disabled > svg {
+            color: rgba(255, 255, 255, 0.15) !important;
+          }
+        } /* div.MuiInputAdornment-root */
+      } /* div.MuiBox-root */
+    }
+  }
+
+  & div.MuiTableContainer-root {
+    & table.MuiTable-root {
+      & thead.MuiTableHead-root {
+
+        & tr.MuiTableRow-root {
+          background-color: inherit;
+
+          & th.MuiTableCell-head {
+            font-family: inherit;
+            font-size: inherit;
+            color: inherit;
+            border-bottom: none;
+
+            /* --- Filters --- */
+            & div.MuiInputBase-root {
+              color: inherit;
+              &::before {
+                border-bottom-color: rgba(255, 255, 255, 0.42);;
+              }
+              & div[role="combobox"] {
+                color: inherit;
+                & div.MuiBox-root {
+                  font-family: var(--font-family);
+                  color: inherit;
+                }
+              }
+              & input {
+                font-family: var(--font-family);
+              }
+            } /* div.MuiInputBase-root */
+            & span.MuiSlider-root {
+              & span.MuiSlider-valueLabelLabel {
+                font-family: var(--font-family)
+              }
+            }
+
+            /* --- Combobox selected values --- */
+            div.MuiChip-root {
+              background-color: rgba(255,255,255,0.08);
+              span.MuiChip-label {
+                font-family: var(--font-family);
+                color: white;
+              }
+            } /* div.MuiChip-root */
+
+          } /* th.MuiTableCell-head */
+        } /* tr.MuiTableRow-root */
+      } /* thead.MuiTableHead-root */
+
+      & tbody.MuiTableBody-root {
+
+        & tr.MuiTableRow-root {
+          background-color: inherit !important;
 
           & td.MuiTableCell-root {
             background-image: unset !important;
+            font-family: inherit;
+            border: none;
+            color: inherit;
 
             &:after {
               background-color: transparent !important;
             }
-          }
-        }
+          } /* td.MuiTableCell-root */
+        } /* tr.MuiTableRow-root */
+      } /* tbody.MuiTableBody-root */
 
-        &:hover {
-          & > td.MuiTableCell-root:first-child {
-            overflow: visible;
-            &::before {
-              content: ' ';
-              position: absolute;
-              height: 30px;
-              width: 30px;
-              left: -30px;
-              background-color: red;
-              
+    } /* table.MuiTable-root */
+  } /* div.MuiTableContainer-root */
+} /* .MuiPaper-root */
+
+/* --- Battle Row hover Quill movement --- */
+@keyframes quillMovement {
+  0% {left: -20px; top: -5px;}
+  50% {left: -15px; top: 0px;}
+  100% {left: -20px; top: -5px;}
+}
+
+.MuiPaper-root#battles-table {
+  width: 100%;
+
+  & div.MuiTableContainer-root {
+
+      & table.MuiTable-root {
+      --edge-children-padding: 1em;
+      overflow: visible;
+      padding-left: 0.5rem;
+
+      & thead.MuiTableHead-root {
+        & tr.MuiTableRow-root {
+          & th.MuiTableCell-head {
+
+            &:first-child {
+              margin-left: var(--edge-children-padding);
+            }
+
+            &:nth-last-child(2) {
+              margin-right: var(--edge-children-padding);
             }
           }
         }
-
-        & td.MuiTableCell-root {
-
-          color: inherit;
-          background-color: transparent;
-          transition: background-color 0ms;
-          font-family: inherit;
-          font-size: inherit;
-          font-size: 0.95em;
-          margin: calc((var(--border)*2)) 0px;
-          z-index: 4;
-          border: none;
-
-          &:first-child {
-            /* margin-left: calc(var(--border)*2); */
-            margin-left: 1em;
-          }
-
-          &:nth-last-child(2) {
-            /* margin-right: calc(var(--border)*2); */
-            margin-right: 1em;
-          }
-
-          &:last-child {
-            background-color: transparent;
-            
-          }
-
-          & img {
-            height: 1.5em;
-          }
-
-          & span {
-            padding-left: 0.25em;
-          }
-
-        }
-
       }
 
-      /* & tr.MuiTableRow-root:before {
-          all: unset;
-          content: '';
-          position: absolute;
-          background-color: rgb(169,152,104);
-          height: calc(100% - var(--border)*2);
-          width: calc(100% - var(--border)*2);
-          top: var(--border);
-          left: var(--border);
-          font-size: 1em;
-          clip-path: var(--row-clip-path);
-          z-index: 2;
-          overflow:visible;
-        } */
+      & tbody.MuiTableBody-root {
+        color:rgb(30,30,30);
+        overflow: visible;
 
-    }
+        container: battlesTableBody / inline-size;
 
-  }
+        & tr.MuiTableRow-root {
+          --height : 3rem;
 
-}
+          height: var(--height);
+          width: 100%;
+          margin-bottom: 0.5rem;
+          overflow: visible;
+
+          transition: 
+            background-image 125ms ease-in-out,
+            color 125ms ease-in-out;
+
+          &.side-battle {
+
+            background-image:
+              url(/public/images/ui-background/battleRow/side-left-base.svg),
+              url(/public/images/ui-background/battleRow/side-right-base.svg),
+              url(/public/images/ui-background/battleRow/side-middle-base.svg),
+              linear-gradient(
+                90deg, 
+                transparent calc(var(--height) * 0.171428571), 
+                rgb(233,233,233) calc(var(--height) * 0.171428571),
+                rgb(233,233,233) 50%,
+                rgb(233,233,233) calc(100% + ((var(--height) * -0.171428571))),
+                transparent calc(100% + ((var(--height) * -0.171428571))));
+            background-repeat: 
+              no-repeat, no-repeat, no-repeat, no-repeat;
+            background-position:
+              left, right, center, center;
+            background-size: auto, auto, calc(100% - 3.5em + 2px), auto;
+
+            &[data-selected="true"] {
+              background-image:
+              url(/public/images/ui-background/battleRow/side-left-hover.svg),
+              url(/public/images/ui-background/battleRow/side-right-hover.svg),
+              url(/public/images/ui-background/battleRow/side-middle-hover.svg),
+              linear-gradient(
+                90deg, 
+                transparent calc(var(--height) * 0.171428571), 
+                rgb(98,8,8) calc(var(--height) * 0.171428571),
+                rgb(200,25,10) 50%,
+                rgb(98,8,8) calc(100% + ((var(--height) * -0.171428571))),
+                transparent calc(100% + ((var(--height) * -0.171428571))));
+            }
+            
+          } /* tr.MuiTableRow-root.side-battle */
+
+          &.main-battle {
+            --height : 3.5rem;
+            --pattern-width: 150px;
+            --diamond-size: 0px;
+
+            background-image:
+              url(/public/images/ui-background/battleRow/main-left-base.svg),
+              url(/public/images/ui-background/battleRow/main-right-base.svg),
+              url(/public/images/ui-background/battleRow/two-diamonds-base.svg),
+              url(/public/images/ui-background/battleRow/main-middle-base.svg);
+            background-repeat: 
+              no-repeat, no-repeat, no-repeat, no-repeat;
+            background-position:
+              left, right, center, center;
+            background-size: 
+              auto, 
+              auto, 
+              var(--diamond-size),
+              calc(100% - ((var(--height) * 0.54285714285)*2) + 2px) 100%;
+
+            /* One Diamond */
+            @container battlesTableBody (width > calc(100px + ((3.55em * 3.77142857143)*2) + 23px)) { &{
+                --diamond-size: var(--pattern-width);
+            } }
+            /* Three Diamonds */
+            @container battlesTableBody (width > calc(100px + ((3.55em * 3.77142857143)*2) + (23px + (300px * 1)))) { &{
+                --diamond-size: calc( var(--pattern-width) * 3);
+            } }
+            /* Five Diamonds */
+            @container battlesTableBody (width > calc(100px + ((3.55em * 3.77142857143)*2) + (23px + (300px * 2)))) { &{
+                --diamond-size: calc( var(--pattern-width) * 5);
+            } }
+            /* Seven Diamonds */
+            @container battlesTableBody (width > calc(100px + ((3.55em * 3.77142857143)*2) + (23px + (300px * 3)))) { &{
+                --diamond-size: calc( var(--pattern-width) * 7);
+            } }
+            /* Nine Diamonds */
+            @container battlesTableBody (width > calc(100px + ((3.55em * 3.77142857143)*2) + (23px + (300px * 4)))) { &{
+                --diamond-size: calc( var(--pattern-width) * 9);
+            } }
+
+            &[data-selected="true"] {
+              background-image:
+              url(/public/images/ui-background/battleRow/main-left-hover.svg),
+              url(/public/images/ui-background/battleRow/main-right-hover.svg),
+              url(/public/images/ui-background/battleRow/two-diamonds-hover.svg),
+              url(/public/images/ui-background/battleRow/main-middle-hover.svg);
+            }
+
+          } /* tr.MuiTableRow-root.main-battle */
+
+          /* White text on select */
+          &[data-selected="true"] {
+            color: white;
+          }
+
+          /* --- Hover quill --- */
+          &:hover {
+            & > td.MuiTableCell-root:first-child {
+              overflow: visible;
+              &::before {
+                content: ' ';
+                position: absolute;
+                height: 30px;
+                aspect-ratio: calc(72/80);
+                left: -20px;
+                top: -5px;
+                background: url(/public/images/ui-icons/select-quill-4.png) left / contain no-repeat;
+
+                animation: 1.5s linear quillMovement infinite; 
+                z-index: 2;             
+              }
+            }
+          }
+
+          & td.MuiTableCell-root {
+            transition: background-color 0ms;
+            font-size: 0.95rem;
+            margin: calc((var(--border)*2)) 0px;
+            z-index: 4;
+
+            &:first-child {
+              margin-left: var(--edge-children-padding);
+            }
+
+            &:nth-last-child(2) {
+              margin-right: var(--edge-children-padding);
+            }
+
+            & img {
+              height: 1.5em;
+            }
+
+            & span {
+              padding-left: 0.25em;
+            }
+
+          } /* td.MuiTableCell-root */
+
+          /* --- Search text --- */
+          &:not([data-selected="true"]) td.MuiTableCell-root .MuiBox-root:not(& .css-0) {
+            background-color: rgb(172,153,106);
+            color: white;
+          }
+          &[data-selected="true"] td.MuiTableCell-root .MuiBox-root:not(& .css-0) {
+            background-color: rgb(208,187,78);
+            color: black;
+          }
+
+        } /* tr.MuiTableRow-root */
+      } /* tbody.MuiTableBody-root */
+    } /* div.MuiTableContainer-root */
+  } /* table.MuiTable-root */
+} /* .MuiPaper-root#battles-table */
 
 .MuiPaper-root#missions-table {
-  --Paper-shadow: none !important;
-  background-color: transparent;
 
-  & .MuiBox-root {
-    background-color: transparent;
-  }
+  & div.MuiTableContainer-root {
 
-  & .MuiTableContainer-root {
     & table.MuiTable-root {
       display: flex;
       flex-flow: column nowrap;
-      /* table-layout: fixed;
-      width: 100%; */
+
       & thead.MuiTableHead-root {
-        border-color: transparent;
-        & tr.MuiTableRow-root {        
-          background-color: transparent;
+        & tr.MuiTableRow-root {
           display: flex;
           flex-flow: row nowrap;
-          width: 100%;
           align-content: stretch;
+          width: 100%;
 
           & th.MuiTableCell-root {
-            font-family: inherit;
-            font-size: inherit;
-            color: white;
 
             &[data-index="0"] {
               text-align: right;
@@ -1508,6 +1599,7 @@ html {
               & .Mui-TableHeadCell-Content {
                 justify-content: right;
               } /* Mui-TableHeadCell-Content */
+
             } /* th.MuiTableCell-root[data-index="0"] */
 
             &[data-index="1"] {
@@ -1530,20 +1622,10 @@ html {
           display: flex;
           flex-flow: row nowrap;
           align-content: stretch;
-          background-color: transparent !important;
 
           & td.MuiTableCell-root {
-            font-family: inherit;
             font-size: 0.9rem;
-
-            background-image: unset !important;
-            border: none;
-
             padding: 0;
-
-            &:after {
-              background-color: transparent !important;
-            }
 
             &[data-index="0"] {
               text-align: right;
@@ -1557,7 +1639,6 @@ html {
                 visibility: hidden;
 
               } /* button.MuiButtonBase-root.Mui-disabled */
-
             } /* td.MuiTableCell-root[data-index="0"] */
 
             &[data-index="1"] {
@@ -1571,7 +1652,7 @@ html {
                 --padding: 0.25rem;
                 --transition-duration: 300ms;
 
-                color: white;
+                color: inherit;
                 white-space: pre-wrap;
                 
                 container: missionContainer / inline-size;
@@ -1621,6 +1702,23 @@ html {
                       display: block;
                       text-wrap-mode: wrap;
                       min-height: 2.9em;
+                      position: relative;
+
+                      & span.mission-table-row-main-text-display { }
+
+                      & span.mission-table-row-main-text-searched {
+                        position: absolute;
+                        color: transparent;
+                        
+                        & span.found {
+                          background-color: #F1E495;
+                          border-radius: 2px;
+                          color: black;
+                          user-select: none;
+                          -moz-user-select: none;
+                          -webkit-user-select: none;
+                        }
+                      } /* span.mission-table-row-main-text-searched */
                     } /* div.mission-table-row-text */
 
                   } /* div.mission-table-row-main */
@@ -1690,19 +1788,6 @@ html {
                   }
                 }
 
-                /* & span.mission-table-row-text-blue {
-                  color: #5EB1DD;
-                }
-                & span.mission-table-row-text-green {
-                  color: #52B652;
-                }
-                & span.mission-table-row-text-red {
-                  color: #EA7E72;
-                }
-                & span.mission-table-row-text-yellow {
-                  color: #F3B65E;
-                } */
-
                 & div.mission-table-row-details-wrapper {
                   padding: var(--padding);
                   background-color: var(--background-colour);
@@ -1748,22 +1833,18 @@ html {
                 }
 
               } /* div.mission-table-row */
-
             } /* td.MuiTableCell-root[data-index="1"] */
           } /* td.MuiTableCell-root */
 
           &.main-row {
-
           } /* tr.MuiTableBody-root.main-row */
 
           &.sub-row {
-            
             & td.MuiTableCell-root[data-index="1"] {
               & div.mission-table-row {
                 margin-left: 2em;
               }
             } /* td.MuiTableCell-root[data-index="1"] */
-
           } /* tr.MuiTableRow-root.sub-row */
 
           /* Hover and Select */
@@ -1780,7 +1861,6 @@ html {
                 top: 0;
                 left: 0;
                 border-radius: var(--border-radius);
-                /* z-index: 2; */
               }
             }
             & div.mission-table-row-details-wrapper {
@@ -1802,13 +1882,44 @@ html {
           }
 
         } /* tr.MuiTableRow-root */
-
       } /* tbody.MuiTableBody-root */
     } /* table.MuiTable-root */
   } /* .MuiTableContainer-root */
 } /* .MuiPaper-root.missions-table */
 
-/* Missions filter select popup */
+/* ------------------------- */
+/* --- Dark Mode Buttons --- */
+/* ------------------------- */
+.MuiSvgIcon-root, .MuiTouchRipple-root {
+  color: rgba(255, 255, 255, 0.54) !important;
+}
+
+.Mui-TableHeadCell-Content-Labels .MuiButtonBase-root > .MuiTableSortLabel-icon {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.Mui-TableHeadCell-ResizeHandle-Wrapper > .MuiDivider-root {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* -------------------------- */
+/* --- Table Select Popup --- */
+/* -------------------------- */
+div[role="presentation"] div.MuiPaper-root:has(ul.MuiList-root > li) {
+  background-color: rgb(30, 30, 30);
+  & ul {
+    background-color: transparent;
+    & li {
+      color: white;
+    }
+  }
+  & span.MuiTypography-root, & button, & ul, & li {
+    font-family: var(--font-family);
+  }
+  & button:disabled {
+    color: rgba(255,255,255,0.3);
+  }
+}
 div[role="presentation"] 
 div.MuiPaper-root:has(
   ul.MuiList-root > li[data-value="Main Mission Start"]
@@ -1816,134 +1927,6 @@ div.MuiPaper-root:has(
   min-width: unset !important;
   width: max-content;
   height: 50%;
-}
-
-/* .test {
-  --height : 3em;
-
-  height: var(--height);
-  width: 100%;
-  background-color: whitesmoke;
-  background-image:
-    url(/public/images/ui-background/missionRow/inner-side-left-edge.svg),
-    url(/public/images/ui-background/missionRow/inner-side-right-edge.svg),
-    url(/public/images/ui-background/missionRow/inner-side-middle.svg),
-    url(/public/images/ui-background/missionRow/outer-left-edge.svg),
-    url(/public/images/ui-background/missionRow/outer-right-edge.svg),
-    linear-gradient(
-      90deg, 
-      transparent calc(var(--height) * 0.171428571), 
-      rgb(98,8,8) calc(var(--height) * 0.171428571),
-      rgb(200,25,10) 50%,
-      rgb(98,8,8) calc(100% + ((var(--height) * -0.171428571))),
-      transparent calc(100% + ((var(--height) * -0.171428571))))
-  ;
-  background-repeat: 
-    no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
-  background-position:
-    left, right, center, left, right, center;
-  background-size: auto, auto, calc(100% - 3.5em + 2px), auto;
-} */
-
-.test {
-  --height : 3em;
-
-  height: var(--height);
-  width: 100%;
-  background-color: whitesmoke;
-  background-image:
-    url(/public/images/ui-background/missionRow/side-left-base.svg),
-    url(/public/images/ui-background/missionRow/side-right-base.svg),
-    url(/public/images/ui-background/missionRow/side-middle-base.svg),
-    linear-gradient(
-      90deg, 
-      transparent calc(var(--height) * 0.171428571), 
-      rgb(233,233,233) calc(var(--height) * 0.171428571),
-      rgb(233,233,233) 50%,
-      rgb(233,233,233) calc(100% + ((var(--height) * -0.171428571))),
-      transparent calc(100% + ((var(--height) * -0.171428571))));
-  background-repeat: 
-    no-repeat, no-repeat, no-repeat, no-repeat;
-  background-position:
-    left, right, center, center;
-  background-size: auto, auto, calc(100% - 3.5em + 2px), auto;
-
-  &:hover {
-    background-image:
-    url(/public/images/ui-background/missionRow/side-left-hover.svg),
-    url(/public/images/ui-background/missionRow/side-right-hover.svg),
-    url(/public/images/ui-background/missionRow/side-middle-hover.svg),
-    linear-gradient(
-      90deg, 
-      transparent calc(var(--height) * 0.171428571), 
-      rgb(98,8,8) calc(var(--height) * 0.171428571),
-      rgb(200,25,10) 50%,
-      rgb(98,8,8) calc(100% + ((var(--height) * -0.171428571))),
-      transparent calc(100% + ((var(--height) * -0.171428571))));
-  }
-
-}
-
-.test2 {
-  --height : 3.55em;
-  --pattern-width: 150px;
-  --diamond-size: 0px;
-  
-  
-  /* container: mission-row / inline-size; */
-  /* container: mission-row / size; */
-  container-type: inline-size;
-
-
-  margin-top: 1em;
-
-  height: var(--height);
-  width: 100%;
-  background-color: whitesmoke;
-  background-image:
-    url(/public/images/ui-background/missionRow/main-left-base.svg),
-    url(/public/images/ui-background/missionRow/main-right-base.svg),
-    url(/public/images/ui-background/missionRow/two-diamonds-base.svg),
-    url(/public/images/ui-background/missionRow/main-middle-base.svg);
-  background-repeat: 
-    no-repeat, no-repeat, no-repeat, no-repeat;
-  background-position:
-    left, right, center, center;
-  background-size: 
-    auto, 
-    auto, 
-    var(--diamond-size),
-    calc(100% - ((var(--height) * 0.54285714285)*2) + 2px) 100%;
-
-  /* One Diamond */
-  @container rightPane (width > calc(100px + ((3.55em * 3.77142857143)*2) + 23px)) { &{
-      --diamond-size: var(--pattern-width);
-  } }
-  /* Three Diamonds */
-  @container rightPane (width > calc(100px + ((3.55em * 3.77142857143)*2) + (23px + (300px * 1)))) { &{
-      --diamond-size: calc( var(--pattern-width) * 3);
-  } }
-  /* Five Diamonds */
-  @container rightPane (width > calc(100px + ((3.55em * 3.77142857143)*2) + (23px + (300px * 2)))) { &{
-      --diamond-size: calc( var(--pattern-width) * 5);
-  } }
-  /* Seven Diamonds */
-  @container rightPane (width > calc(100px + ((3.55em * 3.77142857143)*2) + (23px + (300px * 3)))) { &{
-      --diamond-size: calc( var(--pattern-width) * 7);
-  } }
-  /* Nine Diamonds */
-  @container rightPane (width > calc(100px + ((3.55em * 3.77142857143)*2) + (23px + (300px * 4)))) { &{
-      --diamond-size: calc( var(--pattern-width) * 9);
-  } }
-
-  &:hover {
-    background-image:
-    url(/public/images/ui-background/missionRow/main-left-hover.svg),
-    url(/public/images/ui-background/missionRow/main-right-hover.svg),
-    url(/public/images/ui-background/missionRow/two-diamonds-hover.svg),
-    url(/public/images/ui-background/missionRow/main-middle-hover.svg);
-  }
-
 }
 
 /* ----------------- */
@@ -2049,6 +2032,17 @@ html {
     :hover {
       display: none;
     }
+  }
+
+  ::-webkit-resizer {
+    /* border: none; */
+    /* background-color: rgb(198, 154, 90, 0.1); */
+    border-radius: 5px;
+    display: block;
+    background-image: url(/public/images/ui-icons/resize.svg);
+    background-size: 75% 75%;
+    background-position: bottom right;
+    background-repeat: no-repeat;
   }
 }
 

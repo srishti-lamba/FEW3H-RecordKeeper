@@ -30,6 +30,7 @@ export interface TextRefType {
     main ?: (string | JSX.Element)[];
     prereq ?: (string | JSX.Element)[];
     notes ?: (string | JSX.Element)[];
+    mainPlain ?: string;
 }
 
 interface MissionsProps { 
@@ -100,25 +101,17 @@ export function Missions({ isTableWidthFull: tableWidthFull, tableHeight }: Miss
                 filterFn: (row, id, filterValue: string[]) => {
                     if (filterValue.length == 0)
                         return true
-                    // console.log(filterValue)
                     console.log(`[filterValue: [${filterValue}]] [type: ${title[row.original.type]}]`)
                     let equals = false
                     filterValue.forEach((filter: string) => {
-                        // console.log(`   [filter: ${filter}] [result: ${title[row.original.type] === filter}]`)
                         if (title[row.original.type] === filter)
                             equals = true
                     })
                     return equals
                 },
                 Cell: ({ row }) => {
-                    let idStr : string = row.original.id!.join("-")
-                    let curText = textRef.current[idStr]
-                    if (curText === undefined)
-                        curText = {
-                            title : title[row.original.type],
-                            main : formatText(row.original.text)
-                        }
-                    textRef.current[idStr] = curText
+                    let curText = initializeMissionTextRef(row, textRef)
+                    if (curText === undefined) return;
                     if (row.getIsSelected()) {
                         if (row.original.prereq !== undefined && curText.prereq === undefined)
                             curText.prereq = formatText(row.original.prereq)
@@ -138,7 +131,16 @@ export function Missions({ isTableWidthFull: tableWidthFull, tableHeight }: Miss
                                         className="mission-table-row-main-text"
                                     >
                                         {/* {row.original.text} */}
-                                        {curText.main}
+                                        {
+                                            (
+                                                table.current?.getState().globalFilter !== undefined &&
+                                                table.current?.getState().globalFilter.length !== 0
+                                            ) &&
+                                            getSearchedText(curText.mainPlain, table.current?.getState().globalFilter)
+                                        }
+                                        <span className="mission-table-row-main-text-display">
+                                            {curText.main}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -206,6 +208,7 @@ export function Missions({ isTableWidthFull: tableWidthFull, tableHeight }: Miss
         },
         muiTablePaperProps: ({ table }) => ({
             id: "missions-table",
+            className: (table.getState().isFullScreen) ? "full-screen" : "",
             sx: {
                 "overflow-y" : (tableWidthFull) ? "visible" : "scroll",
                 "max-height" : (tableWidthFull) ? "auto" : tableHeight,
@@ -227,7 +230,6 @@ export function Missions({ isTableWidthFull: tableWidthFull, tableHeight }: Miss
                 }),
             selected: selectedMissionRow[row.id],
             className: row.parentId === undefined ? "main-row" : "sub-row",
-            // className: row.original.type == 0 ? "side-mission" : "main-mission",
             sx: {
                 cursor: 'pointer',
             },
@@ -249,20 +251,39 @@ export function Missions({ isTableWidthFull: tableWidthFull, tableHeight }: Miss
         enableExpanding: true,
         enableExpandAll: true,
         getRowCanExpand: (row) => row.original.subRows !== undefined,
-        getSubRows: (row) => row.subRows,
+        getSubRows: (row) => row.subRows, 
+        enableGlobalFilter: true,
+        filterFns: {
+            searchMainText: (row, id, filterValue) => {
+                let txt : TextRefType|undefined = textRef.current[row.original.id]
+                if (txt === undefined)
+                    txt = initializeMissionTextRef(row, textRef)
+                let plainText = txt!.mainPlain
+                if (plainText === undefined) return false;
+                return plainText.toLowerCase().includes(filterValue);
+            }
+        },
+        globalFilterFn: 'searchMainText',
+        enableKeyboardShortcuts: false,
         // muiExpandButtonProps : ({ row, staticRowIndex, table }) => ({
         //     children: (row.original.subRows === undefined) ? ExpandMoreIcon : undefined
         // })
     });
 
-    if (Object.keys(selectedBattleRow).length == 0)
+    if ((Object.keys(selectedBattleRow).length == 0) || (data.length == 0))
         return <></>
+
+    console.log(table.current.getState())
 
     return (
         <MaterialReactTable table={table.current} />
     )
 
 }
+
+// ------------------------
+// --- Helper Functions ---
+// ------------------------
 
 export const title: Dictionary<string> = {
     "ms": "Main Mission Start",
@@ -274,6 +295,22 @@ export const title: Dictionary<string> = {
     "ry": "Report!",
     "w": "Warning!"
 };
+
+export const initializeMissionTextRef = (row : any, ref : React.RefObject<Dictionary<TextRefType>>) => {
+    let mission = row.original.id;
+    if (mission === undefined)
+        return;
+    let idStr : string = mission.join("-")
+    let curText = ref.current[idStr]
+    if (curText === undefined)
+        curText = {
+            title : title[row.original.type],
+            main : formatText(row.original.text),
+            mainPlain : row.original.text.replaceAll(/(\[blue]|\[\/blue]|\[green]|\[\/green]|\[red]|\[\/red]|\[yellow]|\[\/yellow]|<\/ul>|<ul>|\<\/li>|\<li>)/g, "")
+        }
+    ref.current[idStr] = curText
+    return curText;
+}
 
 export const formatText = (text: string) => {
     let result: [boolean, string | JSX.Element][] = [[true, text]];
@@ -454,4 +491,21 @@ const textFormatterHelper_listResultModifyElement =
     newResult = [ ...newResult, ...result.slice(endIndex + 1) ]
 
     return newResult
+}
+
+const getSearchedText = (text : string|undefined, search : string|undefined) => {
+    if (text === undefined || search === undefined)
+        return <></>
+
+    let start = text.toLowerCase().indexOf(search);
+    if (start === -1) return <></>
+
+    let end = start + search.length;
+
+    return (
+        <span className="mission-table-row-main-text-searched">
+            {text.substring(0, start)}
+            <span className="found">{text.substring(start, end)}</span>
+        </span>
+    )
 }

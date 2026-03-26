@@ -17,7 +17,7 @@ export function Details( {/*selectedRow, selectedRowData*/} : DetailsProps ) {
     const mapSize = useRef<ResizeObserverEntry|undefined>(undefined)
     const missionsTable = useRef<MRT_TableInstance<MissionRow>>(undefined);
     const [missionsWidthFull, setMissionsWidthFull] = useState(false)
-    const missionsShouldSetHeight = useRef<boolean>(false)
+    const missionsShouldSetHeight = useRef<boolean>(true)
     const [missionsHeight, setMissionsHeight] = useState<string>("auto")
 
     // -----------------------
@@ -82,9 +82,6 @@ export function Details( {/*selectedRow, selectedRowData*/} : DetailsProps ) {
                         tableHeight={missionsHeight}
                     />
                 </div>
-                <div className="test"></div>
-                <div className="test2"></div>
-                {/* <img src={process.env.PUBLIC_URL + "/images/ui-background/test.svg"} width="100%" height="100px" /> */}
 
             </MissionsTableContext>
             </MapContext>

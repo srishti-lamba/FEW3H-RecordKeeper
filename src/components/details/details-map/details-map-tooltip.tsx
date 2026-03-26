@@ -6,7 +6,7 @@ import { GridCellDataType, CoordinateType, StrongholdDataType, PotDataType, Unit
 import { CategoryType, WeaponDataType, Weapons } from "../../data-classes/weapon-data";
 import { Classes } from "../../data-classes/class-data";
 import { BattlesTableContext, MissionsTableContext } from "../../../context";
-import { formatText, title } from "../missions-table";
+import { formatText, initializeMissionTextRef, title } from "../missions-table";
 
 interface TooltipContentProps {
     data : GridCellDataType[][];
@@ -219,24 +219,48 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
 
             // Advantages and Disadvantages
             var advantagesRows = <></>
+            let displayWeaponAdvantage = ( (category : CategoryType, categoryID : string, advantage : boolean) => (
+                <>
+                    <img 
+                        src={`${process.env.PUBLIC_URL}/images/icons/advantages/${(!advantage)?"dis":""}advantage-weapon.png`}
+                        alt={`Weapon ${(advantage) ? "A" : "Disa"}dvantage Icon`} 
+                        id={`${categoryID}-${(!advantage)?"dis":""}advantage`}
+                    />
+                    { 
+                        (unit.allegiance == "red" || unit.allegiance == "yellow") &&
+                        <Tooltip
+                            anchorSelect={`#${categoryID}-${(!advantage)?"dis":""}advantage`}
+                            children={
+                                <span className="map-tooltip-unit-details-info-weapon-description">
+                                    {`${(advantage) ? "No not u" : "U"}se ${(category.nameLower === "gauntlets") ? category.nameLower : category.nameLower + "s"} against this enemy`}
+                                </span>
+                            }
+                            key={`${categoryID}-${(!advantage)?"dis":""}advantage-tooltip`}
+                            place="bottom"
+                        />
+                    }
+                </>
+            ))
             if (weaponData !== null) {
                 advantagesRows = (
                     <span className="map-tooltip-unit-details-info-weapon-advantages">
                         <span className="map-tooltip-unit-details-info-weapon-advantageRow">
                             {
-                                Object.values(Weapons.categories).map( (category : CategoryType) => (
+                                Object.values(Weapons.categories).map( (category : CategoryType) => {
+                                    let categoryID = `map-tooltip-unit-details-info-weapon-advantageCol-${unit.allegiance}-${category.nameLower}`
+                                    return (
                                     <span className="map-tooltip-unit-details-info-weapon-advantageCol">
                                         <img src={category.icon} />
                                         {
                                             ( weaponData?.advantage !== undefined && weaponData.advantage.has(category) ) &&
-                                            <img src={`${process.env.PUBLIC_URL}/images/icons/advantages/advantage-weapon.png`} />
+                                            displayWeaponAdvantage(category, categoryID, true)
                                         }
                                         {
-                                            ( weaponData?.disadvantage !== undefined && weaponData.disadvantage.has(category) ) &&
-                                            <img src={`${process.env.PUBLIC_URL}/images/icons/advantages/disadvantage-weapon.png`} />
+                                            ( weaponData?.disadvantage !== undefined && weaponData.disadvantage.has(category) ) && 
+                                            displayWeaponAdvantage(category, categoryID, false)
                                         }
                                     </span>
-                                ))
+                                )})
                             }
                         </span>
                         <span className="map-tooltip-unit-details-info-weapon-advantageRow">
@@ -277,15 +301,7 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
             // Add Mission data if it doesn't exist
             let addMissionTextData = (mission : number[]) => {
                 let row = missionTable.current?.getRow(mission.join("."))!
-                console.log(row)
-                let idStr : string = mission.join("-")
-                let curText = missionText.current[idStr]
-                if (curText === undefined)
-                    curText = {
-                        title : title[row.original.type],
-                        main : formatText(row.original.text)
-                    }
-                missionText.current[idStr] = curText
+                initializeMissionTextRef(row, missionText)
             }
             let getMissionTypeClass = (mission: number[]) => {
                 let row = missionTable.current?.getRow(mission.join("."))!
@@ -295,30 +311,33 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                 addMissionTextData(unit.appear);
             if (unit.disappear !== undefined && unit.disappear[0] !== -1 && missionText.current[unit.disappear.join("-")] === undefined)
                 addMissionTextData(unit.disappear);
-            if ( (unit.appear!==undefined && unit.appear[0] !== -1 ) || (unit.disappear!==undefined && unit.disappear[0] !== -1) || unit.notes!==undefined)
+            let getSpawnCondition = ([mission, spawn] : [number[], boolean]) => (
+                <span className="map-tooltip-unit-details-info-miscRow-mission">
+                    <span>{(spawn) ? "Spawn condition:" : "Despawn condition:"}<br/></span>
+                    <div className="row-black-background">
+                        <div className={`map-tooltip-unit-details-info-miscRow-mission-icon ${getMissionTypeClass(mission)}`}></div>
+                        <span>{missionText.current[mission.join("-")].main}</span>
+                    </div>
+                </span>
+            )
+            if ( 
+                   (unit.appear!==undefined && unit.appear[0] !== -1 ) 
+                || (unit.disappear!==undefined && unit.disappear[0] !== -1) 
+                || (unit.appearAndDisappear!==undefined)
+                || unit.notes!==undefined
+            )
                 miscRow = (
                     <span className="map-tooltip-unit-details-info-miscRow" >
                         <span className="header-brown-underlined">Other Information</span>
-                        {
-                            (unit.appear !== undefined && unit.appear[0] !== -1) && 
-                            <span className="map-tooltip-unit-details-info-miscRow-mission">
-                                <span>Spawn condition:<br/></span>
-                                <div className="row-black-background">
-                                    <div className={`map-tooltip-unit-details-info-miscRow-mission-icon ${getMissionTypeClass(unit.appear)}`}></div>
-                                    <span>{missionText.current[unit.appear.join("-")].main}</span>
-                                </div>
-                            </span>
-                           
-                        }
-                        {
-                            (unit.disappear !== undefined && unit.disappear[0] !== -1) &&
-                                <span className="map-tooltip-unit-details-info-miscRow-mission">
-                                    <span>Despawn condition:<br/></span>
-                                    <div className="row-black-background">
-                                        <div className={`map-tooltip-unit-details-info-miscRow-mission-icon ${getMissionTypeClass(unit.disappear)}`}></div>
-                                        <span>{missionText.current[unit.disappear.join("-")].main}</span>
-                                    </div>
-                                </span>
+                        { (unit.appear !== undefined && unit.appear[0] !== -1) && getSpawnCondition([unit.appear!, true]) }
+                        { (unit.disappear !== undefined && unit.disappear[0] !== -1) && getSpawnCondition([unit.disappear!, false]) }
+                        { (unit.appearAndDisappear !== undefined) &&
+                            (unit.appearAndDisappear).map( ([mission, show] : [number[], boolean] ) => {
+                                if (mission[0] == -1) return <></>;
+                                if (missionText.current[mission.join("-")] === undefined)
+                                    addMissionTextData(mission)
+                                return getSpawnCondition([mission, show])
+                            })
                         }
                         {
                             (unit.notes !== undefined) && 

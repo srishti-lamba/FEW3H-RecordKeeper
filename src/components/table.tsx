@@ -246,7 +246,8 @@ table.current = useMaterialReactTable({
     enableFacetedValues: true,
     initialState: { density: 'compact' },
     muiTablePaperProps: ({ table }) => ({
-      className: 'battles-table'
+      id: 'battles-table',
+      className: (table.getState().isFullScreen) ? "full-screen" : "",
     }),
     muiTableBodyRowProps: ({ row }) => ({
       onClick: () =>
@@ -263,7 +264,7 @@ table.current = useMaterialReactTable({
           }
         }),
       selected: selectedRow[row.id],
-      className: row.original.type == 0 ? "side-mission" : "main-mission",
+      className: row.original.type == 0 ? "side-battle" : "main-battle",
       sx: {
         cursor: 'pointer',
       },

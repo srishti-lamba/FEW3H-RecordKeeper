@@ -2,15 +2,10 @@
     xmlns="http://www.w3.org/2000/svg"  
     viewBox="0 0 660 175" 
     preserveAspectRatio="xMinYMid meet" 
-    transform="scale(-1,-1) translate(0,0.2)"
-    >
+    transform="translate(0,0.55) scale(-1,-1)"
+>
 
     <defs>
-        <!-- <linearGradient id="missionRow-main-right-leaves" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="rgb(246,210,132)"/>
-            <stop offset="50%" stop-color="rgb(208,187,78)"/>
-            <stop offset="100%" stop-color="rgb(166,109,28)"/>
-        </linearGradient> -->
         <linearGradient id="missionRow-main-right-leaves" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stop-color="rgb(166,109,28)"/>
             <stop offset="50%" stop-color="rgb(208,187,78)"/>
@@ -134,7 +129,7 @@
         >
             <path
                 transform="scale(1.2,1.2) translate(16.5,0)"
-                d=" M 46 6.0355 L 44.4201 6.0355 L 37.3787 0 Q 16.5 14 8.15 35 L 13.43 35 Q 22 17 37.3787 6.0355 L 42.4083 10.0592 L 46 9.9704 Z"
+                d=" M 46 8 L 44.4201 8 L 37.3787 0 Q 16.5 14 8.15 35 L 13.43 35 Q 22 17 37.3787 6.0355 L 42.4083 10.0592 L 46 9.9704 Z"
             />
             <path
                 transform="scale(1.1,1.1) translate(16,7) rotate(-4)"
