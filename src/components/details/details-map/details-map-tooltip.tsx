@@ -2,7 +2,7 @@ import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Tooltip } from "react-tooltip";
 import { CSSProperties, memo, useContext } from "react";
-import { GridCellDataType, CoordinateType, StrongholdDataType, PotDataType, UnitDataType, MissionDataType } from "./details-map";
+import { GridCellDataType, CoordinateType, StrongholdDataType, PotDataType, UnitDataType, MissionDataType, BaseDataType } from "./details-map";
 import { CategoryType, WeaponDataType, Weapons } from "../../data-classes/weapon-data";
 import { Classes } from "../../data-classes/class-data";
 import { BattlesTableContext, MissionsTableContext } from "../../../context";
@@ -34,12 +34,80 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
     // -------------------
     // --- Strongholds ---
     // -------------------
-    var base : StrongholdDataType|undefined = (data.stronghold === undefined) ? undefined : data.stronghold[1];
-    breakBase: if ( base !== undefined ) {
+    var stronghold : StrongholdDataType|undefined = (data.stronghold === undefined) ? undefined : data.stronghold[1];
+    breakStronghold: if ( stronghold !== undefined ) {
         let index = data.stronghold![0]
 
         // Make sure Stronghold should be shown
         let show = missionData.strongholds[index].appear;
+        if (show === undefined || show === false)
+            break breakStronghold;
+        
+        // Captains
+        var captains : (UnitDataType)[] = [];
+        (stronghold.captain).forEach( (captain) => {
+            if (captain instanceof String !== true)
+                captains.push(captain as UnitDataType)
+        })
+        var captainElements = []
+        captainElements.push(captains.map( (unit : UnitDataType) => {
+            // var weapon : WeaponDataType|undefined = unit.weapon.
+            return (
+                <span className="map-tooltip-subcategory-row">
+                    <span className="map-tooltip-subcategory-row-info">
+                        <img
+                            className="map-tooltip-subcategory-row-icon"
+                            src={unit.class.sprite?.url as string} 
+                        />
+                        {unit.class.name}
+                    </span>
+                    {
+                        <span className="map-tooltip-subcategory-row-info">
+                            <img
+                                className="map-tooltip-subcategory-row-icon"
+                                src={unit.weapon.data?.icon} 
+                            />
+                            {unit.weapon.name}
+                        </span>  
+                    }
+                    
+                </span>
+            )
+        }))
+
+        children.push(
+            <span className="map-tooltip-stronghold map-tooltip-row">
+                <Accordion>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                    >
+                        <span className="map-tooltip-category-icon">{stronghold.icon}</span>
+                        <span className="map-tooltip-category-title">{stronghold.name}</span>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <span className="map-tooltip-subcategory map-tooltip-stronghold-details">
+                            <span className="map-tooltip-subcategory-header header-brown-underlined">Details</span>
+                            <span className="map-tooltip-subcategory-row">Capture Required: <b>{(stronghold.captureRequired) ? "True" : "False"}</b></span>
+                        </span>
+                        <span className="map-tooltip-subcategory map-tooltip-stronghold-captains ">
+                            <span className="map-tooltip-subcategory-header header-brown-underlined">Captains</span>
+                            {captainElements}
+                        </span>
+                    </AccordionDetails>
+                </Accordion>
+            </span>
+        )
+    }
+
+    // -------------
+    // --- Bases ---
+    // -------------
+    var base : BaseDataType|undefined = (data.base === undefined) ? undefined : data.base[1];
+    breakBase: if ( base !== undefined ) {
+        let index = data.base![0]
+
+        // Make sure base should be shown
+        let show = missionData.bases[index].appear;
         if (show === undefined || show === false)
             break breakBase;
         
@@ -77,20 +145,19 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
 
         // Result
         children.push(
-            <span className="map-tooltip-stronghold map-tooltip-row">
+            <span className="map-tooltip-base map-tooltip-row">
                 <Accordion>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                     >
-                        <span className="map-tooltip-category-icon">{base.icon}</span>
-                        <span className="map-tooltip-category-title">{base.name}</span>
+                        {/* <span className="map-tooltip-category-icon">{base.icon}</span> */}
+                        <span className="map-tooltip-category-title">Base</span>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <span className="map-tooltip-subcategory map-tooltip-stronghold-details">
+                        <span className="map-tooltip-subcategory map-tooltip-base-details">
                             <span className="map-tooltip-subcategory-header header-brown-underlined">Details</span>
-                            <span className="map-tooltip-subcategory-row">Capture Required: <b>{(base.captureRequired) ? "True" : "False"}</b></span>
                         </span>
-                        <span className="map-tooltip-subcategory map-tooltip-stronghold-captains ">
+                        <span className="map-tooltip-subcategory map-tooltip-base-captains ">
                             <span className="map-tooltip-subcategory-header header-brown-underlined">Captains</span>
                             {captainElements}
                         </span>
@@ -232,7 +299,7 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                             anchorSelect={`#${categoryID}-${(!advantage)?"dis":""}advantage`}
                             children={
                                 <span className="map-tooltip-unit-details-info-weapon-description">
-                                    {`${(advantage) ? "No not u" : "U"}se ${(category.nameLower === "gauntlets") ? category.nameLower : category.nameLower + "s"} against this enemy`}
+                                    {`${(advantage) ? "Do not u" : "U"}se ${(category.nameLower === "gauntlets") ? category.nameLower : category.nameLower + "s"} against this enemy`}
                                 </span>
                             }
                             key={`${categoryID}-${(!advantage)?"dis":""}advantage-tooltip`}
@@ -307,10 +374,6 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                 let row = missionTable.current?.getRow(mission.join("."))!
                 return `type-${row.original.type}`
             }
-            if (unit.appear !== undefined && unit.appear[0] !== -1 && missionText.current[unit.appear.join("-")] === undefined)
-                addMissionTextData(unit.appear);
-            if (unit.disappear !== undefined && unit.disappear[0] !== -1 && missionText.current[unit.disappear.join("-")] === undefined)
-                addMissionTextData(unit.disappear);
             let getSpawnCondition = ([mission, spawn] : [number[], boolean]) => (
                 <span className="map-tooltip-unit-details-info-miscRow-mission">
                     <span>{(spawn) ? "Spawn condition:" : "Despawn condition:"}<br/></span>
@@ -321,16 +384,12 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                 </span>
             )
             if ( 
-                   (unit.appear!==undefined && unit.appear[0] !== -1 ) 
-                || (unit.disappear!==undefined && unit.disappear[0] !== -1) 
-                || (unit.appearAndDisappear!==undefined)
+                ( (unit.appearAndDisappear!==undefined) && ( (unit.appearAndDisappear.length > 1) || ( unit.appearAndDisappear[0][0][0] != -1 ) ) )
                 || unit.notes!==undefined
             )
                 miscRow = (
                     <span className="map-tooltip-unit-details-info-miscRow" >
                         <span className="header-brown-underlined">Other Information</span>
-                        { (unit.appear !== undefined && unit.appear[0] !== -1) && getSpawnCondition([unit.appear!, true]) }
-                        { (unit.disappear !== undefined && unit.disappear[0] !== -1) && getSpawnCondition([unit.disappear!, false]) }
                         { (unit.appearAndDisappear !== undefined) &&
                             (unit.appearAndDisappear).map( ([mission, show] : [number[], boolean] ) => {
                                 if (mission[0] == -1) return <></>;

@@ -1,19 +1,19 @@
 import React, { JSX, memo, useEffect, useMemo, useRef, useState } from "react";
-import { GridCellDataType, PotDataType, SvgPropsType, FillsType, CoordinateType, size_SpecificType, StrongholdDataType, UnitDataType, MissionDataType, svg_StrongholdType } from "./details-map";
+import { GridCellDataType, PotDataType, SvgPropsType, CoordinateType, size_SpecificType, StrongholdDataType, UnitDataType, MissionDataType, svg_StrongholdType, BaseDataType } from "./details-map";
 import { Tooltip, TooltipRefProps } from "react-tooltip";
 import { MemoizedTooptipContent } from "./details-map-tooltip";
 // import { BattleRow } from "../../table";
 import { Classes } from "../../data-classes/class-data";
 import { Weapons } from "../../data-classes/weapon-data";
+import { MapIcons } from "../../data-classes/map-icon-data";
 
 interface GridContainerProps {
     svgProps : SvgPropsType;
-    fills : FillsType;
     setGridCords : any;
     missionData : MissionDataType;
 }
 
-export function GridContainer({svgProps, fills, setGridCords, missionData} : GridContainerProps) {
+export function GridContainer({svgProps, setGridCords, missionData} : GridContainerProps) {
 
     const [tileCoords, setTileCoords] = useState<CoordinateType|null>(null);
     const prevTileCoords = useRef<(CoordinateType|null)[]>([null, null]);
@@ -41,6 +41,7 @@ export function GridContainer({svgProps, fills, setGridCords, missionData} : Gri
                             .fill(null).map( 
                                 () => new Array(svgProps.size.squares.height+1).fill(undefined) 
                             )
+
         // === Stronghold ===
         svgProps.paths.strongholds.forEach ( (base, index:number) => {
             if (base.data == undefined || base.icon == undefined)
@@ -52,23 +53,32 @@ export function GridContainer({svgProps, fills, setGridCords, missionData} : Gri
             var mission = missionData.strongholds[index]
             let allegiance = (mission !== undefined) ? mission.allegiance : "red"
             
-            baseData.icon = createStrongholdIcon(allegiance);
-
-            // Fill in captain icons
-            (base.data.captain).forEach(
-                (c : any, index : number) => {
-                    // Make sure it's string
-                    // if (typeof c !== 'string' || (c as any) instanceof String !== true)
-                    if (c.name === undefined)
-                        baseData.captain[index] = svgProps.paths.units[c as any];
-                }
-            )
+            baseData.icon = MapIcons.stronghold[allegiance];
 
             if (data[base.icon!.coords.x][base.icon!.coords.y] == undefined)
                 data[base.icon!.coords.x][base.icon!.coords.y] = {stronghold: [index, baseData]};
             else
                 data[base.icon!.coords.x][base.icon!.coords.y].stronghold = [index, baseData];
-        })
+        });
+
+        // === Base ===
+        svgProps.paths.bases.forEach ( (base, index:number) => {
+
+            var baseData : BaseDataType = { icon: {transform: "",coords: {x: 0,y: 0}}, colour: [], captain: [] };
+
+            baseData.icon = { 
+                transform: base.icon.transform,
+                coords: { x : base.icon.coords.x, y : base.icon.coords.x } 
+            };
+            baseData.colour = [...base.colour];
+            baseData.captain = [...base.captain];
+
+            if (data[base.icon!.coords.x][base.icon!.coords.y] == undefined)
+                data[base.icon!.coords.x][base.icon!.coords.y] = {base: [index, baseData]};
+            else
+                data[base.icon!.coords.x][base.icon!.coords.y].base = [index, baseData];
+
+        });
 
         // === Pots ===
         svgProps.paths.pots.forEach( (pot) => {
@@ -103,12 +113,12 @@ export function GridContainer({svgProps, fills, setGridCords, missionData} : Gri
                     preserveAspectRatio="xMidYMid meet"
                 >
                     <path 
-                        fill={fills.pot[pot.colour]} 
+                        fill={MapIcons.fills.pot[pot.colour]} 
                         stroke="black" stroke-width="3" stroke-linecap="round"
                         d="M 0 0 c 3.199 6.3981 3.199 7.4644 0.5332 10.1303 c -12.2631 10.1303 -10.1304 34.6564 15.462 34.6564 c 22.3934 0 27.7252 -24.5261 15.4621 -34.6564 c -2.6659 -2.6659 -2.6659 -3.7322 0.5332 -10.1303 z"
                     />
                     <path
-                        fill={fills.pot.label}
+                        fill={MapIcons.fills.pot.label}
                         d={"M -2.25 27.5 c 0 8 3 8 8 8 l 19 0 c 5 0 8 0 8 -8 z"}
 
                     />
@@ -118,7 +128,7 @@ export function GridContainer({svgProps, fills, setGridCords, missionData} : Gri
                 data[pot.coords.x][pot.coords.y] = {pot: potData};
             else
                 data[pot.coords.x][pot.coords.y].pot = potData;
-        })
+        });
 
         // === Units ===
         Object.entries(svgProps.paths.units).forEach(
@@ -146,7 +156,7 @@ export function GridContainer({svgProps, fills, setGridCords, missionData} : Gri
                         data[unit.coords.x][unit.coords.y].unit![key] = unitData;
                 }
             }
-        )
+        );
 
         // console.log(data)
         setData(data)
@@ -176,30 +186,6 @@ export function GridContainer({svgProps, fills, setGridCords, missionData} : Gri
         return rows;
     }
 
-    function createStrongholdIcon(allegiance : string) {
-        return (
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="100%"
-                viewBox="0 0 28 28" 
-                preserveAspectRatio="xMidYMid meet"
-            >
-                {/* Background */}
-                <rect
-                    width="28" height="28" 
-                    x="0" y="0" rx="2.5" ry="2.5" 
-                    fill={fills.stronghold[allegiance].icon.outer}
-                />
-                {/* Castle */}
-                <path
-                    fill={fills.stronghold[allegiance].icon.inner}
-                    d=" M 3 3 v 17 l 5 5 h 12 l 5 -5 v -17 h -6 v 5.5 h -2 v -5.5 h -6 v 5.5 h -2 v -5.5 z 
-                        m 14 14 v 5 h -6 v -5 l 3 -3 z"
-                />
-            </svg>
-        );
-    }
-
     useEffect(() => {
         // Update stronghold icons when Mission changes
         if (missionData.strongholds === undefined 
@@ -220,7 +206,7 @@ export function GridContainer({svgProps, fills, setGridCords, missionData} : Gri
             var mission = missionData.strongholds[index]
             let allegiance = (mission !== undefined) ? mission.allegiance : "red"
 
-            newData[base.icon!.coords.x][base.icon!.coords.y].stronghold![1].icon = createStrongholdIcon(allegiance);
+            newData[base.icon!.coords.x][base.icon!.coords.y].stronghold![1].icon = MapIcons.stronghold[allegiance];
         })
 
         setData(newData);
