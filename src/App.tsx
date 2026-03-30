@@ -10,21 +10,15 @@ import allMaps from './db/map-path.json';
 import { Details } from './components/details/details';
 import { PixelsToSVG } from './components/pixel-art-to-svg';
 import { DatabaseContext, DifficultyContext, BattlesTableContext } from './context';
+import { MapIcons } from './components/data-classes/map-icon-data';
 
 function App() {
 
-  // const [difficulty, setDifficulty] = useState<number>(1);
-  // const [selectedRow, setSelectedRow] = useState<MRT_RowSelectionState>({});
-  // const selectedRowData = useRef<BattleRow|null>(null)
-
   // Run once
   useEffect(() => {
-    // console.log("All Chapters:")
-    // console.log(allChapters)
-    // console.log("All Missions:")
-    // console.log(allMissions)
 
     // PixelsToSVG()
+    MapIcons.createData()
   }, [])
 
   return (

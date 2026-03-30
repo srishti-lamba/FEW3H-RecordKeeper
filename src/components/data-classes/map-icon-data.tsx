@@ -18,8 +18,120 @@ interface fill_StrongholdType {
     }
 }
 
+// === Icons ===
+interface IconType {
+    svg: JSX.Element;
+    g: JSX.Element;
+}
+
 export class MapIcons {
 
+    public static createData() {
+
+        async function createDataAsync() {
+            var allegiance = ["blue", "green", "red", "yellow"];
+            
+            let strondholds : Dictionary<IconType> = {};
+            let bases : Dictionary<IconType> = {};
+
+            allegiance.forEach( (colour) => {
+                // -------------------
+                // --- Strongholds ---
+                // -------------------
+                strondholds[colour] =
+                { 
+                    svg: (
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            height="100%"
+                            viewBox="0 0 28 28" 
+                            preserveAspectRatio="xMidYMid meet"
+                        >
+                            {/* Background */}
+                            <rect
+                                width="28" height="28" 
+                                x="0" y="0" rx="2.5" ry="2.5" 
+                                fill={MapIcons.fills.stronghold[colour].icon.outer}
+                            />
+                            {/* Castle */}
+                            <path
+                                fill={MapIcons.fills.stronghold[colour].icon.inner}
+                                d=" M 3 3 v 17 l 5 5 h 12 l 5 -5 v -17 h -6 v 5.5 h -2 v -5.5 h -6 v 5.5 h -2 v -5.5 z 
+                                    m 14 14 v 5 h -6 v -5 l 3 -3 z"
+                            />
+                        </svg>
+                    ),
+                    g: (
+                        <>
+                            {/* Background */}
+                            <rect
+                                width="28" height="28" 
+                                x="0" y="0" rx="2.5" ry="2.5" 
+                                fill={MapIcons.fills.stronghold[colour].icon.outer}
+                            />
+                                                        
+                            {/* Castle */}
+                            <path
+                                fill={MapIcons.fills.stronghold[colour].icon.inner}
+                                d=" M 3 3 v 17 l 5 5 h 12 l 5 -5 v -17 h -6 v 5.5 h -2 v -5.5 h -6 v 5.5 h -2 v -5.5 z 
+                                    m 14 14 v 5 h -6 v -5 l 3 -3 z"
+                            />
+                        </>
+                    )
+                }
+
+                // -------------
+                // --- Bases ---
+                // -------------
+                bases[colour] = {
+                    svg: <svg
+                            xmlns="http://www.w3.org/2000/svg" 
+                            viewBox="0 0 18 32"
+                            preserveAspectRatio="xMinYMin meet" 
+                        >
+                            {/* Background */}
+                            <path
+                                fill={MapIcons.fills.stronghold[colour].icon.inner}
+                                d=" M 4.5 3.5 c 0.5 -4.5 8.5 -4.5 9 0 q 0.5 -1.5 4.5 -1.5 l 0 11 q -1 3 -4 3 c 1 4 -2 4 -2.5 10.5 c 2.5 2.5 1.5 5.5 -2.5 5.5 s -5 -3 -2.5 -5.5 c -0.5 -6.5 -3.5 -6.5 -2.5 -10.5 q -3 0 -4 -3 l 0 -11 q 4 0 4.5 1.5 
+                                    m 1.5 8 c 2 -1.5 4 -1.5 6 0 l 0 -4.5 q -3 2.5 -6 0 z"
+                            />
+                            {/* Foreground */}
+                            <path
+                                fill={MapIcons.fills.stronghold[colour].icon.outer}
+                                d=" M 2 4 l 0 8 c 0 2 2 3 5 3 c -2 4 1 6 1 9 c 0 2 2 2 2 0 c 0 -3 3 -5 1 -9 c 3 0 5 -1 5 -3 l 0 -8 q -2 0 -2 1 l 0 7 c 0 1 -1 1 -4 1 c 0 -1 -2 -1 -2 0 c -3 0 -4 0 -4 -1 l 0 -7 q 0 -1 -2 -1 
+                                    m 7 -2 c 1 0 2 1 2 2 c 0 1 -1 2 -2 2 c -1 0 -2 -1 -2 -2 c 0 -1 1 -2 2 -2 
+                                    m 0 26 c 3 0 3 2 0 2 c -3 0 -3 -2 0 -2"
+                            />
+                        </svg>,
+                    g: 
+                        <>
+                            {/* Background */}
+                            <path
+                                fill={MapIcons.fills.stronghold[colour].icon.inner}
+                                d=" M 4.5 3.5 c 0.5 -4.5 8.5 -4.5 9 0 q 0.5 -1.5 4.5 -1.5 l 0 11 q -1 3 -4 3 c 1 4 -2 4 -2.5 10.5 c 2.5 2.5 1.5 5.5 -2.5 5.5 s -5 -3 -2.5 -5.5 c -0.5 -6.5 -3.5 -6.5 -2.5 -10.5 q -3 0 -4 -3 l 0 -11 q 4 0 4.5 1.5 
+                                    m 1.5 8 c 2 -1.5 4 -1.5 6 0 l 0 -4.5 q -3 2.5 -6 0 z"
+                            />
+                            {/* Foreground */}
+                            <path
+                                fill={MapIcons.fills.stronghold[colour].icon.outer}
+                                d=" M 2 4 l 0 8 c 0 2 2 3 5 3 c -2 4 1 6 1 9 c 0 2 2 2 2 0 c 0 -3 3 -5 1 -9 c 3 0 5 -1 5 -3 l 0 -8 q -2 0 -2 1 l 0 7 c 0 1 -1 1 -4 1 c 0 -1 -2 -1 -2 0 c -3 0 -4 0 -4 -1 l 0 -7 q 0 -1 -2 -1 
+                                    m 7 -2 c 1 0 2 1 2 2 c 0 1 -1 2 -2 2 c -1 0 -2 -1 -2 -2 c 0 -1 1 -2 2 -2 
+                                    m 0 26 c 3 0 3 2 0 2 c -3 0 -3 -2 0 -2"
+                            />
+                        </>
+                }
+            })
+            MapIcons.stronghold = strondholds;
+            MapIcons.base = bases;
+            
+        }
+        
+        createDataAsync();
+    }
+
+    // -------------
+    // --- Fills ---
+    // -------------
     public static fills : FillsType = {
         base: "#928A7D",
         stronghold: {
@@ -63,37 +175,8 @@ export class MapIcons {
         }
     };
 
-    private static allegiance = ["blue", "green", "red", "yellow"];
+    public static stronghold : Dictionary<IconType> = {};
 
-    public static stronghold : Dictionary<JSX.Element> = MapIcons.getStrongholds();
-
-    private static getStrongholds() {
-        let result : Dictionary<JSX.Element> = {}
-        MapIcons.allegiance.forEach( (colour) => {
-            result[colour] = 
-            (
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="100%"
-                    viewBox="0 0 28 28" 
-                    preserveAspectRatio="xMidYMid meet"
-                >
-                    {/* Background */}
-                    <rect
-                        width="28" height="28" 
-                        x="0" y="0" rx="2.5" ry="2.5" 
-                        fill={MapIcons.fills.stronghold[colour].icon.outer}
-                    />
-                    {/* Castle */}
-                    <path
-                        fill={MapIcons.fills.stronghold[colour].icon.inner}
-                        d=" M 3 3 v 17 l 5 5 h 12 l 5 -5 v -17 h -6 v 5.5 h -2 v -5.5 h -6 v 5.5 h -2 v -5.5 z 
-                            m 14 14 v 5 h -6 v -5 l 3 -3 z"
-                    />
-                </svg>
-            )
-        })
-        return result;
-    }
+    public static base : Dictionary<IconType> = {};
 
 }

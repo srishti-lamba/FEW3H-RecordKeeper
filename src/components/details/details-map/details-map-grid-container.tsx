@@ -43,35 +43,53 @@ export function GridContainer({svgProps, setGridCords, missionData} : GridContai
                             )
 
         // === Stronghold ===
-        svgProps.paths.strongholds.forEach ( (base, index:number) => {
-            if (base.data == undefined || base.icon == undefined)
+        svgProps.paths.strongholds.forEach ( (stronghold, index:number) => {
+            if (stronghold.data == undefined || stronghold.icon == undefined)
                 return;
 
-            var baseData : StrongholdDataType = base.data;
+            var baseData : StrongholdDataType = stronghold.data;
 
             // Mission
             var mission = missionData.strongholds[index]
             let allegiance = (mission !== undefined) ? mission.allegiance : "red"
             
-            baseData.icon = MapIcons.stronghold[allegiance];
+            baseData.icon = MapIcons.stronghold[allegiance].svg;
 
-            if (data[base.icon!.coords.x][base.icon!.coords.y] == undefined)
-                data[base.icon!.coords.x][base.icon!.coords.y] = {stronghold: [index, baseData]};
+            // Fill in captain icons
+            (stronghold.data.captain).forEach(
+                (c : any, index : number) => {
+                    // Make sure it's string
+                    if (c.name === undefined)
+                        baseData.captain[index] = svgProps.paths.units[c as any];
+                }
+            )
+
+            if (data[stronghold.icon!.coords.x][stronghold.icon!.coords.y] == undefined)
+                data[stronghold.icon!.coords.x][stronghold.icon!.coords.y] = {stronghold: [index, baseData]};
             else
-                data[base.icon!.coords.x][base.icon!.coords.y].stronghold = [index, baseData];
+                data[stronghold.icon!.coords.x][stronghold.icon!.coords.y].stronghold = [index, baseData];
         });
 
         // === Base ===
         svgProps.paths.bases.forEach ( (base, index:number) => {
 
-            var baseData : BaseDataType = { icon: {transform: "",coords: {x: 0,y: 0}}, colour: [], captain: [] };
+            var baseData : BaseDataType = base;
 
-            baseData.icon = { 
-                transform: base.icon.transform,
-                coords: { x : base.icon.coords.x, y : base.icon.coords.x } 
-            };
-            baseData.colour = [...base.colour];
-            baseData.captain = [...base.captain];
+            // baseData.icon = { 
+            //     transform: base.icon.transform,
+            //     coords: { x : base.icon.coords.x, y : base.icon.coords.x } 
+            // };
+            // baseData.colour = [...base.colour];
+            // baseData.captain = [...base.captain];
+
+            // Fill in captain icons
+            (base.captain).forEach(
+                (c : any, index : number) => {
+                    // Make sure it's string
+                    if (c.name === undefined)
+                        baseData.captain[index] = svgProps.paths.units[c as any];
+                }
+            )
 
             if (data[base.icon!.coords.x][base.icon!.coords.y] == undefined)
                 data[base.icon!.coords.x][base.icon!.coords.y] = {base: [index, baseData]};
@@ -133,6 +151,8 @@ export function GridContainer({svgProps, setGridCords, missionData} : GridContai
         // === Units ===
         Object.entries(svgProps.paths.units).forEach(
             ([key, unit]) => {
+                // console.log(key)
+                // console.log(unit)
                 // Make sure it's not dummy entry
                 if (unit.coords.x === -1 && unit.coords.y === -1)
                     return;
@@ -206,7 +226,7 @@ export function GridContainer({svgProps, setGridCords, missionData} : GridContai
             var mission = missionData.strongholds[index]
             let allegiance = (mission !== undefined) ? mission.allegiance : "red"
 
-            newData[base.icon!.coords.x][base.icon!.coords.y].stronghold![1].icon = MapIcons.stronghold[allegiance];
+            newData[base.icon!.coords.x][base.icon!.coords.y].stronghold![1].icon = MapIcons.stronghold[allegiance].svg;
         })
 
         setData(newData);

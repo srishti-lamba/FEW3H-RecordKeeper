@@ -136,6 +136,7 @@ export interface BaseDataType {
     };
     colour : [number[], string][];
     captain: (string|UnitDataType)[];
+    fill ?: string;
 }
 
 export interface UnitDataType {
@@ -471,18 +472,29 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                                                 <g
                                                     transform={path.icon?.transform}
                                                 >
-                                                    {MapIcons.stronghold[allegiance]}
-                                                    {/* Background
-                                                    <rect
-                                                        width="28" height="28" 
-                                                        x="0" y="0" rx="2.5" ry="2.5" 
-                                                        fill={MapIcons.fills.stronghold[allegiance].icon.outer}
-                                                    />
-                                                    <path
-                                                        fill={MapIcons.fills.stronghold[allegiance].icon.inner}
-                                                        d=" M 3 3 v 17 l 5 5 h 12 l 5 -5 v -17 h -6 v 5.5 h -2 v -5.5 h -6 v 5.5 h -2 v -5.5 z 
-                                                            m 14 14 v 5 h -6 v -5 l 3 -3 z"
-                                                    /> */}
+                                                    {MapIcons.stronghold[allegiance].g}
+                                                </g>
+                                            )
+                                        }
+                                    </>)
+                                })
+                            }
+                            {
+                                // Bases
+                                svgProps.paths.bases.map( (path : BaseDataType, index : number) => {
+                                    // let show = (missionData.bases[index] !== undefined) ? missionData.bases[index].appear : true;
+                                    // if (!show)
+                                    //     return <></>
+
+                                    let allegiance = (missionData.bases[index] !== undefined) ? missionData.bases[index].allegiance : "red";
+                                    return (<>
+                                        {
+                                            (path.icon != null) && (
+                                                <g
+                                                    transform={`${path.icon?.transform} scale(0.6875,0.6875)`}
+                                                    fill={(path.fill !== undefined) ? path.fill : ""} 
+                                                >
+                                                    {MapIcons.base[allegiance].g}
                                                 </g>
                                             )
                                         }

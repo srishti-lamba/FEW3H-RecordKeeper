@@ -46,18 +46,20 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
         // Captains
         var captains : (UnitDataType)[] = [];
         (stronghold.captain).forEach( (captain) => {
+            console.log(captain)
             if (captain instanceof String !== true)
                 captains.push(captain as UnitDataType)
         })
         var captainElements = []
         captainElements.push(captains.map( (unit : UnitDataType) => {
+            console.log(unit)
             // var weapon : WeaponDataType|undefined = unit.weapon.
             return (
                 <span className="map-tooltip-subcategory-row">
                     <span className="map-tooltip-subcategory-row-info">
                         <img
                             className="map-tooltip-subcategory-row-icon"
-                            src={unit.class.sprite?.url as string} 
+                            src={unit.class.sprite?.url as string}
                         />
                         {unit.class.name}
                     </span>

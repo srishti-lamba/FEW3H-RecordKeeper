@@ -159,10 +159,12 @@
             "bases" : [
                 {
                     "icon" : {
-                        "transform" : "",
+                        "transform" : "translate(596,394)",
                         "coords" : {"x":0,"y":0}
                     },
-                    "colour" : [],
+                    "colour" : [
+                        [[-1],"red"]
+                    ],
                     "captain" : []
                 }
             ],
