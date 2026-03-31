@@ -192,11 +192,6 @@ html {
                 z-index: 0;
 
                 & .map-grid-tile-unit-sprite {
-                  /* --ratio : calc( 100% / 35.5555555px ); */
-                  /* transform : scale(var(--ratio), var(--ratio)) translate(50%,0); */
-                  /* transform : scale(calc( 100% / 35.5555555px ), calc( 100% / 35.5555555px )) translate(50%,0); */
-                  /* margin: 0 auto calc(-35.5555555px * (1 - 0.5625)); */
-
                   --transformX : 0;
                   --transformY : 0;
 
@@ -206,7 +201,10 @@ html {
                   y: var(--transformY);
 
                 } /* .map-grid-tile-unit-sprite */
-              }
+
+                & .map-grid-tile-unit-dot {
+                } /* .map-grid-tile-unit-dot */
+              } /* svg */
 
               & .map-grid-container {
                 grid-row-start: 1;
@@ -339,14 +337,72 @@ html {
                               display: block;
                               height: 1em;
                               align-self: center;
-                              padding-right: 0.5rem
+                              padding-right: 0.5rem;
+
+                                &:has(.map-tooltip-category-icon-background) {
+                                  --height: 1em;
+                                  --padding: calc( var(--height) * 0.15);
+
+                                  height: calc( var(--height) + ( 2 * var(--padding)) );
+                                  display: grid;
+                                  align-items: center;
+                                  justify-items: center;
+
+                                  & svg {
+                                    grid-row-start: 1;
+                                    grid-column-start: 1;
+                                    
+                                    height: 1em;
+                                    width: auto;
+                                    margin: 0 0.5px;
+                                  }
+
+                                  & .map-tooltip-category-icon-background {
+                                    /* --overlay-colour: rgb(0,0,0,0.5); */
+                                    --background-colour: rgb(0,0,0);
+                                    /* --complement-colour: rgb(0,0,0); */
+                                    /* --comp-perc: 0.25; */
+
+                                    grid-row-start: 1;
+                                    grid-column-start: 1;
+
+                                    height: 100%;
+                                    aspect-ratio: 1;
+
+                                    border-radius: 50%;
+
+                                    /* background: 
+                                        linear-gradient(90deg, var(--overlay-colour) 50%),
+                                        linear-gradient(90deg, var(--complement-colour) 50%),
+                                        linear-gradient(90deg, var(--background-colour) 50%); */
+                                    background: 
+                                        linear-gradient(90deg, var(--background-colour) 50%);
+                                  }
+
+                                  &:has(.map-base-icon-blue) { & .map-tooltip-category-icon-background 
+                                    /* {--background-colour: #2E71E6; --complement-colour: rgb(209,142,25,var(--comp-perc));} */
+                                    {--background-colour: rgb(50, 50, 100);}
+                                  }
+                                  &:has(.map-base-icon-green) { & .map-tooltip-category-icon-background 
+                                    /* {--background-colour: #5FBF4C; --complement-colour: rgb(160,64,179,var(--comp-perc));} */
+                                    {--background-colour: rgb(50, 100, 50);}
+                                  }
+                                  &:has(.map-base-icon-red) { & .map-tooltip-category-icon-background 
+                                    /* {--background-colour: #E63E2D; --complement-colour: rgb(25,193,210,var(--comp-perc));} */
+                                    {--background-colour: rgb(100, 50, 50);}
+                                  }
+                                  &:has(.map-base-icon-yellow) { & .map-tooltip-category-icon-background 
+                                    /* {--background-colour: #E6A82E; --complement-colour: rgb(25,87,209,var(--comp-perc));} */
+                                    {--background-colour: rgb(100, 100, 50);}
+                                  }
+                                }
 
                             } /* .map-tooltip-category-icon */
 
                             & .map-tooltip-category-title {
                               font-size: 0.9rem;
-                              /* margin-bottom: -0.0rem; */
                               letter-spacing: 0.02rem;
+                              margin: auto 0;
                             }
 
                           } /* .MuiAccordionSummary-content */

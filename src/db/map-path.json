@@ -145,10 +145,10 @@
                     "data": {
                         "name" : "Kitchen",
                         "captureRequired" : false,
-                        "appear" : {
-                            "text" : "A Mysterious Soldier and their allies appeared!",
-                            "mission" : [5,1]
-                        },
+                        "appearAndDisappear" : [
+                            [[-1], false],
+                            [[5,1], true]
+                        ],
                         "captain" : ["10-22-blue", "10-22-yellow"],
                         "colour" : [
                             [[-1],"yellow"]
@@ -160,12 +160,146 @@
                 {
                     "icon" : {
                         "transform" : "translate(596,394)",
-                        "coords" : {"x":0,"y":0}
+                        "coords" : {"x":13,"y":9}
                     },
-                    "colour" : [
-                        [[-1],"red"]
-                    ],
-                    "captain" : []
+                    "data" : {
+                        "colour" : [
+                            [[-1],"red"]
+                        ],
+                        "captain" : ["13-9-blue", "13-9-red"]
+                    }
+                },
+                {
+                    "icon" : {
+                        "transform" : "translate(1745,191)",
+                        "coords" : {"x":37,"y":5}
+                    },
+                    "data" : {
+                        "colour" : [
+                            [[-1],"red"]
+                        ],
+                        "captain" : ["38-5-blue", "38-5-red"]
+                    }
+                },
+                {
+                    "icon" : {
+                        "transform" : "translate(2482,216)",
+                        "coords" : {"x":52,"y":5}
+                    },
+                    "data" : {
+                        "colour" : [
+                            [[-1],"red"]
+                        ],
+                        "captain" : ["52-6-blue", "52-6-red"]
+                    }
+                },
+                {
+                    "icon" : {
+                        "transform" : "translate(649,668)",
+                        "coords" : {"x":14,"y":15}
+                    },
+                    "data" : {
+                        "colour" : [
+                            [[-1],"red"]
+                        ],
+                        "captain" : ["15-15-blue", "15-15-red"]
+                    }
+                },
+                {
+                    "icon" : {
+                        "transform" : "translate(1280,681)",
+                        "coords" : {"x":27,"y":15}
+                    },
+                    "data" : {
+                        "colour" : [
+                            [[-1],"red"]
+                        ],
+                        "captain" : ["27-15-blue", "27-15-red"]
+                    }
+                },
+                {
+                    "icon" : {
+                        "transform" : "translate(1636,815)",
+                        "coords" : {"x":35,"y":18}
+                    },
+                    "data" : {
+                        "colour" : [
+                            [[-1],"red"]
+                        ],
+                        "captain" : ["35-18-blue", "35-18-red"]
+                    }
+                },
+                {
+                    "icon" : {
+                        "transform" : "translate(2675,1134)",
+                        "coords" : {"x":56,"y":24}
+                    },
+                    "data" : {
+                        "colour" : [
+                            [[-1],"red"]
+                        ],
+                        "captain" : ["57-24-blue", "57-24-red"]
+                    }
+                },
+                {
+                    "icon" : {
+                        "transform" : "translate(1181,1167)",
+                        "coords" : {"x":25,"y":25}
+                    },
+                    "data" : {
+                        "colour" : [
+                            [[-1],"red"]
+                        ],
+                        "captain" : ["26-25-blue", "26-25-red"]
+                    }
+                },
+                {
+                    "icon" : {
+                        "transform" : "translate(1911,1145)",
+                        "coords" : {"x":40,"y":25}
+                    },
+                    "data" : {
+                        "colour" : [
+                            [[-1],"red"]
+                        ],
+                        "captain" : ["40-25-blue", "40-25-red"]
+                    }
+                },
+                {
+                    "icon" : {
+                        "transform" : "translate(2134,1359)",
+                        "coords" : {"x":45,"y":29}
+                    },
+                    "data" : {
+                        "colour" : [
+                            [[-1],"red"]
+                        ],
+                        "captain" : ["45-29-blue", "45-29-red"]
+                    }
+                },
+                {
+                    "icon" : {
+                        "transform" : "translate(1420,1873)",
+                        "coords" : {"x":30,"y":40}
+                    },
+                    "data" : {
+                        "colour" : [
+                            [[-1],"red"]
+                        ],
+                        "captain" : ["31-40-blue", "31-40-red"]
+                    }
+                },
+                {
+                    "icon" : {
+                        "transform" : "translate(2010,2274)",
+                        "coords" : {"x":43,"y":48}
+                    },
+                    "data" : {
+                        "colour" : [
+                            [[-1],"red"]
+                        ],
+                        "captain" : ["42-48-blue", "42-48-red"]
+                    }
                 }
             ],
             "gates" : [
@@ -643,6 +777,357 @@
                         [[-1], true]
                     ],
                     "coords" : {"x":34 , "y":58}
+                },
+
+
+
+
+                "38-5-blue": {
+                    "name" : "Base Captain",
+                    "class" : {
+                        "name" : "Myrmidon",
+                        "sprite" : { "show" : false },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Sword" },
+                    "allegiance" : "blue",
+                    "appearAndDisappear" : [
+                        [[-1], false]
+                    ],
+                    "coords" : {"x":38 , "y":5}
+                },
+                "38-5-red": {
+                    "name" : "Base Captain",
+                    "class" : {
+                        "name" : "Myrmidon",
+                        "sprite" : { "show" : false },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Sword" },
+                    "allegiance" : "red",
+                    "appearAndDisappear" : [
+                        [[-1], true]
+                    ],
+                    "coords" : {"x":38 , "y":5}
+                },
+
+                "52-6-blue": {
+                    "name" : "Base Captain",
+                    "class" : {
+                        "name" : "Fighter",
+                        "sprite" : { "show" : false },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Axe" },
+                    "allegiance" : "blue",
+                    "appearAndDisappear" : [
+                        [[-1], false]
+                    ],
+                    "coords" : {"x":52 , "y":6}
+                },
+                "52-6-red": {
+                    "name" : "Base Captain",
+                    "class" : {
+                        "name" : "Soldier",
+                        "sprite" : { "show" : false },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Lance" },
+                    "allegiance" : "red",
+                    "appearAndDisappear" : [
+                        [[-1], true]
+                    ],
+                    "coords" : {"x":52 , "y":6}
+                },
+
+                "13-9-blue": {
+                    "name" : "Base Captain",
+                    "class" : {
+                        "name" : "Myrmidon",
+                        "sprite" : { "show" : false },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Sword" },
+                    "allegiance" : "blue",
+                    "appearAndDisappear" : [
+                        [[-1], false]
+                    ],
+                    "coords" : {"x":13 , "y":9}
+                },
+                "13-9-red": {
+                    "name" : "Base Captain",
+                    "class" : {
+                        "name" : "Myrmidon",
+                        "sprite" : { "show" : false },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Sword" },
+                    "allegiance" : "red",
+                    "appearAndDisappear" : [
+                        [[-1], true]
+                    ],
+                    "coords" : {"x":13 , "y":9}
+                },
+
+                "15-15-blue": {
+                    "name" : "Base Captain",
+                    "class" : {
+                        "name" : "Myrmidon",
+                        "sprite" : { "show" : false },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Sword" },
+                    "allegiance" : "blue",
+                    "appearAndDisappear" : [
+                        [[-1], false]
+                    ],
+                    "coords" : {"x":15 , "y":15}
+                },
+                "15-15-red": {
+                    "name" : "Base Captain",
+                    "class" : {
+                        "name" : "Myrmidon",
+                        "sprite" : { "show" : false },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Sword" },
+                    "allegiance" : "red",
+                    "appearAndDisappear" : [
+                        [[-1], true]
+                    ],
+                    "coords" : {"x":15 , "y":15}
+                },
+
+                "27-15-blue": {
+                    "name" : "Base Captain",
+                    "class" : {
+                        "name" : "Myrmidon",
+                        "sprite" : { "show" : false },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Sword" },
+                    "allegiance" : "blue",
+                    "appearAndDisappear" : [
+                        [[-1], false]
+                    ],
+                    "coords" : {"x":27 , "y":15}
+                },
+                "27-15-red": {
+                    "name" : "Base Captain",
+                    "class" : {
+                        "name" : "Myrmidon",
+                        "sprite" : { "show" : false },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Sword" },
+                    "allegiance" : "red",
+                    "appearAndDisappear" : [
+                        [[-1], true]
+                    ],
+                    "coords" : {"x":27 , "y":15}
+                },
+
+                "35-18-blue": {
+                    "name" : "Base Captain",
+                    "class" : {
+                        "name" : "Myrmidon",
+                        "sprite" : { "show" : false },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Sword" },
+                    "allegiance" : "blue",
+                    "appearAndDisappear" : [
+                        [[-1], false]
+                    ],
+                    "coords" : {"x":35 , "y":18}
+                },
+                "35-18-red": {
+                    "name" : "Base Captain",
+                    "class" : {
+                        "name" : "Myrmidon",
+                        "sprite" : { "show" : false },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Sword" },
+                    "allegiance" : "red",
+                    "appearAndDisappear" : [
+                        [[-1], true]
+                    ],
+                    "coords" : {"x":35 , "y":18}
+                },
+
+                "57-24-blue": {
+                    "name" : "Base Captain",
+                    "class" : {
+                        "name" : "Fighter",
+                        "sprite" : { "show" : false },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Axe" },
+                    "allegiance" : "blue",
+                    "appearAndDisappear" : [
+                        [[-1], false]
+                    ],
+                    "coords" : {"x":57 , "y":24}
+                },
+                "57-24-red": {
+                    "name" : "Base Captain",
+                    "class" : {
+                        "name" : "Soldier",
+                        "sprite" : { "show" : false },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Lance" },
+                    "allegiance" : "red",
+                    "appearAndDisappear" : [
+                        [[-1], true]
+                    ],
+                    "coords" : {"x":57 , "y":24}
+                },
+
+                "26-25-blue": {
+                    "name" : "Base Captain",
+                    "class" : {
+                        "name" : "Fighter",
+                        "sprite" : { "show" : false },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Axe" },
+                    "allegiance" : "blue",
+                    "appearAndDisappear" : [
+                        [[-1], false]
+                    ],
+                    "coords" : {"x":26 , "y":25}
+                },
+                "26-25-red": {
+                    "name" : "Base Captain",
+                    "class" : {
+                        "name" : "Fighter",
+                        "sprite" : { "show" : false },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Axe" },
+                    "allegiance" : "red",
+                    "appearAndDisappear" : [
+                        [[-1], true]
+                    ],
+                    "coords" : {"x":26 , "y":25}
+                },
+
+                "40-25-blue": {
+                    "name" : "Base Captain",
+                    "class" : {
+                        "name" : "Fighter",
+                        "sprite" : { "show" : false },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Axe" },
+                    "allegiance" : "blue",
+                    "appearAndDisappear" : [
+                        [[-1], false]
+                    ],
+                    "coords" : {"x":40 , "y":25}
+                },
+                "40-25-red": {
+                    "name" : "Base Captain",
+                    "class" : {
+                        "name" : "Fighter",
+                        "sprite" : { "show" : false },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Axe" },
+                    "allegiance" : "red",
+                    "appearAndDisappear" : [
+                        [[-1], true]
+                    ],
+                    "coords" : {"x":40 , "y":25}
+                },
+
+                "45-29-blue": {
+                    "name" : "Base Captain",
+                    "class" : {
+                        "name" : "Fighter",
+                        "sprite" : { "show" : false },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Axe" },
+                    "allegiance" : "blue",
+                    "appearAndDisappear" : [
+                        [[-1], false]
+                    ],
+                    "coords" : {"x":45 , "y":29}
+                },
+                "45-29-red": {
+                    "name" : "Base Captain",
+                    "class" : {
+                        "name" : "Soldier",
+                        "sprite" : { "show" : false },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Lance" },
+                    "allegiance" : "red",
+                    "appearAndDisappear" : [
+                        [[-1], true]
+                    ],
+                    "coords" : {"x":45 , "y":29}
+                },
+
+                "31-40-blue": {
+                    "name" : "Base Captain",
+                    "class" : {
+                        "name" : "Fighter",
+                        "sprite" : { "show" : false },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Axe" },
+                    "allegiance" : "blue",
+                    "appearAndDisappear" : [
+                        [[-1], false]
+                    ],
+                    "coords" : {"x":31 , "y":40}
+                },
+                "31-40-red": {
+                    "name" : "Base Captain",
+                    "class" : {
+                        "name" : "Fighter",
+                        "sprite" : { "show" : false },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Axe" },
+                    "allegiance" : "red",
+                    "appearAndDisappear" : [
+                        [[-1], true]
+                    ],
+                    "coords" : {"x":31 , "y":40}
+                },
+
+                "42-48-blue": {
+                    "name" : "Base Captain",
+                    "class" : {
+                        "name" : "Fighter",
+                        "sprite" : { "show" : false },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Axe" },
+                    "allegiance" : "blue",
+                    "appearAndDisappear" : [
+                        [[-1], false]
+                    ],
+                    "coords" : {"x":42 , "y":48}
+                },
+                "42-48-red": {
+                    "name" : "Base Captain",
+                    "class" : {
+                        "name" : "Fighter",
+                        "sprite" : { "show" : false },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Axe" },
+                    "allegiance" : "red",
+                    "appearAndDisappear" : [
+                        [[-1], true]
+                    ],
+                    "coords" : {"x":42 , "y":48}
                 }
             }
         }

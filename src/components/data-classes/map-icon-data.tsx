@@ -33,6 +33,7 @@ export class MapIcons {
             
             let strondholds : Dictionary<IconType> = {};
             let bases : Dictionary<IconType> = {};
+            let unitDots : Dictionary<IconType> = {};
 
             allegiance.forEach( (colour) => {
                 // -------------------
@@ -86,8 +87,10 @@ export class MapIcons {
                 bases[colour] = {
                     svg: <svg
                             xmlns="http://www.w3.org/2000/svg" 
+                            height="100%"
                             viewBox="0 0 18 32"
                             preserveAspectRatio="xMinYMin meet" 
+                            className={`map-base-icon-${colour}`}
                         >
                             {/* Background */}
                             <path
@@ -102,7 +105,7 @@ export class MapIcons {
                                     m 7 -2 c 1 0 2 1 2 2 c 0 1 -1 2 -2 2 c -1 0 -2 -1 -2 -2 c 0 -1 1 -2 2 -2 
                                     m 0 26 c 3 0 3 2 0 2 c -3 0 -3 -2 0 -2"
                             />
-                        </svg>,
+                    </svg>,
                     g: 
                         <>
                             {/* Background */}
@@ -120,10 +123,50 @@ export class MapIcons {
                             />
                         </>
                 }
+
+                // ----------------
+                // --- Unit Dot ---
+                // ----------------
+                unitDots[colour] = {
+                    svg: <svg
+                            xmlns="http://www.w3.org/2000/svg" 
+                            height="100%"
+                            viewBox="0 0 10 10"
+                            preserveAspectRatio="xMinYMin meet" 
+                        >
+                            {/* Background */}
+                            <circle
+                                fill={MapIcons.fills.stronghold[colour].icon.outer}
+                                cx="5" cy="5"
+                                r="10"
+                            />
+                            {/* Foreground */}
+                            <circle
+                                fill="black"
+                                cx="5" cy="5"
+                                r="8"
+                            />
+                    </svg>,
+                    g: 
+                        <>
+                            {/* Background */}
+                            <circle
+                                fill={MapIcons.fills.stronghold[colour].icon.outer}
+                                cx="5" cy="5"
+                                r="10"
+                            />
+                            {/* Foreground */}
+                            <circle
+                                fill="black"
+                                cx="5" cy="5"
+                                r="6"
+                            />
+                        </>
+                }
             })
             MapIcons.stronghold = strondholds;
             MapIcons.base = bases;
-            
+            MapIcons.unitDot = unitDots;
         }
         
         createDataAsync();
@@ -178,5 +221,7 @@ export class MapIcons {
     public static stronghold : Dictionary<IconType> = {};
 
     public static base : Dictionary<IconType> = {};
+
+    public static unitDot : Dictionary<IconType> = {}
 
 }

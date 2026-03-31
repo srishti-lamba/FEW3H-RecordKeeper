@@ -7,6 +7,7 @@ import { CategoryType, WeaponDataType, Weapons } from "../../data-classes/weapon
 import { Classes } from "../../data-classes/class-data";
 import { BattlesTableContext, MissionsTableContext } from "../../../context";
 import { formatText, initializeMissionTextRef, title } from "../missions-table";
+import { MapIcons } from "../../data-classes/map-icon-data";
 
 interface TooltipContentProps {
     data : GridCellDataType[][];
@@ -112,6 +113,7 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
         let show = missionData.bases[index].appear;
         if (show === undefined || show === false)
             break breakBase;
+        let allegiance = missionData.bases[index].allegiance;
         
         // Captains
         var captains : (UnitDataType)[] = [];
@@ -152,13 +154,13 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                     >
-                        {/* <span className="map-tooltip-category-icon">{base.icon}</span> */}
+                        <span className="map-tooltip-category-icon">
+                            <span className="map-tooltip-category-icon-background" />
+                            {MapIcons.base[allegiance].svg}
+                        </span>
                         <span className="map-tooltip-category-title">Base</span>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <span className="map-tooltip-subcategory map-tooltip-base-details">
-                            <span className="map-tooltip-subcategory-header header-brown-underlined">Details</span>
-                        </span>
                         <span className="map-tooltip-subcategory map-tooltip-base-captains ">
                             <span className="map-tooltip-subcategory-header header-brown-underlined">Captains</span>
                             {captainElements}

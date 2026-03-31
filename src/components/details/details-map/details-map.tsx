@@ -13,29 +13,12 @@ import { MapIcons } from '../../data-classes/map-icon-data';
     https://www.freeconvert.com/png-to-svg
 */
 
-// // === Fills ===
-
-// export interface FillsType {
-//     base : string;
-//     stronghold : Dictionary<fill_StrongholdType>;
-//     gate : string;
-//     pot : Dictionary<string>;
-// }
-
-// interface fill_StrongholdType {
-//     ground : string;
-//     icon : {
-//         outer : string;
-//         inner: string;
-//     }
-// }
-
 // === Map Objects ===
 
 interface svg_PathType {
     full : svg_GroundType;
     strongholds : svg_StrongholdType[];
-    bases : BaseDataType[];
+    bases : svg_BaseType[];
     gates : svg_GateType[];
     pots : svg_PotType[];
     units : Dictionary<UnitDataType>;
@@ -54,6 +37,15 @@ export interface svg_StrongholdType {
         coords : CoordinateType;
     }
     data ?: StrongholdDataType | undefined;
+    fill ?: string;
+}
+
+export interface svg_BaseType {
+    icon : {
+        transform : string;
+        coords : CoordinateType;
+    };
+    data : BaseDataType;
     fill ?: string;
 }
 
@@ -117,14 +109,7 @@ export interface StrongholdDataType {
     name: string;
     icon?: JSX.Element | undefined;
     captureRequired: boolean;
-    appear ?: {
-        text : string;
-        mission : number[]
-    };
-    disappear ?: {
-        text : string;
-        mission : number[]
-    };
+    appearAndDisappear ?: [number[],boolean][];
     captain: (string|UnitDataType)[];
     colour : [number[], string][];
 }
@@ -134,6 +119,7 @@ export interface BaseDataType {
         transform : string;
         coords : CoordinateType;
     };
+    appearAndDisappear ?: [number[],boolean][];
     colour : [number[], string][];
     captain: (string|UnitDataType)[];
     fill ?: string;
@@ -179,7 +165,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
     const [mapZoomExpanded, setMapZoomExpanded] = useState<boolean>(false);
     const scrollElement = useRef(null);
     const [scrollElementScrollbarOn, setScrollElementScrollbarOn] = useState(false);
-    const [mapZoom, setMapZoom] = useState<number>(200);
+    const [mapZoom, setMapZoom] = useState<number>(500);
     const maps = useContext(DatabaseContext).map;
 
     // Run once
@@ -246,42 +232,37 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                         return
 
                     // Show
-                    let show = calculateShow(baseData.appear?.mission, baseData.disappear?.mission)
+                    let show = calculateShow_multipleTriggers(baseData.appearAndDisappear)
 
                     // Colour
-                    let allegiance = "red";
-                    if (Object.keys(selectedMissionRow).length === 0) { // No mission selected
-                        let c = baseData.colour[0][1]; // Select first colour
-                        if (c !== undefined)
-                            allegiance = c;
-                    }
-                    else {
-                        let stopFlag = false;
-                        (baseData.colour).forEach( ([mission, colour]:[number[],string]) => {
-                            if (stopFlag) 
-                                return;
-                            // If selected mission has passed requirements, make it that allegiance
-                            if (selectedMissionPassed(mission, true))
-                                allegiance = colour;
-                            else
-                                stopFlag = true
-                        })
-                    }
+                    let allegiance = (show) ? calculateAllegiance(baseData.colour) : "red"
                     
                     strongholds[index] = {appear: show, allegiance: allegiance}
                 })
             }
 
             // Bases
-            // TO-DO
+            if (svgProps.paths.bases !== undefined) {
+                (svgProps.paths.bases).forEach( (base:svg_BaseType, index:number) => {
+                    let baseData = base.data
+                    if (baseData === undefined)
+                        return
+
+                    // Show
+                    let show = calculateShow_multipleTriggers(baseData.appearAndDisappear)
+
+                    // Colour
+                    let allegiance = (show) ? calculateAllegiance(baseData.colour) : "red"
+                    
+                    bases[index] = {appear: show, allegiance: allegiance}
+                })
+            }
 
             // Gates
             if (svgProps.paths.gates !== undefined) {
                 (svgProps.paths.gates).forEach( (gate:svg_GateType, index:number) => {
                     let show = calculateShow(gate.appear, gate.disappear)
                     gates[index] = {appear: show}
-                    // if (index == 0)
-                    //     console.log(`Gate [hasAppeared: ${hasAppeared}] [hasDisappeaered: ${hasDisappeared}]`)
                 })
             }
 
@@ -289,7 +270,6 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
             if (svgProps.paths.units !== undefined) {
                 Object.entries(svgProps.paths.units).forEach( ([key,unit] : [string,UnitDataType]) => {
                     let show = false;
-                    // If has a 0-2 triggers
                     show = calculateShow_multipleTriggers(unit.appearAndDisappear)
                     units[key] = {show: show}
                 })
@@ -332,16 +312,39 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
 
         for (let index = 0; index < appearAndDisappear.length; index++) {
             let [mission, appear] : [number[],boolean] = appearAndDisappear[index]
-            // Has mission passed yet?
-            let missionPassed = selectedMissionPassed(mission, true, selected)
-            // If passed, update show
-            if (missionPassed)
+            // If mission passed, update show
+            if (selectedMissionPassed(mission, true, selected))
                 show = appear
             // If not passed, break
             else
                 break;
         }
         return show;
+    }
+
+    function calculateAllegiance(colours: [number[],string][]) {
+        let allegiance = "red";
+
+        // Default to red if no colours specified
+        if (colours === undefined || colours.length == 0)
+            return allegiance;
+
+        // If there is no mission selected, then return first colour
+        let keys = Object.keys(selectedMissionRow) as unknown as Array<string>
+        if (keys.length == 0)
+            return colours[0][1];
+        let selected : number[] = keys[0].split('.').map(x=>Number(x));
+
+        for (let index = 0; index < colours.length; index++) {
+            let [mission, colour] : [number[],string] = colours[index]
+            // If mission passed, update allegiance
+            if (selectedMissionPassed(mission, true, selected))
+                allegiance = colour
+            // If not passed, break
+            else
+                break;
+        }
+        return allegiance;        
     }
 
     /**
@@ -481,7 +484,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                             }
                             {
                                 // Bases
-                                svgProps.paths.bases.map( (path : BaseDataType, index : number) => {
+                                svgProps.paths.bases.map( (path : svg_BaseType, index : number) => {
                                     // let show = (missionData.bases[index] !== undefined) ? missionData.bases[index].appear : true;
                                     // if (!show)
                                     //     return <></>
@@ -553,13 +556,25 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                                     if (show) {
                                         let tileWidth : number = svgProps.size.pixels.width / svgProps.size.squares.width;
 
-                                        return (
-                                            <use 
-                                                style={{ "--transformX": (unit.coords.x-0.5)*tileWidth , "--transformY" : (unit.coords.y-0.5)*tileWidth } as React.CSSProperties}
-                                                className="map-grid-tile-unit-sprite"
-                                                xlinkHref={unit.class.sprite.url} 
-                                            />
-                                        )
+                                        if (unit.class.sprite.show === true)
+                                            return (
+                                                <use 
+                                                    style={{ "--transformX": (unit.coords.x-0.5)*tileWidth , "--transformY" : (unit.coords.y-0.5)*tileWidth } as React.CSSProperties}
+                                                    className="map-grid-tile-unit-sprite"
+                                                    xlinkHref={unit.class.sprite.url} 
+                                                />
+                                            )
+                                        else {
+                                            let scale = 0.5;
+                                            return (
+                                                <g 
+                                                    transform={`translate(${-5*scale},${-5*scale}) translate(${((unit.coords.x-0.5)*tileWidth)},${((unit.coords.y-0.5)*tileWidth)}) scale(${scale},${scale})`}
+                                                    className="map-grid-tile-unit-dot"
+                                                >
+                                                    {MapIcons.unitDot[unit.allegiance].g}
+                                                </g>
+                                            )
+                                        }
                                     }
                                     else
                                         return <></>

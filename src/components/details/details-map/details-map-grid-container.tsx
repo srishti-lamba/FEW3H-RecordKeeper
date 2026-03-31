@@ -73,17 +73,10 @@ export function GridContainer({svgProps, setGridCords, missionData} : GridContai
         // === Base ===
         svgProps.paths.bases.forEach ( (base, index:number) => {
 
-            var baseData : BaseDataType = base;
-
-            // baseData.icon = { 
-            //     transform: base.icon.transform,
-            //     coords: { x : base.icon.coords.x, y : base.icon.coords.x } 
-            // };
-            // baseData.colour = [...base.colour];
-            // baseData.captain = [...base.captain];
+            var baseData : BaseDataType = base.data;
 
             // Fill in captain icons
-            (base.captain).forEach(
+            (base.data.captain).forEach(
                 (c : any, index : number) => {
                     // Make sure it's string
                     if (c.name === undefined)
