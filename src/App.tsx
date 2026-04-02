@@ -11,6 +11,7 @@ import { Details } from './components/details/details';
 import { PixelsToSVG } from './components/pixel-art-to-svg';
 import { DatabaseContext, DifficultyContext, BattlesTableContext } from './context';
 import { MapIcons } from './components/data-classes/map-icon-data';
+import { Items } from './components/data-classes/item-data';
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
 
     // PixelsToSVG()
     MapIcons.createData()
+    Items.createData()
   }, [])
 
   return (

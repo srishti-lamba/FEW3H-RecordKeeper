@@ -216,39 +216,24 @@ html {
                 & .map-grid-tile-unit-dot {
                 } /* .map-grid-tile-unit-dot */
 
-                & #map-pot-container {
-                  & .map-scaleable-icon-wrapper {
-                    /* background-color: #EA7E7280; */
-                    transform: translate(calc(var(--x)*1px),calc(var(--y)*1px));
-                    /* transform: translate(0,calc(var(--y)*1px)); */
-                    /* x: var(--x);
-                    y: var(--y); */
-                  } /* .map-scaleable-icon-wrapper */
-                  & .map-scaleable-icon {
-                    /* transform: translate(calc(var(--x)*1px),calc(var(--y)*1px)) translate(-50%,-50%) scale(var(--scaleX),var(--scaleY)) translate(50%,50%);
-                    transform-origin: center; */
+                & .map-scaleable-icon-wrapper {
+                  transform: 
+                    translate(
+                      calc(var(--x)*1px),
+                      calc(var(--y)*1px)
+                    );
+                } /* .map-scaleable-icon-wrapper */
+                & .map-scaleable-icon {
+                  --translateX: calc((1 - var(--scaleX))*var(--x)*1px);
+                  --translateY: calc((1 - var(--scaleY))*var(--y)*1px);
+                  transform-box: fill-box;
+                  transform: 
+                    translate(var(--translateX),var(--translateY)) 
+                    scale(var(--scaleX),var(--scaleY)) 
+                    translate(var(--translateX),var(--translateY));
+                } /* .map-scaleable-icon */
 
-                    /* --neg-x : calc(var(--x) * -1);
-                    --neg-y : calc(var(--y) * -1); */
-                    transform-box: fill-box;
-                    /* transform: translate(calc(var(--x)*1px),calc(var(--y)*1px)); */
-                    /* x: var(--x); */
-                    /* y: var(--y); */
-                    transform: translate(calc((1 - var(--scaleX))*var(--x)*1px),calc((1 - var(--scaleY))*var(--y)*1px)) scale(var(--scaleX),var(--scaleY)) translate(calc((1 - var(--scaleX))*var(--x)*1px),calc((1 - var(--scaleY))*var(--y)*1px));
-                    /* transform: translate(calc((1 - var(--scaleX))*var(--x)*1px),calc((1 - var(--scaleY))*var(--y)*1px)) scale(var(--scaleX),var(--scaleY)); */
-                    /* transform: translate(50%,50%) scale(var(--scaleX), var(--scaleY)) translate(-50%,-50%); */
-                    /* transform: translate(-50%,-50%) scale(var(--scaleX), var(--scaleY)) translate(50%,50%); */
-                    /* transform: translate(-50%,-50%); */
-                    /* transform: translate(var(--neg-x),var(--neg-y)) translate(-50%,-50%) scale(var(--scaleX), var(--scaleY)); */
-                    /* transform: translate(var(--neg-x),var(--neg-y)); */
-                    /* transform: translate(-50%,-50%) scale(var(--scaleX), var(--scaleY)); */
-                    /* transform: translate(50%,50%) scale(var(--scaleX), var(--scaleY)); */
-                    /* transform: scale(var(--scaleX), var(--scaleY)) translate(-50%,-50%); */
-                    /* transform: scale(var(--scaleX), var(--scaleY)) translate(50%,50%); */
-                    /* transform-origin: center; */
-                    /* transform: translate(var(--x),var(--y)); */
-                    /* transform: translate(1,1); */
-                  } /* .map-scaleable-icon */
+                & #map-pot-container {
                 } /* #map-pot-container */
               } /* svg */
 

@@ -24,6 +24,11 @@ interface IconType {
     g: JSX.Element;
 }
 
+interface UnitSpriteType {
+    height: number;
+    width: number;
+}
+
 export class MapIcons {
 
     public static createData() {
@@ -195,11 +200,6 @@ export class MapIcons {
                             />
                         </svg>,
                     g: 
-                        // <svg
-                        //     xmlns="http://www.w3.org/2000/svg"
-                        //     preserveAspectRatio="xMidYMid meet"
-                        //     className="map-pot-icon"
-                        // >
                         <symbol id={`map-pot-icon-${colour}`}>
                             {/* Pot */}
                             <path 
@@ -214,10 +214,87 @@ export class MapIcons {
 
                             />
                         </symbol>
-                        /* </svg> */
                 }
             })
             MapIcons.pot = pots;
+
+            // --------------------
+            // --- Unit Sprites ---
+            // --------------------
+            let unitSprites : Dictionary<UnitSpriteType> = {};
+            // Beginner Classes
+            unitSprites["Myrmidon"] =   {height: 20, width: 17}; // height="20" width="17" 
+            unitSprites["Myrmidon-f"] = {height: 20, width: 21}; // height="20" width="21"
+            unitSprites["Soldier"] =    {height: 22, width: 20}; // viewBox="0 0 22 20" 
+            unitSprites["Soldier-f"] =  {height: 20, width: 21}; // height="20" width="21"
+            unitSprites["Fighter"] =    {height: 19, width: 20}; // viewBox="0 0 19 20" 
+            unitSprites["Fighter-f"] =  {height: 20, width: 18}; // height="20" width="18"
+            unitSprites["Monk"] =       {height: 14, width: 20}; // viewBox="0 0 14 20" 
+            unitSprites["Monk-f"] =     {height: 0 , width: 0}; // 
+
+            // Intermediate Classes
+            unitSprites["Thief"] = {height: 0, width: 0};
+            unitSprites["Mercenary"] = {height: 0, width: 0};
+            unitSprites["Pegasus Knight"] = {height: 0, width: 0};
+            unitSprites["Cavalier"] = {height: 0, width: 0};
+            unitSprites["Armored Knight"] = {height: 0, width: 0};
+            unitSprites["Brigand"] = {height: 0, width: 0};
+            unitSprites["Archer"] = {height: 0, width: 0};
+            unitSprites["Brawler"] = {height: 0, width: 0};
+            unitSprites["Priest"] = {height: 0, width: 0};
+            unitSprites["Mage"] = {height: 0, width: 0};
+
+            // Advanced Classes
+            unitSprites["Swordmaster"] = {height: 0, width: 0};
+            unitSprites["Paladin"] = {height: 0, width: 0};
+            unitSprites["Fortress Knight"] = {height: 0, width: 0};
+            unitSprites["Bishop"] = {height: 0, width: 0};
+            unitSprites["Dark Mage"] = {height: 22, width: 16}; // height="22" width="16"
+            unitSprites["Wyvern Rider"] = {height: 0, width: 0};
+            unitSprites["Assassin"] = {height: 0, width: 0};
+            unitSprites["Warrior"] = {height: 0, width: 0};
+            unitSprites["Grappler"] = {height: 0, width: 0};
+            unitSprites["Sniper"] = {height: 0, width: 0};
+            unitSprites["Warlock"] = {height: 0, width: 0};
+
+            // Master Classes
+            unitSprites["Bow Knight"] = {height: 0, width: 0};
+            unitSprites["Dark Knight"] = {height: 0, width: 0};
+            unitSprites["Holy Knight"] = {height: 0, width: 0};
+            unitSprites["Gremory"] = {height: 0, width: 0};
+            unitSprites["Trickster"] = {height: 0, width: 0};
+            unitSprites["Mortal Savant"] = {height: 0, width: 0};
+            unitSprites["Falcon Knight"] = {height: 0, width: 0};
+            unitSprites["Wyvern Lord"] = {height: 0, width: 0};
+            unitSprites["Great Knight"] = {height: 0, width: 0};
+            unitSprites["Dark Bishop"] = {height: 0, width: 0};
+            unitSprites["War Master"] = {height: 0, width: 0};
+            unitSprites["Dancer"] = {height: 0, width: 0};
+
+            // Unique Classes
+            unitSprites["Fluegel"] = {height: 0, width: 0};
+            unitSprites["Asura"] = {height: 0, width: 0};
+            unitSprites["Armored Lord"] = {height: 0, width: 0};
+            unitSprites["Emperor"] = {height: 0, width: 0};
+            unitSprites["High Lord"] = {height: 0, width: 0};
+            unitSprites["Great Lord"] = {height: 0, width: 0};
+            unitSprites["Wyvern Master"] = {height: 0, width: 0};
+            unitSprites["Barbarossa	"] = {height: 0, width: 0};
+            unitSprites["Silverheart"] = {height: 0, width: 0};
+            unitSprites["Enlightened One"] = {height: 0, width: 0};
+            unitSprites["Saint"] = {height: 0, width: 0};
+            unitSprites["Death Knight"] = {height: 0, width: 0};
+
+            // Non-Playable Classes
+            unitSprites["Noble"] = {height: 0, width: 0};
+            unitSprites["Commoner"] = {height: 0, width: 0};
+            unitSprites["Lord"] = {height: 0, width: 0};
+            unitSprites["Prionsa"] = {height: 0, width: 0};
+            unitSprites["Gurgan"] = {height: 0, width: 0};
+            unitSprites["Agastya"] = {height: 0, width: 0};
+            unitSprites["Avesta"] = {height: 0, width: 0};
+
+            MapIcons.unitSprite = unitSprites;
         }
         
         createDataAsync();
@@ -319,7 +396,7 @@ export class MapIcons {
             </svg>
         ),
         g: (
-            <>
+            <symbol id={`map-chest-icon`}>
                 <rect 
                     width="28" height="30" 
                     x="1" y="0" 
@@ -344,9 +421,11 @@ export class MapIcons {
                         m -24 18 l 2 0 l 0 6 l 4 0 l 0 -6 l 2 0 l 0 6 l 10 0 l 0 -6 l 2 0 l 0 6 l 4 0 l 0 -6 l 2 0 l 0 8 l -26 0 z 
                         m 10 -4 l 6 0 l 0 5 l -6 0 z m 2 3 l 2 0 l 0 -1 l -2 0 z"
                 />
-            </>
+            </symbol>
         )
     }
     public static chestSize : number = 30;
+
+    public static unitSprite : Dictionary<UnitSpriteType> = {}
 
 }

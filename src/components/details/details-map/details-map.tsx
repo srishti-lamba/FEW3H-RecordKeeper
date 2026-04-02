@@ -416,16 +416,16 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
     // ---------------------
 
     let tileSize : number = svgProps.size.pixels.width / svgProps.size.squares.width;
+    let xZoom = (600-mapZoom)/100;
+    let yZoom = (0.125*(xZoom**2)) - (0.125*xZoom) + 1
 
     // === Strongholds ===
     function getAllStrongholds() {
         var strongholds : React.SVGProps<SVGGElement>[] = []
 
         let center = MapIcons.strongholdSize/2;
-        let x = (600-mapZoom)/100;
-        let y = (0.125*(x**2)) - (0.125*x) + 1
         let tileRatio = (tileSize*(28/48))/MapIcons.strongholdSize
-        let size = tileRatio * y
+        let size = tileRatio * yZoom
 
         svgProps!.paths.strongholds.forEach( (path : svg_StrongholdType, index : number) => {
             let show = (missionData.strongholds[index] !== undefined) ? missionData.strongholds[index].appear : true;
@@ -457,6 +457,17 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
             </>)
         })
 
+        return (
+            <g id="map-stronghold-container">
+                <defs>
+                    {["blue", "green", "red", "yellow"].map( 
+                        (colour) => 
+                        <>{MapIcons.stronghold[colour].g}</>
+                    )}
+                </defs>
+                <>{strongholds}</>
+            </g>)
+
         return <>{strongholds}</>
     }
 
@@ -466,12 +477,10 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
 
         let centerX = MapIcons.baseWidth/4;
         let centerY = MapIcons.baseHeight/4;
-        let x = (600-mapZoom)/100;
-        let y = (0.125*(x**2)) - (0.125*x) + 1
         let tileRatioX = (tileSize*(12.375/48))/MapIcons.baseWidth
         let tileRatioY = (tileSize*(22/48))/MapIcons.baseHeight
-        let sizeX = tileRatioX * y
-        let sizeY = tileRatioY * y
+        let sizeX = tileRatioX * yZoom
+        let sizeY = tileRatioY * yZoom
 
         svgProps!.paths.bases.forEach( (path : svg_BaseType, index : number) => {
             let show = (missionData.bases[index] !== undefined) ? missionData.bases[index].appear : true;
@@ -498,6 +507,17 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
             </>)
         })
 
+        return (
+            <g id="map-base-container">
+                <defs>
+                    {["blue", "green", "red", "yellow"].map( 
+                        (colour) => 
+                        <>{MapIcons.base[colour].g}</>
+                    )}
+                </defs>
+                <>{bases}</>
+            </g>)
+
         return <>{bases}</>
     }
 
@@ -506,27 +526,29 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
         var chests : React.SVGProps<SVGGElement>[] = []
 
         let center = MapIcons.chestSize/2;
-        let x = (600-mapZoom)/100;
-        let y = (0.125*(x**2)) - (0.125*x) + 1
         let tileRatio = (tileSize*(20/48))/MapIcons.chestSize
-        let size = tileRatio * y
+        let size = tileRatio * yZoom
 
         svgProps!.paths.chests.forEach( (path : svg_ChestType, index : number) => {
-            chests.push(<g
-                data-col={path.icon.coords.x}
-                data-row={path.icon.coords.y}
-                key={"mapChest-" + index}
-                style={{ transformOrigin: '"center"' }}
-                transform={
-                    `translate(${ path.icon.translate.x + center },${ path.icon.translate.y + center }) 
-                    scale(${size},${size}) 
-                    translate(${-center},${-center})`}
-                >
-                    {MapIcons.chest.g}
-                </g>
+            chests.push(
+                <use
+                    data-col={path.icon.coords.x}
+                    data-row={path.icon.coords.y}
+                    key={"mapChest-" + index}
+                    xlinkHref={`#map-chest-icon`}
+                    style={{ transformOrigin: '"center"' }}
+                    transform={
+                        `translate(${ path.icon.translate.x + center },${ path.icon.translate.y + center }) ` +
+                        `scale(${size},${size}) ` +
+                        `translate(${-center},${-center})`}
+                />
             )
         })
-        return <>{chests}</>;
+        return (
+            <g id="map-chest-container">
+                <defs>{MapIcons.chest.g}</defs>
+                <>{chests}</>
+            </g>)
     }
 
     // === Pots ===
@@ -535,30 +557,26 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
 
         let centerX = MapIcons.potWidth/2;
         let centerY = MapIcons.potHeight/2;
-        let x = (600-mapZoom)/100;
-        let y = (0.125*(x**2)) - (0.125*x) + 1
         let tileRatioX = (tileSize*(14/48))/MapIcons.potWidth
         let tileRatioY = (tileSize*(13.855670103/48))/MapIcons.potHeight
-        let sizeX = tileRatioX * y
-        let sizeY = tileRatioY * y
+        let sizeX = tileRatioX * yZoom
+        let sizeY = tileRatioY * yZoom
 
         svgProps!.paths.pots.forEach( (path : svg_PotType, index : number) => {
             pots.push(
                 <g
+                    data-col={path.coords.x}
+                    data-row={path.coords.y}
+                    key={"mapPot-" + index}
                     style={{
                         "--x":path.m.x-centerX, "--y":path.m.y-centerY
                     } as CSSProperties}
-                    height={tileSize}
-                    width={tileSize}
                     className="map-scaleable-icon-wrapper"
                 >
                     <use
-                        data-col={path.coords.x}
-                        data-row={path.coords.y}
-                        key={"mapPot-" + index}
                         xlinkHref={`#map-pot-icon-${path.colour}`}
                         style={{
-                            "--x":(centerX), "--y":(centerY),
+                            "--x":centerX, "--y":centerY,
                             "--scaleX":sizeX, "--scaleY":sizeY,
                         } as CSSProperties}
                         className="map-scaleable-icon"
@@ -568,18 +586,12 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
         })
 
         return (
-            <g 
-                id="map-pot-container"
-                height="100%"
-                width="100%"
-            >
+            <g id="map-pot-container">
                 <defs>
-                    {
-                        ["blue", "green", "purple", "red", "yellow"].map( 
-                            (colour) => 
-                            <>{MapIcons.pot[colour].g}</>
-                        )
-                    }
+                    {["blue", "green", "purple", "red", "yellow"].map( 
+                        (colour) => 
+                        <>{MapIcons.pot[colour].g}</>
+                    )}
                 </defs>
                 <>{pots}</>
             </g>)
@@ -634,33 +646,37 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                             viewBox={"0 0 " + svgProps.size.pixels.width + " " + svgProps.size.pixels.height}
                         >
                             {/* Full */}
-                            <path 
-                                fill={MapIcons.fills.base} 
-                                transform={svgProps.paths.full.transform} 
-                                d={svgProps.paths.full.d} 
-                            />
+                            <g id="map-ground-container">
+                                <path 
+                                    fill={MapIcons.fills.base} 
+                                    transform={svgProps.paths.full.transform} 
+                                    d={svgProps.paths.full.d} 
+                                />
+                            </g>
                             {getAllStrongholds()}
                             {getAllBases()}
-                            {
-                                // Gates
-                                svgProps.paths.gates.map( (path : svg_GateType, index : number) => {
-                                    let show = (missionData.gates[index] !== undefined) ? missionData.gates[index].appear : true;
-                                    let d = (path.d !== undefined) 
-                                        ? path.d 
-                                        : "M 0 0 l -5.4 5.6 l 21 20.9 l -21 21.1 l 5.6 5.4 l 20.9 -21 l 21.1 21 l 5.4 -5.6 l -21 -20.9 l 21 -21.1 l -5.6 -5.4 l -20.9 21 Z"
-                                    if (show)
-                                        return (
-                                            <path 
-                                                fill={(path.fill !== undefined) ? path.fill : MapIcons.fills.gate} 
-                                                transform={path.transform} 
-                                                d={d}
-                                                key={"mapGate-" + index}
-                                            />
-                                        )
-                                    else
-                                        return <></>
-                                })
-                            }
+                            <g id="map-gate-container">
+                                {
+                                    // Gates
+                                    svgProps.paths.gates.map( (path : svg_GateType, index : number) => {
+                                        let show = (missionData.gates[index] !== undefined) ? missionData.gates[index].appear : true;
+                                        let d = (path.d !== undefined) 
+                                            ? path.d 
+                                            : "M 0 0 l -5.4 5.6 l 21 20.9 l -21 21.1 l 5.6 5.4 l 20.9 -21 l 21.1 21 l 5.4 -5.6 l -21 -20.9 l 21 -21.1 l -5.6 -5.4 l -20.9 21 Z"
+                                        if (show)
+                                            return (
+                                                <path 
+                                                    fill={(path.fill !== undefined) ? path.fill : MapIcons.fills.gate} 
+                                                    transform={path.transform} 
+                                                    d={d}
+                                                    key={"mapGate-" + index}
+                                                />
+                                            )
+                                        else
+                                            return <></>
+                                    })
+                                }
+                            </g>
                             {getAllChests()}
                             {getAllPots()}
                             {
@@ -671,13 +687,25 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                                         return <></>
 
                                     let show = (missionData.units[key] !== undefined) ? missionData.units[key].show : true;
+
+                                    let mapIconSprite = unit.class.name + ((unit.gender===undefined)?"":"-f")
+                                    let centerX = MapIcons.unitSprite[mapIconSprite].width/2;
+                                    let centerY = MapIcons.unitSprite[mapIconSprite].height/2;
                                     if (show) {
                                         if (unit.class.sprite.show === true)
                                             return (
-                                                <use 
-                                                    style={{ "--transformX": (unit.coords.x-0.5)*tileSize , "--transformY" : (unit.coords.y-0.5)*tileSize } as React.CSSProperties}
-                                                    className="map-grid-tile-unit-sprite"
-                                                    xlinkHref={unit.class.sprite.url} 
+
+                                                <use
+                                                    data-col={unit.coords.x}
+                                                    data-row={unit.coords.y}
+                                                    key={"mapUnit-" + key}
+                                                    xlinkHref={unit.class.sprite.url}
+                                                    style={{ transformOrigin: '"center"' }}
+                                                    transform={
+                                                        `translate(${ ((unit.coords.x-0.5)*tileSize) + centerX },${ ((unit.coords.y-0.5)*tileSize) + centerY }) ` +
+                                                        `translate(${-centerX},${-centerY})` +
+                                                        `scale(${yZoom},${yZoom}) ` +
+                                                        `translate(${-centerX},${-centerY})`}
                                                 />
                                             )
                                         else {
