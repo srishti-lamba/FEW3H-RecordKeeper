@@ -30,9 +30,11 @@ export class MapIcons {
 
         async function createDataAsync() {
             var allegiance = ["blue", "green", "red", "yellow"];
+            var potColours = ["blue", "green", "purple", "red", "yellow"];
             
             let strondholds : Dictionary<IconType> = {};
             let bases : Dictionary<IconType> = {};
+            let pots : Dictionary<IconType> = {};
             let unitDots : Dictionary<IconType> = {};
 
             allegiance.forEach( (colour) => {
@@ -167,6 +169,55 @@ export class MapIcons {
             MapIcons.stronghold = strondholds;
             MapIcons.base = bases;
             MapIcons.unitDot = unitDots;
+
+            // ------------
+            // --- Pots ---
+            // ------------
+            potColours.forEach( (colour) => {
+                pots[colour] = {
+                    svg: <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            height="100%"
+                            viewBox="0 0 48 48.5" 
+                            preserveAspectRatio="xMidYMid meet"
+                        >
+                            {/* Pot */}
+                            <path 
+                                fill={MapIcons.fills.pot[colour]} 
+                                stroke="black" stroke-width="3" stroke-linecap="round"
+                                d="M 8.5 2 c 3.199 6.3981 3.199 7.4644 0.5332 10.1303 c -12.2631 10.1303 -10.1304 34.6564 15.462 34.6564 c 22.3934 0 27.7252 -24.5261 15.4621 -34.6564 c -2.6659 -2.6659 -2.6659 -3.7322 0.5332 -10.1303 z"
+                            />
+                            {/* Label */}
+                            <path
+                                fill={MapIcons.fills.pot.label}
+                                d="M 6.25 29.5 c 0 8 3 8 8 8 l 19 0 c 5 0 8 0 8 -8 z"
+
+                            />
+                        </svg>,
+                    g: 
+                        // <svg
+                        //     xmlns="http://www.w3.org/2000/svg"
+                        //     preserveAspectRatio="xMidYMid meet"
+                        //     className="map-pot-icon"
+                        // >
+                        <symbol id={`map-pot-icon-${colour}`}>
+                            {/* Pot */}
+                            <path 
+                                fill={MapIcons.fills.pot[colour]} 
+                                stroke="black" stroke-width="3" stroke-linecap="round"
+                                d="M 8.5 2 c 3.199 6.3981 3.199 7.4644 0.5332 10.1303 c -12.2631 10.1303 -10.1304 34.6564 15.462 34.6564 c 22.3934 0 27.7252 -24.5261 15.4621 -34.6564 c -2.6659 -2.6659 -2.6659 -3.7322 0.5332 -10.1303 z"
+                            />
+                            {/* Label */}
+                            <path
+                                fill={MapIcons.fills.pot.label}
+                                d="M 6.25 29.5 c 0 8 3 8 8 8 l 19 0 c 5 0 8 0 8 -8 z"
+
+                            />
+                        </symbol>
+                        /* </svg> */
+                }
+            })
+            MapIcons.pot = pots;
         }
         
         createDataAsync();
@@ -219,9 +270,83 @@ export class MapIcons {
     };
 
     public static stronghold : Dictionary<IconType> = {};
+    public static strongholdSize : number = 28;
 
     public static base : Dictionary<IconType> = {};
+    public static baseHeight : number = 32;
+    public static baseWidth : number = 18;
+
+    public static pot : Dictionary<IconType> = {};
+    public static potHeight : number = 48.5;
+    public static potWidth : number = 48;
 
     public static unitDot : Dictionary<IconType> = {}
+    public static unitDotHeight : number = 10;
+    public static unitDotWidth : number = 10;
+
+    public static chest : IconType = {
+        svg: (
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="100%" 
+                viewBox="0 0 30 30" 
+                preserveAspectRatio="xMidYMid meet"
+            >
+                <rect 
+                    width="28" height="30" 
+                    x="1" y="0" 
+                    fill="#5A2500" 
+                />
+                <rect 
+                    width="3" height="28" 
+                    x="0" y="1" 
+                    fill="#543A05" 
+                />
+                <rect 
+                    width="3" height="28" 
+                    x="27" y="1" 
+                    fill="#543A05" 
+                />
+                <path 
+                    fill="#EEB610"
+                    d=" m 2 2 l 2 0 l 0 14 l 6 0 l 0 2 l -8 0 z 
+                        m 7 0 l 2 0 l 0 12 l -2 0 z 
+                        m 10 0 l 2 0 l 0 12 l -2 0 z 
+                        m 7 0 l 2 0 l 0 16 l -8 0 l 0 -2 l 6 0 z 
+                        m -24 18 l 2 0 l 0 6 l 4 0 l 0 -6 l 2 0 l 0 6 l 10 0 l 0 -6 l 2 0 l 0 6 l 4 0 l 0 -6 l 2 0 l 0 8 l -26 0 z 
+                        m 10 -4 l 6 0 l 0 5 l -6 0 z m 2 3 l 2 0 l 0 -1 l -2 0 z"
+                />
+            </svg>
+        ),
+        g: (
+            <>
+                <rect 
+                    width="28" height="30" 
+                    x="1" y="0" 
+                    fill="#5A2500" 
+                />
+                <rect 
+                    width="3" height="28" 
+                    x="0" y="1" 
+                    fill="#543A05" 
+                />
+                <rect 
+                    width="3" height="28" 
+                    x="27" y="1" 
+                    fill="#543A05" 
+                />
+                <path 
+                    fill="#EEB610"
+                    d=" m 2 2 l 2 0 l 0 14 l 6 0 l 0 2 l -8 0 z 
+                        m 7 0 l 2 0 l 0 12 l -2 0 z 
+                        m 10 0 l 2 0 l 0 12 l -2 0 z 
+                        m 7 0 l 2 0 l 0 16 l -8 0 l 0 -2 l 6 0 z 
+                        m -24 18 l 2 0 l 0 6 l 4 0 l 0 -6 l 2 0 l 0 6 l 10 0 l 0 -6 l 2 0 l 0 6 l 4 0 l 0 -6 l 2 0 l 0 8 l -26 0 z 
+                        m 10 -4 l 6 0 l 0 5 l -6 0 z m 2 3 l 2 0 l 0 -1 l -2 0 z"
+                />
+            </>
+        )
+    }
+    public static chestSize : number = 30;
 
 }

@@ -6,6 +6,7 @@ import { ClassType } from '../../data-classes/class-data';
 import { WeaponDataType } from '../../data-classes/weapon-data';
 import { DatabaseContext, BattlesTableContext, MissionsTableContext, MapContext, Dictionary } from '../../../context';
 import { MapIcons } from '../../data-classes/map-icon-data';
+import { CSSProperties } from '@mui/material';
 
 /* 
     Websites
@@ -20,6 +21,7 @@ interface svg_PathType {
     strongholds : svg_StrongholdType[];
     bases : svg_BaseType[];
     gates : svg_GateType[];
+    chests : svg_ChestType[];
     pots : svg_PotType[];
     units : Dictionary<UnitDataType>;
 }
@@ -30,10 +32,10 @@ interface svg_GroundType { // Base ground path
 }
 
 export interface svg_StrongholdType {
-    transform : string;
+    translate : CoordinateType;
     d : string;
     icon ?: {
-        transform : string;
+        translate : CoordinateType;
         coords : CoordinateType;
     }
     data ?: StrongholdDataType | undefined;
@@ -42,7 +44,7 @@ export interface svg_StrongholdType {
 
 export interface svg_BaseType {
     icon : {
-        transform : string;
+        translate : CoordinateType;
         coords : CoordinateType;
     };
     data : BaseDataType;
@@ -55,6 +57,14 @@ interface svg_GateType {
     fill ?: string;
     appear ?: number[];
     disappear ?: number[];
+}
+
+export interface svg_ChestType {
+    icon : {
+        translate : CoordinateType;
+        coords : CoordinateType;
+    };
+    item : string;
 }
 
 interface svg_PotType {
@@ -95,6 +105,7 @@ export interface GridCellType {
 export interface GridCellDataType {
     stronghold ?: [number, StrongholdDataType];
     base ?: [number, BaseDataType];
+    chest ?: svg_ChestType;
     pot ?: PotDataType;
     unit ?: Dictionary<UnitDataType>;
 }
@@ -400,6 +411,180 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
         return <>Select a chapter.</>;
     }
 
+    // ---------------------
+    // --- Return Helper ---
+    // ---------------------
+
+    let tileSize : number = svgProps.size.pixels.width / svgProps.size.squares.width;
+
+    // === Strongholds ===
+    function getAllStrongholds() {
+        var strongholds : React.SVGProps<SVGGElement>[] = []
+
+        let center = MapIcons.strongholdSize/2;
+        let x = (600-mapZoom)/100;
+        let y = (0.125*(x**2)) - (0.125*x) + 1
+        let tileRatio = (tileSize*(28/48))/MapIcons.strongholdSize
+        let size = tileRatio * y
+
+        svgProps!.paths.strongholds.forEach( (path : svg_StrongholdType, index : number) => {
+            let show = (missionData.strongholds[index] !== undefined) ? missionData.strongholds[index].appear : true;
+            if (!show)
+                return <></>
+
+            let allegiance = (missionData.strongholds[index] !== undefined) ? missionData.strongholds[index].allegiance : "red";
+            strongholds.push(<>
+                <path 
+                    fill={(path.fill !== undefined) ? path.fill : MapIcons.fills.stronghold[allegiance].ground} 
+                    transform={`translate(${path.translate.x},${path.translate.y})`} 
+                    d={path.d}
+                    key={"mapStronghold-" + index}
+                />
+                {/* Icon */}
+                {
+                    (path.icon != null) && (
+                        <g
+                            transform={
+                                `translate(${ path.icon?.translate.x + center },${ path.icon?.translate.y + center })
+                                scale(${size},${size})
+                                translate(${-center},${-center})`
+                            }
+                        >
+                            {MapIcons.stronghold[allegiance].g}
+                        </g>
+                    )
+                }
+            </>)
+        })
+
+        return <>{strongholds}</>
+    }
+
+    // === Bases ===
+    function getAllBases() {
+        var bases : React.SVGProps<SVGGElement>[] = []
+
+        let centerX = MapIcons.baseWidth/4;
+        let centerY = MapIcons.baseHeight/4;
+        let x = (600-mapZoom)/100;
+        let y = (0.125*(x**2)) - (0.125*x) + 1
+        let tileRatioX = (tileSize*(12.375/48))/MapIcons.baseWidth
+        let tileRatioY = (tileSize*(22/48))/MapIcons.baseHeight
+        let sizeX = tileRatioX * y
+        let sizeY = tileRatioY * y
+
+        svgProps!.paths.bases.forEach( (path : svg_BaseType, index : number) => {
+            let show = (missionData.bases[index] !== undefined) ? missionData.bases[index].appear : true;
+            if (!show)
+                return <></>
+
+            let allegiance = (missionData.bases[index] !== undefined) ? missionData.bases[index].allegiance : "red";
+            
+            bases.push(<>
+                {
+                    (path.icon != null) && (
+                        <g
+                            transform={
+                                `translate(${ path.icon?.translate.x + centerX},${ path.icon?.translate.y + centerY }) 
+                                scale(${sizeX},${sizeY})
+                                translate(${-centerX},${-centerY})`
+                            }
+                            fill={(path.fill !== undefined) ? path.fill : ""} 
+                        >
+                            {MapIcons.base[allegiance].g}
+                        </g>
+                    )
+                }
+            </>)
+        })
+
+        return <>{bases}</>
+    }
+
+    // === Chests ===
+    function getAllChests() {
+        var chests : React.SVGProps<SVGGElement>[] = []
+
+        let center = MapIcons.chestSize/2;
+        let x = (600-mapZoom)/100;
+        let y = (0.125*(x**2)) - (0.125*x) + 1
+        let tileRatio = (tileSize*(20/48))/MapIcons.chestSize
+        let size = tileRatio * y
+
+        svgProps!.paths.chests.forEach( (path : svg_ChestType, index : number) => {
+            chests.push(<g
+                data-col={path.icon.coords.x}
+                data-row={path.icon.coords.y}
+                key={"mapChest-" + index}
+                style={{ transformOrigin: '"center"' }}
+                transform={
+                    `translate(${ path.icon.translate.x + center },${ path.icon.translate.y + center }) 
+                    scale(${size},${size}) 
+                    translate(${-center},${-center})`}
+                >
+                    {MapIcons.chest.g}
+                </g>
+            )
+        })
+        return <>{chests}</>;
+    }
+
+    // === Pots ===
+    function getAllPots() {
+        var pots : React.SVGProps<SVGGElement>[] = []
+
+        let centerX = MapIcons.potWidth/2;
+        let centerY = MapIcons.potHeight/2;
+        let x = (600-mapZoom)/100;
+        let y = (0.125*(x**2)) - (0.125*x) + 1
+        let tileRatioX = (tileSize*(14/48))/MapIcons.potWidth
+        let tileRatioY = (tileSize*(13.855670103/48))/MapIcons.potHeight
+        let sizeX = tileRatioX * y
+        let sizeY = tileRatioY * y
+
+        svgProps!.paths.pots.forEach( (path : svg_PotType, index : number) => {
+            pots.push(
+                <g
+                    style={{
+                        "--x":path.m.x-centerX, "--y":path.m.y-centerY
+                    } as CSSProperties}
+                    height={tileSize}
+                    width={tileSize}
+                    className="map-scaleable-icon-wrapper"
+                >
+                    <use
+                        data-col={path.coords.x}
+                        data-row={path.coords.y}
+                        key={"mapPot-" + index}
+                        xlinkHref={`#map-pot-icon-${path.colour}`}
+                        style={{
+                            "--x":(centerX), "--y":(centerY),
+                            "--scaleX":sizeX, "--scaleY":sizeY,
+                        } as CSSProperties}
+                        className="map-scaleable-icon"
+                    />
+                </g>
+            )
+        })
+
+        return (
+            <g 
+                id="map-pot-container"
+                height="100%"
+                width="100%"
+            >
+                <defs>
+                    {
+                        ["blue", "green", "purple", "red", "yellow"].map( 
+                            (colour) => 
+                            <>{MapIcons.pot[colour].g}</>
+                        )
+                    }
+                </defs>
+                <>{pots}</>
+            </g>)
+    }
+
     // --------------
     // --- Return ---
     // --------------
@@ -454,56 +639,8 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                                 transform={svgProps.paths.full.transform} 
                                 d={svgProps.paths.full.d} 
                             />
-                            {
-                                // Strongholds
-                                svgProps.paths.strongholds.map( (path : svg_StrongholdType, index : number) => {
-                                    let show = (missionData.strongholds[index] !== undefined) ? missionData.strongholds[index].appear : true;
-                                    if (!show)
-                                        return <></>
-
-                                    let allegiance = (missionData.strongholds[index] !== undefined) ? missionData.strongholds[index].allegiance : "red";
-                                    return (<>
-                                        <path 
-                                            fill={(path.fill !== undefined) ? path.fill : MapIcons.fills.stronghold[allegiance].ground} 
-                                            transform={path.transform} 
-                                            d={path.d}
-                                            key={"mapStronghold-" + index}
-                                        />
-                                        {/* Icon */}
-                                        {
-                                            (path.icon != null) && (
-                                                <g
-                                                    transform={path.icon?.transform}
-                                                >
-                                                    {MapIcons.stronghold[allegiance].g}
-                                                </g>
-                                            )
-                                        }
-                                    </>)
-                                })
-                            }
-                            {
-                                // Bases
-                                svgProps.paths.bases.map( (path : svg_BaseType, index : number) => {
-                                    // let show = (missionData.bases[index] !== undefined) ? missionData.bases[index].appear : true;
-                                    // if (!show)
-                                    //     return <></>
-
-                                    let allegiance = (missionData.bases[index] !== undefined) ? missionData.bases[index].allegiance : "red";
-                                    return (<>
-                                        {
-                                            (path.icon != null) && (
-                                                <g
-                                                    transform={`${path.icon?.transform} scale(0.6875,0.6875)`}
-                                                    fill={(path.fill !== undefined) ? path.fill : ""} 
-                                                >
-                                                    {MapIcons.base[allegiance].g}
-                                                </g>
-                                            )
-                                        }
-                                    </>)
-                                })
-                            }
+                            {getAllStrongholds()}
+                            {getAllBases()}
                             {
                                 // Gates
                                 svgProps.paths.gates.map( (path : svg_GateType, index : number) => {
@@ -524,27 +661,8 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                                         return <></>
                                 })
                             }
-                            {
-                                // Pots
-                                svgProps.paths.pots.map( (path : svg_PotType, index : number) => (
-                                    <g
-                                        data-col={path.coords.x}
-                                        data-row={path.coords.y}
-                                        key={"mapPot-" + index}
-                                        transform={`translate(${path.m.x},${path.m.y}) scale(0.3125,0.3125)`}
-                                    >
-                                        <path 
-                                            fill={MapIcons.fills.pot[path.colour]} 
-                                            stroke="black" stroke-width="3" stroke-linecap="round"
-                                            d={"M 0 0 c 3.199 6.3981 3.199 7.4644 0.5332 10.1303 c -12.2631 10.1303 -10.1304 34.6564 15.462 34.6564 c 22.3934 0 27.7252 -24.5261 15.4621 -34.6564 c -2.6659 -2.6659 -2.6659 -3.7322 0.5332 -10.1303 z"}
-                                        />
-                                        <path
-                                            fill={MapIcons.fills.pot.label}
-                                            d={"M -2.25 27.5 c 0 8 3 8 8 8 l 19 0 c 5 0 8 0 8 -8 z"}
-                                        />
-                                    </g>
-                                ))
-                            }
+                            {getAllChests()}
+                            {getAllPots()}
                             {
                                 // Units
                                 Object.entries(svgProps.paths.units).map( ([key, unit] : [string,UnitDataType]) => {
@@ -554,12 +672,10 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
 
                                     let show = (missionData.units[key] !== undefined) ? missionData.units[key].show : true;
                                     if (show) {
-                                        let tileWidth : number = svgProps.size.pixels.width / svgProps.size.squares.width;
-
                                         if (unit.class.sprite.show === true)
                                             return (
                                                 <use 
-                                                    style={{ "--transformX": (unit.coords.x-0.5)*tileWidth , "--transformY" : (unit.coords.y-0.5)*tileWidth } as React.CSSProperties}
+                                                    style={{ "--transformX": (unit.coords.x-0.5)*tileSize , "--transformY" : (unit.coords.y-0.5)*tileSize } as React.CSSProperties}
                                                     className="map-grid-tile-unit-sprite"
                                                     xlinkHref={unit.class.sprite.url} 
                                                 />
@@ -568,7 +684,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                                             let scale = 0.5;
                                             return (
                                                 <g 
-                                                    transform={`translate(${-5*scale},${-5*scale}) translate(${((unit.coords.x-0.5)*tileWidth)},${((unit.coords.y-0.5)*tileWidth)}) scale(${scale},${scale})`}
+                                                    transform={`translate(${-5*scale},${-5*scale}) translate(${((unit.coords.x-0.5)*tileSize)},${((unit.coords.y-0.5)*tileSize)}) scale(${scale},${scale})`}
                                                     className="map-grid-tile-unit-dot"
                                                 >
                                                     {MapIcons.unitDot[unit.allegiance].g}

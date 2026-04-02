@@ -1,5 +1,5 @@
 import React, { JSX, memo, useEffect, useMemo, useRef, useState } from "react";
-import { GridCellDataType, PotDataType, SvgPropsType, CoordinateType, size_SpecificType, StrongholdDataType, UnitDataType, MissionDataType, svg_StrongholdType, BaseDataType } from "./details-map";
+import { GridCellDataType, PotDataType, SvgPropsType, CoordinateType, size_SpecificType, StrongholdDataType, UnitDataType, MissionDataType, svg_StrongholdType, BaseDataType, svg_BaseType, svg_ChestType } from "./details-map";
 import { Tooltip, TooltipRefProps } from "react-tooltip";
 import { MemoizedTooptipContent } from "./details-map-tooltip";
 // import { BattleRow } from "../../table";
@@ -91,6 +91,14 @@ export function GridContainer({svgProps, setGridCords, missionData} : GridContai
 
         });
 
+        // === Chest ===
+        svgProps.paths.chests.forEach( (chest) => {
+            if (data[chest.icon.coords.x][chest.icon.coords.y] == undefined)
+                data[chest.icon.coords.x][chest.icon.coords.y] = {chest: chest};
+            else
+                data[chest.icon.coords.x][chest.icon.coords.y].chest = chest;
+        });
+
         // === Pots ===
         svgProps.paths.pots.forEach( (pot) => {
             var potData : PotDataType = {icon:undefined, title:"", description:""};
@@ -116,25 +124,8 @@ export function GridContainer({svgProps, setGridCords, missionData} : GridContai
                     potData.description = "Restores Warrior Gauge";
                     break;
             };
-            potData.icon = (
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="100%"
-                    viewBox="-8.5 -2 48 48.5" 
-                    preserveAspectRatio="xMidYMid meet"
-                >
-                    <path 
-                        fill={MapIcons.fills.pot[pot.colour]} 
-                        stroke="black" stroke-width="3" stroke-linecap="round"
-                        d="M 0 0 c 3.199 6.3981 3.199 7.4644 0.5332 10.1303 c -12.2631 10.1303 -10.1304 34.6564 15.462 34.6564 c 22.3934 0 27.7252 -24.5261 15.4621 -34.6564 c -2.6659 -2.6659 -2.6659 -3.7322 0.5332 -10.1303 z"
-                    />
-                    <path
-                        fill={MapIcons.fills.pot.label}
-                        d={"M -2.25 27.5 c 0 8 3 8 8 8 l 19 0 c 5 0 8 0 8 -8 z"}
+            potData.icon = MapIcons.pot[pot.colour].svg;
 
-                    />
-                </svg>
-            );
             if (data[pot.coords.x][pot.coords.y] == undefined)
                 data[pot.coords.x][pot.coords.y] = {pot: potData};
             else
