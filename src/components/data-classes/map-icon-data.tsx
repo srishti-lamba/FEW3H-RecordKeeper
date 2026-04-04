@@ -426,6 +426,19 @@ export class MapIcons {
     }
     public static chestSize : number = 30;
 
+    public static cross : IconType = {
+        svg: (
+            <></>
+        ),
+        g: (
+            <symbol id="map-cross-icon" viewBox="-5.4 0 53 53" height="53" width="53">
+                <path d="M 0 0 l -5.4 5.6 l 21 20.9 l -21 21.1 l 5.6 5.4 l 20.9 -21 l 21.1 21 l 5.4 -5.6 l -21 -20.9 l 21 -21.1 l -5.6 -5.4 l -20.9 21 Z" />
+            </symbol>
+        )
+    };
+    public static crossSize : number = 53;
+
     public static unitSprite : Dictionary<UnitSpriteType> = {}
+
 
 }

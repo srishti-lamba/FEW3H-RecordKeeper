@@ -210,8 +210,22 @@ html {
                   transform: translate(-50%,-50%);
                   x: var(--transformX);
                   y: var(--transformY);
-
                 } /* .map-grid-tile-unit-sprite */
+
+                & .map-cross-icon-pulse {
+                    transform: none;
+                    animation: cross-pulse 2s infinite;
+                    transform-origin: center;
+                    transform-box: fill-box;
+                }
+
+                & .map-cross-shadow-icon-pulse {
+                    transform: scale(1);
+                    animation: cross-shadow-pulse 2s infinite;
+                    transform-origin: center;
+                    transform-box: fill-box;
+                    filter: blur(15px);
+                }
 
                 & .map-grid-tile-unit-dot {
                 } /* .map-grid-tile-unit-dot */
@@ -440,6 +454,9 @@ html {
                           & .MuiAccordionSummary-expandIconWrapper {
                             font-size: 1.25rem;
                             margin: calc( (0.25rem/2) * -1 );
+                            & .MuiSvgIcon-root {
+                              color: rgba(0, 0, 0, 0.54) !important;
+                            }
                           } /* .MuiAccordionSummary-expandIconWrapper */
                         } /* .MuiAccordionSummary-root */
                       } /* .MuiAccordion-heading */
@@ -527,6 +544,13 @@ html {
                                 }/* .map-tooltip-subcategory-row-icon */
                               }/* .map-tooltip-subcategory-row-info */
                             }/* map-tooltip-subcategory-row */
+
+                            &.map-tooltip-chest .react-tooltip {
+                              max-width: 70%;
+                              font-size: 0.765rem;
+                              background-color: #543A05;
+                            }
+
                           }/* .map-tooltip-subcategory */
 
                           & .map-tooltip-unit {
@@ -1040,6 +1064,39 @@ html {
       } /* .map-container-wrapper */
     } /* #right-pane-contents */
   }
+}
+
+@keyframes cross-pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+
+    70% {
+        transform: scale(2);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+}
+@keyframes cross-shadow-pulse {
+    0% {
+        transform: scale(0.25);
+        opacity: 0;
+    }
+
+    70% {
+        transform: scale(0.6);
+        opacity: 0.15;
+    }
+
+    100% {
+        transform: scale(0.25);
+        opacity: 0;
+    }
 }
 
 .settings {

@@ -6,6 +6,7 @@ import { MemoizedTooptipContent } from "./details-map-tooltip";
 import { Classes } from "../../data-classes/class-data";
 import { Weapons } from "../../data-classes/weapon-data";
 import { MapIcons } from "../../data-classes/map-icon-data";
+import { Items } from "../../data-classes/item-data";
 
 interface GridContainerProps {
     svgProps : SvgPropsType;
@@ -93,6 +94,14 @@ export function GridContainer({svgProps, setGridCords, missionData} : GridContai
 
         // === Chest ===
         svgProps.paths.chests.forEach( (chest) => {
+
+            // Fill in item
+            if (chest.item === undefined)
+                return;
+            // Make sure it's string
+            if ( (chest.item as any).name === undefined) 
+                chest.item = Items.getItem(chest.item as string)
+
             if (data[chest.icon.coords.x][chest.icon.coords.y] == undefined)
                 data[chest.icon.coords.x][chest.icon.coords.y] = {chest: chest};
             else

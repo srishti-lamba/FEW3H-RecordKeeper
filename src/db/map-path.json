@@ -362,7 +362,7 @@
                         "translate" : {"x":2864, "y":309},
                         "coords" : {"x":60,"y":7}
                     },
-                    "item" : "IDK :)"
+                    "item" : "Leather Shield"
                 }
             ],
             "pots" : [
@@ -490,6 +490,56 @@
                     "colour" : "red",
                     "m" : {"x" : 2768 , "y" : 2940},
                     "coords" : { "x" : 58 , "y" : 62 }
+                }
+            ],
+            "markings" : [
+                {
+                    "type" : "cross",
+                    "appearAndDisappear" : [
+                        [[-1], false],
+                        [[0], true],
+                        [[1], false]
+                    ],
+                    "colour" : "green",
+                    "x" : 1540,
+                    "y" : 1340
+                },
+                {
+                    "type" : "unit-circle",
+                    "appearAndDisappear" : [
+                        [[-1], false],
+                        [[1], true],
+                        [[1,0], false]
+                    ],
+                    "colour" : "green",
+                    "x" : 33,
+                    "y" : 25
+                },
+                {
+                    "type" : "rect",
+                    "appearAndDisappear" : [
+                        [[-1], false],
+                        [[2], true],
+                        [[2,0], false]
+                    ],
+                    "colour" : "green",
+                    "x" : 915,
+                    "y" : 225,
+                    "width" : 230,
+                    "height" : 205
+                },
+                {
+                    "type" : "rect",
+                    "appearAndDisappear" : [
+                        [[-1], false],
+                        [[2], true],
+                        [[2,0], false]
+                    ],
+                    "colour" : "green",
+                    "x" : 1850,
+                    "y" : 340,
+                    "width" : 380,
+                    "height" : 410
                 }
             ],
             "units" : {
@@ -1261,6 +1311,24 @@
                         [[5,1], true]
                     ],
                     "coords" : {"x":15 , "y":26}
+                },
+
+
+                "23-20-red": {
+                    "name" : "Thief",
+                    "class" : {
+                        "name" : "Monk",
+                        "sprite" : { "show" : true },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Sword" },
+                    "allegiance" : "red",
+                    "appearAndDisappear" : [
+                        [[-1], false],
+                        [[3], true],
+                        [[3,1], false]
+                    ],
+                    "coords" : {"x":23 , "y":20}
                 }
             }
         }

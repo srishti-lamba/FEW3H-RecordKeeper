@@ -7,6 +7,7 @@ import { WeaponDataType } from '../../data-classes/weapon-data';
 import { DatabaseContext, BattlesTableContext, MissionsTableContext, MapContext, Dictionary } from '../../../context';
 import { MapIcons } from '../../data-classes/map-icon-data';
 import { CSSProperties } from '@mui/material';
+import { ItemType } from '../../data-classes/item-data';
 
 /* 
     Websites
@@ -23,6 +24,7 @@ interface svg_PathType {
     gates : svg_GateType[];
     chests : svg_ChestType[];
     pots : svg_PotType[];
+    markings: svg_MarkingsType[];
     units : Dictionary<UnitDataType>;
 }
 
@@ -64,7 +66,7 @@ export interface svg_ChestType {
         translate : CoordinateType;
         coords : CoordinateType;
     };
-    item : string;
+    item ?: string|ItemType;
 }
 
 interface svg_PotType {
@@ -72,6 +74,17 @@ interface svg_PotType {
     m : CoordinateType;
     coords : CoordinateType;
     fill ?: string;
+}
+
+interface svg_MarkingsType {
+    type : string;
+    appearAndDisappear : [number[],boolean][];
+    colour ?: string;
+    x ?: number;
+    y ?: number;
+
+    width ?: number;
+    height ?: number;
 }
 
 // === Map Size ===
@@ -155,6 +168,7 @@ export interface MissionDataType {
     strongholds : {appear: boolean, allegiance: string}[];
     bases : {appear: boolean, allegiance: string}[];
     gates : {appear: boolean}[];
+    markings : {appear: boolean}[];
     units : Dictionary<{show : boolean}>;
 }
 
@@ -172,11 +186,11 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
     const scollElementSize = useContext(MapContext).size!;
     const [svgProps, setSvgProps] = useState<SvgPropsType | undefined | null>(undefined);
     const [gridCords, setGridCords] = useState<CoordinateType | null>(null);
-    const [missionData, setMissionData] = useState<MissionDataType>({strongholds:[],bases:[],gates:[],units:{}})
+    const [missionData, setMissionData] = useState<MissionDataType>({strongholds:[],bases:[],gates:[],markings:[],units:{}})
     const [mapZoomExpanded, setMapZoomExpanded] = useState<boolean>(false);
     const scrollElement = useRef(null);
     const [scrollElementScrollbarOn, setScrollElementScrollbarOn] = useState(false);
-    const [mapZoom, setMapZoom] = useState<number>(500);
+    const [mapZoom, setMapZoom] = useState<number>(100);
     const maps = useContext(DatabaseContext).map;
 
     // Run once
@@ -233,6 +247,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
             var strongholds : MissionDataType["strongholds"] = [];
             var bases : MissionDataType["bases"] = [];
             var gates : MissionDataType["gates"] = [];
+            var markings : MissionDataType["markings"] = [];
             var units : MissionDataType["units"] = {};
 
             // Strongholds
@@ -277,16 +292,23 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                 })
             }
 
+            // Markings
+            if (svgProps.paths.markings !== undefined) {
+                (svgProps.paths.markings).forEach( (marking:svg_MarkingsType, index:number) => {
+                    let show = calculateShow_multipleTriggers(marking.appearAndDisappear, false)
+                    markings[index] = {appear: show}
+                })
+            }
+
             // Units
             if (svgProps.paths.units !== undefined) {
                 Object.entries(svgProps.paths.units).forEach( ([key,unit] : [string,UnitDataType]) => {
-                    let show = false;
-                    show = calculateShow_multipleTriggers(unit.appearAndDisappear)
+                    let show = calculateShow_multipleTriggers(unit.appearAndDisappear)
                     units[key] = {show: show}
                 })
             }
 
-            setMissionData({strongholds:strongholds,bases,gates:gates,units:units})
+            setMissionData({strongholds:strongholds,bases:bases,markings:markings,gates:gates,units:units})
         };
         recalculateMissionData();
     }, [selectedMissionRow, svgProps])
@@ -309,7 +331,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
         return (hasAppeared && !hasDisappeared)
     }
 
-    function calculateShow_multipleTriggers(appearAndDisappear : [number[],boolean][]|undefined) {
+    function calculateShow_multipleTriggers(appearAndDisappear : [number[],boolean][]|undefined, noMissionDefault ?: boolean) {
         if (appearAndDisappear === undefined)
             return true;
 
@@ -318,7 +340,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
         // If there is no mission selected, then show
         let keys = Object.keys(selectedMissionRow) as unknown as Array<string>
         if (keys.length == 0)
-            return true;
+            return (noMissionDefault === undefined) ? true : noMissionDefault;
         let selected : number[] = keys[0].split('.').map(x=>Number(x));
 
         for (let index = 0; index < appearAndDisappear.length; index++) {
@@ -467,8 +489,6 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                 </defs>
                 <>{strongholds}</>
             </g>)
-
-        return <>{strongholds}</>
     }
 
     // === Bases ===
@@ -517,8 +537,111 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                 </defs>
                 <>{bases}</>
             </g>)
+    }
 
-        return <>{bases}</>
+    // === Markings ===
+    function getAllMarkings(animated : boolean = false) {
+        var markings : React.SVGProps<SVGGElement>[] = []
+
+        svgProps!.paths.markings.forEach( (marking : svg_MarkingsType, index : number) => {
+            let show = (missionData.markings[index] !== undefined) ? missionData.markings[index].appear : true;
+            if (!show)
+                return <></>
+
+            let fill = "";
+            switch (marking.type) {
+                case "rect" : 
+                    if (animated) return;
+                    switch (marking.colour) {
+                        case "green" : fill="url(#map-green-shine-animation)"
+                    }
+                    markings.push(
+                        <rect
+                            key={"mapMarking-" + index}
+                            x={marking.x} y={marking.y}
+                            width={marking.width} height={marking.height}
+                            fill="none"
+                            stroke={fill} stroke-width="3" stroke-linecap="round" vector-effect="non-scaling-stroke"
+                        />
+                    )
+                    break;
+                case "cross" : 
+                    if (!animated) return;
+                    switch (marking.colour) {
+                        case "green" : fill="url(#map-green-shine-animation)"
+                    }
+                    markings.push(
+                        <g key={"mapMarking-" + index}>
+                            {/* Black Cross creating outline */}
+                            <g  className="map-cross-icon-pulse" style={{filter: "blur(5px)"}}>
+                                <use
+                                    xlinkHref="#map-cross-icon"
+                                    x={marking.x} y={marking.y}
+                                    fill="rgb(0,0,0,0.5)"
+                                />
+                            </g>
+                            {/* Blurred Circle Shadow */}
+                            <g className="map-cross-shadow-icon-pulse">
+                                <circle
+                                    cx={marking.x!+(MapIcons.crossSize/2)} cy={marking.y!+(MapIcons.crossSize/2)}
+                                    r={MapIcons.crossSize}
+                                    fill="white"
+                                />
+                            </g>
+                            {/* Expanding portion (lower opacity) */}
+                            <g  className="map-cross-icon-pulse">
+                                <use
+                                    xlinkHref="#map-cross-icon"
+                                    x={marking.x} y={marking.y}
+                                    fill={fill}
+                                />
+                            </g>
+                            {/* Solid portion */}
+                            <use
+                                xlinkHref="#map-cross-icon"
+                                x={marking.x} y={marking.y}
+                                fill={fill}
+                            />
+                        </g>
+                    )
+                    break;
+                case "unit-circle" : 
+                    if (animated) return;
+                    switch (marking.colour) {
+                        case "green" : fill="url(#map-green-shine-animation)"
+                    }
+                    markings.push(
+                        <circle
+                            key={"mapMarking-" + index}
+                            cx={(marking.x!-0.5)*tileSize} cy={(marking.y!-0.5)*tileSize}
+                            r={tileSize*0.25*yZoom}
+                            fill="none"
+                            stroke={fill} stroke-width="3" stroke-linecap="round" vector-effect="non-scaling-stroke"
+                        />
+                    )
+                    break;
+            }
+        })
+        return (
+            <g id={`map-marking-container${(animated)?"-animated":""}`}>
+                <defs>
+                    <linearGradient id="map-green-shine-animation" x1="-100%" y1="100%" x2="400%" y2="-400%" >
+                        <stop offset="0" stop-color="#50AB30">
+                            <animate attributeName="offset" values="0;0.9" dur="2s" repeatCount="indefinite"  /> 
+                        </stop>
+                        <stop offset="0" stop-color="#76eb5f">
+                            <animate attributeName="offset" values="0;0.9" dur="2s" repeatCount="indefinite"  /> 
+                        </stop>
+                        <stop offset="0.1" stop-color="#76eb5f">
+                            <animate attributeName="offset" values="0.1;1" dur="2s" repeatCount="indefinite"  /> 
+                        </stop>
+                        <stop offset="0.1" stop-color="#50AB30">
+                            <animate attributeName="offset" values="0.1;1" dur="2s" repeatCount="indefinite"  /> 
+                        </stop>
+                    </linearGradient>
+                </defs>
+                <>{markings}</>
+            </g>)
     }
 
     // === Chests ===
@@ -656,29 +779,33 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                             {getAllStrongholds()}
                             {getAllBases()}
                             <g id="map-gate-container">
+                                <defs>{MapIcons.cross.g}</defs>
                                 {
                                     // Gates
                                     svgProps.paths.gates.map( (path : svg_GateType, index : number) => {
                                         let show = (missionData.gates[index] !== undefined) ? missionData.gates[index].appear : true;
-                                        let d = (path.d !== undefined) 
-                                            ? path.d 
-                                            : "M 0 0 l -5.4 5.6 l 21 20.9 l -21 21.1 l 5.6 5.4 l 20.9 -21 l 21.1 21 l 5.4 -5.6 l -21 -20.9 l 21 -21.1 l -5.6 -5.4 l -20.9 21 Z"
-                                        if (show)
-                                            return (
-                                                <path 
-                                                    fill={(path.fill !== undefined) ? path.fill : MapIcons.fills.gate} 
-                                                    transform={path.transform} 
-                                                    d={d}
-                                                    key={"mapGate-" + index}
-                                                />
-                                            )
-                                        else
+                                        if (!show)
                                             return <></>
+
+                                        return (
+                                            <g
+                                                fill={(path.fill !== undefined) ? path.fill : MapIcons.fills.gate} 
+                                                transform={path.transform} 
+                                                key={"mapGate-" + index}
+                                            >
+                                                {
+                                                    (path.d !== undefined) 
+                                                    ? <path d={path.d} />
+                                                    :  <use  xlinkHref="#map-cross-icon" />
+                                                }
+                                            </g>
+                                        )
                                     })
                                 }
                             </g>
                             {getAllChests()}
                             {getAllPots()}
+                            {getAllMarkings(false)}
                             {
                                 // Units
                                 Object.entries(svgProps.paths.units).map( ([key, unit] : [string,UnitDataType]) => {
@@ -724,6 +851,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                                         return <></>
                                 })
                             }
+                            {getAllMarkings(true)} {/* Animated needs to be at end to avoid blur on elements appearing after */}
                         </svg>
                         <GridContainer 
                             svgProps={svgProps} 

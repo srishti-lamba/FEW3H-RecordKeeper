@@ -2,12 +2,13 @@ import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Tooltip } from "react-tooltip";
 import { CSSProperties, memo, useContext } from "react";
-import { GridCellDataType, CoordinateType, StrongholdDataType, PotDataType, UnitDataType, MissionDataType, BaseDataType } from "./details-map";
+import { GridCellDataType, CoordinateType, StrongholdDataType, PotDataType, UnitDataType, MissionDataType, BaseDataType, svg_ChestType } from "./details-map";
 import { CategoryType, WeaponDataType, Weapons } from "../../data-classes/weapon-data";
 import { Classes } from "../../data-classes/class-data";
 import { BattlesTableContext, MissionsTableContext } from "../../../context";
 import { formatText, initializeMissionTextRef, title } from "../missions-table";
 import { MapIcons } from "../../data-classes/map-icon-data";
+import { ItemType } from "../../data-classes/item-data";
 
 interface TooltipContentProps {
     data : GridCellDataType[][];
@@ -168,6 +169,50 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                     </AccordionDetails>
                 </Accordion>
             </span>
+        )
+    }
+
+    // ---------------
+    // --- Chests ---
+    // ---------------
+    var chest : svg_ChestType|undefined = data.chest;
+    if ( chest !== undefined ) {
+        let chestID = `tile-${chest.icon.coords.x}-${chest.icon.coords.y}-chest`;
+        children.push(
+            <Accordion>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                    >
+                        <span className="map-tooltip-category-icon">{MapIcons.chest.svg}</span>
+                        <span className="map-tooltip-category-title">Chest</span>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <span className="map-tooltip-subcategory map-tooltip-chest">
+                            <span className="map-tooltip-subcategory-header header-brown-underlined">First-Time Loot</span>
+                            {
+                                (chest.item === undefined || (chest.item as any).name === undefined) ?
+
+                                <span className="map-tooltip-subcategory-info row-black-background">No item defined</span> :
+                                
+                                <>
+                                    <span className="map-tooltip-subcategory-info row-black-background" id={chestID}>
+                                        <img
+                                            className="map-tooltip-subcategory-row-icon"
+                                            src={(chest.item as ItemType).icon} 
+                                        />
+                                        {(chest.item as ItemType).name}
+                                    </span>
+                                    <Tooltip
+                                        anchorSelect={`#${chestID}`}
+                                        content={`${(chest.item as ItemType).description!}`}
+                                        key={`${chestID}-tooltip`}
+                                        place="bottom"
+                                    />
+                                </>
+                            }
+                        </span>
+                    </AccordionDetails>
+            </Accordion>
         )
     }
 
