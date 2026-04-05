@@ -233,29 +233,30 @@ export class MapIcons {
             unitSprites["Monk-f"] =     {height: 0 , width: 0}; // 
 
             // Intermediate Classes
-            unitSprites["Thief"] = {height: 0, width: 0};
-            unitSprites["Mercenary"] = {height: 0, width: 0};
+            unitSprites["Thief"] =          {height: 18, width: 19}; // height="18" width="19"
+            unitSprites["Thief-f"] =        {height: 19, width: 18}; // height="19" width="18"
+            unitSprites["Mercenary"] =      {height: 0, width: 0};
             unitSprites["Pegasus Knight"] = {height: 0, width: 0};
-            unitSprites["Cavalier"] = {height: 0, width: 0};
+            unitSprites["Cavalier"] =       {height: 0, width: 0};
             unitSprites["Armored Knight"] = {height: 0, width: 0};
-            unitSprites["Brigand"] = {height: 0, width: 0};
-            unitSprites["Archer"] = {height: 0, width: 0};
-            unitSprites["Brawler"] = {height: 0, width: 0};
-            unitSprites["Priest"] = {height: 0, width: 0};
-            unitSprites["Mage"] = {height: 0, width: 0};
+            unitSprites["Brigand"] =        {height: 0, width: 0};
+            unitSprites["Archer"] =         {height: 0, width: 0};
+            unitSprites["Brawler"] =        {height: 0, width: 0};
+            unitSprites["Priest"] =         {height: 0, width: 0};
+            unitSprites["Mage"] =           {height: 0, width: 0};
 
             // Advanced Classes
-            unitSprites["Swordmaster"] = {height: 0, width: 0};
-            unitSprites["Paladin"] = {height: 0, width: 0};
+            unitSprites["Swordmaster"] =     {height: 0, width: 0};
+            unitSprites["Paladin"] =         {height: 0, width: 0};
             unitSprites["Fortress Knight"] = {height: 0, width: 0};
-            unitSprites["Bishop"] = {height: 0, width: 0};
-            unitSprites["Dark Mage"] = {height: 22, width: 16}; // height="22" width="16"
-            unitSprites["Wyvern Rider"] = {height: 0, width: 0};
-            unitSprites["Assassin"] = {height: 0, width: 0};
-            unitSprites["Warrior"] = {height: 0, width: 0};
-            unitSprites["Grappler"] = {height: 0, width: 0};
-            unitSprites["Sniper"] = {height: 0, width: 0};
-            unitSprites["Warlock"] = {height: 0, width: 0};
+            unitSprites["Bishop"] =          {height: 0, width: 0};
+            unitSprites["Dark Mage"] =       {height: 22, width: 16}; // height="22" width="16"
+            unitSprites["Wyvern Rider"] =    {height: 0, width: 0};
+            unitSprites["Assassin"] =        {height: 0, width: 0};
+            unitSprites["Warrior"] =         {height: 0, width: 0};
+            unitSprites["Grappler"] =        {height: 0, width: 0};
+            unitSprites["Sniper"] =          {height: 0, width: 0};
+            unitSprites["Warlock"] =         {height: 0, width: 0};
 
             // Master Classes
             unitSprites["Bow Knight"] = {height: 0, width: 0};

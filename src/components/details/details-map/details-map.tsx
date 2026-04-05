@@ -8,6 +8,7 @@ import { DatabaseContext, BattlesTableContext, MissionsTableContext, MapContext,
 import { MapIcons } from '../../data-classes/map-icon-data';
 import { CSSProperties } from '@mui/material';
 import { ItemType } from '../../data-classes/item-data';
+import { url } from 'inspector';
 
 /* 
     Websites
@@ -82,9 +83,13 @@ interface svg_MarkingsType {
     colour ?: string;
     x ?: number;
     y ?: number;
-
     width ?: number;
     height ?: number;
+
+    xOne ?: number;
+    yOne ?: number;
+    xTwo ?: number;
+    yTwo ?: number;
 }
 
 // === Map Size ===
@@ -620,6 +625,79 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                         />
                     )
                     break;
+                case "unit-point-arrow" : 
+                    if (!animated) return;
+                    switch (marking.colour) {
+                        case "green" : fill="url(#map-green-shine-animation)"
+                    }
+                    let x1 = (marking.xOne!-0.5)*tileSize;
+                    let y1 = (marking.yOne!-0.5)*tileSize;
+                    let x2 = marking.xTwo!;
+                    let y2 = marking.yTwo!;
+                    let length = Math.sqrt( ((x2-x1)**2) + ((y2-y1)**2) );
+                    // console.log(`Math.sqrt( ((${x2}-${x1})**2) + ((${y2}-${y1})**2) )`)
+                    // console.log(`Math.sqrt( ((${x2-x1})**2) + ((${y2-y1})**2) )`)
+                    // console.log(`Math.sqrt( (${(x2-x1)**2}) + (${(y2-y1)**2}) )`)
+                    // console.log(`Math.sqrt( ${((x2-x1)**2) + ((y2-y1)**2)} )`)
+                    // console.log(`${Math.sqrt( ((x2-x1)**2) + ((y2-y1)**2) )} `)
+                    let height =  yZoom * 8;
+                    markings.push(
+                        <g fill="url(#map-arrow-pattern-green)">
+
+                            <rect 
+                                x={x1} y={y1} 
+                                width={length} height={height} 
+                                fill="rgba(255, 125, 125, 0.5)" 
+                            />
+                            <rect 
+                                x={0} y={height/2} 
+                                width={length} height={height} 
+                                // fill="url(#map-arrow-pattern-green)" 
+                            />
+                            <rect 
+                                x={0} y={height/2} 
+                                width={length} height={height} 
+                                fill="rgba(255, 0, 0, 0.3)" 
+                            />
+                            <path 
+                                d={`M 0 0 L ${height} ${height} L 0 ${height*2} z`} 
+                                transform={`translate(${length},0)`}
+                            />
+                            <path 
+                                d={`M 0 0 L ${height} ${height} L 0 ${height*2} z`} 
+                                transform={`translate(${length},0)`}
+                                fill="rgba(255, 0, 0, 0.3)"
+                            />
+                            {/* <line 
+                                x1={0} y1={yZoom*25} 
+                                x2={x1+length} y2={yZoom*25} 
+                                stroke="url(#map-arrow-pattern-green)" stroke-width={yZoom*10} stroke-linecap="round" vector-effect="non-scaling-stroke"
+                                marker-end="url(#map-arrowhead-marker)"
+                            /> */}
+                            {/* <rect 
+                                x={x1} y={y1} 
+                                width={length} height={height} 
+                                fill="url(#map-arrow-pattern-green)" 
+                            /> */}
+
+                        {/* <line 
+                            x1={x1} y1={y1} 
+                            x2={x1+length} y2={y1} 
+                            stroke="url(#map-arrow-pattern-green)" stroke-width="10" stroke-linecap="round" vector-effect="non-scaling-stroke"
+                            marker-end="url(#map-arrowhead-marker)" 
+
+                            stroke-opacity="0"
+                        /> */}
+                        </g>
+                        // <circle
+                        //     key={"mapMarking-" + index}
+                        //     cx={(marking.x!-0.5)*tileSize} cy={(marking.y!-0.5)*tileSize}
+                        //     r={tileSize*0.25*yZoom}
+                        //     fill="none"
+                        //     stroke={fill} stroke-width="3" stroke-linecap="round" vector-effect="non-scaling-stroke"
+                        // />
+                    )
+                    break;
             }
         })
         return (
@@ -639,6 +717,52 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                             <animate attributeName="offset" values="0.1;1" dur="2s" repeatCount="indefinite"  /> 
                         </stop>
                     </linearGradient>
+                    <marker
+                        id="map-arrowhead-marker"
+                        viewBox="0 0 10 10"
+                        refX="0"
+                        refY="5"
+                        markerWidth="3"
+                        markerHeight="3"
+                        orient="auto">
+                        <path d="M 0 0 L 5 5 L 0 10 z" fill="context-stroke" />
+                    </marker>
+                    {/* <pattern
+                        //id="map-arrow-pattern-green"
+                        // x="0" y="0" width="10" height="10" 
+                        // patternUnits="userSpaceOnUse"
+                        // x="0" y="0" width="0.1" height="0.1"
+                        // patternUnits="objectBoundingBox"
+                        // patternContentUnits="objectBoundingBox"
+                        // patternTransform="translate(0,0)"
+                    // > */}
+                    <pattern
+                        id="map-arrow-pattern-green"
+                        patternUnits="userSpaceOnUse" 
+                        y={((yZoom*10)/2)/100} 
+                        width="20" height={yZoom * 10}>
+      {/* <!-- Right-pointing chevron scaled to pattern height --> */}
+      <path 
+        d={`M 0 0 L 10 ${(yZoom*10)/2} L 0 ${yZoom*10}`} 
+        stroke="#007BFF" stroke-width="1.5" fill="none" 
+    />
+      <animateTransform
+        attributeName="patternTransform"
+        type="translate"
+        from="0,0"
+        to="20,0"
+        dur="2s"
+        repeatCount="indefinite"/>
+
+        {/* <pattern
+            id="map-arrow-pattern-green"
+            patternUnits="objectBoundingBox" 
+            y={((yZoom*10)/2)/100} 
+            width="0.02" height={1}>
+      <path d={`M0,0 L10,${(yZoom*10)/2}L0,${yZoom*10}`} stroke="#007BFF" stroke-width="1.5" fill="none" /> */}
+
+
+                    </pattern>
                 </defs>
                 <>{markings}</>
             </g>)

@@ -3,9 +3,10 @@ import { intToRGBA, cssColorToHex } from "@jimp/utils";
 import { CoordinateType } from "./details/details-map/details-map";
 import { Dictionary } from "../context";
 
-export async function PixelsToSVG() {
+export async function PixelsToSVG(fileName: string) {
+
     const image = await Jimp.read(
-        process.env.PUBLIC_URL + "/images/icons/sprites/soldier/red-f.png"
+        process.env.PUBLIC_URL + "/images/icons/sprites/thief/" + fileName
     );
 
     function getPixel(x:number, y:number) {
@@ -31,7 +32,6 @@ export async function PixelsToSVG() {
         .fill(null).map( 
             () => new Array(image.height).fill(false) 
         );
-    console.log(done)
     const colours : Dictionary<number> = {};
     var colourCount : number = 0;
 
@@ -143,5 +143,7 @@ export async function PixelsToSVG() {
         (value) => result.push(value.join("\n"))
     )
     result.push("</svg>")
+
+    console.log(fileName);
     console.log(result.join("\n"))
 }

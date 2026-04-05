@@ -540,6 +540,31 @@
                     "y" : 340,
                     "width" : 380,
                     "height" : 410
+                },
+                {
+                    "type" : "unit-circle",
+                    "appearAndDisappear" : [
+                        [[-1], false],
+                        [[3], true],
+                        [[3,0], false]
+                    ],
+                    "colour" : "green",
+                    "x" : 23,
+                    "y" : 20
+                }
+                ,
+                {
+                    "type" : "unit-point-arrow",
+                    "appearAndDisappear" : [
+                        [[-1], false],
+                        [[3], true],
+                        [[3,0], false]
+                    ],
+                    "colour" : "green",
+                    "xOne" : 23,
+                    "yOne" : 20,
+                    "xTwo" : 2000,
+                    "yTwo" : 2000
                 }
             ],
             "units" : {
@@ -1317,9 +1342,9 @@
                 "23-20-red": {
                     "name" : "Thief",
                     "class" : {
-                        "name" : "Monk",
+                        "name" : "Thief",
                         "sprite" : { "show" : true },
-                        "profile" : { "file" : "1" }
+                        "profile" : { "file" : "3" }
                     },
                     "weapon" : { "name" : "Iron Sword" },
                     "allegiance" : "red",

@@ -47,7 +47,7 @@ export class Classes {
         "Monk": {description: "Well-balanced, the Monk uses magic for both offense and defense.", types: [Classes.types.INFANTRY]},
 
         // Intermediate Classes
-        "Thief": {description: "", types: [Classes.types.INFANTRY]},
+        "Thief": {description: "Skilled at opening locks, the Thief has excellent speed and dexterity.", types: [Classes.types.INFANTRY]},
         "Mercenary": {description: "", types: [Classes.types.INFANTRY]},
         "Pegasus Knight": {description: "", types: [Classes.types.FLYING]},
         "Cavalier": {description: "", types: [Classes.types.CALVARY]},
