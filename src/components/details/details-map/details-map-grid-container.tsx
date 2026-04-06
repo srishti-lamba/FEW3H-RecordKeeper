@@ -157,7 +157,7 @@ export function GridContainer({svgProps, setGridCords, missionData} : GridContai
                 if (unit.allegiance) unitData.allegiance = unit.allegiance.toLowerCase();
 
                 // Fill Class and Weapon data
-                unitData.class = Classes.getClassData(unitData.class, unitData.allegiance, unitData.gender)
+                unitData.class = Classes.getClassData(unitData)
                 unitData.weapon.data = Weapons.getData(unitData.weapon.name)
                 
                 if (data[unit.coords.x][unit.coords.y] == undefined)

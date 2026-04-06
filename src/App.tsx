@@ -23,6 +23,7 @@ function App() {
     //     PixelsToSVG(colour + ".png"); 
     //     PixelsToSVG(colour + "-f.png");
     // })
+    // PixelsToSVG("");
     MapIcons.createData()
     Items.createData()
   }, [])

@@ -295,6 +295,10 @@ export class MapIcons {
             unitSprites["Agastya"] = {height: 0, width: 0};
             unitSprites["Avesta"] = {height: 0, width: 0};
 
+            // Unique Character Icons
+            unitSprites["Monica"] = {height: 0, width: 0};
+            unitSprites["Kronya"] = {height: 23, width: 28}; // height="23" width="28"
+
             MapIcons.unitSprite = unitSprites;
         }
         

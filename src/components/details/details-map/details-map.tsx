@@ -8,7 +8,6 @@ import { DatabaseContext, BattlesTableContext, MissionsTableContext, MapContext,
 import { MapIcons } from '../../data-classes/map-icon-data';
 import { CSSProperties } from '@mui/material';
 import { ItemType } from '../../data-classes/item-data';
-import { url } from 'inspector';
 
 /* 
     Websites
@@ -548,33 +547,34 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
     function getAllMarkings(animated : boolean = false) {
         var markings : React.SVGProps<SVGGElement>[] = []
 
+        // Colours
+        let colours : Dictionary<[string, string]>= {
+            "green" : ["#50AB30", "#76eb5f"],
+            "red" : ["#5a0609", "#a61518"]
+        };
+
         svgProps!.paths.markings.forEach( (marking : svg_MarkingsType, index : number) => {
             let show = (missionData.markings[index] !== undefined) ? missionData.markings[index].appear : true;
             if (!show)
                 return <></>
 
-            let fill = "";
             switch (marking.type) {
                 case "rect" : 
                     if (animated) return;
-                    switch (marking.colour) {
-                        case "green" : fill="url(#map-green-shine-animation)"
-                    }
+                    
                     markings.push(
                         <rect
                             key={"mapMarking-" + index}
                             x={marking.x} y={marking.y}
                             width={marking.width} height={marking.height}
                             fill="none"
-                            stroke={fill} stroke-width="3" stroke-linecap="round" vector-effect="non-scaling-stroke"
+                            stroke={`url(#map-${marking.colour}-shine-animation)`} stroke-width="3" stroke-linecap="round" vector-effect="non-scaling-stroke"
                         />
                     )
                     break;
                 case "cross" : 
                     if (!animated) return;
-                    switch (marking.colour) {
-                        case "green" : fill="url(#map-green-shine-animation)"
-                    }
+
                     markings.push(
                         <g key={"mapMarking-" + index}>
                             {/* Black Cross creating outline */}
@@ -598,172 +598,147 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                                 <use
                                     xlinkHref="#map-cross-icon"
                                     x={marking.x} y={marking.y}
-                                    fill={fill}
+                                    fill={`url(#map-${marking.colour}-shine-animation)`}
                                 />
                             </g>
                             {/* Solid portion */}
                             <use
                                 xlinkHref="#map-cross-icon"
                                 x={marking.x} y={marking.y}
-                                fill={fill}
+                                fill={`url(#map-${marking.colour}-shine-animation)`}
+                                stroke="rgba(0,0,0,0.7)" stroke-width="1" stroke-linecap="round" vector-effect="non-scaling-stroke"
                             />
                         </g>
                     )
                     break;
                 case "unit-circle" : 
                     if (animated) return;
-                    switch (marking.colour) {
-                        case "green" : fill="url(#map-green-shine-animation)"
-                    }
+
                     markings.push(
                         <circle
                             key={"mapMarking-" + index}
                             cx={(marking.x!-0.5)*tileSize} cy={(marking.y!-0.5)*tileSize}
                             r={tileSize*0.25*yZoom}
                             fill="none"
-                            stroke={fill} stroke-width="3" stroke-linecap="round" vector-effect="non-scaling-stroke"
+                            stroke={`url(#map-${marking.colour}-shine-animation)`} stroke-width="3" stroke-linecap="round" vector-effect="non-scaling-stroke"
                         />
                     )
                     break;
                 case "unit-point-arrow" : 
-                    if (!animated) return;
-                    switch (marking.colour) {
-                        case "green" : fill="url(#map-green-shine-animation)"
-                    }
+                    if (animated) return;
+
+                    let [rgbDark, rgbLight] = colours[marking.colour!]
+
                     let x1 = (marking.xOne!-0.5)*tileSize;
                     let y1 = (marking.yOne!-0.5)*tileSize;
                     let x2 = marking.xTwo!;
                     let y2 = marking.yTwo!;
-                    let length = Math.sqrt( ((x2-x1)**2) + ((y2-y1)**2) );
-                    // console.log(`Math.sqrt( ((${x2}-${x1})**2) + ((${y2}-${y1})**2) )`)
-                    // console.log(`Math.sqrt( ((${x2-x1})**2) + ((${y2-y1})**2) )`)
-                    // console.log(`Math.sqrt( (${(x2-x1)**2}) + (${(y2-y1)**2}) )`)
-                    // console.log(`Math.sqrt( ${((x2-x1)**2) + ((y2-y1)**2)} )`)
-                    // console.log(`${Math.sqrt( ((x2-x1)**2) + ((y2-y1)**2) )} `)
-                    let height =  yZoom * 8;
+                    let rotation = Math.atan2(y1-y2, x2-x1) * (180/Math.PI);
+                    let totalLength = Math.sqrt( ((x2-x1)**2) + ((y2-y1)**2) );
+                    let rectHeight =  yZoom * 8;
+                    let totalHeight = rectHeight * 2;
+                    let midHeight = totalHeight/2;
+                    let arrowLength = midHeight;
+                    let rectLength = totalLength - arrowLength;
+                    let rectY = midHeight - (rectHeight/2)
+                    let outlineOffset = yZoom * 1.1;
+                    
                     markings.push(
-                        <g fill="url(#map-arrow-pattern-green)">
-
+                        <g 
+                            key={"mapMarking-" + index}
+                            fill={`url(#map-arrow-pattern-${marking.colour})`}
+                            transform={`translate(${x1},${y1}) rotate(${-rotation}) translate(0,${-midHeight})`}
+                        >
+                            {/* Background */}
                             <rect 
-                                x={x1} y={y1} 
-                                width={length} height={height} 
-                                fill="rgba(255, 125, 125, 0.5)" 
-                            />
-                            <rect 
-                                x={0} y={height/2} 
-                                width={length} height={height} 
-                                // fill="url(#map-arrow-pattern-green)" 
-                            />
-                            <rect 
-                                x={0} y={height/2} 
-                                width={length} height={height} 
-                                fill="rgba(255, 0, 0, 0.3)" 
+                                x={0} y={rectY} 
+                                width={rectLength} height={rectHeight} 
+                                fill={rgbDark+"80"}
                             />
                             <path 
-                                d={`M 0 0 L ${height} ${height} L 0 ${height*2} z`} 
-                                transform={`translate(${length},0)`}
+                                d={`M ${rectLength} 0 L ${totalLength} ${midHeight} L ${rectLength} ${totalHeight} z`}
+                                fill={rgbDark+"80"}
+                            />
+                            {/* Pattern */}
+                            <rect 
+                                x={0} y={rectY} 
+                                width={rectLength} height={rectHeight} 
                             />
                             <path 
-                                d={`M 0 0 L ${height} ${height} L 0 ${height*2} z`} 
-                                transform={`translate(${length},0)`}
-                                fill="rgba(255, 0, 0, 0.3)"
+                                d={`M ${rectLength} 0 L ${totalLength} ${midHeight} L ${rectLength} ${totalHeight} z`}
                             />
-                            {/* <line 
-                                x1={0} y1={yZoom*25} 
-                                x2={x1+length} y2={yZoom*25} 
-                                stroke="url(#map-arrow-pattern-green)" stroke-width={yZoom*10} stroke-linecap="round" vector-effect="non-scaling-stroke"
-                                marker-end="url(#map-arrowhead-marker)"
-                            /> */}
-                            {/* <rect 
-                                x={x1} y={y1} 
-                                width={length} height={height} 
-                                fill="url(#map-arrow-pattern-green)" 
-                            /> */}
-
-                        {/* <line 
-                            x1={x1} y1={y1} 
-                            x2={x1+length} y2={y1} 
-                            stroke="url(#map-arrow-pattern-green)" stroke-width="10" stroke-linecap="round" vector-effect="non-scaling-stroke"
-                            marker-end="url(#map-arrowhead-marker)" 
-
-                            stroke-opacity="0"
-                        /> */}
+                            {/* Outlines */}
+                            <path
+                                d={
+                                    `M ${0+outlineOffset} ${rectY+outlineOffset} L ${rectLength+outlineOffset} ${rectY+outlineOffset}` +
+                                    `L ${rectLength+outlineOffset} ${0+(outlineOffset*2)} L ${totalLength-(outlineOffset*1.5)} ${midHeight} L ${rectLength+outlineOffset} ${totalHeight-(outlineOffset*2)} L ${rectLength+outlineOffset} ${rectY+rectHeight-outlineOffset}` +
+                                    `L ${0-outlineOffset} ${rectY+rectHeight-outlineOffset}`
+                                }
+                                stroke={rgbLight} stroke-width="1.5" vector-effect="non-scaling-stroke" fill="none"
+                            />
+                            <path
+                                d={
+                                    `M 0 ${rectY} L ${rectLength} ${rectY}` +
+                                    `L ${rectLength} 0 L ${totalLength} ${midHeight} L ${rectLength} ${totalHeight} L ${rectLength} ${rectY+rectHeight}` +
+                                    `L 0 ${rectY+rectHeight}`
+                                }
+                                stroke="rgba(0,0,0,0.7)" stroke-width="1" vector-effect="non-scaling-stroke" fill="none" 
+                            />                           
                         </g>
-                        // <circle
-                        //     key={"mapMarking-" + index}
-                        //     cx={(marking.x!-0.5)*tileSize} cy={(marking.y!-0.5)*tileSize}
-                        //     r={tileSize*0.25*yZoom}
-                        //     fill="none"
-                        //     stroke={fill} stroke-width="3" stroke-linecap="round" vector-effect="non-scaling-stroke"
-                        // />
                     )
                     break;
             }
         })
+
+        // Arrow Pattern numbers
+        let arrowTotalHeight = (yZoom*8) * 2;
+
         return (
             <g id={`map-marking-container${(animated)?"-animated":""}`}>
-                <defs>
-                    <linearGradient id="map-green-shine-animation" x1="-100%" y1="100%" x2="400%" y2="-400%" >
-                        <stop offset="0" stop-color="#50AB30">
-                            <animate attributeName="offset" values="0;0.9" dur="2s" repeatCount="indefinite"  /> 
-                        </stop>
-                        <stop offset="0" stop-color="#76eb5f">
-                            <animate attributeName="offset" values="0;0.9" dur="2s" repeatCount="indefinite"  /> 
-                        </stop>
-                        <stop offset="0.1" stop-color="#76eb5f">
-                            <animate attributeName="offset" values="0.1;1" dur="2s" repeatCount="indefinite"  /> 
-                        </stop>
-                        <stop offset="0.1" stop-color="#50AB30">
-                            <animate attributeName="offset" values="0.1;1" dur="2s" repeatCount="indefinite"  /> 
-                        </stop>
-                    </linearGradient>
-                    <marker
-                        id="map-arrowhead-marker"
-                        viewBox="0 0 10 10"
-                        refX="0"
-                        refY="5"
-                        markerWidth="3"
-                        markerHeight="3"
-                        orient="auto">
-                        <path d="M 0 0 L 5 5 L 0 10 z" fill="context-stroke" />
-                    </marker>
-                    {/* <pattern
-                        //id="map-arrow-pattern-green"
-                        // x="0" y="0" width="10" height="10" 
-                        // patternUnits="userSpaceOnUse"
-                        // x="0" y="0" width="0.1" height="0.1"
-                        // patternUnits="objectBoundingBox"
-                        // patternContentUnits="objectBoundingBox"
-                        // patternTransform="translate(0,0)"
-                    // > */}
-                    <pattern
-                        id="map-arrow-pattern-green"
-                        patternUnits="userSpaceOnUse" 
-                        y={((yZoom*10)/2)/100} 
-                        width="20" height={yZoom * 10}>
-      {/* <!-- Right-pointing chevron scaled to pattern height --> */}
-      <path 
-        d={`M 0 0 L 10 ${(yZoom*10)/2} L 0 ${yZoom*10}`} 
-        stroke="#007BFF" stroke-width="1.5" fill="none" 
-    />
-      <animateTransform
-        attributeName="patternTransform"
-        type="translate"
-        from="0,0"
-        to="20,0"
-        dur="2s"
-        repeatCount="indefinite"/>
-
-        {/* <pattern
-            id="map-arrow-pattern-green"
-            patternUnits="objectBoundingBox" 
-            y={((yZoom*10)/2)/100} 
-            width="0.02" height={1}>
-      <path d={`M0,0 L10,${(yZoom*10)/2}L0,${yZoom*10}`} stroke="#007BFF" stroke-width="1.5" fill="none" /> */}
-
-
-                    </pattern>
-                </defs>
+                {   
+                    (!animated) &&
+                    <defs>
+                        {Object.entries(colours).map(([text, [rgbDark, rgbLight]]) => (
+                            <linearGradient 
+                                id={`map-${text}-shine-animation`} key={`map-${text}-shine-animation`} 
+                                x1="-100%" y1="100%" x2="400%" y2="-400%" 
+                            >
+                                <stop offset="0" stop-color={rgbDark}>
+                                    <animate attributeName="offset" values="0;0.9" dur="2s" repeatCount="indefinite"  /> 
+                                </stop>
+                                <stop offset="0" stop-color={rgbLight}>
+                                    <animate attributeName="offset" values="0;0.9" dur="2s" repeatCount="indefinite"  /> 
+                                </stop>
+                                <stop offset="0.1" stop-color={rgbLight}>
+                                    <animate attributeName="offset" values="0.1;1" dur="2s" repeatCount="indefinite"  /> 
+                                </stop>
+                                <stop offset="0.1" stop-color={rgbDark}>
+                                    <animate attributeName="offset" values="0.1;1" dur="2s" repeatCount="indefinite"  /> 
+                                </stop>
+                            </linearGradient>
+                        ))}
+                        
+                        {Object.entries(colours).map(([text, [_, rgb]]) => (
+                            <pattern
+                                id={`map-arrow-pattern-${text}`} key={`map-arrow-pattern-${text}`}
+                                patternUnits="userSpaceOnUse" 
+                                y="0" 
+                                width={arrowTotalHeight/2} height={arrowTotalHeight}
+                                stroke={rgb}
+                            >
+                                <path 
+                                    d={`M 0 0 L ${arrowTotalHeight/2} ${arrowTotalHeight/2} L 0 ${arrowTotalHeight}`} 
+                                    stroke-width="1.5" vector-effect="non-scaling-stroke" fill="none" 
+                                />
+                                <animateTransform
+                                    attributeName="patternTransform" type="translate"
+                                    from="0,0" to={`${arrowTotalHeight},0`}
+                                    dur="2s" repeatCount="indefinite"
+                                />
+                            </pattern>
+                        ))}                        
+                    </defs>
+                }
                 <>{markings}</>
             </g>)
     }
@@ -939,7 +914,10 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
 
                                     let show = (missionData.units[key] !== undefined) ? missionData.units[key].show : true;
 
-                                    let mapIconSprite = unit.class.name + ((unit.gender===undefined)?"":"-f")
+                                    let mapIconSprite = 
+                                        (unit.class.named!== undefined && unit.class.named==true) 
+                                        ? unit.name
+                                        : (unit.class.name + ((unit.gender===undefined)?"":"-f"));
                                     let centerX = MapIcons.unitSprite[mapIconSprite].width/2;
                                     let centerY = MapIcons.unitSprite[mapIconSprite].height/2;
                                     if (show) {

@@ -1,4 +1,5 @@
 import { Dictionary } from "../../context";
+import { UnitDataType } from "../details/details-map/details-map";
 import { CategoryType } from "./weapon-data";
 
 interface TypeListType {
@@ -12,6 +13,7 @@ interface TypeListType {
 export interface ClassType {
     name : string;
     nameLower ?: string;
+    named ?: boolean;
     data ?: ClassDataType;
     sprite : {
         url ?: string;
@@ -109,7 +111,9 @@ export class Classes {
         "Avesta": {description: "", types: [Classes.types.INFANTRY]}
     }
 
-    public static getClassData(c : ClassType, allegiance : string, gender : string|undefined) {
+    public static getClassData(unit : UnitDataType) {
+
+        let c : ClassType = unit.class;
 
         // Data
         if (c.data === undefined)
@@ -121,11 +125,11 @@ export class Classes {
 
         // Sprite URL
         if (c.sprite.url === undefined)
-            c.sprite.url = Classes.getClassSprite(c.nameLower, allegiance, gender)
+            c.sprite.url = Classes.getClassSprite(unit)
 
         // Profile URL
         if (c.profile.url === undefined)
-            c.profile.url = Classes.getClassProfile(c.nameLower, c.profile.file)
+            c.profile.url = Classes.getClassProfile(unit)
 
         return c;
     }
@@ -134,12 +138,16 @@ export class Classes {
         return `${process.env.PUBLIC_URL}/images/icons/class-types/${type.toLowerCase()}.png`
     }
 
-    public static getClassSprite(className : string, allegiance : string, gender : string|undefined) {
-        return `${process.env.PUBLIC_URL}/images/icons/sprites/${className.toLowerCase()}/${allegiance}${(gender)?`-${gender}`:""}.svg`
+    public static getClassSprite(unit : UnitDataType) {
+        if (unit.class.named)
+            return `${process.env.PUBLIC_URL}/images/icons/sprites/${unit.name.toLowerCase()}/${unit.allegiance}.svg`
+        return `${process.env.PUBLIC_URL}/images/icons/sprites/${unit.class.nameLower}/${unit.allegiance}${(unit.gender)?`-${unit.gender}`:""}.svg`
     }
 
-    public static getClassProfile(className : string, fileName : string) {
-        return `${process.env.PUBLIC_URL}/images/icons/profiles/${className}/${fileName}.png`
+    public static getClassProfile(unit : UnitDataType) {
+        if (unit.class.named)
+            return `${process.env.PUBLIC_URL}/images/icons/profiles/named/${unit.name.toLowerCase()}.png`
+        return `${process.env.PUBLIC_URL}/images/icons/profiles/${unit.class.nameLower}/${unit.class.profile.file}.png`
     }
 
     private static getCategoryType(name : string) : CategoryType {

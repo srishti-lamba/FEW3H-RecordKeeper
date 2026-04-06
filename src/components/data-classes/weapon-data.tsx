@@ -93,6 +93,11 @@ export class Weapons {
             description : "A sword designed to exploit the weaknesses of armored and cavalry units.",
             advantage : new Set([Classes.types.ARMOURED,Classes.types.CALVARY])
         },
+        "Athame" : {
+            category : Weapons.categories.SWORD,
+            make: Weapons.make.AGARTHAN,
+            description : ""
+        },
 
         // === Lances ===
         "Iron Lance" : {category : Weapons.categories.LANCE},

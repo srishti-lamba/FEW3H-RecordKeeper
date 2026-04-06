@@ -523,10 +523,10 @@
                         [[2,0], false]
                     ],
                     "colour" : "green",
-                    "x" : 915,
-                    "y" : 225,
-                    "width" : 230,
-                    "height" : 205
+                    "x" : 880,
+                    "y" : 200,
+                    "width" : 290,
+                    "height" : 260
                 },
                 {
                     "type" : "rect",
@@ -542,6 +542,19 @@
                     "height" : 410
                 },
                 {
+                    "type" : "unit-point-arrow",
+                    "appearAndDisappear" : [
+                        [[-1], false],
+                        [[3], true],
+                        [[3,0], false]
+                    ],
+                    "colour" : "red",
+                    "xOne" : 23,
+                    "yOne" : 20,
+                    "xTwo" : 2870,
+                    "yTwo" : 320
+                },
+                {
                     "type" : "unit-circle",
                     "appearAndDisappear" : [
                         [[-1], false],
@@ -551,20 +564,100 @@
                     "colour" : "green",
                     "x" : 23,
                     "y" : 20
-                }
-                ,
+                },
+                {
+                    "type" : "rect",
+                    "appearAndDisappear" : [
+                        [[-1], false],
+                        [[4], true],
+                        [[5,0], false]
+                    ],
+                    "colour" : "green",
+                    "x" : 110,
+                    "y" : 180,
+                    "width" : 350,
+                    "height" : 275
+                },
                 {
                     "type" : "unit-point-arrow",
                     "appearAndDisappear" : [
                         [[-1], false],
-                        [[3], true],
-                        [[3,0], false]
+                        [[6], true],
+                        [[6,5], false]
                     ],
                     "colour" : "green",
-                    "xOne" : 23,
-                    "yOne" : 20,
-                    "xTwo" : 2000,
-                    "yTwo" : 2000
+                    "xOne" : 7,
+                    "yOne" : 6,
+                    "xTwo" : 1560,
+                    "yTwo" : 1145
+                },
+                {
+                    "type" : "unit-circle",
+                    "appearAndDisappear" : [
+                        [[-1], false],
+                        [[6], true],
+                        [[6,5], false]
+                    ],
+                    "colour" : "green",
+                    "x" : 7,
+                    "y" : 6
+                },
+                {
+                    "type" : "cross",
+                    "appearAndDisappear" : [
+                        [[-1], false],
+                        [[6], true],
+                        [[6,5], false]
+                    ],
+                    "colour" : "green",
+                    "x" : 1535,
+                    "y" : 1130
+                },
+                {
+                    "type" : "unit-point-arrow",
+                    "appearAndDisappear" : [
+                        [[-1], false],
+                        [[7], true],
+                        [[7,1], false]
+                    ],
+                    "colour" : "red",
+                    "xOne" : 15,
+                    "yOne" : 16,
+                    "xTwo" : 2820,
+                    "yTwo" : 2880
+                },
+                {
+                    "type" : "unit-circle",
+                    "appearAndDisappear" : [
+                        [[-1], false],
+                        [[7], true],
+                        [[7,1], false]
+                    ],
+                    "colour" : "green",
+                    "x" : 15,
+                    "y" : 16
+                },
+                {
+                    "type" : "cross",
+                    "appearAndDisappear" : [
+                        [[-1], false],
+                        [[7], true],
+                        [[7,1], false]
+                    ],
+                    "colour" : "green",
+                    "x" : 2810,
+                    "y" : 2870
+                },
+                {
+                    "type" : "unit-circle",
+                    "appearAndDisappear" : [
+                        [[-1], false],
+                        [[8], true],
+                        [[8,2], false]
+                    ],
+                    "colour" : "green",
+                    "x" : 33,
+                    "y" : 33
                 }
             ],
             "units" : {
@@ -1354,6 +1447,57 @@
                         [[3,1], false]
                     ],
                     "coords" : {"x":23 , "y":20}
+                },
+                "15-16-red": {
+                    "name" : "Thief",
+                    "class" : {
+                        "name" : "Fighter",
+                        "sprite" : { "show" : true },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Axe" },
+                    "allegiance" : "red",
+                    "appearAndDisappear" : [
+                        [[-1], false],
+                        [[7], true],
+                        [[7,1], false]
+                    ],
+                    "coords" : {"x":15 , "y":16}
+                }
+
+                ,
+                "7-6-monica": {
+                    "name" : "Monica",
+                    "class" : {
+                        "name" : "Monk",
+                        "named" : true,
+                        "sprite" : { "show" : true },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Tome" },
+                    "allegiance" : "green",
+                    "appearAndDisappear" : [
+                        [[-1], false],
+                        [[6], true]
+                    ],
+                    "coords" : {"x":7 , "y":6}
+                },
+                "33-33-kronya": {
+                    "name" : "Kronya",
+                    "class" : {
+                        "name" : "Assassin",
+                        "named" : true,
+                        "sprite" : { "show" : true },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Athame" },
+                    "allegiance" : "yellow",
+                    "appearAndDisappear" : [
+                        [[-1], false],
+                        [[8], true],
+                        [[8,2], false]
+                    ],
+                    "coords" : {"x":33 , "y":33}
                 }
             }
         }
