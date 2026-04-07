@@ -2,6 +2,9 @@ import { Dictionary } from "../../context";
 import { UnitDataType } from "../details/details-map/details-map";
 import { CategoryType } from "./weapon-data";
 
+// Strings datamine: https://hopes.fedatamine.com/en-us/debug/strings
+// Class descriptions: https://hopes.fedatamine.com/en-us/debug/strings/52/
+
 interface TypeListType {
     INFANTRY : CategoryType;
     FLYING : CategoryType;
@@ -13,7 +16,14 @@ interface TypeListType {
 export interface ClassType {
     name : string;
     nameLower ?: string;
-    named ?: boolean;
+    named ?: {
+        timeskip ?: string;
+    };
+    monster ?: {
+        sprite : string;
+        hpGauges : number;
+        barriers : [string, string, string, string];
+    };
     data ?: ClassDataType;
     sprite : {
         url ?: string;
@@ -67,7 +77,7 @@ export class Classes {
         "Bishop": {description: "", types: [Classes.types.INFANTRY]},
         "Dark Mage": {description: "The Dark Mage shatters the defenses of their foes by employing dark magic.", types: [Classes.types.INFANTRY]},
         "Wyvern Rider": {description: "", types: [Classes.types.FLYING]},
-        "Assassin": {description: "", types: [Classes.types.INFANTRY]},
+        "Assassin": {description: "A killer who thrives in the shadows, the Assassin has excellent speed and dexterity.", types: [Classes.types.INFANTRY]},
         "Warrior": {description: "", types: [Classes.types.INFANTRY]},
         "Grappler": {description: "", types: [Classes.types.INFANTRY]},
         "Sniper": {description: "", types: [Classes.types.INFANTRY]},
@@ -139,14 +149,24 @@ export class Classes {
     }
 
     public static getClassSprite(unit : UnitDataType) {
-        if (unit.class.named)
-            return `${process.env.PUBLIC_URL}/images/icons/sprites/${unit.name.toLowerCase()}/${unit.allegiance}.svg`
+        if (unit.class.named!==undefined)
+            return (
+                `${process.env.PUBLIC_URL}/images/icons/sprites/named/` +
+                `${unit.name.toLowerCase()}/` +
+                `${unit.class.nameLower}-` +
+                `${unit.allegiance}` +
+                `${(unit.class.named.timeskip!==undefined)?"-"+unit.class.named.timeskip:""}.svg`
+            )
         return `${process.env.PUBLIC_URL}/images/icons/sprites/${unit.class.nameLower}/${unit.allegiance}${(unit.gender)?`-${unit.gender}`:""}.svg`
     }
 
     public static getClassProfile(unit : UnitDataType) {
-        if (unit.class.named)
-            return `${process.env.PUBLIC_URL}/images/icons/profiles/named/${unit.name.toLowerCase()}.png`
+        if (unit.class.named!==undefined)
+            return (
+                `${process.env.PUBLIC_URL}/images/icons/profiles/named/` +
+                `${unit.name.toLowerCase()}` +
+                `${(unit.class.named.timeskip!==undefined)?"-"+unit.class.named.timeskip:""}.png`
+            )
         return `${process.env.PUBLIC_URL}/images/icons/profiles/${unit.class.nameLower}/${unit.class.profile.file}.png`
     }
 

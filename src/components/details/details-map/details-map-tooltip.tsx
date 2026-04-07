@@ -198,7 +198,7 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                                     <span className="map-tooltip-subcategory-info row-black-background" id={chestID}>
                                         <img
                                             className="map-tooltip-subcategory-row-icon"
-                                            src={(chest.item as ItemType).icon} 
+                                            src={(chest.item as ItemType).icon}
                                         />
                                         {(chest.item as ItemType).name}
                                     </span>

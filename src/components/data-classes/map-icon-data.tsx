@@ -296,8 +296,8 @@ export class MapIcons {
             unitSprites["Avesta"] = {height: 0, width: 0};
 
             // Unique Character Icons
-            unitSprites["Monica"] = {height: 0, width: 0};
-            unitSprites["Kronya"] = {height: 23, width: 28}; // height="23" width="28"
+            unitSprites["Monica-monk-pre"] = {height: 20, width: 13}; //height="20" width="13"
+            unitSprites["Kronya-assassin"] = {height: 23, width: 28}; // height="23" width="28"
 
             MapIcons.unitSprite = unitSprites;
         }

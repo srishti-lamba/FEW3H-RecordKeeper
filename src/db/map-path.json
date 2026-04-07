@@ -690,7 +690,19 @@
                         [[-1], false],
                         [[5,0], true]
                     ],
-                    "coords" : {"x":7 , "y":7}
+                    "coords" : {"x":7 , "y":7},
+                    "stats" : {
+                        "hp" : 2000,
+                        "move" : 6,
+                        "str" : 6,
+                        "mag" : 6,
+                        "dex" : 6,
+                        "spd" : 12,
+                        "lck" : 6,
+                        "def" : 6,
+                        "res" : 6,
+                        "cha" : 8
+                    }
                 },
                 "7-7-red": {
                     "name" : "Myrmidon",
@@ -706,6 +718,18 @@
                         [[5,0], false]
                     ],
                     "coords" : {"x":7 , "y":7},
+                    "stats" : {
+                        "hp" : 1224,
+                        "move" : 6,
+                        "str" : 6,
+                        "mag" : 7,
+                        "dex" : 8,
+                        "spd" : 13,
+                        "lck" : 8,
+                        "def" : 8,
+                        "res" : 5,
+                        "cha" : 8
+                    },
                     "notes" : "Test note test test note!! :)"
                 },
 
@@ -723,7 +747,19 @@
                         [[-1], false],
                         [[2,0], true]
                     ],
-                    "coords" : {"x":22 , "y":7}
+                    "coords" : {"x":22 , "y":7},
+                    "stats" : {
+                        "hp" : 2001,
+                        "move" : 6,
+                        "str" : 8,
+                        "mag" : 8,
+                        "dex" : 7,
+                        "spd" : 12,
+                        "lck" : 8,
+                        "def" : 7,
+                        "res" : 5,
+                        "cha" : 10
+                    }
                 },
                 "22-7-red": {
                     "name" : "Stronghold Captain",
@@ -738,7 +774,19 @@
                         [[-1], true],
                         [[2,0], false]
                     ],
-                    "coords" : {"x":22 , "y":7}
+                    "coords" : {"x":22 , "y":7},
+                    "stats" : {
+                        "hp" : 1223,
+                        "move" : 6,
+                        "str" : 8,
+                        "mag" : 6,
+                        "dex" : 6,
+                        "spd" : 11,
+                        "lck" : 7,
+                        "def" : 8,
+                        "res" : 5,
+                        "cha" : 10
+                    }
                 },
 
                 "59-9-blue": {
@@ -753,7 +801,19 @@
                     "appearAndDisappear" : [
                         [[-1], false]
                     ],
-                    "coords" : {"x":59 , "y":9}
+                    "coords" : {"x":59 , "y":9},
+                    "stats" : {
+                        "hp" : 2000,
+                        "move" : 6,
+                        "str" : 7,
+                        "mag" : 6,
+                        "dex" : 6,
+                        "spd" : 11,
+                        "lck" : 6,
+                        "def" : 6,
+                        "res" : 6,
+                        "cha" : 8
+                    }
                 },
                 "59-9-red": {
                     "name" : "Stronghold Captain",
@@ -768,7 +828,19 @@
                         [[-1], true],
                         [[5,1], false]
                     ],
-                    "coords" : {"x":59 , "y":9}
+                    "coords" : {"x":59 , "y":9},
+                    "stats" : {
+                        "hp" : 1223,
+                        "move" : 6,
+                        "str" : 8,
+                        "mag" : 6,
+                        "dex" : 8,
+                        "spd" : 12,
+                        "lck" : 8,
+                        "def" : 8,
+                        "res" : 5,
+                        "cha" : 8
+                    }
                 },
                 "59-9-yellow": {
                     "name" : "Stronghold Captain",
@@ -783,7 +855,19 @@
                         [[-1], false],
                         [[5,1], true]
                     ],
-                    "coords" : {"x":59 , "y":9}
+                    "coords" : {"x":59 , "y":9},
+                    "stats" : {
+                        "hp" : 2000,
+                        "move" : 8,
+                        "str" : 5,
+                        "mag" : 8,
+                        "dex" : 7,
+                        "spd" : 11,
+                        "lck" : 6,
+                        "def" : 5,
+                        "res" : 9,
+                        "cha" : 8
+                    }
                 },
 
                 "43-12-blue": {
@@ -802,7 +886,19 @@
                         [[5,1], false],
                         [[6,5], true]
                     ],
-                    "coords" : {"x":43 , "y":12}
+                    "coords" : {"x":43 , "y":12},
+                    "stats" : {
+                        "hp" : 2001,
+                        "move" : 6,
+                        "str" : 8,
+                        "mag" : 8,
+                        "dex" : 7,
+                        "spd" : 13,
+                        "lck" : 8,
+                        "def" : 7,
+                        "res" : 5,
+                        "cha" : 10
+                    }
                 },
                 "43-12-red": {
                     "name" : "Stronghold Captain",
@@ -817,10 +913,22 @@
                         [[-1], true],
                         [[2,0], false]
                     ],
-                    "coords" : {"x":43 , "y":12}
+                    "coords" : {"x":43 , "y":12},
+                    "stats" : {
+                        "hp" : 1223,
+                        "move" : 6,
+                        "str" : 6,
+                        "mag" : 6,
+                        "dex" : 6,
+                        "spd" : 13,
+                        "lck" : 7,
+                        "def" : 8,
+                        "res" : 6,
+                        "cha" : 9
+                    }
                 },
                 "43-12-yellow": {
-                    "name" : "Stronghold Captain",
+                    "name" : "Mysterious Soldier",
                     "class" : {
                         "name" : "Dark Mage",
                         "sprite" : { "show" : true },
@@ -833,7 +941,19 @@
                         [[5,1], true],
                         [[6,5], false]
                     ],
-                    "coords" : {"x":43 , "y":12}
+                    "coords" : {"x":43 , "y":12},
+                    "stats" : {
+                        "hp" : 2449,
+                        "move" : 8,
+                        "str" : 5,
+                        "mag" : 8,
+                        "dex" : 9,
+                        "spd" : 11,
+                        "lck" : 7,
+                        "def" : 5,
+                        "res" : 7,
+                        "cha" : 10
+                    }
                 },
 
                 "10-22-blue": {
@@ -863,7 +983,19 @@
                         [[-1], false],
                         [[5,1], true]
                     ],
-                    "coords" : {"x":10 , "y":22}
+                    "coords" : {"x":10 , "y":22},
+                    "stats" : {
+                        "hp" : 2000,
+                        "move" : 8,
+                        "str" : 5,
+                        "mag" : 8,
+                        "dex" : 7,
+                        "spd" : 11,
+                        "lck" : 6,
+                        "def" : 5,
+                        "res" : 9,
+                        "cha" : 8
+                    }
                 },
 
                 "58-29-blue": {
@@ -879,7 +1011,19 @@
                     "appearAndDisappear" : [
                         [[-1], false]
                     ],
-                    "coords" : {"x":58 , "y":29}
+                    "coords" : {"x":58 , "y":29},
+                    "stats" : {
+                        "hp" : 2001,
+                        "move" : 6,
+                        "str" : 9,
+                        "mag" : 8,
+                        "dex" : 7,
+                        "spd" : 12,
+                        "lck" : 8,
+                        "def" : 7,
+                        "res" : 5,
+                        "cha" : 10
+                    }
                 },
                 "58-29-red": {
                     "name" : "Stronghold Captain",
@@ -894,7 +1038,19 @@
                         [[-1], true],
                         [[5,1], false]
                     ],
-                    "coords" : {"x":58 , "y":29}
+                    "coords" : {"x":58 , "y":29},
+                    "stats" : {
+                        "hp" : 1224,
+                        "move" : 6,
+                        "str" : 6,
+                        "mag" : 7,
+                        "dex" : 9,
+                        "spd" : 12,
+                        "lck" : 8,
+                        "def" : 8,
+                        "res" : 5,
+                        "cha" : 8
+                    }
                 },
                 "58-29-yellow": {
                     "name" : "Stronghold Captain",
@@ -909,7 +1065,19 @@
                         [[-1], false],
                         [[5,1], true]
                     ],
-                    "coords" : {"x":58 , "y":29}
+                    "coords" : {"x":58 , "y":29},
+                    "stats" : {
+                        "hp" : 2000,
+                        "move" : 8,
+                        "str" : 5,
+                        "mag" : 8,
+                        "dex" : 7,
+                        "spd" : 11,
+                        "lck" : 6,
+                        "def" : 5,
+                        "res" : 9,
+                        "cha" : 8
+                    }
                 },
 
                 "33-46-blue": {
@@ -924,7 +1092,19 @@
                     "appearAndDisappear" : [
                         [[-1], false]
                     ],
-                    "coords" : {"x":33 , "y":46}
+                    "coords" : {"x":33 , "y":46},
+                    "stats" : {
+                        "hp" : 2000,
+                        "move" : 6,
+                        "str" : 7,
+                        "mag" : 6,
+                        "dex" : 6,
+                        "spd" : 11,
+                        "lck" : 6,
+                        "def" : 6,
+                        "res" : 6,
+                        "cha" : 8
+                    }
                 },
                 "33-46-red": {
                     "name" : "Thief",
@@ -938,7 +1118,19 @@
                     "appearAndDisappear" : [
                         [[-1], true]
                     ],
-                    "coords" : {"x":33 , "y":46}
+                    "coords" : {"x":33 , "y":46},
+                    "stats" : {
+                        "hp" : 1223,
+                        "move" : 6,
+                        "str" : 9,
+                        "mag" : 6,
+                        "dex" : 7,
+                        "spd" : 12,
+                        "lck" : 8,
+                        "def" : 8,
+                        "res" : 5,
+                        "cha" : 8
+                    }
                 },
 
                 "34-58-blue": {
@@ -953,7 +1145,19 @@
                     "appearAndDisappear" : [
                         [[-1], true]
                     ],
-                    "coords" : {"x":34 , "y":58}
+                    "coords" : {"x":34 , "y":58},
+                    "stats" : {
+                        "hp" : 2000,
+                        "move" : 6,
+                        "str" : 6,
+                        "mag" : 6,
+                        "dex" : 6,
+                        "spd" : 11,
+                        "lck" : 6,
+                        "def" : 6,
+                        "res" : 6,
+                        "cha" : 8
+                    }
                 },
 
 
@@ -971,7 +1175,19 @@
                     "appearAndDisappear" : [
                         [[-1], false]
                     ],
-                    "coords" : {"x":38 , "y":5}
+                    "coords" : {"x":38 , "y":5},
+                    "stats" : {
+                        "hp" : 406,
+                        "move" : 6,
+                        "str" : 6,
+                        "mag" : 5,
+                        "dex" : 6,
+                        "spd" : 5,
+                        "lck" : 6,
+                        "def" : 4,
+                        "res" : 3,
+                        "cha" : 6
+                    }
                 },
                 "38-5-red": {
                     "name" : "Base Captain",
@@ -985,7 +1201,19 @@
                     "appearAndDisappear" : [
                         [[-1], true]
                     ],
-                    "coords" : {"x":38 , "y":5}
+                    "coords" : {"x":38 , "y":5},
+                    "stats" : {
+                        "hp" : 406,
+                        "move" : 6,
+                        "str" : 6,
+                        "mag" : 5,
+                        "dex" : 6,
+                        "spd" : 5,
+                        "lck" : 6,
+                        "def" : 4,
+                        "res" : 3,
+                        "cha" : 6
+                    }
                 },
 
                 "52-6-blue": {
@@ -1000,7 +1228,19 @@
                     "appearAndDisappear" : [
                         [[-1], false]
                     ],
-                    "coords" : {"x":52 , "y":6}
+                    "coords" : {"x":52 , "y":6},
+                    "stats" : {
+                        "hp" : 406,
+                        "move" : 6,
+                        "str" : 7,
+                        "mag" : 5,
+                        "dex" : 6,
+                        "spd" : 5,
+                        "lck" : 6,
+                        "def" : 3,
+                        "res" : 3,
+                        "cha" : 6
+                    }
                 },
                 "52-6-red": {
                     "name" : "Base Captain",
@@ -1014,7 +1254,19 @@
                     "appearAndDisappear" : [
                         [[-1], true]
                     ],
-                    "coords" : {"x":52 , "y":6}
+                    "coords" : {"x":52 , "y":6},
+                    "stats" : {
+                        "hp" : 406,
+                        "move" : 6,
+                        "str" : 6,
+                        "mag" : 5,
+                        "dex" : 6,
+                        "spd" : 5,
+                        "lck" : 6,
+                        "def" : 4,
+                        "res" : 3,
+                        "cha" : 6
+                    }
                 },
 
                 "13-9-blue": {
@@ -1029,7 +1281,19 @@
                     "appearAndDisappear" : [
                         [[-1], false]
                     ],
-                    "coords" : {"x":13 , "y":9}
+                    "coords" : {"x":13 , "y":9},
+                    "stats" : {
+                        "hp" : 406,
+                        "move" : 6,
+                        "str" : 6,
+                        "mag" : 5,
+                        "dex" : 6,
+                        "spd" : 5,
+                        "lck" : 6,
+                        "def" : 4,
+                        "res" : 3,
+                        "cha" : 6
+                    }
                 },
                 "13-9-red": {
                     "name" : "Base Captain",
@@ -1043,7 +1307,19 @@
                     "appearAndDisappear" : [
                         [[-1], true]
                     ],
-                    "coords" : {"x":13 , "y":9}
+                    "coords" : {"x":13 , "y":9},
+                    "stats" : {
+                        "hp" : 406,
+                        "move" : 6,
+                        "str" : 6,
+                        "mag" : 5,
+                        "dex" : 6,
+                        "spd" : 5,
+                        "lck" : 6,
+                        "def" : 4,
+                        "res" : 3,
+                        "cha" : 6
+                    }
                 },
 
                 "15-15-blue": {
@@ -1058,7 +1334,19 @@
                     "appearAndDisappear" : [
                         [[-1], false]
                     ],
-                    "coords" : {"x":15 , "y":15}
+                    "coords" : {"x":15 , "y":15},
+                    "stats" : {
+                        "hp" : 406,
+                        "move" : 6,
+                        "str" : 6,
+                        "mag" : 5,
+                        "dex" : 6,
+                        "spd" : 5,
+                        "lck" : 6,
+                        "def" : 4,
+                        "res" : 3,
+                        "cha" : 6
+                    }
                 },
                 "15-15-red": {
                     "name" : "Base Captain",
@@ -1072,7 +1360,19 @@
                     "appearAndDisappear" : [
                         [[-1], true]
                     ],
-                    "coords" : {"x":15 , "y":15}
+                    "coords" : {"x":15 , "y":15},
+                    "stats" : {
+                        "hp" : 406,
+                        "move" : 6,
+                        "str" : 6,
+                        "mag" : 5,
+                        "dex" : 6,
+                        "spd" : 5,
+                        "lck" : 6,
+                        "def" : 4,
+                        "res" : 3,
+                        "cha" : 6
+                    }
                 },
 
                 "27-15-blue": {
@@ -1087,7 +1387,19 @@
                     "appearAndDisappear" : [
                         [[-1], false]
                     ],
-                    "coords" : {"x":27 , "y":15}
+                    "coords" : {"x":27 , "y":15},
+                    "stats" : {
+                        "hp" : 406,
+                        "move" : 6,
+                        "str" : 6,
+                        "mag" : 5,
+                        "dex" : 6,
+                        "spd" : 5,
+                        "lck" : 6,
+                        "def" : 4,
+                        "res" : 3,
+                        "cha" : 6
+                    }
                 },
                 "27-15-red": {
                     "name" : "Base Captain",
@@ -1101,7 +1413,19 @@
                     "appearAndDisappear" : [
                         [[-1], true]
                     ],
-                    "coords" : {"x":27 , "y":15}
+                    "coords" : {"x":27 , "y":15},
+                    "stats" : {
+                        "hp" : 406,
+                        "move" : 6,
+                        "str" : 6,
+                        "mag" : 5,
+                        "dex" : 6,
+                        "spd" : 5,
+                        "lck" : 6,
+                        "def" : 4,
+                        "res" : 3,
+                        "cha" : 6
+                    }
                 },
 
                 "35-18-blue": {
@@ -1116,7 +1440,19 @@
                     "appearAndDisappear" : [
                         [[-1], false]
                     ],
-                    "coords" : {"x":35 , "y":18}
+                    "coords" : {"x":35 , "y":18},
+                    "stats" : {
+                        "hp" : 406,
+                        "move" : 6,
+                        "str" : 6,
+                        "mag" : 5,
+                        "dex" : 6,
+                        "spd" : 5,
+                        "lck" : 6,
+                        "def" : 4,
+                        "res" : 3,
+                        "cha" : 6
+                    }
                 },
                 "35-18-red": {
                     "name" : "Base Captain",
@@ -1130,7 +1466,19 @@
                     "appearAndDisappear" : [
                         [[-1], true]
                     ],
-                    "coords" : {"x":35 , "y":18}
+                    "coords" : {"x":35 , "y":18},
+                    "stats" : {
+                        "hp" : 406,
+                        "move" : 6,
+                        "str" : 6,
+                        "mag" : 5,
+                        "dex" : 6,
+                        "spd" : 5,
+                        "lck" : 6,
+                        "def" : 4,
+                        "res" : 3,
+                        "cha" : 6
+                    }
                 },
 
                 "57-24-blue": {
@@ -1145,7 +1493,19 @@
                     "appearAndDisappear" : [
                         [[-1], false]
                     ],
-                    "coords" : {"x":57 , "y":24}
+                    "coords" : {"x":57 , "y":24},
+                    "stats" : {
+                        "hp" : 406,
+                        "move" : 6,
+                        "str" : 7,
+                        "mag" : 5,
+                        "dex" : 6,
+                        "spd" : 5,
+                        "lck" : 6,
+                        "def" : 3,
+                        "res" : 3,
+                        "cha" : 6
+                    }
                 },
                 "57-24-red": {
                     "name" : "Base Captain",
@@ -1159,7 +1519,19 @@
                     "appearAndDisappear" : [
                         [[-1], true]
                     ],
-                    "coords" : {"x":57 , "y":24}
+                    "coords" : {"x":57 , "y":24},
+                    "stats" : {
+                        "hp" : 406,
+                        "move" : 6,
+                        "str" : 6,
+                        "mag" : 5,
+                        "dex" : 6,
+                        "spd" : 5,
+                        "lck" : 6,
+                        "def" : 4,
+                        "res" : 3,
+                        "cha" : 6
+                    }
                 },
 
                 "26-25-blue": {
@@ -1174,7 +1546,19 @@
                     "appearAndDisappear" : [
                         [[-1], false]
                     ],
-                    "coords" : {"x":26 , "y":25}
+                    "coords" : {"x":26 , "y":25},
+                    "stats" : {
+                        "hp" : 406,
+                        "move" : 6,
+                        "str" : 7,
+                        "mag" : 5,
+                        "dex" : 6,
+                        "spd" : 5,
+                        "lck" : 6,
+                        "def" : 3,
+                        "res" : 3,
+                        "cha" : 6
+                    }
                 },
                 "26-25-red": {
                     "name" : "Base Captain",
@@ -1188,7 +1572,19 @@
                     "appearAndDisappear" : [
                         [[-1], true]
                     ],
-                    "coords" : {"x":26 , "y":25}
+                    "coords" : {"x":26 , "y":25},
+                    "stats" : {
+                        "hp" : 406,
+                        "move" : 6,
+                        "str" : 7,
+                        "mag" : 5,
+                        "dex" : 6,
+                        "spd" : 5,
+                        "lck" : 6,
+                        "def" : 3,
+                        "res" : 3,
+                        "cha" : 6
+                    }
                 },
 
                 "40-25-blue": {
@@ -1203,7 +1599,19 @@
                     "appearAndDisappear" : [
                         [[-1], false]
                     ],
-                    "coords" : {"x":40 , "y":25}
+                    "coords" : {"x":40 , "y":25},
+                    "stats" : {
+                        "hp" : 406,
+                        "move" : 6,
+                        "str" : 7,
+                        "mag" : 5,
+                        "dex" : 6,
+                        "spd" : 5,
+                        "lck" : 6,
+                        "def" : 3,
+                        "res" : 3,
+                        "cha" : 6
+                    }
                 },
                 "40-25-red": {
                     "name" : "Base Captain",
@@ -1217,7 +1625,19 @@
                     "appearAndDisappear" : [
                         [[-1], true]
                     ],
-                    "coords" : {"x":40 , "y":25}
+                    "coords" : {"x":40 , "y":25},
+                    "stats" : {
+                        "hp" : 406,
+                        "move" : 6,
+                        "str" : 7,
+                        "mag" : 5,
+                        "dex" : 6,
+                        "spd" : 5,
+                        "lck" : 6,
+                        "def" : 3,
+                        "res" : 3,
+                        "cha" : 6
+                    }
                 },
 
                 "45-29-blue": {
@@ -1232,7 +1652,19 @@
                     "appearAndDisappear" : [
                         [[-1], false]
                     ],
-                    "coords" : {"x":45 , "y":29}
+                    "coords" : {"x":45 , "y":29},
+                    "stats" : {
+                        "hp" : 406,
+                        "move" : 6,
+                        "str" : 7,
+                        "mag" : 5,
+                        "dex" : 6,
+                        "spd" : 5,
+                        "lck" : 6,
+                        "def" : 3,
+                        "res" : 3,
+                        "cha" : 6
+                    }
                 },
                 "45-29-red": {
                     "name" : "Base Captain",
@@ -1246,7 +1678,19 @@
                     "appearAndDisappear" : [
                         [[-1], true]
                     ],
-                    "coords" : {"x":45 , "y":29}
+                    "coords" : {"x":45 , "y":29},
+                    "stats" : {
+                        "hp" : 406,
+                        "move" : 6,
+                        "str" : 6,
+                        "mag" : 5,
+                        "dex" : 6,
+                        "spd" : 5,
+                        "lck" : 6,
+                        "def" : 4,
+                        "res" : 3,
+                        "cha" : 6
+                    }
                 },
 
                 "31-40-blue": {
@@ -1261,7 +1705,19 @@
                     "appearAndDisappear" : [
                         [[-1], false]
                     ],
-                    "coords" : {"x":31 , "y":40}
+                    "coords" : {"x":31 , "y":40},
+                    "stats" : {
+                        "hp" : 406,
+                        "move" : 6,
+                        "str" : 7,
+                        "mag" : 5,
+                        "dex" : 6,
+                        "spd" : 5,
+                        "lck" : 6,
+                        "def" : 3,
+                        "res" : 3,
+                        "cha" : 6
+                    }
                 },
                 "31-40-red": {
                     "name" : "Base Captain",
@@ -1275,7 +1731,19 @@
                     "appearAndDisappear" : [
                         [[-1], true]
                     ],
-                    "coords" : {"x":31 , "y":40}
+                    "coords" : {"x":31 , "y":40},
+                    "stats" : {
+                        "hp" : 406,
+                        "move" : 6,
+                        "str" : 7,
+                        "mag" : 5,
+                        "dex" : 6,
+                        "spd" : 5,
+                        "lck" : 6,
+                        "def" : 3,
+                        "res" : 3,
+                        "cha" : 6
+                    }
                 },
 
                 "42-48-blue": {
@@ -1290,7 +1758,19 @@
                     "appearAndDisappear" : [
                         [[-1], false]
                     ],
-                    "coords" : {"x":42 , "y":48}
+                    "coords" : {"x":42 , "y":48},
+                    "stats" : {
+                        "hp" : 406,
+                        "move" : 6,
+                        "str" : 7,
+                        "mag" : 5,
+                        "dex" : 6,
+                        "spd" : 5,
+                        "lck" : 6,
+                        "def" : 3,
+                        "res" : 3,
+                        "cha" : 6
+                    }
                 },
                 "42-48-red": {
                     "name" : "Base Captain",
@@ -1304,7 +1784,19 @@
                     "appearAndDisappear" : [
                         [[-1], true]
                     ],
-                    "coords" : {"x":42 , "y":48}
+                    "coords" : {"x":42 , "y":48},
+                    "stats" : {
+                        "hp" : 406,
+                        "move" : 6,
+                        "str" : 7,
+                        "mag" : 5,
+                        "dex" : 6,
+                        "spd" : 5,
+                        "lck" : 6,
+                        "def" : 3,
+                        "res" : 3,
+                        "cha" : 6
+                    }
                 },
 
 
@@ -1321,7 +1813,19 @@
                     "appearAndDisappear" : [
                         [[-1], true]
                     ],
-                    "coords" : {"x":38 , "y":6}
+                    "coords" : {"x":38 , "y":6},
+                    "stats" : {
+                        "hp" : 1224,
+                        "move" : 6,
+                        "str" : 6,
+                        "mag" : 7,
+                        "dex" : 8,
+                        "spd" : 13,
+                        "lck" : 8,
+                        "def" : 8,
+                        "res" : 5,
+                        "cha" : 8
+                    }
                 },
                 "33-20-red": {
                     "name" : "Thief",
@@ -1335,7 +1839,19 @@
                     "appearAndDisappear" : [
                         [[-1], true]
                     ],
-                    "coords" : {"x":33 , "y":20}
+                    "coords" : {"x":33 , "y":20},
+                    "stats" : {
+                        "hp" : 1223,
+                        "move" : 6,
+                        "str" : 8,
+                        "mag" : 6,
+                        "dex" : 8,
+                        "spd" : 11,
+                        "lck" : 7,
+                        "def" : 7,
+                        "res" : 5,
+                        "cha" : 10
+                    }
                 },
                 "53-12-red": {
                     "name" : "Thief",
@@ -1349,7 +1865,19 @@
                     "appearAndDisappear" : [
                         [[-1], true]
                     ],
-                    "coords" : {"x":53 , "y":12}
+                    "coords" : {"x":53 , "y":12},
+                    "stats" : {
+                        "hp" : 1223,
+                        "move" : 6,
+                        "str" : 6,
+                        "mag" : 6,
+                        "dex" : 6,
+                        "spd" : 12,
+                        "lck" : 7,
+                        "def" : 8,
+                        "res" : 6,
+                        "cha" : 9
+                    }
                 },
                 "58-22-red": {
                     "name" : "Thief",
@@ -1363,7 +1891,19 @@
                     "appearAndDisappear" : [
                         [[-1], true]
                     ],
-                    "coords" : {"x":58 , "y":22}
+                    "coords" : {"x":58 , "y":22},
+                    "stats" : {
+                        "hp" : 1223,
+                        "move" : 6,
+                        "str" : 8,
+                        "mag" : 6,
+                        "dex" : 8,
+                        "spd" : 12,
+                        "lck" : 8,
+                        "def" : 8,
+                        "res" : 5,
+                        "cha" : 8
+                    }
                 },
                 "33-25-red": {
                     "name" : "Gatekeeper",
@@ -1378,7 +1918,19 @@
                         [[-1], true],
                         [[1,0], false]
                     ],
-                    "coords" : {"x":33 , "y":25}
+                    "coords" : {"x":33 , "y":25},
+                    "stats" : {
+                        "hp" : 1223,
+                        "move" : 6,
+                        "str" : 9,
+                        "mag" : 7,
+                        "dex" : 8,
+                        "spd" : 12,
+                        "lck" : 8,
+                        "def" : 7,
+                        "res" : 5,
+                        "cha" : 9
+                    }
                 },
 
 
@@ -1397,26 +1949,22 @@
                         [[5,1], true],
                         [[6,5], false]
                     ],
-                    "coords" : {"x":31 , "y":6}
+                    "coords" : {"x":31 , "y":6},
+                    "stats" : {
+                        "hp" : 2449,
+                        "move" : 8,
+                        "str" : 5,
+                        "mag" : 9,
+                        "dex" : 7,
+                        "spd" : 11,
+                        "lck" : 8,
+                        "def" : 5,
+                        "res" : 7,
+                        "cha" : 10
+                    }
                 },
-                "42-12-yellow": {
-                    "name" : "Mysterious Soldier",
-                    "class" : {
-                        "name" : "Dark Mage",
-                        "sprite" : { "show" : true },
-                        "profile" : { "file" : "1" }
-                    },
-                    "weapon" : { "name" : "Iron Tome" },
-                    "allegiance" : "yellow",
-                    "appearAndDisappear" : [
-                        [[-1], false],
-                        [[5,1], true],
-                        [[6,5], false]
-                    ],
-                    "coords" : {"x":42 , "y":12}
-                },
-                "15-26-yellow": {
-                    "name" : "Mysterious Soldier",
+                "59-29-yellow": {
+                    "name" : "Dark Mage",
                     "class" : {
                         "name" : "Dark Mage",
                         "sprite" : { "show" : true },
@@ -1428,7 +1976,46 @@
                         [[-1], false],
                         [[5,1], true]
                     ],
-                    "coords" : {"x":15 , "y":26}
+                    "coords" : {"x":59 , "y":29},
+                    "stats" : {
+                        "hp" : 2449,
+                        "move" : 8,
+                        "str" : 6,
+                        "mag" : 8,
+                        "dex" : 9,
+                        "spd" : 11,
+                        "lck" : 6,
+                        "def" : 5,
+                        "res" : 9,
+                        "cha" : 9
+                    }
+                },
+                "15-26-yellow": {
+                    "name" : "Dark Mage",
+                    "class" : {
+                        "name" : "Dark Mage",
+                        "sprite" : { "show" : true },
+                        "profile" : { "file" : "1" }
+                    },
+                    "weapon" : { "name" : "Iron Tome" },
+                    "allegiance" : "yellow",
+                    "appearAndDisappear" : [
+                        [[-1], false],
+                        [[5,1], true]
+                    ],
+                    "coords" : {"x":15 , "y":26},
+                    "stats" : {
+                        "hp" : 2449,
+                        "move" : 8,
+                        "str" : 5,
+                        "mag" : 8,
+                        "dex" : 9,
+                        "spd" : 11,
+                        "lck" : 7,
+                        "def" : 5,
+                        "res" : 7,
+                        "cha" : 10
+                    }
                 },
 
 
@@ -1446,7 +2033,19 @@
                         [[3], true],
                         [[3,1], false]
                     ],
-                    "coords" : {"x":23 , "y":20}
+                    "coords" : {"x":23 , "y":20},
+                    "stats" : {
+                        "hp" : 1279,
+                        "move" : 9,
+                        "str" : 8,
+                        "mag" : 6,
+                        "dex" : 7,
+                        "spd" : 11,
+                        "lck" : 7,
+                        "def" : 8,
+                        "res" : 7,
+                        "cha" : 10
+                    }
                 },
                 "15-16-red": {
                     "name" : "Thief",
@@ -1462,7 +2061,19 @@
                         [[7], true],
                         [[7,1], false]
                     ],
-                    "coords" : {"x":15 , "y":16}
+                    "coords" : {"x":15 , "y":16},
+                    "stats" : {
+                        "hp" : 2448,
+                        "move" : 6,
+                        "str" : 9,
+                        "mag" : 6,
+                        "dex" : 6,
+                        "spd" : 10,
+                        "lck" : 7,
+                        "def" : 7,
+                        "res" : 6,
+                        "cha" : 9
+                    }
                 }
 
                 ,
@@ -1470,7 +2081,7 @@
                     "name" : "Monica",
                     "class" : {
                         "name" : "Monk",
-                        "named" : true,
+                        "named" : {"timeskip" : "pre"},
                         "sprite" : { "show" : true },
                         "profile" : { "file" : "1" }
                     },
@@ -1480,13 +2091,25 @@
                         [[-1], false],
                         [[6], true]
                     ],
-                    "coords" : {"x":7 , "y":6}
+                    "coords" : {"x":7 , "y":6},
+                    "stats" : {
+                        "hp" : 2566,
+                        "move" : 6,
+                        "str" : 9,
+                        "mag" : 10,
+                        "dex" : 9,
+                        "spd" : 12,
+                        "lck" : 9,
+                        "def" : 9,
+                        "res" : 9,
+                        "cha" : 11
+                    }
                 },
                 "33-33-kronya": {
                     "name" : "Kronya",
                     "class" : {
                         "name" : "Assassin",
-                        "named" : true,
+                        "named" : {},
                         "sprite" : { "show" : true },
                         "profile" : { "file" : "1" }
                     },
@@ -1497,7 +2120,19 @@
                         [[8], true],
                         [[8,2], false]
                     ],
-                    "coords" : {"x":33 , "y":33}
+                    "coords" : {"x":33 , "y":33},
+                    "stats" : {
+                        "hp" : 2302,
+                        "move" : 9,
+                        "str" : 11,
+                        "mag" : 9,
+                        "dex" : 11,
+                        "spd" : 20,
+                        "lck" : 9,
+                        "def" : 8,
+                        "res" : 7,
+                        "cha" : 10
+                    }
                 }
             }
         }

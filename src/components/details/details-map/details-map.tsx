@@ -915,8 +915,19 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                                     let show = (missionData.units[key] !== undefined) ? missionData.units[key].show : true;
 
                                     let mapIconSprite = 
-                                        (unit.class.named!== undefined && unit.class.named==true) 
-                                        ? unit.name
+                                        (unit.class.named!== undefined) 
+                                        ? 
+                                            unit.name + "-" + 
+                                            (
+                                                (unit.class.nameLower!==undefined)
+                                                ? unit.class.nameLower
+                                                : unit.class.name.toLowerCase()
+                                            ) + 
+                                            (
+                                                (unit.class.named.timeskip!==undefined)
+                                                ? "-" + unit.class.named.timeskip
+                                                : ""
+                                            )
                                         : (unit.class.name + ((unit.gender===undefined)?"":"-f"));
                                     let centerX = MapIcons.unitSprite[mapIconSprite].width/2;
                                     let centerY = MapIcons.unitSprite[mapIconSprite].height/2;

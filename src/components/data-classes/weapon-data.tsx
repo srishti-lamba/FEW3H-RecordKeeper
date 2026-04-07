@@ -1,6 +1,9 @@
 import { Dictionary } from "../../context";
 import { Classes } from "./class-data";
 
+// Weapon Names:        https://hopes.fedatamine.com/en-us/debug/strings/62/
+// Weapon Descriptions: https://hopes.fedatamine.com/en-us/debug/strings/61/
+
 export interface WeaponDataType {
     icon ?: string;
     category : CategoryType;
@@ -96,7 +99,7 @@ export class Weapons {
         "Athame" : {
             category : Weapons.categories.SWORD,
             make: Weapons.make.AGARTHAN,
-            description : ""
+            description : "Crafted with archaic methods, this sword is Kronya's weapon of choice."
         },
 
         // === Lances ===

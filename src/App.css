@@ -530,20 +530,22 @@ html {
                               /* &:hover {
                                 background-color: rgb(233,233,233,0.15);
                               } */
-
-                              & .map-tooltip-subcategory-row-info {
-                                display: flex;
-                                flex-flow: row nowrap;
-                                gap: 0.25rem;
-
-                                & .map-tooltip-subcategory-row-icon {
-                                  opacity: 1;
-                                  display: block;
-                                  height: var(--font-size);
-                                  align-self: center;
-                                }/* .map-tooltip-subcategory-row-icon */
-                              }/* .map-tooltip-subcategory-row-info */
                             }/* map-tooltip-subcategory-row */
+
+                            & .map-tooltip-subcategory-row-info, .map-tooltip-subcategory-info {
+                              display: flex;
+                              flex-flow: row nowrap;
+                              gap: 0.25rem;
+                              font-size: var(--font-size);
+                              
+                              & .map-tooltip-subcategory-row-icon, .map-tooltip-subcategory-icon {
+                                opacity: 1;
+                                display: block;
+                                height: var(--font-size);
+                                align-self: center;
+                                height: 1em;
+                              }/* .map-tooltip-subcategory-row-icon */
+                            }/* .map-tooltip-subcategory-row-info */
 
                             &.map-tooltip-chest .react-tooltip {
                               max-width: 70%;
@@ -892,12 +894,13 @@ html {
                                     calc(100% - (var(--border-width) * 2) ) 100%;
 
                                   & .map-tooltip-unit-details-info-miscRow-mission-icon {
-                                    height: 2em;
-                                    width: 2em;
+                                    height: 1.5em;
+                                    width: 1.5em;
                                     display: block;
                                     background-repeat: no-repeat;
                                     background-size: contain;
                                     background-position: center;
+                                    flex-shrink: 0;
                                     &.type-ms, &.type-mc, &.type-me {
                                       background-image: url(../public/images/ui-icons/battleMission/main-mission.png)
                                     }
