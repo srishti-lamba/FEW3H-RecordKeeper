@@ -299,7 +299,10 @@ export class MapIcons {
             unitSprites["Monica-monk-pre"] = {height: 20, width: 13}; //height="20" width="13"
             unitSprites["Kronya-assassin"] = {height: 23, width: 28}; // height="23" width="28"
 
+            // Monster Icons
+
             MapIcons.unitSprite = unitSprites;
+            unitSprites["Wild Demon Beast"] = {height: 25, width: 32}; //height="25" width="32"
         }
         
         createDataAsync();

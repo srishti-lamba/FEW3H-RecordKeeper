@@ -691,41 +691,55 @@ html {
                                   flex-flow: column nowrap;
                                   justify-content: space-between;
 
-                                  & .map-tooltip-unit-details-info-leveltypeRow {
-                                    display: flex;
-                                    flex-flow: row nowrap;
-                                    justify-content: space-between;
+                                  & .map-tooltip-unit-details-info-levelClassRows {
+                                    display: grid;
+                                    grid-template-columns: min-content auto auto;
 
-                                    & .map-tooltip-unit-details-info-level {
-                                      letter-spacing: -0.05em;
-                                    }/* .map-tooltip-unit-details-info-level */
-
-                                    & .map-tooltip-unit-details-info-type {
-                                      display: flex;
-                                      flex-flow: row nowrap;
-                                      gap: calc( var(--padding) / 2 );
-
-                                      & > img {
-                                        height: 1em;
+                                      & .map-tooltip-unit-details-info-faction {
+                                        justify-self: center;
+                                        & > img {
+                                          height: 1em;
+                                        }
                                       }
-                                    }/* .map-tooltip-unit-details-info-type */
-                                  }/* .map-tooltip-unit-details-info-leveltypeRow */
 
-                                  & .map-tooltip-unit-details-info-classRow {
-                                    display: flex;
-                                    flex-flow: row nowrap;
-                                    align-content: center;
-                                    gap: var(--padding);
+                                      & .map-tooltip-unit-details-info-level {
+                                        padding-left: calc(var(--padding)/2);
+                                        letter-spacing: -0.05em;
+                                      }/* .map-tooltip-unit-details-info-level */
 
-                                    & img {
-                                      height: 1.25em;
-                                    }
+                                      & .map-tooltip-unit-details-info-type {
+                                        display: flex;
+                                        margin-left: auto;
+                                        flex-flow: row nowrap;
+                                        gap: calc( var(--padding) / 2 );
 
-                                    & .react-tooltip {
-                                      font-size: 0.85em;
-                                      max-width: 15em;
-                                    }
-                                  } /* .map-tooltip-unit-details-info-classRow */
+                                        & > img {
+                                          height: 1em;
+                                        }
+                                      }/* .map-tooltip-unit-details-info-type */
+
+                                      & .map-tooltip-unit-details-info-class-icon {
+                                        height: 1.25em;
+                                      } /* .map-tooltip-unit-details-info-class-icon */
+
+                                      & .map-tooltip-unit-details-info-class-name {
+                                        padding-left: calc(var(--padding)/2);
+                                        /* font-size: clamp(0.5rem, 0.9vw, 0.9rem); */
+                                        /* overflow: hidden; */
+                                        /* text-wrap-mode: nowrap; */
+                                      } /* .map-tooltip-unit-details-info-class-name */
+
+                                      & .map-tooltip-unit-details-info-monsterHP {
+                                        margin-left: auto;
+                                        width: 1em;
+                                      }
+
+                                      & .react-tooltip {
+                                        font-size: 0.85em;
+                                        max-width: 15em;
+                                      }
+                                    } /* .map-tooltip-unit-details-info-classRow */
+                                  /*}  map-tooltip-unit-details-info-levelClassRows */
 
                                   & .map-tooltip-unit-details-info-weaponRow {
                                     --height : 1.25em;
@@ -774,24 +788,25 @@ html {
 
                             } /* .map-tooltip-unit-details */
 
-                            & .map-tooltip-unit-details-info-weapon-advantages {
-
+                            & .map-tooltip-unit-box {
                               margin-top: var(--padding);
                               padding: var(--padding);
 
                               border: 1px solid rgb(121,98,66);
                               background-color: rgb(10,10,10);
+                            }
 
+                            & .map-tooltip-unit-weapon-advantages {
                               font-size: 0.8rem;
 
-                              & .map-tooltip-unit-details-info-weapon-advantageRow {
+                              & .map-tooltip-unit-weapon-advantageRow {
                                 display: flex;
                                 flex-flow: row nowrap;
                                 gap: calc(var(--padding) / 2);
                                 width: 100%;
                                 justify-content: center;
 
-                                & .map-tooltip-unit-details-info-weapon-advantageCol {
+                                & .map-tooltip-unit-weapon-advantageCol {
                                   --height: 2.5em;
                                   --padding: 4px;
 
@@ -820,22 +835,94 @@ html {
                                     flex-basis: fit-content;
                                   }
 
-                                } /* .map-tooltip-unit-details-info-weapon-advantageCol */
-                              } /* .map-tooltip-unit-details-info-weapon-advantageRow */
+                                } /* .map-tooltip-unit-weapon-advantageCol */
+                              } /* .map-tooltip-unit-weapon-advantageRow */
 
-                            } /* .map-tooltip-unit-details-info-weapon-advantages */
+                            } /* .map-tooltip-unit-weapon-advantages */
 
-                            & .map-tooltip-unit-details-info-miscRow {
+                            & .map-tooltip-unit-statRow {
+                              display: flex;
+                              flex-flow: row nowrap;
+                              gap: 3px;
+
+                              & .map-tooltip-unit-stat-col {
+                                flex-grow: 1;
+
+                                display: flex;
+                                flex-flow: column nowrap;
+                                justify-content: end;
+                                gap: inherit;
+
+                                & .map-tooltip-unit-stat {
+                                  display: flex;
+                                  flex-flow: row nowrap;
+                                  justify-content: space-between;
+                                } /* .map-tooltip-unit-stat */
+
+                                & .react-tooltip {
+                                  max-width: 80%;
+
+                                  & .stat-content {
+                                    display: flex;
+                                    flex-flow: column nowrap;
+                                  }
+                                } /* .react-tooltip */
+
+                              } /* .map-tooltip-unit-stat-col */
+
+                            } /* .map-tooltip-unit-statRow */
+
+                            & .map-tooltip-unit-abilitiesRow {
+                              display: flex;
+                              flex-flow: column nowrap;
+
+                              & .map-tooltip-unit-abilities-crests {
+                                display: flex;
+                                flex-flow: row nowrap;
+                                margin-left: auto;
+
+                                & img {
+                                  height: 1em;
+                                }
+
+                              } /* .map-tooltip-unit-abilities-crests */
+
+                              & .map-tooltip-unit-abilities-class {
+
+                                & .map-tooltip-unit-abilities-class-title {
+                                  color: rgb(180,169,123);
+                                  font-size: 0.5rem;
+                                } /* .map-tooltip-unit-abilities-class-title */
+
+                                & .map-tooltip-unit-abilities-class-icons {
+                                  display: flex;
+                                  flex-flow: row nowrap;
+                                  justify-content: start;
+                                  gap: 2px;
+
+                                  width: calc(4em + 6px);
+                                  height: 1em;
+                                  border: 1px solid rgb(121,98,66);
+                                  padding: 2px;
+
+                                  & img {
+                                    width: 1em;
+                                  }
+                                } /* .map-tooltip-unit-abilities-class-icons */
+
+                              } /* .map-tooltip-unit-abilities-class */
+
+                              & .react-tooltip {
+                                max-width: 80%;
+                              }
+
+                            } /* .map-tooltip-unit-abilitiesRow */
+
+                            & .map-tooltip-unit-miscRow {
 
                               display: flex;
                               flex-flow: column nowrap;
                               gap: calc( var(--padding) / 2 );
-
-                              margin-top: var(--padding);
-                              padding: var(--padding);
-
-                              border: 1px solid rgb(121,98,66);
-                              background-color: rgb(10,10,10);
 
                               & > span:first-child {
                                 width: 100%;
@@ -847,7 +934,7 @@ html {
                               }
 
                               /* There is body above note */
-                              & > .map-tooltip-unit-details-info-miscRow-notes:not(:nth-of-type(2)) {
+                              & > .map-tooltip-unit-miscRow-notes:not(:nth-of-type(2)) {
                                 position: relative;
                                 margin-top: calc( var(--padding) / 2);
 
@@ -869,7 +956,7 @@ html {
                                 }
                               }
 
-                               .map-tooltip-unit-details-info-miscRow-mission {
+                               .map-tooltip-unit-miscRow-mission {
 
                                 & .row-black-background {
                                   --border-width: 0.5em;
@@ -893,7 +980,7 @@ html {
                                     var(--border-width) 100%, 
                                     calc(100% - (var(--border-width) * 2) ) 100%;
 
-                                  & .map-tooltip-unit-details-info-miscRow-mission-icon {
+                                  & .map-tooltip-unit-miscRow-mission-icon {
                                     height: 1.5em;
                                     width: 1.5em;
                                     display: block;
@@ -930,7 +1017,7 @@ html {
                                 }
                               }
 
-                            } /* .map-tooltip-unit-details-info-miscRow */
+                            } /* .map-tooltip-unit-miscRow */
 
                           }/* .map-tooltip-unit */
 

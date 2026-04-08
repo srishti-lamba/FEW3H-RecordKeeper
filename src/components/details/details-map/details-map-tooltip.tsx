@@ -9,6 +9,8 @@ import { BattlesTableContext, MissionsTableContext } from "../../../context";
 import { formatText, initializeMissionTextRef, title } from "../missions-table";
 import { MapIcons } from "../../data-classes/map-icon-data";
 import { ItemType } from "../../data-classes/item-data";
+import { stringify } from "querystring";
+import { Crests } from "../../data-classes/crest-data";
 
 interface TooltipContentProps {
     data : GridCellDataType[][];
@@ -254,10 +256,19 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
 
             // LevelTypeRow
             var levelTypeRow = <></>
-            if (unit.class.data !== undefined)
-                // let lvl = (useContext(DatabaseContext)[1] as MRT_Row<BattleRow>).original.level
+            if (unit.class.data !== undefined) {
+                let faction = (unit.faction!==undefined) ? unit.faction : unit.allegiance;
                 levelTypeRow = (
-                    <span className="map-tooltip-unit-details-info-leveltypeRow">
+                    // <span className="map-tooltip-unit-details-info-leveltypeRow">
+                    <>
+                        {/* === Faction === */}
+                        <span className="map-tooltip-unit-details-info-faction">
+                            <img 
+                                src={
+                                    `${process.env.PUBLIC_URL}/images/icons/factions/${faction}.png`}
+                                alt={`Faction: ${faction.slice(0,1).toUpperCase() + faction.slice(1)}`}
+                            />
+                        </span>
                         {/* === Level === */}
                         <span className="map-tooltip-unit-details-info-level">
                             {`Lv ${level}`}
@@ -282,27 +293,50 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                                 })
                             }
                         </span>
-                    </span>
-                )
+                    </>
+                    // </span>
+                )}
 
             // ClassRow
             let classData = unit.class
             let classID = `tile-${
                 unit.coords.x}-${unit.coords.y}-unit-${unit.allegiance}-${
-                classData.nameLower?.replace(" ","")}Class`
+                classData.nameLower?.replaceAll(" ","")}Class`
             var classRow = (
-                <span className="map-tooltip-unit-details-info-classRow">
-                    <img src={unit.class.sprite.url as string} />
-                    <span id={classID}>
+                <>
+                    <img 
+                        className="map-tooltip-unit-details-info-class-icon" 
+                        src={unit.class.sprite.url as string} 
+                    />
+                    <span 
+                        id={classID}
+                        className="map-tooltip-unit-details-info-class-name" 
+                    >
                         {unit.class.name}
                     </span>
+                    {
+                        (unit.monster!==undefined) &&
+                        <>
+                            <img
+                                className="map-tooltip-unit-details-info-monsterHP" 
+                                id={`${classID}-hp`}
+                                src={`${process.env.PUBLIC_URL}/images/icons/monsters/hp/${unit.monster.hpGauges}.png`}
+                            />
+                            <Tooltip
+                                anchorSelect={`#${classID}-hp`}
+                                content={`${unit.monster.hpGauges} HP Gauge${(unit.monster.hpGauges>1)?"s":""}`}
+                                key={`${classID}-hp-tooltip`}
+                                place="bottom"
+                            />
+                        </>
+                    }
                     <Tooltip
                         anchorSelect={`#${classID}`}
                         content={classData.data?.description}
                         key={`${classID}-tooltip`}
                         place="bottom"
                     />
-                </span>
+                </>
             )
 
             // WeaponRow
@@ -311,7 +345,7 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
             if (weaponData !== null) {
                 let weaponID : string = `tile-${
                     unit?.coords.x}-${unit?.coords.y}-unit-${unit.allegiance}-${
-                    unit.weapon.name.toLowerCase().replace(" ","").replace("'","")}Weapon`
+                    unit.weapon.name.toLowerCase().replaceAll(" ","").replaceAll("'","")}Weapon`
                 weaponRow = (
                     <span 
                         className="map-tooltip-unit-details-info-weaponRow" 
@@ -359,13 +393,17 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
             ))
             if (weaponData !== null) {
                 advantagesRows = (
-                    <span className="map-tooltip-unit-details-info-weapon-advantages">
-                        <span className="map-tooltip-unit-details-info-weapon-advantageRow">
+                    <span className="map-tooltip-unit-box map-tooltip-unit-weapon-advantages">
+                        <span className="map-tooltip-unit-weapon-advantageRow">
                             {
                                 Object.values(Weapons.categories).map( (category : CategoryType) => {
-                                    let categoryID = `map-tooltip-unit-details-info-weapon-advantageCol-${unit.allegiance}-${category.nameLower}`
+                                    // Skip Stone
+                                    if (category === Weapons.categories.STONE)
+                                        return <></>
+
+                                    let categoryID = `map-tooltip-info-weapon-advantageCol-${unit.allegiance}-${category.nameLower}`
                                     return (
-                                    <span className="map-tooltip-unit-details-info-weapon-advantageCol">
+                                    <span className="map-tooltip-unit-weapon-advantageCol">
                                         <img src={category.icon} />
                                         {
                                             ( weaponData?.advantage !== undefined && weaponData.advantage.has(category) ) &&
@@ -379,7 +417,7 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                                 )})
                             }
                         </span>
-                        <span className="map-tooltip-unit-details-info-weapon-advantageRow">
+                        <span className="map-tooltip-unit-weapon-advantageRow">
                             {
                                 Object.values(Classes.types).map( (type : CategoryType) => {
                                     var advantage = 0;
@@ -397,7 +435,7 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                                         case -2: advantageSrc = advantageSrc.concat("disadvantage-type.png"); break;
                                     }
                                     return (
-                                        <span className="map-tooltip-unit-details-info-weapon-advantageCol">
+                                        <span className="map-tooltip-unit-weapon-advantageCol">
                                             <img src={type.icon} />
                                             {
                                                 ( advantage !== 0 ) && 
@@ -408,6 +446,149 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                                 })
                             }
                         </span>
+                    </span>
+                )
+            }
+
+            // StatRow
+            let statData : UnitDataType["stats"] = unit.stats;
+            var statRow = <></>
+            if (statData !== undefined && statData !== null) {
+                let statId : string = `tile-${unit.coords.x}-${unit.coords.y}-unit-${unit.allegiance}-${
+                    unit.name.toLowerCase().replaceAll(" ", "")
+                }-stats`
+                const getStatElements = ([title, text, value, description] : [string, string, number|undefined, string]) => {
+                    if (value === undefined)
+                        return <></>
+                    let curStatId = statId + text.toLowerCase();
+                    return (
+                        <>
+                            <span
+                                key={`${curStatId}`}
+                                className="row-black-background map-tooltip-unit-stat"
+                            >
+                                <span id={`${curStatId}`}>{text}</span>
+                                <span>{value}</span>
+                            </span>
+                            <Tooltip
+                                anchorSelect={`#${curStatId}`}
+                                children=
+                                    <span className="stat-content">
+                                        <span className="title"><b><u>{title}</u></b></span>
+                                        <span className="description">{description}</span>
+                                    </span>
+                                key={`${curStatId}-tooltip`}
+                                place="bottom"
+                            />
+                        </>
+                    )
+                }
+                statRow = (
+                    <span className="map-tooltip-unit-box map-tooltip-unit-statRow">
+                        <span className="map-tooltip-unit-stat-col">
+                            {
+                                ([
+                                    ["Hit Points", "HP",  statData.hp,  "A unit's max HP. HP depletes with damage. When it reaches zero, a unit will retreat or fall in battle."],
+                                    ["Strength", "Str", statData.str, "Affects the attack power of physical attacks."],
+                                    ["Magic", "Mag", statData.mag, "Affects the attack power of magic attacks."],
+                                    ["Dexterity", "Dex", statData.dex, "Affects the attack power of critical rushes, as well as critical hit rate."],
+                                    ["Speed", "Spd", statData.spd, "Affects the duration of the Awakened state and recharge time for combat arts and magic."],
+                                ] as [string, string, number, string][]).map( ( arr ) => getStatElements(arr) )
+                            }
+                        </span>
+                        <span className="map-tooltip-unit-stat-col">
+                            {
+                                ([
+                                    ["Movement", "Move",  statData.move,  "-"],
+                                    ["Luck", "Lck", statData.lck, "Affects the appearance rate of recovery items."],
+                                    ["Defense", "Def", statData.def, "Affects defense against physical attacks."],
+                                    ["Resistance", "Res", statData.res, "Affects defense against magic attacks."],
+                                    ["Charm", "Cha", statData.spd, "Affects drain rate of a battalion's endurance."],
+                                ] as [string, string, number, string][]).map( ( arr ) => getStatElements(arr) )
+                            }
+                        </span>
+                    </span>
+                )
+            }
+
+            // Abilities
+            let abilitiesData = {
+                class : unit.class.data!.abilities
+            };
+            var abilitiesRow = <></>
+            if (abilitiesData.class !== undefined) {
+                let abilitiesClass = "map-tooltip-unit-abilities"
+                let abilitiesID : string = `tile-${
+                    unit?.coords.x}-${unit?.coords.y}-unit-${unit.allegiance}-ability`
+                abilitiesRow = (
+                    <span 
+                        className={`map-tooltip-unit-box ${abilitiesClass}Row`}
+                        key={abilitiesID}
+                    >
+                        {/* Crests */}
+                        {
+                            (unit.crest!==undefined && unit.crest.length>0) &&
+                            <span className={`${abilitiesClass}-crests`}>
+                                {
+                                    (unit.crest.map(data => {
+                                        let crestData = Crests.crest[data.name];
+                                        if (crestData===undefined) return <></>
+                                        let crest = (data.type==="major") ? crestData.major : crestData.minor;
+                                        let crestID = (
+                                            `tile-${unit?.coords.x}-${unit?.coords.y}-unit-${unit.allegiance}-` + 
+                                            `crest-${data.name}-${data.type}-${data.level}`)
+                                        return (<>
+                                            <img
+                                                src={crest.icon}
+                                                alt={crest.name}
+                                                id={crestID}
+                                                key={crestID}
+                                            />
+                                            <Tooltip
+                                                anchorSelect={`#${crestID}`}
+                                                children= <span>
+                                                        <div><b><u>{crest.name + " Lv " + data.level}</u></b></div>
+                                                        <div>{crest.description}</div>
+                                                        <br/>
+                                                        <div>{crest.effect[data.level-1]}</div>
+                                                    </span>
+                                                key={`${crestID}-tooltip`}
+                                                place="top"
+                                            />
+                                        </>)
+                                    }))
+                                }
+                            </span>
+                        }
+                        {/* Class Abilities */}
+                        {
+                            (abilitiesData.class !== undefined) &&
+                            <span className={`${abilitiesClass}-class`}>
+                                <div className={`${abilitiesClass}-class-title`}>Class Abilities</div>
+                                <div className={`${abilitiesClass}-class-icons`}>
+                                    {
+                                        abilitiesData.class.map( (ability) => (
+                                            <>
+                                                <img 
+                                                    src={ability.icon} 
+                                                    alt={ability.name}
+                                                    id={`${abilitiesID}-${ability.nameFile}`}
+                                                />
+                                                <Tooltip
+                                                    anchorSelect={`#${abilitiesID}-${ability.nameFile}`}
+                                                    children= <span>
+                                                            <div><b><u>{ability.name}</u></b></div>
+                                                            <span>{ability.description}</span>
+                                                        </span>
+                                                    key={`${abilitiesID}-${ability.nameFile}-tooltip`}
+                                                    place="top"
+                                                />
+                                            </>
+                                        ))
+                                    }
+                                </div>
+                            </span>
+                        }
                     </span>
                 )
             }
@@ -424,10 +605,10 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                 return `type-${row.original.type}`
             }
             let getSpawnCondition = ([mission, spawn] : [number[], boolean]) => (
-                <span className="map-tooltip-unit-details-info-miscRow-mission">
+                <span className="map-tooltip-unit-miscRow-mission">
                     <span>{(spawn) ? "Spawn condition:" : "Despawn condition:"}<br/></span>
                     <div className="row-black-background">
-                        <div className={`map-tooltip-unit-details-info-miscRow-mission-icon ${getMissionTypeClass(mission)}`}></div>
+                        <div className={`map-tooltip-unit-miscRow-mission-icon ${getMissionTypeClass(mission)}`}></div>
                         <span>{missionText.current[mission.join("-")].main}</span>
                     </div>
                 </span>
@@ -437,7 +618,7 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                 || unit.notes!==undefined
             )
                 miscRow = (
-                    <span className="map-tooltip-unit-details-info-miscRow" >
+                    <span className="map-tooltip-unit-box map-tooltip-unit-miscRow" >
                         <span className="header-brown-underlined">Other Information</span>
                         { (unit.appearAndDisappear !== undefined) &&
                             (unit.appearAndDisappear).map( ([mission, show] : [number[], boolean] ) => {
@@ -449,7 +630,7 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                         }
                         {
                             (unit.notes !== undefined) && 
-                            <span className="map-tooltip-unit-details-info-miscRow-notes">{unit.notes}</span>
+                            <span className="map-tooltip-unit-miscRow-notes">{unit.notes}</span>
                         }
                     </span>
                 )
@@ -479,12 +660,16 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                                         <img src={unit.class.profile.url as string} />
                                     </span>
                                     <span className="map-tooltip-unit-details-info">
-                                        {levelTypeRow}
-                                        {classRow}
+                                        <span className="map-tooltip-unit-details-info-levelClassRows">
+                                            {levelTypeRow}
+                                            {classRow}
+                                        </span>
                                         {weaponRow}
                                     </span> {/* .map-tooltip-unit-details-info */}
                                 </span>
                                 {advantagesRows}
+                                {statRow}
+                                {abilitiesRow}
                                 {miscRow}
                             </span>
                         </AccordionDetails>

@@ -12,6 +12,8 @@ import { PixelsToSVG } from './components/pixel-art-to-svg';
 import { DatabaseContext, DifficultyContext, BattlesTableContext } from './context';
 import { MapIcons } from './components/data-classes/map-icon-data';
 import { Items } from './components/data-classes/item-data';
+import { Classes } from './components/data-classes/class-data';
+import { Crests } from './components/data-classes/crest-data';
 
 function App() {
 
@@ -24,8 +26,10 @@ function App() {
     //     PixelsToSVG(colour + "-f.png");
     // })
     // PixelsToSVG("");
+    Classes.createData()
     MapIcons.createData()
     Items.createData()
+    Crests.createData()
   }, [])
 
   return (

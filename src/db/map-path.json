@@ -851,6 +851,7 @@
                     },
                     "weapon" : { "name" : "Iron Tome" },
                     "allegiance" : "yellow",
+                    "faction" : "agartha",
                     "appearAndDisappear" : [
                         [[-1], false],
                         [[5,1], true]
@@ -936,6 +937,7 @@
                     },
                     "weapon" : { "name" : "Iron Tome" },
                     "allegiance" : "yellow",
+                    "faction" : "agartha",
                     "appearAndDisappear" : [
                         [[-1], false],
                         [[5,1], true],
@@ -968,7 +970,19 @@
                     "appearAndDisappear" : [
                         [[-1], false]
                     ],
-                    "coords" : {"x":10 , "y":22}
+                    "coords" : {"x":10 , "y":22},
+                    "stats" : {
+                        "hp" : 2000,
+                        "move" : 6,
+                        "str" : 6,
+                        "mag" : 6,
+                        "dex" : 6,
+                        "spd" : 11,
+                        "lck" : 6,
+                        "def" : 6,
+                        "res" : 6,
+                        "cha" : 8
+                    }
                 },
                 "10-22-yellow": {
                     "name" : "Stronghold Captain",
@@ -979,6 +993,7 @@
                     },
                     "weapon" : { "name" : "Iron Tome" },
                     "allegiance" : "yellow",
+                    "faction" : "agartha",
                     "appearAndDisappear" : [
                         [[-1], false],
                         [[5,1], true]
@@ -1061,6 +1076,7 @@
                     },
                     "weapon" : { "name" : "Iron Tome" },
                     "allegiance" : "yellow",
+                    "faction" : "agartha",
                     "appearAndDisappear" : [
                         [[-1], false],
                         [[5,1], true]
@@ -1944,6 +1960,7 @@
                     },
                     "weapon" : { "name" : "Iron Tome" },
                     "allegiance" : "yellow",
+                    "faction" : "agartha",
                     "appearAndDisappear" : [
                         [[-1], false],
                         [[5,1], true],
@@ -1972,6 +1989,7 @@
                     },
                     "weapon" : { "name" : "Iron Tome" },
                     "allegiance" : "yellow",
+                    "faction" : "agartha",
                     "appearAndDisappear" : [
                         [[-1], false],
                         [[5,1], true]
@@ -1999,6 +2017,7 @@
                     },
                     "weapon" : { "name" : "Iron Tome" },
                     "allegiance" : "yellow",
+                    "faction" : "agartha",
                     "appearAndDisappear" : [
                         [[-1], false],
                         [[5,1], true]
@@ -2079,14 +2098,16 @@
                 ,
                 "7-6-monica": {
                     "name" : "Monica",
+                    "named" : {"timeskip" : "pre"},
+                    "crest" : [{"name": "macuil", "type": "minor", "level" : 1}],
                     "class" : {
                         "name" : "Monk",
-                        "named" : {"timeskip" : "pre"},
                         "sprite" : { "show" : true },
                         "profile" : { "file" : "1" }
                     },
                     "weapon" : { "name" : "Iron Tome" },
                     "allegiance" : "green",
+                    "faction" : "adrestia",
                     "appearAndDisappear" : [
                         [[-1], false],
                         [[6], true]
@@ -2107,14 +2128,15 @@
                 },
                 "33-33-kronya": {
                     "name" : "Kronya",
+                    "named" : {},
                     "class" : {
                         "name" : "Assassin",
-                        "named" : {},
                         "sprite" : { "show" : true },
                         "profile" : { "file" : "1" }
                     },
                     "weapon" : { "name" : "Athame" },
                     "allegiance" : "yellow",
+                    "faction" : "agartha",
                     "appearAndDisappear" : [
                         [[-1], false],
                         [[8], true],
@@ -2132,6 +2154,38 @@
                         "def" : 8,
                         "res" : 7,
                         "cha" : 10
+                    }
+                },
+                "33-31-monster": {
+                    "name" : "Wild Demon Beast",
+                    "monster" : {
+                        "sprite" : "2",
+                        "hpGauges" : 2,
+                        "barriers" : ["sword", "lance", "axe", "light"]
+                    },
+                    "class" : {
+                        "name" : "Wild Demon Beast",
+                        "sprite" : { "show" : true },
+                        "profile" : { "file" : "3" }
+                    },
+                    "weapon" : { "name" : "Cracked Crest Stone" },
+                    "allegiance" : "yellow",
+                    "faction" : "agartha",
+                    "appearAndDisappear" : [
+                        [[-1], false],
+                        [[9], true]
+                    ],
+                    "coords" : {"x":33 , "y":31},
+                    "stats" : {
+                        "hp" : 2460,
+                        "str" : 8,
+                        "mag" : 4,
+                        "dex" : 5,
+                        "spd" : 4,
+                        "lck" : 1,
+                        "def" : 4,
+                        "res" : 3,
+                        "cha" : 1
                     }
                 }
             }

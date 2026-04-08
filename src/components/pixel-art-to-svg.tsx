@@ -7,7 +7,8 @@ export async function PixelsToSVG(fileName: string) {
 
     const image = await Jimp.read(
         // process.env.PUBLIC_URL + "/images/icons/sprites/thief/" + fileName
-        process.env.PUBLIC_URL + "/images/icons/sprites/named/monica/monk-green-pre.png"
+        // process.env.PUBLIC_URL + "/images/icons/sprites/named/monica/monk-green-pre.png"
+        process.env.PUBLIC_URL + "/images/icons/sprites/monster/2.png"
     );
 
     function getPixel(x:number, y:number) {

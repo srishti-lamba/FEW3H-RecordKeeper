@@ -156,14 +156,36 @@ export interface BaseDataType {
 export interface UnitDataType {
     name : string;
     gender ?: string;
+    named ?: {
+        timeskip ?: string;
+    };
+    monster ?: {
+        sprite : string;
+        hpGauges : number;
+        barriers : [string, string, string, string];
+    };
+    crest ?: {name: string, type: string, level: number}[];
     class : ClassType;
     weapon : {
         name : string;
         data ?: WeaponDataType;
     };
-    allegiance: string;
+    allegiance : string;
+    faction ?: string;
     appearAndDisappear ?: [number[],boolean][];
     coords : CoordinateType;
+    stats ?: {
+        hp : number,
+        move ?: number,
+        str : number,
+        mag : number,
+        dex : number,
+        spd : number,
+        lck : number,
+        def : number,
+        res : number,
+        cha : number
+    }
     notes ?: string;
 }
 
@@ -915,7 +937,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                                     let show = (missionData.units[key] !== undefined) ? missionData.units[key].show : true;
 
                                     let mapIconSprite = 
-                                        (unit.class.named!== undefined) 
+                                        (unit.named!== undefined) 
                                         ? 
                                             unit.name + "-" + 
                                             (
@@ -924,8 +946,8 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                                                 : unit.class.name.toLowerCase()
                                             ) + 
                                             (
-                                                (unit.class.named.timeskip!==undefined)
-                                                ? "-" + unit.class.named.timeskip
+                                                (unit.named.timeskip!==undefined)
+                                                ? "-" + unit.named.timeskip
                                                 : ""
                                             )
                                         : (unit.class.name + ((unit.gender===undefined)?"":"-f"));

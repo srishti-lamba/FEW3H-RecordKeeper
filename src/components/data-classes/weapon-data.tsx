@@ -20,6 +20,7 @@ interface WeaponListType {
     BOW : CategoryType;
     TOME : CategoryType;
     GAUNTLETS : CategoryType;
+    STONE: CategoryType;
 }
 
 interface WeaponType {
@@ -50,7 +51,8 @@ export class Weapons {
         AXE : Weapons.getCategoryType("Axe"),
         BOW : Weapons.getCategoryType("Bow"),
         TOME : Weapons.getCategoryType("Tome"),
-        GAUNTLETS : Weapons.getCategoryType("Gauntlets")
+        GAUNTLETS : Weapons.getCategoryType("Gauntlets"),
+        STONE : Weapons.getCategoryType("Stone"),
     }
 
     static advantage : Dictionary<CategoryType> = {
@@ -210,7 +212,14 @@ export class Weapons {
             category : Weapons.categories.TOME,
             description : "The finely honed magics within this tome are exceedingly lethal."
         },
-        "Training Tome" : {category : Weapons.categories.TOME}
+        "Training Tome" : {category : Weapons.categories.TOME},
+
+        // Crest Stone
+        "Cracked Crest Stone" : {
+            category : Weapons.categories.STONE,
+            description : "A Crest Stone bearing a cracked surface that makes its Crest indiscernible."
+        },
+
     }
 
     public static getData(weaponName : string) : WeaponDataType|undefined {
