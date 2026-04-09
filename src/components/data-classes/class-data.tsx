@@ -167,7 +167,7 @@ export class Classes {
                 "Thief":          {types: [Classes.types.INFANTRY], abilities: [Classes.abilities["Axe Buster Lv 2"]], description: "Skilled at opening locks, the Thief has excellent speed and dexterity."},
                 "Mercenary":      {types: [Classes.types.INFANTRY], abilities: [], description: ""},
                 "Pegasus Knight": {types: [Classes.types.FLYING],   abilities: [], description: ""},
-                "Cavalier":       {types: [Classes.types.CALVARY],  abilities: [], description: ""},
+                "Cavalier":       {types: [Classes.types.CALVARY],  abilities: [Classes.abilities["Sword Buster Lv 2"]], description: "A mighty opponent who battles on horseback, the Cavalier has a wide range of movement."},
                 "Armored Knight": {types: [Classes.types.INFANTRY, 
                                         Classes.types.ARMOURED],    abilities: [], description: ""},
                 "Brigand":        {types: [Classes.types.INFANTRY], abilities: [], description: ""},

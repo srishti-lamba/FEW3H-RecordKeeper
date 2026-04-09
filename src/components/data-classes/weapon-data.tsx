@@ -11,6 +11,9 @@ export interface WeaponDataType {
     description ?: string;
     advantage ?: Set<CategoryType>;
     disadvantage ?: Set<CategoryType>;
+    might ?: number;
+    durability ?: number;
+    attributes ?: AttributeType[];
 }
 
 interface WeaponListType {
@@ -36,7 +39,201 @@ export interface CategoryType {
     icon ?: string;
 }
 
+interface AttributeType {
+    name: string;
+    description: string;
+}
+
 export class Weapons {
+
+    public static createData() {
+
+        async function createDataAsync() {
+            // -----------------
+            // --- Attributes ---
+            // ------------------
+            let attributes : Dictionary<AttributeType[]> = {};
+
+            (([
+                ["Boost Critical", "increases critical hit rate."]
+            ]) as [string, string][]).forEach(
+                ([name, description] : [string,string]) => {
+                    attributes[name] = 
+                    [
+                        { name : name + " Lv 1",
+                          description: "Slightly " + description },
+                        { name : name + " Lv 2",
+                          description: "Moderately " + description },
+                        { name : name + " Lv 3",
+                          description: "Greatly " + description }
+                    ]
+                }
+            )
+            Weapons.attributes = attributes;
+
+            let weapons : Dictionary<WeaponDataType> = {
+                // === Swords ===
+                "Iron Sword" : {category : Weapons.categories.SWORD},
+                "Steel Sword" : {category : Weapons.categories.SWORD},
+                "Silver Sword" : {category : Weapons.categories.SWORD},
+                "Brave Sword" : {category : Weapons.categories.SWORD},
+                "Killing Edge" : {
+                    category : Weapons.categories.SWORD,
+                    description : "This keenly honed blade is exceedingly lethal."
+                },
+                "Training Sword" : {category : Weapons.categories.SWORD},
+                "Levin Sword" : {
+                    category : Weapons.categories.SWORD,
+                    description : "Coursing with electric energy, this magical sword has been struck by lightning."
+                },
+                "Armorslayer" : {
+                    category : Weapons.categories.SWORD,
+                    description : "Sharp enough to pierce even the thickest plate, this sword is effective against armored units.",
+                    advantage : new Set([Classes.types.ARMOURED])
+                },
+                "Rapier" : {
+                    category : Weapons.categories.SWORD,
+                    description : "A sword designed to exploit the weaknesses of armored and cavalry units.",
+                    advantage : new Set([Classes.types.ARMOURED,Classes.types.CALVARY])
+                },
+                "Athame" : {
+                    category : Weapons.categories.SWORD,
+                    make: Weapons.make.AGARTHAN,
+                    description : "Crafted with archaic methods, this sword is Kronya's weapon of choice.",
+                    might : 20,
+                    durability : 180,
+                    attributes: [attributes["Boost Critical"][1]]
+                },
+
+                // === Lances ===
+                "Iron Lance" : {category : Weapons.categories.LANCE},
+                "Steel Lance" : {category : Weapons.categories.LANCE},
+                "Silver Lance" : {category : Weapons.categories.LANCE},
+                "Brave Lance" : {category : Weapons.categories.LANCE},
+                "Killer Lance" : {category : Weapons.categories.LANCE},
+                "Training Lance" : {category : Weapons.categories.LANCE},
+                "Javelin" : {
+                    category : Weapons.categories.LANCE,
+                    description : "A basic ranged lance that has been balanced for throwing at distant enemies."
+                },
+                "Spear" : {
+                    category : Weapons.categories.LANCE,
+                    description : "The wielder of this powerful reinforced lance can hurl it at enemies for deep impact."
+                },
+                "Horseslayer" : {
+                    category : Weapons.categories.LANCE,
+                    description : "A lance forged specifically for combat against mounted foes.",
+                    advantage : new Set([Classes.types.CALVARY])
+                },
+                "Crescent Sickle" : {
+                    category : Weapons.categories.LANCE,
+                    description : "A sickle of impossible resilience, this weapon was crafted using forgotten knowledge.",
+                    might : 50,
+                    durability: 120,
+                },
+
+                // === Axes ===
+                "Iron Axe" : {category : Weapons.categories.AXE},
+                "Steel Axe" : {category : Weapons.categories.AXE},
+                "Silver Axe" : {category : Weapons.categories.AXE},
+                "Brave Axe" : {category : Weapons.categories.AXE},
+                "Killer Axe" : {category : Weapons.categories.AXE},
+                "Training Axe" : {category : Weapons.categories.AXE},
+                "Bolt Axe" : {
+                    category : Weapons.categories.AXE,
+                    description : "Coursing with electric energy, this magical axe has been struck by lightning."
+                },
+                "Short Axe" : {
+                    category : Weapons.categories.AXE,
+                    description : "This axe has been reinforced, making it easy to throw at foes from afar."
+                },
+                "Tomahawk" : {
+                    category : Weapons.categories.AXE,
+                    description : "The wielder of this brutal reinforced axe can hurl it at enemies for deep impact."
+                },
+                "Hammer" : {
+                    category : Weapons.categories.AXE,
+                    description : "This hammer can pummel metal with astonishing force, making it effective against armored units.",
+                    advantage : new Set([Classes.types.ARMOURED])
+                },
+
+                // === Bows ===
+                "Iron Bow" : {category : Weapons.categories.BOW},
+                "Steel Bow" : {category : Weapons.categories.BOW},
+                "Silver Bow" : {category : Weapons.categories.BOW},
+                "Brave Bow" : {category : Weapons.categories.BOW},
+                "Killer Bow" : {
+                    category : Weapons.categories.BOW,
+                    description : "This keenly balanced bow is exceedingly lethal."
+                },
+                "Training Bow" : {category : Weapons.categories.BOW},
+                "Magic Bow" : {
+                    category : Weapons.categories.BOW,
+                    description : "A mystical bow that deals magic damage."
+                },
+                "Longbow" : {
+                    category : Weapons.categories.BOW,
+                    description : "A bow with increased range."
+                },
+
+                // === Gauntlets ===
+                "Iron Gauntlets" : {
+                    category : Weapons.categories.GAUNTLETS,
+                    description : "Standard iron gauntlets—simple but effective."
+                },
+                "Steel Gauntlets " : {
+                    category : Weapons.categories.GAUNTLETS,
+                    description : "Weighty steel gauntlets that deal heavy blows."
+                },
+                "Silver Gauntlets " : {
+                    category : Weapons.categories.GAUNTLETS,
+                    description : "Gauntlets crafted from shining silver."
+                },
+                "Killer Gauntlets" : {
+                    category : Weapons.categories.GAUNTLETS,
+                    description : "These keenly wrought gauntlets are exceedingly lethal."
+                },
+                "Training Gauntlets" : {
+                    category : Weapons.categories.GAUNTLETS,
+                    description : "Simple gauntlets perfect for training purposes."
+                },
+
+                // === Tomes ===
+                "Iron Tome" : {
+                    category : Weapons.categories.TOME,
+                    description : "A standard iron-hued tome—simple but effective."
+                },
+                "Steel Tome" : {
+                    category : Weapons.categories.TOME,
+                    description : "A weighty steel-hued tome that deals significant blows."
+                },
+                "Silver Tome" : {
+                    category : Weapons.categories.TOME,
+                    description : "A tome the color of shining silver."
+                },
+                "Brave Tome" : {
+                    category : Weapons.categories.TOME,
+                    description : "A tome imbued with tremendous magical power that emboldens its wielder."
+                },
+                "Killer Tome" : {
+                    category : Weapons.categories.TOME,
+                    description : "The finely honed magics within this tome are exceedingly lethal."
+                },
+                "Training Tome" : {category : Weapons.categories.TOME},
+
+                // Crest Stone
+                "Cracked Crest Stone" : {
+                    category : Weapons.categories.STONE,
+                    description : "A Crest Stone bearing a cracked surface that makes its Crest indiscernible.",
+                    might: 200,
+                    durability: 100,
+                },
+            }
+            Weapons.weapons = weapons;
+        }
+
+        createDataAsync();
+    }
 
     public static make : WeaponType = {
         REGULAR: "Regular",
@@ -73,154 +270,11 @@ export class Weapons {
         brawl: Weapons.categories.BOW
     }
 
-    static weapons : Dictionary<WeaponDataType> = {
-        // === Swords ===
-        "Iron Sword" : {category : Weapons.categories.SWORD},
-        "Steel Sword" : {category : Weapons.categories.SWORD},
-        "Silver Sword" : {category : Weapons.categories.SWORD},
-        "Brave Sword" : {category : Weapons.categories.SWORD},
-        "Killing Edge" : {
-            category : Weapons.categories.SWORD,
-            description : "This keenly honed blade is exceedingly lethal."
-        },
-        "Training Sword" : {category : Weapons.categories.SWORD},
-        "Levin Sword" : {
-            category : Weapons.categories.SWORD,
-            description : "Coursing with electric energy, this magical sword has been struck by lightning."
-        },
-        "Armorslayer" : {
-            category : Weapons.categories.SWORD,
-            description : "Sharp enough to pierce even the thickest plate, this sword is effective against armored units.",
-            advantage : new Set([Classes.types.ARMOURED])
-        },
-        "Rapier" : {
-            category : Weapons.categories.SWORD,
-            description : "A sword designed to exploit the weaknesses of armored and cavalry units.",
-            advantage : new Set([Classes.types.ARMOURED,Classes.types.CALVARY])
-        },
-        "Athame" : {
-            category : Weapons.categories.SWORD,
-            make: Weapons.make.AGARTHAN,
-            description : "Crafted with archaic methods, this sword is Kronya's weapon of choice."
-        },
+    static attributes : Dictionary<AttributeType[]> = {}
 
-        // === Lances ===
-        "Iron Lance" : {category : Weapons.categories.LANCE},
-        "Steel Lance" : {category : Weapons.categories.LANCE},
-        "Silver Lance" : {category : Weapons.categories.LANCE},
-        "Brave Lance" : {category : Weapons.categories.LANCE},
-        "Killer Lance" : {category : Weapons.categories.LANCE},
-        "Training Lance" : {category : Weapons.categories.LANCE},
-        "Javelin" : {
-            category : Weapons.categories.LANCE,
-            description : "A basic ranged lance that has been balanced for throwing at distant enemies."
-        },
-        "Spear" : {
-            category : Weapons.categories.LANCE,
-            description : "The wielder of this powerful reinforced lance can hurl it at enemies for deep impact."
-        },
-        "Horseslayer" : {
-            category : Weapons.categories.LANCE,
-            description : "A lance forged specifically for combat against mounted foes.",
-            advantage : new Set([Classes.types.CALVARY])
-        },
+    static weapons : Dictionary<WeaponDataType> = {};
 
-        // === Axes ===
-        "Iron Axe" : {category : Weapons.categories.AXE},
-        "Steel Axe" : {category : Weapons.categories.AXE},
-        "Silver Axe" : {category : Weapons.categories.AXE},
-        "Brave Axe" : {category : Weapons.categories.AXE},
-        "Killer Axe" : {category : Weapons.categories.AXE},
-        "Training Axe" : {category : Weapons.categories.AXE},
-        "Bolt Axe" : {
-            category : Weapons.categories.AXE,
-            description : "Coursing with electric energy, this magical axe has been struck by lightning."
-        },
-        "Short Axe" : {
-            category : Weapons.categories.AXE,
-            description : "This axe has been reinforced, making it easy to throw at foes from afar."
-        },
-        "Tomahawk" : {
-            category : Weapons.categories.AXE,
-            description : "The wielder of this brutal reinforced axe can hurl it at enemies for deep impact."
-        },
-        "Hammer" : {
-            category : Weapons.categories.AXE,
-            description : "This hammer can pummel metal with astonishing force, making it effective against armored units.",
-            advantage : new Set([Classes.types.ARMOURED])
-        },
-
-        // === Bows ===
-        "Iron Bow" : {category : Weapons.categories.BOW},
-        "Steel Bow" : {category : Weapons.categories.BOW},
-        "Silver Bow" : {category : Weapons.categories.BOW},
-        "Brave Bow" : {category : Weapons.categories.BOW},
-        "Killer Bow" : {
-            category : Weapons.categories.BOW,
-            description : "This keenly balanced bow is exceedingly lethal."
-        },
-        "Training Bow" : {category : Weapons.categories.BOW},
-        "Magic Bow" : {
-            category : Weapons.categories.BOW,
-            description : "A mystical bow that deals magic damage."
-        },
-        "Longbow" : {
-            category : Weapons.categories.BOW,
-            description : "A bow with increased range."
-        },
-
-        // === Gauntlets ===
-        "Iron Gauntlets" : {
-            category : Weapons.categories.GAUNTLETS,
-            description : "Standard iron gauntlets—simple but effective."
-        },
-        "Steel Gauntlets " : {
-            category : Weapons.categories.GAUNTLETS,
-            description : "Weighty steel gauntlets that deal heavy blows."
-        },
-        "Silver Gauntlets " : {
-            category : Weapons.categories.GAUNTLETS,
-            description : "Gauntlets crafted from shining silver."
-        },
-        "Killer Gauntlets" : {
-            category : Weapons.categories.GAUNTLETS,
-            description : "These keenly wrought gauntlets are exceedingly lethal."
-        },
-        "Training Gauntlets" : {
-            category : Weapons.categories.GAUNTLETS,
-            description : "Simple gauntlets perfect for training purposes."
-        },
-
-        // === Tomes ===
-        "Iron Tome" : {
-            category : Weapons.categories.TOME,
-            description : "A standard iron-hued tome—simple but effective."
-        },
-        "Steel Tome" : {
-            category : Weapons.categories.TOME,
-            description : "A weighty steel-hued tome that deals significant blows."
-        },
-        "Silver Tome" : {
-            category : Weapons.categories.TOME,
-            description : "A tome the color of shining silver."
-        },
-        "Brave Tome" : {
-            category : Weapons.categories.TOME,
-            description : "A tome imbued with tremendous magical power that emboldens its wielder."
-        },
-        "Killer Tome" : {
-            category : Weapons.categories.TOME,
-            description : "The finely honed magics within this tome are exceedingly lethal."
-        },
-        "Training Tome" : {category : Weapons.categories.TOME},
-
-        // Crest Stone
-        "Cracked Crest Stone" : {
-            category : Weapons.categories.STONE,
-            description : "A Crest Stone bearing a cracked surface that makes its Crest indiscernible."
-        },
-
-    }
+    
 
     public static getData(weaponName : string) : WeaponDataType|undefined {
         let weapon : WeaponDataType|undefined = Weapons.weapons[weaponName];
@@ -231,12 +285,6 @@ export class Weapons {
         // Make
         if (weapon.make === undefined)
             weapon.make = Weapons.make.REGULAR;
-
-        // Category
-        // if (weapon.category.nameLower === undefined)
-        //     weapon.category.nameLower = weapon.category.name.toLowerCase();
-        // if (weapon.category.icon === undefined)
-        //     weapon.category.icon = Weapons.getIcon(weapon.category.nameLower, weapon.make)
 
         // Icon
         if (weapon.icon === undefined)
@@ -282,7 +330,18 @@ export class Weapons {
             weapon.disadvantage = newDisadvantage;
         else
             weapon.disadvantage = newDisadvantage.union(weapon.disadvantage);
-        
+
+        // Might and Durability
+        if (weapon.might !== undefined && weapon.durability !== undefined) {}
+        else if (weaponName.startsWith("Iron ")) {
+            weapon.might = 20;
+            weapon.durability = 50;
+        }
+        else {
+            weapon.might = 20;
+            weapon.durability = 50;
+        }
+
         return weapon;
     }
 

@@ -41,6 +41,37 @@ html {
   }
 }
 
+& .header-white-underlined {
+  --font-size: 1em;
+  display: block;
+  color: white;
+  padding: 0 var(--font-size);
+  margin-bottom: calc(var(--font-size)/2);
+  text-align: center;
+  position: relative;
+
+  &:after { /* Underline of header */
+    all: unset;
+    content: ' ';
+    height: 2px;
+    transform: scale(100%,50%);
+    width: 90%;
+    background-image: linear-gradient(
+      to right, 
+      transparent 0%,
+      whitesmoke 10%,
+      whitesmoke 90%,
+      transparent 100%
+    ) !important;
+    position: absolute;
+    z-index: 10;
+    left: 5%;
+    bottom: calc((var(--font-size)/2) * -1px);
+    bottom: -0.2em;
+    bottom: calc(var(--font-size)* -0.25);
+  }
+}
+
 & .row-black-background {
   --font-size: 0.8rem;
   --height: calc( var(--font-size)  * 1.25);
@@ -310,7 +341,14 @@ html {
                   resize: both;
                   padding: 8px;
 
-                  --rt-color-dark: rgba(20, 20, 20, 1);
+                  /* --rt-color-dark: rgba(20, 20, 20, 1); */
+                  --rt-color-dark: rgba(25, 25, 25, 1);
+
+                  --bxsd-blur : 5px;
+                  --bxsd-spread: 0px;
+                  box-shadow: 
+                    0px 0px var(--bxsd-blur) var(--bxsd-spread) 
+                    rgb(245,245,245,0.25);
 
                   & .MuiPaper-root {
                     margin: 0px;
@@ -606,20 +644,17 @@ html {
 
                             & .react-tooltip {
                               font-size: 0.765rem;
+                              z-index: 1;
+                              max-width: calc(var(--tooltip-unit-header-width))
                             }
 
                             & > .map-tooltip-unit-name {
                               display: block;
                               height: var(--tooltip-unit-header-height);
-                              /* aspect-ratio: 7.16417910448; */
-                              /* margin-bottom: calc( var(--height) * -0.10447761194); */
                               overflow: visible;
                               position: relative;
                               
                               align-content: center;
-
-                              /* background-image: url(../public/images/ui-background/unit-header/red.png);
-                              background-size: 100% calc( var(--header-height) * 0.10447761194); */
                               
                               & > span {
                                 display: block;
@@ -635,26 +670,34 @@ html {
                                 top: 0;
                                 left: 0;
                                 height: calc(var(--tooltip-unit-header-height) * 1.10447761194);
-                                /* height: calc(var(--header-height) * 1.113); */
-                                /* aspect-ratio: 7.16417910448; */
-                                /* aspect-ratio: 7.12; */
                                 width: 100%;
                                 background-size: contain;
                                 background-repeat: no-repeat;
                               }
                             }/* .map-tooltip-unit-name */
 
+                            & .map-tooltip-unit-box {
+                              margin-top: var(--padding);
+                              padding: var(--padding);
+
+                              /* main tooltip background is rgba(25, 25, 25, 1) */
+                              --bckgnd-black: 20;
+                              
+                              border: 1px solid rgb(121,98,66);
+                              background-color: 
+                                rgb(
+                                  var(--bckgnd-black),
+                                  var(--bckgnd-black),
+                                  var(--bckgnd-black)
+                                );
+                            }
+
                             & .map-tooltip-unit-details {
                               --padding: 0.5rem;
 
                               box-sizing: border-box;
-                              padding: var(--padding);
-                              margin-top: -1px;
-
-                               background-color: rgb(10,10,10);
-
-                              border: 1px solid rgb(121,98,66);
-                              border-top: none;
+                              margin-top: -1px !important;
+                              border-top: none !important;
 
                               display: flex;
                               flex-flow: row nowrap;
@@ -695,118 +738,87 @@ html {
                                     display: grid;
                                     grid-template-columns: min-content auto auto;
 
-                                      & .map-tooltip-unit-details-info-faction {
-                                        justify-self: center;
-                                        & > img {
-                                          height: 1em;
-                                        }
-                                      }
+                                      & .map-tooltip-unit-details-faction {
+                                      } /* .map-tooltip-unit-details-faction */
 
-                                      & .map-tooltip-unit-details-info-level {
-                                        padding-left: calc(var(--padding)/2);
+                                      & .map-tooltip-unit-details-level {
                                         letter-spacing: -0.05em;
-                                      }/* .map-tooltip-unit-details-info-level */
+                                      }/* .map-tooltip-unit-details-level */
 
-                                      & .map-tooltip-unit-details-info-type {
+                                      & .map-tooltip-unit-details-type {
                                         display: flex;
                                         margin-left: auto;
                                         flex-flow: row nowrap;
                                         gap: calc( var(--padding) / 2 );
+                                      }/* .map-tooltip-unit-details-type */
 
-                                        & > img {
-                                          height: 1em;
-                                        }
-                                      }/* .map-tooltip-unit-details-info-type */
+                                      & .map-tooltip-unit-details-class-name {
+                                        align-self: center;
+                                        /* Text overflow*/
+                                        &.wdb { font-size: 0.7rem; }
+                                      } /* .map-tooltip-unit-details-class-name */
 
-                                      & .map-tooltip-unit-details-info-class-icon {
-                                        height: 1.25em;
-                                      } /* .map-tooltip-unit-details-info-class-icon */
-
-                                      & .map-tooltip-unit-details-info-class-name {
-                                        padding-left: calc(var(--padding)/2);
-                                        /* font-size: clamp(0.5rem, 0.9vw, 0.9rem); */
-                                        /* overflow: hidden; */
-                                        /* text-wrap-mode: nowrap; */
-                                      } /* .map-tooltip-unit-details-info-class-name */
-
-                                      & .map-tooltip-unit-details-info-monsterHP {
+                                      & .map-tooltip-unit-details-monsterHP {
                                         margin-left: auto;
-                                        width: 1em;
+                                        align-self: center;
+                                      } /* .map-tooltip-unit-details-monsterHP */
+
+                                      /* Image sizes */
+                                      & .map-tooltip-unit-details-faction,
+                                      & .map-tooltip-unit-details-type {
+                                        justify-self: center;
+                                        & > img { height: 0.9rem; }
+                                      }
+                                      & .map-tooltip-unit-details-class-icon { height: 1.25em; }
+                                      & .map-tooltip-unit-details-monsterHP { width: 0.9rem; }
+
+                                      /* Col 1 and 2 gap */
+                                      & .map-tooltip-unit-details-info-level,
+                                      & .map-tooltip-unit-details-class-name {
+                                        padding-left: calc(var(--padding)/2);
                                       }
 
-                                      & .react-tooltip {
-                                        font-size: 0.85em;
-                                        max-width: 15em;
+                                      /* If no monsterHP, then make className span 2 cols */
+                                      &:not(:has(.map-tooltip-unit-details-monsterHP)) 
+                                      .map-tooltip-unit-details-class-name {
+                                        grid-column: 2 / span 2;
                                       }
                                     } /* .map-tooltip-unit-details-info-classRow */
                                   /*}  map-tooltip-unit-details-info-levelClassRows */
 
-                                  & .map-tooltip-unit-details-info-weaponRow {
-                                    --height : 1.25em;
+                                  & .map-tooltip-unit-details-weaponRow {
+                                    --font-size: 0.9rem;
                                     
                                     display: flex;
                                     flex-flow: row nowrap;
                                     align-items: center;
                                     gap: var(--padding);
-                                    height: var(--height);
-                                    padding: 0 var(--padding);
-
-                                    background-image:
-                                      url(/public/images/ui-background/subCategoryRow/left-base.svg),
-                                      url(/public/images/ui-background/subCategoryRow/right-base.svg),
-                                      url(/public/images/ui-background/subCategoryRow/middle-base.svg);
-                                    background-repeat: 
-                                      no-repeat, no-repeat, no-repeat;
-                                    background-position:
-                                      left, right, center;
-                                    background-size: 
-                                      auto, 
-                                      auto, 
-                                      calc(100% - ((var(--height) * 0.25)*2) + 1px) 100%;
+                                    justify-content: start;
 
                                     & img {
                                       height: 1em;
                                     }
 
-                                    & .react-tooltip {
-                                      display: flex;
-                                      flex-flow: column nowrap;
-                                      max-width: 15em;
-                                      font-size: 0.85em;
+                                    & .stone {
+                                      font-size: 0.65rem;
+                                    } /* .stone */
 
-                                      & .map-tooltip-unit-details-info-weapon-description {
-                                        
-                                      } /* .map-tooltip-unit-details-info-weapon-description */
-                                      
-                                    } /* .react-tooltip */
-
-                                  } /* .map-tooltip-unit-details-info-weaponRow */
-
+                                  } /* .map-tooltip-unit-details-weaponRow */
                                 }/* .map-tooltip-unit-details-info */
-
                               /* } .map-tooltip-unit-details-basic */
-
                             } /* .map-tooltip-unit-details */
 
-                            & .map-tooltip-unit-box {
-                              margin-top: var(--padding);
-                              padding: var(--padding);
-
-                              border: 1px solid rgb(121,98,66);
-                              background-color: rgb(10,10,10);
-                            }
-
-                            & .map-tooltip-unit-weapon-advantages {
+                            & .map-tooltip-unit-advantagesBox {
                               font-size: 0.8rem;
 
-                              & .map-tooltip-unit-weapon-advantageRow {
+                              & .map-tooltip-unit-advantages-row {
                                 display: flex;
                                 flex-flow: row nowrap;
                                 gap: calc(var(--padding) / 2);
                                 width: 100%;
                                 justify-content: center;
 
-                                & .map-tooltip-unit-weapon-advantageCol {
+                                & .map-tooltip-unit-advantages-col {
                                   --height: 2.5em;
                                   --padding: 4px;
 
@@ -835,12 +847,11 @@ html {
                                     flex-basis: fit-content;
                                   }
 
-                                } /* .map-tooltip-unit-weapon-advantageCol */
-                              } /* .map-tooltip-unit-weapon-advantageRow */
+                                } /* .map-tooltip-unit-advantages-col */
+                              } /* .map-tooltip-unit-advantages-row */
+                            } /* .map-tooltip-unit-advantagesBox */
 
-                            } /* .map-tooltip-unit-weapon-advantages */
-
-                            & .map-tooltip-unit-statRow {
+                            & .map-tooltip-unit-statBox {
                               display: flex;
                               flex-flow: row nowrap;
                               gap: 3px;
@@ -853,39 +864,93 @@ html {
                                 justify-content: end;
                                 gap: inherit;
 
-                                & .map-tooltip-unit-stat {
+                                & .map-tooltip-unit-stat-row {
                                   display: flex;
                                   flex-flow: row nowrap;
                                   justify-content: space-between;
-                                } /* .map-tooltip-unit-stat */
-
-                                & .react-tooltip {
-                                  max-width: 80%;
-
-                                  & .stat-content {
-                                    display: flex;
-                                    flex-flow: column nowrap;
-                                  }
-                                } /* .react-tooltip */
-
+                                } /* .map-tooltip-unit-stat-row */
                               } /* .map-tooltip-unit-stat-col */
 
-                            } /* .map-tooltip-unit-statRow */
+                              /* Make tooltip centered */
+                              /* Headers are small, which gives 
+                              the illusion that it's off-center */
+                              & .react-tooltip {
+                                text-align: center;
+                              }
+                            } /* .map-tooltip-unit-statBox */
 
-                            & .map-tooltip-unit-abilitiesRow {
+                            & .map-tooltip-unit-inventoryBox {
+                              & .map-tooltip-unit-inventory-weapon {
+
+                                & .map-tooltip-unit-inventory-weapon-main {
+                                  --font-size: 0.9rem;
+                                  /* display: flex;
+                                  flex-flow: row nowrap;
+                                  justify-content: center;
+                                  gap: calc(var(--padding)/2); */
+                                  /* width: 100%; */
+                                  & .map-tooltip-unit-inventory-weapon-icon {
+                                    height: 1em;
+                                  } /* .map-tooltip-unit-inventory-weapon-icon */
+                                } /* .map-tooltip-unit-inventory-weapon-main */
+
+                                & .map-tooltip-unit-inventory-weapon-grid {
+                                  --gap : 3px;
+                                  display: grid;
+                                  grid-template-columns: 
+                                    calc(45% - (var(--gap)/2) ) 
+                                    calc(55% - (var(--gap)/2) );
+                                  grid-template-columns:  auto auto;
+                                  gap: var(--gap);
+
+                                  margin: var(--gap) auto 0;
+                                  width: 90%;
+
+                                  & .map-tooltip-unit-inventory-weapon-info {
+                                    display: flex;
+                                    flex-flow: row nowrap;
+                                    justify-content: space-between;
+
+                                    /*If might and durability are 
+                                      both 3 digits, it overflows*/
+                                    & .small {
+                                      font-size: 0.73rem;
+                                    }
+                                  } /* .map-tooltip-unit-abilities-weapon-info */
+
+                                  & .map-tooltip-unit-inventory-weapon-attribute {
+                                    grid-column: 1 / span 2;
+                                    background-image:
+                                      url(/public/images/ui-background/subCategoryRowBrown/left-base.svg),
+                                      url(/public/images/ui-background/subCategoryRowBrown/right-base.svg),
+                                      url(/public/images/ui-background/subCategoryRowBrown/middle-base.svg);
+                                  } /* .map-tooltip-unit-inventory-weapon-attribute */
+                                } /* .map-tooltip-unit-inventory-weapon-grid */
+                              } /* .map-tooltip-unit-inventory-weapon */
+                            } /* .map-tooltip-unit-inventoryBox */
+
+                            & .map-tooltip-unit-crestsBox {
                               display: flex;
-                              flex-flow: column nowrap;
+                              flex-flow: row nowrap;
 
-                              & .map-tooltip-unit-abilities-crests {
-                                display: flex;
-                                flex-flow: row nowrap;
-                                margin-left: auto;
-
+                              & .map-tooltip-unit-crests-row {
+                                width: 100%;
+                                font-size: 0.9rem;
+                                
                                 & img {
                                   height: 1em;
                                 }
 
-                              } /* .map-tooltip-unit-abilities-crests */
+                              } /* .map-tooltip-unit-abilities-crest-row */
+
+                            } /* .map-tooltip-unit-abilities-crests */
+
+                            & .map-tooltip-unit-abilitiesBox {
+                              --font-size: 0.9rem;
+                              display: flex;
+                              flex-flow: column nowrap;
+                              gap: var(--padding);
+                              font-size: var(--font-size);
 
                               & .map-tooltip-unit-abilities-class {
 
@@ -895,28 +960,51 @@ html {
                                 } /* .map-tooltip-unit-abilities-class-title */
 
                                 & .map-tooltip-unit-abilities-class-icons {
+                                  --icon: 1.25em;
+                                  --padding: 2px;
                                   display: flex;
                                   flex-flow: row nowrap;
                                   justify-content: start;
                                   gap: 2px;
 
-                                  width: calc(4em + 6px);
-                                  height: 1em;
+                                  width: calc((var(--icon)*4) + (var(--padding)*3));
+                                  height: var(--icon);
                                   border: 1px solid rgb(121,98,66);
-                                  padding: 2px;
+                                  padding: var(--padding);
 
                                   & img {
-                                    width: 1em;
+                                    width: var(--icon);
                                   }
                                 } /* .map-tooltip-unit-abilities-class-icons */
 
                               } /* .map-tooltip-unit-abilities-class */
 
-                              & .react-tooltip {
-                                max-width: 80%;
+                              /* Line between sections */
+                              & .map-tooltip-unit-abilities-crests,
+                              & .map-tooltip-unit-abilities-abilities:not(:last-child) {
+                                position: relative;
+                                z-index: 0;
+                                margin-bottom: calc( var(--padding) / 1);
+
+                                &:after {
+                                  content: ' ';
+                                  height: 2px;
+                                  transform: scale(100%,50%);
+                                  width: 30%;
+                                  background-image: linear-gradient(
+                                    to right, 
+                                    transparent 0%,
+                                    rgb(180,169,123) 20%,
+                                    rgb(180,169,123) 80%,
+                                    transparent 100%
+                                  ) !important;
+                                  position: absolute;
+                                  left: 35%;
+                                  bottom: calc( (var(--padding) / 1) * -1 );
+                                }
                               }
 
-                            } /* .map-tooltip-unit-abilitiesRow */
+                            } /* .map-tooltip-unit-abilitiesBox */
 
                             & .map-tooltip-unit-miscRow {
 

@@ -254,112 +254,158 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
             if (show === undefined || show === false)
                 return;
 
-            // LevelTypeRow
-            var levelTypeRow = <></>
-            if (unit.class.data !== undefined) {
-                let faction = (unit.faction!==undefined) ? unit.faction : unit.allegiance;
-                levelTypeRow = (
-                    // <span className="map-tooltip-unit-details-info-leveltypeRow">
-                    <>
-                        {/* === Faction === */}
-                        <span className="map-tooltip-unit-details-info-faction">
-                            <img 
-                                src={
-                                    `${process.env.PUBLIC_URL}/images/icons/factions/${faction}.png`}
-                                alt={`Faction: ${faction.slice(0,1).toUpperCase() + faction.slice(1)}`}
-                            />
-                        </span>
-                        {/* === Level === */}
-                        <span className="map-tooltip-unit-details-info-level">
-                            {`Lv ${level}`}
-                        </span>
-                        {/* === Class Type === */}
-                        <span className="map-tooltip-unit-details-info-type">
-                            {
-                                unit.class.data.types.map( (type : CategoryType) => {
-                                    let typeID : string = `tile-${unit?.coords.x}-${unit?.coords.y}-unit-${unit.allegiance}-${type.nameLower}Type`;
-                                    return (<>
-                                        <img
-                                            id={typeID}
-                                            src={type.icon}
-                                        />
-                                        <Tooltip
-                                            anchorSelect={`#${typeID}`}
-                                            content={`${type.name}`}
-                                            key={`${typeID}-tooltip`}
-                                            place="bottom"
-                                        />
-                                    </>)
-                                })
-                            }
-                        </span>
-                    </>
-                    // </span>
-                )}
-
-            // ClassRow
-            let classData = unit.class
-            let classID = `tile-${
-                unit.coords.x}-${unit.coords.y}-unit-${unit.allegiance}-${
-                classData.nameLower?.replaceAll(" ","")}Class`
-            var classRow = (
-                <>
-                    <img 
-                        className="map-tooltip-unit-details-info-class-icon" 
-                        src={unit.class.sprite.url as string} 
-                    />
-                    <span 
-                        id={classID}
-                        className="map-tooltip-unit-details-info-class-name" 
-                    >
-                        {unit.class.name}
-                    </span>
-                    {
-                        (unit.monster!==undefined) &&
-                        <>
-                            <img
-                                className="map-tooltip-unit-details-info-monsterHP" 
-                                id={`${classID}-hp`}
-                                src={`${process.env.PUBLIC_URL}/images/icons/monsters/hp/${unit.monster.hpGauges}.png`}
-                            />
-                            <Tooltip
-                                anchorSelect={`#${classID}-hp`}
-                                content={`${unit.monster.hpGauges} HP Gauge${(unit.monster.hpGauges>1)?"s":""}`}
-                                key={`${classID}-hp-tooltip`}
-                                place="bottom"
-                            />
-                        </>
-                    }
-                    <Tooltip
-                        anchorSelect={`#${classID}`}
-                        content={classData.data?.description}
-                        key={`${classID}-tooltip`}
-                        place="bottom"
-                    />
-                </>
+            let mainID : string = (
+                `tile-${unit.coords.x}-${unit.coords.y}-` + 
+                `unit-${unit.allegiance}-${unit.name.toLowerCase().replaceAll(" ", "")}`
             )
 
-            // WeaponRow
+            // ---------------
+            // --- Faction ---
+            // ---------------
+            var factionRow = <></>
+            if (unit.faction!==undefined || unit.allegiance!==undefined) {
+                let factionClass = "map-tooltip-unit-details-faction";
+                let faction = (unit.faction!==undefined) ? unit.faction : unit.allegiance;
+                var factionRow = (
+                    <span className={factionClass}>
+                        <img 
+                            src={
+                                `${process.env.PUBLIC_URL}/images/icons/factions/${faction}.png`}
+                            alt={`Faction: ${makeFirstLetterCapital(faction)}`}
+                        />
+                    </span>
+                )
+            }
+
+            // -------------
+            // --- Level ---
+            // -------------
+            var levelRow = <></>
+            if (level!==undefined) {
+                let levelClass = "map-tooltip-unit-details-level";
+                var levelRow = (
+                    <span
+                        className={levelClass}
+                        key={`${mainID}-level`}
+                    >
+                        {`Lv ${level}`}
+                    </span>
+                )
+            }
+
+            // ------------
+            // --- Type ---
+            // ------------
+            var typeRow = <></>
+            if (unit.class.data !== undefined) {
+                let typeClass = "map-tooltip-unit-details-type";
+                typeRow = (
+                    <span
+                        className={typeClass}
+                        key={`${mainID}-type`}
+                    >
+                        {
+                            unit.class.data.types.map( (type : CategoryType) => {
+                                let typeID : string = `${mainID}-${type.nameLower}Type`;
+                                return (<>
+                                    <img
+                                        id={typeID}
+                                        src={type.icon}
+                                    />
+                                    <Tooltip
+                                        anchorSelect={`#${typeID}`}
+                                        content={`${type.name}`}
+                                        key={`${typeID}-tooltip`}
+                                        place="bottom"
+                                    />
+                                </>)
+                            })
+                        }
+                    </span>
+                )}
+
+            // -------------
+            // --- Class ---
+            // -------------
+            let classData = unit.class
+            var classRow = <></>
+            if (classData!==undefined) {
+                let classClass = "map-tooltip-unit-details-class";
+                let classID = `${mainID}-${classData.nameLower?.replaceAll(" ","")}Class`
+                var classRow = (
+                    <>
+                        <img 
+                            className={`${classClass}-icon`} 
+                            src={unit.class.sprite.url as string} 
+                            key={`${classID}-img`}
+                        />
+                        <span 
+                            id={classID}
+                            key={`${classID}-name`}
+                            className={`${classClass}-name${
+                                // Make text smaller if content overflows
+                                (classData.name==="Wild Demon Beast") ? " wdb" : ""
+                            }`}
+                        >
+                            {unit.class.name}
+                        </span>
+                        <Tooltip
+                            anchorSelect={`#${classID}`}
+                            content={classData.data?.description}
+                            key={`${classID}-tooltip`}
+                            place="bottom"
+                        />
+                    </>
+                )
+            }
+
+            // ---------------
+            // --- Monster ---
+            // ---------------
+            let monsterData = unit.monster
+            var monsterRow = <></>
+            if (monsterData!==undefined) {
+                let monsterClass = "map-tooltip-unit-details-monsterHP";
+                let monsterID = `${mainID}-monster`
+                var monsterRow = (
+                    <>
+                        <img
+                            className={monsterClass} 
+                            id={monsterID}
+                            key={monsterID}
+                            src={`${process.env.PUBLIC_URL}/images/icons/monsters/hp/${monsterData.hpGauges}.png`}
+                        />
+                        <Tooltip
+                            anchorSelect={`#${monsterID}`}
+                            content={`${monsterData.hpGauges} HP Gauge${(monsterData.hpGauges>1)?"s":""}`}
+                            key={`${monsterID}-tooltip`}
+                            place="bottom"
+                        />
+                    </>
+                )
+            }
+
+            // --------------
+            // --- Weapon ---
+            // --------------
             let weaponData : WeaponDataType|undefined = Weapons.getData(unit.weapon.name);
             var weaponRow = <></>
             if (weaponData !== null) {
-                let weaponID : string = `tile-${
-                    unit?.coords.x}-${unit?.coords.y}-unit-${unit.allegiance}-${
-                    unit.weapon.name.toLowerCase().replaceAll(" ","").replaceAll("'","")}Weapon`
+                let weaponClass = "map-tooltip-unit-details-weapon"
+                let weaponID : string = `${mainID}-${unit.weapon.name.toLowerCase().replaceAll(" ","").replaceAll("'","")}Weapon`
                 weaponRow = (
                     <span 
-                        className="map-tooltip-unit-details-info-weaponRow" 
+                        className={`${weaponClass}Row row-black-background`}
                         id={weaponID}
+                        key={weaponID}
                     >
                         <img src={weaponData?.icon} />
-                        <span >
+                        <span className={(unit.weapon.name === "Cracked Crest Stone") ? "stone" : ""} >
                             {unit.weapon.name}
                         </span>
                         <Tooltip
                             anchorSelect={`#${weaponID}`}
-                            children={
-                                <span className="map-tooltip-unit-details-info-weapon-description">{weaponData?.description}</span>
-                            }
+                            content={weaponData?.description}
                             key={`${weaponID}-tooltip`}
                             place="bottom"
                         />
@@ -367,43 +413,53 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                 )
             }
 
-            // Advantages and Disadvantages
-            var advantagesRows = <></>
-            let displayWeaponAdvantage = ( (category : CategoryType, categoryID : string, advantage : boolean) => (
-                <>
-                    <img 
-                        src={`${process.env.PUBLIC_URL}/images/icons/advantages/${(!advantage)?"dis":""}advantage-weapon.png`}
-                        alt={`Weapon ${(advantage) ? "A" : "Disa"}dvantage Icon`} 
-                        id={`${categoryID}-${(!advantage)?"dis":""}advantage`}
-                    />
-                    { 
-                        (unit.allegiance == "red" || unit.allegiance == "yellow") &&
-                        <Tooltip
-                            anchorSelect={`#${categoryID}-${(!advantage)?"dis":""}advantage`}
-                            children={
-                                <span className="map-tooltip-unit-details-info-weapon-description">
-                                    {`${(advantage) ? "Do not u" : "U"}se ${(category.nameLower === "gauntlets") ? category.nameLower : category.nameLower + "s"} against this enemy`}
-                                </span>
-                            }
-                            key={`${categoryID}-${(!advantage)?"dis":""}advantage-tooltip`}
-                            place="bottom"
+            // ------------------------------------
+            // --- Advantages and Disadvantages ---
+            // ------------------------------------
+            var advantagesBox = <></>
+            let displayWeaponAdvantage = ( (category : CategoryType, categoryID : string, advantage : boolean) => {
+                let advantageTxt : string = `${(!advantage)?"dis":""}advantage`
+                return (
+                    <>
+                        <img 
+                            src={`${process.env.PUBLIC_URL}/images/icons/advantages/${advantageTxt}-weapon.png`}
+                            alt={`Weapon ${makeFirstLetterCapital(advantageTxt)} Icon`} 
+                            id={`${categoryID}-${advantageTxt}`}
                         />
-                    }
-                </>
-            ))
+                        { 
+                            (unit.allegiance == "red" || unit.allegiance == "yellow") &&
+                            <Tooltip
+                                anchorSelect={`#${categoryID}-${advantageTxt}`}
+                                children={
+                                    <span className="map-tooltip-unit-details-info-weapon-description">
+                                        {`${(advantage) ? "Do not u" : "U"}se ${(category.nameLower === "gauntlets") ? category.nameLower : category.nameLower + "s"} against this enemy`}
+                                    </span>
+                                }
+                                key={`${categoryID}-${advantageTxt}-tooltip`}
+                                place="bottom"
+                            />
+                        }
+                    </>
+                )
+            })
             if (weaponData !== null) {
-                advantagesRows = (
-                    <span className="map-tooltip-unit-box map-tooltip-unit-weapon-advantages">
-                        <span className="map-tooltip-unit-weapon-advantageRow">
+                let advantagesClass = "map-tooltip-unit-advantages"
+                let advantagesId : string = `${mainID}-advantages`
+                advantagesBox = (
+                    <span
+                        className={`map-tooltip-unit-box ${advantagesClass}Box`}
+                        key={advantagesId}
+                    >
+                        <span className={`${advantagesClass}-row`}>
                             {
                                 Object.values(Weapons.categories).map( (category : CategoryType) => {
                                     // Skip Stone
                                     if (category === Weapons.categories.STONE)
                                         return <></>
 
-                                    let categoryID = `map-tooltip-info-weapon-advantageCol-${unit.allegiance}-${category.nameLower}`
+                                    let categoryID = `${advantagesId}-${category.nameLower}`
                                     return (
-                                    <span className="map-tooltip-unit-weapon-advantageCol">
+                                    <span className={`${advantagesClass}-col`}>
                                         <img src={category.icon} />
                                         {
                                             ( weaponData?.advantage !== undefined && weaponData.advantage.has(category) ) &&
@@ -417,7 +473,7 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                                 )})
                             }
                         </span>
-                        <span className="map-tooltip-unit-weapon-advantageRow">
+                        <span className={`${advantagesClass}-row`}>
                             {
                                 Object.values(Classes.types).map( (type : CategoryType) => {
                                     var advantage = 0;
@@ -435,7 +491,7 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                                         case -2: advantageSrc = advantageSrc.concat("disadvantage-type.png"); break;
                                     }
                                     return (
-                                        <span className="map-tooltip-unit-weapon-advantageCol">
+                                        <span className={`${advantagesClass}-col`}>
                                             <img src={type.icon} />
                                             {
                                                 ( advantage !== 0 ) && 
@@ -450,13 +506,14 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                 )
             }
 
-            // StatRow
+            // -------------
+            // --- Stats ---
+            // -------------
             let statData : UnitDataType["stats"] = unit.stats;
-            var statRow = <></>
+            var statBox = <></>
             if (statData !== undefined && statData !== null) {
-                let statId : string = `tile-${unit.coords.x}-${unit.coords.y}-unit-${unit.allegiance}-${
-                    unit.name.toLowerCase().replaceAll(" ", "")
-                }-stats`
+                let statClass = "map-tooltip-unit-stat"
+                let statId : string = `${mainID}-stats`
                 const getStatElements = ([title, text, value, description] : [string, string, number|undefined, string]) => {
                     if (value === undefined)
                         return <></>
@@ -465,7 +522,7 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                         <>
                             <span
                                 key={`${curStatId}`}
-                                className="row-black-background map-tooltip-unit-stat"
+                                className={`row-black-background ${statClass}-row`}
                             >
                                 <span id={`${curStatId}`}>{text}</span>
                                 <span>{value}</span>
@@ -473,9 +530,9 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                             <Tooltip
                                 anchorSelect={`#${curStatId}`}
                                 children=
-                                    <span className="stat-content">
-                                        <span className="title"><b><u>{title}</u></b></span>
-                                        <span className="description">{description}</span>
+                                    <span>
+                                        <div className="header-white-underlined">{title}</div>
+                                        <div>{description}</div>
                                     </span>
                                 key={`${curStatId}-tooltip`}
                                 place="bottom"
@@ -483,9 +540,12 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                         </>
                     )
                 }
-                statRow = (
-                    <span className="map-tooltip-unit-box map-tooltip-unit-statRow">
-                        <span className="map-tooltip-unit-stat-col">
+                statBox = (
+                    <span 
+                        className={`map-tooltip-unit-box ${statClass}Box`}
+                        key={statId}
+                    >
+                        <span className={`${statClass}-col`}>
                             {
                                 ([
                                     ["Hit Points", "HP",  statData.hp,  "A unit's max HP. HP depletes with damage. When it reaches zero, a unit will retreat or fall in battle."],
@@ -496,7 +556,7 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                                 ] as [string, string, number, string][]).map( ( arr ) => getStatElements(arr) )
                             }
                         </span>
-                        <span className="map-tooltip-unit-stat-col">
+                        <span className={`${statClass}-col`}>
                             {
                                 ([
                                     ["Movement", "Move",  statData.move,  "-"],
@@ -511,80 +571,69 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                 )
             }
 
-            // Abilities
-            let abilitiesData = {
-                class : unit.class.data!.abilities
-            };
-            var abilitiesRow = <></>
-            if (abilitiesData.class !== undefined) {
-                let abilitiesClass = "map-tooltip-unit-abilities"
-                let abilitiesID : string = `tile-${
-                    unit?.coords.x}-${unit?.coords.y}-unit-${unit.allegiance}-ability`
-                abilitiesRow = (
+            // -----------------
+            // --- Inventory ---
+            // -----------------
+            var inventoryBox = <></>
+            if (weaponData !== undefined) {
+                let inventoryClass = "map-tooltip-unit-inventory"
+                let inventoryID : string = `${mainID}-inventory`
+                let weaponSmall : string = (weaponData.might!>=100 && weaponData.durability!>=100) ? "small" : ""
+                inventoryBox = (
                     <span 
-                        className={`map-tooltip-unit-box ${abilitiesClass}Row`}
-                        key={abilitiesID}
+                        className={`map-tooltip-unit-box ${inventoryClass}Box`}
+                        key={inventoryID}
                     >
-                        {/* Crests */}
                         {
-                            (unit.crest!==undefined && unit.crest.length>0) &&
-                            <span className={`${abilitiesClass}-crests`}>
-                                {
-                                    (unit.crest.map(data => {
-                                        let crestData = Crests.crest[data.name];
-                                        if (crestData===undefined) return <></>
-                                        let crest = (data.type==="major") ? crestData.major : crestData.minor;
-                                        let crestID = (
-                                            `tile-${unit?.coords.x}-${unit?.coords.y}-unit-${unit.allegiance}-` + 
-                                            `crest-${data.name}-${data.type}-${data.level}`)
-                                        return (<>
-                                            <img
-                                                src={crest.icon}
-                                                alt={crest.name}
-                                                id={crestID}
-                                                key={crestID}
-                                            />
-                                            <Tooltip
-                                                anchorSelect={`#${crestID}`}
-                                                children= <span>
-                                                        <div><b><u>{crest.name + " Lv " + data.level}</u></b></div>
-                                                        <div>{crest.description}</div>
-                                                        <br/>
-                                                        <div>{crest.effect[data.level-1]}</div>
-                                                    </span>
-                                                key={`${crestID}-tooltip`}
-                                                place="top"
-                                            />
-                                        </>)
-                                    }))
-                                }
-                            </span>
-                        }
-                        {/* Class Abilities */}
-                        {
-                            (abilitiesData.class !== undefined) &&
-                            <span className={`${abilitiesClass}-class`}>
-                                <div className={`${abilitiesClass}-class-title`}>Class Abilities</div>
-                                <div className={`${abilitiesClass}-class-icons`}>
+                            // Weapon
+                            (weaponData!==undefined) &&
+                            <span className={`${inventoryClass}-weapon`}>
+                                <div 
+                                    className={`${inventoryClass}-weapon-main row-black-background`}
+                                    id={`${inventoryID}-weapon-main`}
+                                >
+                                    <img 
+                                        src={unit.weapon.data!.icon}
+                                        alt={unit.weapon.name}
+                                        className={`${inventoryClass}-weapon-icon`}
+                                    />
+                                    <span className={`${inventoryClass}-weapon-name`}>{unit.weapon.name}</span>
+                                    <Tooltip
+                                        anchorSelect={`#${inventoryID}-weapon-main`}
+                                        content={unit.weapon.data!.description}
+                                        key={`${inventoryID}-weapon-main-tooltip`}
+                                        place="top"
+                                    />
+                                </div>
+                                <div className={`${inventoryClass}-weapon-grid`}>
+                                    <span className={`${inventoryClass}-weapon-info row-black-background`}>
+                                        <span className={weaponSmall}>Might</span>
+                                        <span>{weaponData!.might}</span>
+                                    </span>
+                                    <span className={`${inventoryClass}-weapon-info row-black-background`}>
+                                        <span className={weaponSmall}>Durability</span>
+                                        <span>{weaponData!.durability}</span>
+                                    </span>
                                     {
-                                        abilitiesData.class.map( (ability) => (
-                                            <>
-                                                <img 
-                                                    src={ability.icon} 
-                                                    alt={ability.name}
-                                                    id={`${abilitiesID}-${ability.nameFile}`}
-                                                />
+                                        (weaponData!.attributes !== undefined) &&
+                                        weaponData!.attributes.map( (attribute) => {
+                                            let attributeID = `${inventoryID}-weapon-attribute-${attribute.name.toLowerCase().replaceAll(" ", "")}`
+                                            return (
+                                            <span 
+                                                id={`${attributeID}`}
+                                                className={`${inventoryClass}-weapon-attribute row-black-background`}
+                                            >
+                                                <span >
+                                                    {attribute.name}
+                                                </span>
                                                 <Tooltip
-                                                    anchorSelect={`#${abilitiesID}-${ability.nameFile}`}
-                                                    children= <span>
-                                                            <div><b><u>{ability.name}</u></b></div>
-                                                            <span>{ability.description}</span>
-                                                        </span>
-                                                    key={`${abilitiesID}-${ability.nameFile}-tooltip`}
+                                                    anchorSelect={`#${attributeID}`}
+                                                    content={attribute.description}
+                                                    key={`${attributeID}-tooltip`}
                                                     place="top"
                                                 />
-                                            </>
-                                        ))
+                                            </span>
+                                        )})
                                     }
                                 </div>
                             </span>
@@ -592,8 +641,106 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                     </span>
                 )
             }
+            
+            // --------------
+            // --- Crests ---
+            // -------------- 
+            var crestBox = <></>
+            if (unit.crest !== undefined && unit.crest.length>0) {
+                let crestClass = "map-tooltip-unit-crests"
+                let crestID : string = `${mainID}-crests`
+                crestBox = ( 
+                    <span 
+                        className={`map-tooltip-unit-box ${crestClass}Box`}
+                        key={crestID}
+                    >
+                        {
+                            (unit.crest.map(data => {
+                                let crestData = Crests.crest[data.name];
+                                if (crestData===undefined) return <></>
+                                let crest = (data.type==="major") ? crestData.major : crestData.minor;
+                                let curCrestID = (
+                                    `${crestID}-${data.name}-${data.type}-${data.level}`)
+                                return (
+                                <div 
+                                    id={curCrestID}
+                                    key={curCrestID}
+                                    className={`${crestClass}-row row-black-background`}
+                                >
+                                    <img
+                                        src={crest.icon}
+                                        alt={crest.name}
+                                    />
+                                    {crest.name}
+                                    <Tooltip
+                                        anchorSelect={`#${curCrestID}`}
+                                        children= <span>
+                                                <div className="header-white-underlined">{crest.name + " Lv " + data.level}</div>
+                                                <div>{crest.description}</div>
+                                                <br/>
+                                                <div>{crest.effect[data.level-1]}</div>
+                                            </span>
+                                        key={`${curCrestID}-tooltip`}
+                                        place="top"
+                                    />
+                                </div>)
+                            }))
+                        }
+                    </span>
+                )
+            }
 
-            // Misc
+            // Abilities
+            let abilitiesData = {
+                class : unit.class.data!.abilities
+            };
+            var abilitiesBox = <></>
+            if (abilitiesData.class !== undefined) {
+                let abilitiesClass = "map-tooltip-unit-abilities"
+                let abilitiesID : string = `${mainID}-ability`
+                abilitiesBox = (
+                    <span 
+                        className={`map-tooltip-unit-box ${abilitiesClass}Box`}
+                        key={abilitiesID}
+                    >
+                        <span className={`${abilitiesClass}-abilities`}>
+                            {/* Class Abilities */}
+                            {
+                                (abilitiesData.class !== undefined) &&
+                                <span className={`${abilitiesClass}-class`}>
+                                    <div className={`${abilitiesClass}-class-title`}>Class Abilities</div>
+                                    <div className={`${abilitiesClass}-class-icons`}>
+                                        {
+                                            abilitiesData.class.map( (ability) => (
+                                                <>
+                                                    <img 
+                                                        src={ability.icon} 
+                                                        alt={ability.name}
+                                                        id={`${abilitiesID}-${ability.nameFile}`}
+                                                    />
+                                                    <Tooltip
+                                                        anchorSelect={`#${abilitiesID}-${ability.nameFile}`}
+                                                        children= <span>
+                                                                <div className="header-white-underlined">{ability.name}</div>
+                                                                <span>{ability.description}</span>
+                                                            </span>
+                                                        key={`${abilitiesID}-${ability.nameFile}-tooltip`}
+                                                        place="top"
+                                                    />
+                                                </>
+                                            ))
+                                        }
+                                    </div>
+                                </span>
+                            }
+                        </span>
+                    </span>
+                )
+            }
+
+            // ------------
+            // --- Misc ---
+            // ------------
             var miscRow = <></> 
             // Add Mission data if it doesn't exist
             let addMissionTextData = (mission : number[]) => {
@@ -635,7 +782,17 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                     </span>
                 )
 
-            // All together
+            // --------------
+            // --- Helper ---
+            // --------------
+
+            function makeFirstLetterCapital(text:string){
+                return text.slice(0,1).toUpperCase() + text.slice(1)
+            }
+
+            // --------------------
+            // --- All together ---
+            // --------------------
             children.push(
                 <Accordion>
                         <AccordionSummary
@@ -652,24 +809,28 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                                 <span className="map-tooltip-unit-name">
                                     <span>{unit.name}</span>
                                 </span>
-                                <span className="map-tooltip-unit-details">
+                                <span className="map-tooltip-unit-details map-tooltip-unit-box">
                                     <span
                                         className="map-tooltip-unit-details-profile"
                                     >
-                                        {/* === Profile === */}
                                         <img src={unit.class.profile.url as string} />
                                     </span>
                                     <span className="map-tooltip-unit-details-info">
                                         <span className="map-tooltip-unit-details-info-levelClassRows">
-                                            {levelTypeRow}
+                                            {factionRow}
+                                            {levelRow}
+                                            {typeRow}
                                             {classRow}
+                                            {monsterRow}
                                         </span>
                                         {weaponRow}
                                     </span> {/* .map-tooltip-unit-details-info */}
                                 </span>
-                                {advantagesRows}
-                                {statRow}
-                                {abilitiesRow}
+                                {advantagesBox}
+                                {statBox}
+                                {crestBox}
+                                {inventoryBox}
+                                {abilitiesBox}
                                 {miscRow}
                             </span>
                         </AccordionDetails>

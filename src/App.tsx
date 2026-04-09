@@ -14,6 +14,7 @@ import { MapIcons } from './components/data-classes/map-icon-data';
 import { Items } from './components/data-classes/item-data';
 import { Classes } from './components/data-classes/class-data';
 import { Crests } from './components/data-classes/crest-data';
+import { Weapons } from './components/data-classes/weapon-data';
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
     // PixelsToSVG("");
     Classes.createData()
     MapIcons.createData()
+    Weapons.createData()
     Items.createData()
     Crests.createData()
   }, [])
