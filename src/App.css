@@ -54,7 +54,7 @@ html {
     all: unset;
     content: ' ';
     height: 2px;
-    transform: scale(100%,50%);
+    transform: scale(100%,40%);
     width: 90%;
     background-image: linear-gradient(
       to right, 

@@ -147,7 +147,7 @@ export function GridContainer({svgProps, setGridCords, missionData} : GridContai
                 // console.log(key)
                 // console.log(unit)
                 // Make sure it's not dummy entry
-                if (unit.coords.x === -1 && unit.coords.y === -1)
+                if (key === "-")
                     return;
 
                 var unitData : UnitDataType = unit;
@@ -159,15 +159,18 @@ export function GridContainer({svgProps, setGridCords, missionData} : GridContai
                 // Fill Class and Weapon data
                 unitData.class = Classes.getClassData(unitData)
                 unitData.weapon.data = Weapons.getData(unitData.weapon.name)
-                
-                if (data[unit.coords.x][unit.coords.y] == undefined)
-                    data[unit.coords.x][unit.coords.y] = {unit: {[key]: unitData}};
-                else {
-                    if (data[unit.coords.x][unit.coords.y].unit === undefined)
-                        data[unit.coords.x][unit.coords.y].unit = { [key] : unitData }
-                    else
-                        data[unit.coords.x][unit.coords.y].unit![key] = unitData;
-                }
+
+                // Add to all coords
+                unit.coords.forEach( ( [mission, coords] : [number[], CoordinateType], index : number ) => {
+                    if (data[coords.x][coords.y] == undefined)
+                        data[coords.x][coords.y] = {unit: {[key]: unitData}};
+                    else {
+                        if (data[coords.x][coords.y].unit === undefined)
+                            data[coords.x][coords.y].unit = { [key] : unitData }
+                        else
+                            data[coords.x][coords.y].unit![key] = unitData;
+                    }
+                })
             }
         );
 

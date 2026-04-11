@@ -173,7 +173,7 @@ export interface UnitDataType {
     allegiance : string;
     faction ?: string;
     appearAndDisappear ?: [number[],boolean][];
-    coords : CoordinateType;
+    coords : [ number[], CoordinateType][];
     stats ?: {
         hp : number,
         move ?: number,
@@ -195,7 +195,7 @@ export interface MissionDataType {
     bases : {appear: boolean, allegiance: string}[];
     gates : {appear: boolean}[];
     markings : {appear: boolean}[];
-    units : Dictionary<{show : boolean}>;
+    units : Dictionary<{show : boolean, coords : CoordinateType}>;
 }
 
 // === Class Props ===
@@ -329,8 +329,9 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
             // Units
             if (svgProps.paths.units !== undefined) {
                 Object.entries(svgProps.paths.units).forEach( ([key,unit] : [string,UnitDataType]) => {
-                    let show = calculateShow_multipleTriggers(unit.appearAndDisappear)
-                    units[key] = {show: show}
+                    let show = calculateShow_multipleTriggers(unit.appearAndDisappear);
+                    let coords = calculateCoords_multipleTriggers(unit.coords);
+                    units[key] = {show: show, coords: coords}
                 })
             }
 
@@ -379,6 +380,31 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                 break;
         }
         return show;
+    }
+
+    function calculateCoords_multipleTriggers(missionCoords : [number[],CoordinateType][]) : CoordinateType {
+        let resCoords = {x:0,y:0};
+
+        // No coord data on mapobject
+        if (missionCoords === undefined || missionCoords.length === 0)
+            return resCoords;
+
+        // If there is no mission selected, then give first coords
+        let keys = Object.keys(selectedMissionRow) as unknown as Array<string>
+        if (keys.length == 0)
+            return missionCoords[0][1];
+        let selected : number[] = keys[0].split('.').map(x=>Number(x));
+
+        for (let index = 0; index < missionCoords.length; index++) {
+            let [mission, coords] : [number[],CoordinateType] = missionCoords[index]
+            // If mission passed, update coords
+            if (selectedMissionPassed(mission, true, selected))
+                resCoords = coords
+            // If not passed, break
+            else
+                break;
+        }
+        return resCoords;
     }
 
     function calculateAllegiance(colours: [number[],string][]) {
@@ -931,10 +957,11 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                                 // Units
                                 Object.entries(svgProps.paths.units).map( ([key, unit] : [string,UnitDataType]) => {
                                     // Make sure it's not dummy entry
-                                    if (unit.coords.x === -1 && unit.coords.y === -1)
+                                    if (key === "-")
                                         return <></>
 
                                     let show = (missionData.units[key] !== undefined) ? missionData.units[key].show : true;
+                                    let coords = (missionData.units[key] !== undefined) ? missionData.units[key].coords : {x:0,y:0};
 
                                     let mapIconSprite = 
                                         (unit.named!== undefined) 
@@ -958,13 +985,13 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                                             return (
 
                                                 <use
-                                                    data-col={unit.coords.x}
-                                                    data-row={unit.coords.y}
+                                                    data-col={coords.x}
+                                                    data-row={coords.y}
                                                     key={"mapUnit-" + key}
                                                     xlinkHref={unit.class.sprite.url}
                                                     style={{ transformOrigin: '"center"' }}
                                                     transform={
-                                                        `translate(${ ((unit.coords.x-0.5)*tileSize) + centerX },${ ((unit.coords.y-0.5)*tileSize) + centerY }) ` +
+                                                        `translate(${ ((coords.x-0.5)*tileSize) + centerX },${ ((coords.y-0.5)*tileSize) + centerY }) ` +
                                                         `translate(${-centerX},${-centerY})` +
                                                         `scale(${yZoom},${yZoom}) ` +
                                                         `translate(${-centerX},${-centerY})`}
@@ -974,7 +1001,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                                             let scale = 0.5;
                                             return (
                                                 <g 
-                                                    transform={`translate(${-5*scale},${-5*scale}) translate(${((unit.coords.x-0.5)*tileSize)},${((unit.coords.y-0.5)*tileSize)}) scale(${scale},${scale})`}
+                                                    transform={`translate(${-5*scale},${-5*scale}) translate(${((coords.x-0.5)*tileSize)},${((coords.y-0.5)*tileSize)}) scale(${scale},${scale})`}
                                                     className="map-grid-tile-unit-dot"
                                                 >
                                                     {MapIcons.unitDot[unit.allegiance].g}

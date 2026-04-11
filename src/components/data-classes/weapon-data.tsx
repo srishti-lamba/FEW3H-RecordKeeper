@@ -225,7 +225,7 @@ export class Weapons {
                 "Cracked Crest Stone" : {
                     category : Weapons.categories.STONE,
                     description : "A Crest Stone bearing a cracked surface that makes its Crest indiscernible.",
-                    might: 200,
+                    might: 20,
                     durability: 100,
                 },
             }
