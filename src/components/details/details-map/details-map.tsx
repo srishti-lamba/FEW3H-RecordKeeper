@@ -441,6 +441,10 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
      * @param selected: Optional. Selected Mission's id. If already calculated, won't calculate again.
      */
     function selectedMissionPassed(target : number[]|undefined, appear : boolean, selected ?: number[]) {
+        // TESTING! REMOVE BELOW LINE ONCE DONE
+        return appear;
+        
+        /*
         // If no specified appear time, return true if appear, false if disappear
         if (target === undefined || target === null)
             return appear
@@ -473,6 +477,50 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
             // If selected[1] is >= target[1]
             return true
         }
+        */
+
+        /* 
+        MISSION             3-0         | 3 - 0
+            GROUP           3?1.1       | 3 ? 1.1
+                MISSION     3?1.1-0     | 3 ? 1.1 - 0
+                MISSION     3?1.1-1     | 3 ? 1.1 - 1
+            GROUP           3?1.2       | 3 ? 1.2
+                MISSION     3?1.2-0     | 3 ? 1.2 - 0
+                MISSION     3?1.2-1     | 3 ? 1.2 - 1
+                MISSION     3?1.2-2     | 3 ? 1.2 - 2
+                GROUP       3?1.2?3.1   | 3 ? 1.2 ? 3.1
+                    MISSION 3?1.2?3.1-0 | 3 ? 1.2 ? 3.1 - 0
+                GROUP       3?1.2?3.2   | 3 ? 1.2 ? 3.2
+                    MISSION 3?1.2?3.2-0 | 3 ? 1.2 ? 3.2 - 0
+                MISSION     3?1.2-4     | 3 ? 1.2 - 4
+                GROUP       3?1.2?5.1   | 3 ? 1.2 ? 5.1
+                    MISSION 3?1.2?5.1-0 | 3 ? 1.2 ? 5.1 - 0
+
+            From the algorithm below, the "?" and "-" don't really matter, so they can all just be "-".
+            However, they cannot be "." since those do matter.
+        */
+
+        /* 
+            Go through them one by one
+
+            Exists?
+                If !t and !s, true (reached end without a false)
+                If t and !s, false
+                If !t and s, true
+                If both exist, continue
+
+            Decimal?
+                If both are decimal,
+                    and decimal is different, false
+                    and decimal is same, continue
+                If one is decimal and the other is not, round both down and then compare
+                If both are not decimal, compare
+
+            Compare?
+                If t > s, false
+                If t < s, true
+                If t = s, continue
+        */
     }
 
     // console.log(`Details-Map rerendered`)

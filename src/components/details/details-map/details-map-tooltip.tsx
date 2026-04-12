@@ -254,8 +254,10 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
             if (show === undefined || show === false)
                 return;
 
+            let coords = (missionData.units[key] !== undefined) ? missionData.units[key].coords : {x:0,y:0};
+
             let mainID : string = (
-                `tile-${unit.coords.x}-${unit.coords.y}-` + 
+                `tile-${coords.x}-${coords.y}-` + 
                 `unit-${unit.allegiance}-${unit.name.toLowerCase().replaceAll(" ", "")}`
             )
 

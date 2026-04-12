@@ -14,11 +14,12 @@ import {
     useMaterialReactTable,
     createMRTColumnHelper,
     MRT_DisplayColumnDef,
+    MRT_Row,
 } from 'material-react-table';
 
 export interface MissionRow {
-    id?: number[];
-    type: string;
+    id?: string;
+    type: string|null;
     text: string;
     prereq?: string;
     notes?: string;
@@ -70,17 +71,41 @@ export function Missions({ isTableWidthFull: tableWidthFull, tableHeight }: Miss
     // ------------------------
 
     const addDataIDs = ( data : MissionRow[] ) => {
-        data.forEach( (row : MissionRow, index : number) => {
-            // Main rows
-            row.id = [index];
-            
-            // Sub rows
-            if (row.subRows !== undefined)
+
+        const recursive = ( row: MissionRow, index: number, parentID: string|undefined, ) => {
+            row.id = `${parentID}${(parentID!=="")?"-":""}${index}`
+
+            if (row.subRows !== undefined) {
+                let subIndex : number = 0.0;
                 row.subRows.forEach( 
-                    (subRow : MissionRow, subIndex : number) => subRow.id = [index,subIndex] 
+                    (subRow : MissionRow) => {
+                        // If subRow is group
+                        if (subRow.type === null) {
+                            subIndex = Math.round((subIndex + 0.1) * 1e12) / 1e12;
+                            recursive(subRow, subIndex, row.id)
+                        }
+                        else {
+                            recursive(subRow, subIndex, row.id)
+                            subIndex = Math.round((subIndex + 1.0) * 1e12) / 1e12;
+                        }
+                        // Next subRows
+                        
+                    }
                 )
+            }
+        }
+
+        data.forEach( (row : MissionRow, index : number) => {
+            recursive(row, index, "");
         } )
+        console.log(data);
         return data;
+    }
+
+    const getClassName = (row : MRT_Row<MissionRow>) => {
+        let levels = row.id.split("-").length;
+        if (levels == 1) return "main-row"
+        else return `sub-row-${levels}`
     }
 
     // ---------------
@@ -101,10 +126,12 @@ export function Missions({ isTableWidthFull: tableWidthFull, tableHeight }: Miss
                 filterFn: (row, id, filterValue: string[]) => {
                     if (filterValue.length == 0)
                         return true
-                    console.log(`[filterValue: [${filterValue}]] [type: ${title[row.original.type]}]`)
+                    if (row.original.type === null)
+                        return false
+                    // console.log(`[filterValue: [${filterValue}]] [type: ${title[row.original.type]}]`)
                     let equals = false
                     filterValue.forEach((filter: string) => {
-                        if (title[row.original.type] === filter)
+                        if (title[row.original.type!] === filter)
                             equals = true
                     })
                     return equals
@@ -130,7 +157,6 @@ export function Missions({ isTableWidthFull: tableWidthFull, tableHeight }: Miss
                                     <div
                                         className="mission-table-row-main-text"
                                     >
-                                        {/* {row.original.text} */}
                                         {
                                             (
                                                 table.current?.getState().globalFilter !== undefined &&
@@ -146,7 +172,7 @@ export function Missions({ isTableWidthFull: tableWidthFull, tableHeight }: Miss
                             </div>
 
                             {
-                                // Show details only if shas details
+                                // Show details only if has details
                                 (
                                     row.original.prereq !== undefined ||
                                     row.original.notes !== undefined
@@ -214,24 +240,26 @@ export function Missions({ isTableWidthFull: tableWidthFull, tableHeight }: Miss
                 "max-height" : (tableWidthFull) ? "auto" : tableHeight,
             }
         }),
+        getRowId: (originalRow: MissionRow, index: number, parent?: MRT_Row<MissionRow>) => originalRow.id!,
         muiTableBodyRowProps: ({ row }) => ({
             onClick: () =>
                 setSelectedMissionRow((prev : any) => {
                 // Row was selected previously
-                if (prev[row.id] !== undefined) {
-                    // selectedMissionRowData.current = undefined;
+                if (prev[row.id!] !== undefined) {
                     return {};
                 }
                 // Row not selected previously
                 else {
-                    // selectedMissionRowData.current = row;
-                    return {[row.id]: true};
+                    return {[row.id!]: true};
                 }
                 }),
             selected: selectedMissionRow[row.id],
+            // className: getClassName(row),
             className: row.parentId === undefined ? "main-row" : "sub-row",
+            id: `missionTable-row-${row.id}`,
             sx: {
                 cursor: 'pointer',
+                "--level" : row.id.split("-").length
             },
         }),
         enableRowSelection: false,
@@ -265,9 +293,6 @@ export function Missions({ isTableWidthFull: tableWidthFull, tableHeight }: Miss
         },
         globalFilterFn: 'searchMainText',
         enableKeyboardShortcuts: false,
-        // muiExpandButtonProps : ({ row, staticRowIndex, table }) => ({
-        //     children: (row.original.subRows === undefined) ? ExpandMoreIcon : undefined
-        // })
     });
 
     if ((Object.keys(selectedBattleRow).length == 0) || (data.length == 0))
@@ -297,10 +322,10 @@ export const title: Dictionary<string> = {
 };
 
 export const initializeMissionTextRef = (row : any, ref : React.RefObject<Dictionary<TextRefType>>) => {
-    let mission = row.original.id;
-    if (mission === undefined)
-        return;
-    let idStr : string = mission.join("-")
+    let idStr = row.original.id;
+    // if (mission === undefined)
+    //     return;
+    // let idStr : string = mission.join("-")
     let curText = ref.current[idStr]
     if (curText === undefined)
         curText = {

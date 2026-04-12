@@ -83,12 +83,29 @@
             {"type": "w", "text": "A [red]Thief[/red] appeared with a [green]chest key[/green]!", "prereq": "Player enters the [red]Plaza[/red].", "notes": "The [red]Thief[/red] appears in the hallway directly south of the [red]Command Post[/red]. They are heading towards the [red]Chapel[/red].",
               "subRows": [
                   {"type": "w", "text": "Defeat the [red]Thief[/red] and take the [green]chest key[/green]!"},
-                  {"type": "rb", "text": "Got a [green]chest key[/green] by defeating the [red]Thief[/red]!",  "prereq": "The [red]Thief[/red] is defeated before they reach the [green]chest[/green]."},
-                  {"type": "ry", "text": "Use the [green]chest key[/green] to open the [green]chest[/green]!", "prereq": "The [red]Thief[/red] is defeated before they reach the [green]chest[/green].", "notes": "The [green]chest[/green] is in the [red]Chapel[/red]."},
-                  {"type": "ry", "text": "The [red]Thief[/red] used a [green]chest key[/green] to open the [green]chest[/green] and take its contents!", "prereq": "The [red]Thief[/red] reaches the [green]chest[/green] before he is defeated."},
-                  {"type": "w", "text": "The [red]Thief[/red] is advancing on the [green]evacuation point[/green]!", "prereq": "The [red]Thief[/red] reaches the [green]chest[/green] before he is defeated."},
-                  {"type": "ry", "text": "Defeat the [red]Thief[/red] and reclaim the [green]treasure[/green]!", "prereq": "The [red]Thief[/red] reaches the [green]chest[/green] before he is defeated."},
-                  {"type": "w", "text": "The [red]Thief[/red] arrived at the [green]evacuation point[/green] and escaped with the [green]treasure[/green]!", "prereq": "The [red]Thief[/red] reaches the [green]chest[/green] before he is defeated and then arrives at the [green]evacuation point[/green]."}
+                  {"type": null, "text": "The [red]Thief[/red] is defeated before he reaches the [green]chest[/green].",
+                    "subRows": [
+                      {"type": "rb", "text": "Got a [green]chest key[/green] by defeating the [red]Thief[/red]!"},
+                      {"type": "ry", "text": "Use the [green]chest key[/green] to open the [green]chest[/green]!", "notes": "The [green]chest[/green] is in the [red]Chapel[/red]."}
+                    ]
+                  },
+                  {"type": null, "text": "The [red]Thief[/red] reaches the [green]chest[/green] before he is defeated.",
+                    "subRows": [
+                      {"type": "w", "text": "The [red]Thief[/red] used a [green]chest key[/green] to open the [green]chest[/green] and take its contents!"},
+                      {"type": "w", "text": "The [red]Thief[/red] is advancing on the [green]evacuation point[/green]!"},
+                      {"type": "ry", "text": "Defeat the [red]Thief[/red] and reclaim the [green]treasure[/green]!"},
+                      {"type": null, "text": "The [red]Thief[/red] is defeated before he reaches the [green]evacuation point[/green].",
+                        "subRows": [
+                          {"type": "rb", "text": "Got the [green]treasure[/green] by defeating the [red]Thief[/red]!"}
+                        ]
+                      },
+                      {"type": null, "text": "The [red]Thief[/red] reaches the [green]evacuation point[/green] before he is defeated.",
+                        "subRows": [
+                          {"type": "w", "text": "The [red]Thief[/red] arrived at the [green]evacuation point[/green] and escaped with the [green]treasure[/green]!"}
+                        ]
+                      }
+                    ]
+                  }
               ]
             },
             {"type": "ms", "text": "Investigate the [green]dungeon[/green]!", "notes": "The gate leading to the [red]Dungeon[/red] is removed."},
