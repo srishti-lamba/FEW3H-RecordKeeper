@@ -1941,6 +1941,8 @@ div.MuiPaper-root:has(div.MuiTableContainer-root) {
         gap: var(--gap);
 
         & tr.MuiTableRow-root {
+          --subRowMargin: 2em;
+
           display: flex;
           flex-flow: row nowrap;
           align-content: stretch;
@@ -2110,6 +2112,20 @@ div.MuiPaper-root:has(div.MuiTableContainer-root) {
                   }
                 }
 
+                /* === Group Header === */
+                &.type-null {
+                  /* height: 2em; */
+                  & div.mission-table-row-main-title {
+                    min-height: 0 !important;
+                    &::before {
+                      content: unset !important;
+                    }
+                  }
+                  & div.mission-table-row-main-text {
+                    align-content: center;
+                  }
+                }
+
                 & div.mission-table-row-details-wrapper {
                   padding: var(--padding);
                   background-color: var(--background-colour);
@@ -2162,9 +2178,21 @@ div.MuiPaper-root:has(div.MuiTableContainer-root) {
           } /* tr.MuiTableBody-root.main-row */
 
           &.sub-row {
+            & td.MuiTableCell-root[data-index="0"] {
+              position: relative;
+              overflow: visible;
+              z-index: 1;
+              & button.MuiButtonBase-root {
+                position: absolute;
+                top: 0;
+                left: calc( var(--level) * var(--subRowMargin) * 0.25 );
+                
+              }
+            }
             & td.MuiTableCell-root[data-index="1"] {
+              z-index: 0;
               & div.mission-table-row {
-                margin-left: 2em;
+                margin-left: calc( var(--level) * var(--subRowMargin) );
               }
             } /* td.MuiTableCell-root[data-index="1"] */
           } /* tr.MuiTableRow-root.sub-row */
@@ -2193,7 +2221,7 @@ div.MuiPaper-root:has(div.MuiTableContainer-root) {
               !important;
             }
           }
-          &:hover, &[data-selected="true"] {
+          &:hover:not(:has(.type-null)), &[data-selected="true"] {
 
             & div.mission-table-row-main {
               box-shadow: 

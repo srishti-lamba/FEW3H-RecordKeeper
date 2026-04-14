@@ -569,8 +569,8 @@
                     "type" : "unit-circle",
                     "appearAndDisappear" : [
                         [[-1], false],
-                        [[3,2], true],
-                        [[3,3], false]
+                        [[3,1.1,1], true],
+                        [[4], false]
                     ],
                     "colour" : "green",
                     "x" : 60.5,
@@ -580,8 +580,9 @@
                     "type" : "unit-circle",
                     "appearAndDisappear" : [
                         [[-1], false],
-                        [[3,3], true],
-                        [[3,6], false]
+                        [[3,1.2,0], true],
+                        [[3,1.2,3.1,0], false],
+                        [[3,1.2,3.2,0], false]
                     ],
                     "colour" : "green",
                     "x" : 60,
@@ -591,8 +592,9 @@
                     "type" : "unit-point-arrow",
                     "appearAndDisappear" : [
                         [[-1], false],
-                        [[3,4], true],
-                        [[3,6], false]
+                        [[3,1.2,1], true],
+                        [[3,1.2,3.1,0], false],
+                        [[3,1.2,3.2,0], false]
                     ],
                     "colour" : "red",
                     "xOne" : 60,
@@ -604,8 +606,9 @@
                     "type" : "cross",
                     "appearAndDisappear" : [
                         [[-1], false],
-                        [[3,4], true],
-                        [[3,6], false]
+                        [[3,1.2,1], true],
+                        [[3,1.2,3.1,0], false],
+                        [[3,1.2,3.2,0], false]
                     ],
                     "colour" : "green",
                     "x" : 220,
@@ -2198,13 +2201,13 @@
                     "appearAndDisappear" : [
                         [[-1], false],
                         [[3], true],
-                        [[3,1], false],
-                        [[3,3], true],
-                        [[3,6], false]
+                        [[3,1.1,0], false],
+                        [[3,1.2,3.1,0], false],
+                        [[3,1.2,3.2,0], false]
                     ],
                     "coords" : [
                         [[-1], {"x":23 , "y":20}],
-                        [[3,3], {"x":60 , "y":7}]
+                        [[3,1.2,0], {"x":60 , "y":7}]
                     ],
                     "stats" : {
                         "hp" : 1279,
@@ -2265,10 +2268,11 @@
                     "faction" : "adrestia",
                     "appearAndDisappear" : [
                         [[-1], false],
-                        [[6], true]
+                        [[5,0], true]
                     ],
                     "coords" : [
-                        [[-1], {"x":7 , "y":6}]
+                        [[-1], {"x":7 , "y":6}],
+                        [[6,5], {"x":33 , "y":24}]
                     ],
                     "stats" : {
                         "hp" : 2566,

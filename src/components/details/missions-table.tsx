@@ -244,14 +244,15 @@ export function Missions({ isTableWidthFull: tableWidthFull, tableHeight }: Miss
         muiTableBodyRowProps: ({ row }) => ({
             onClick: () =>
                 setSelectedMissionRow((prev : any) => {
+                // Row is group header, ignore
+                if (row.original.type == null)
+                    return prev;
                 // Row was selected previously
-                if (prev[row.id!] !== undefined) {
+                if (prev[row.id!] !== undefined)
                     return {};
-                }
                 // Row not selected previously
-                else {
+                else
                     return {[row.id!]: true};
-                }
                 }),
             selected: selectedMissionRow[row.id],
             // className: getClassName(row),
@@ -259,7 +260,7 @@ export function Missions({ isTableWidthFull: tableWidthFull, tableHeight }: Miss
             id: `missionTable-row-${row.id}`,
             sx: {
                 cursor: 'pointer',
-                "--level" : row.id.split("-").length
+                "--level" : row.id.split("-").length - 1
             },
         }),
         enableRowSelection: false,

@@ -743,14 +743,15 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
             // ------------
             // --- Misc ---
             // ------------
-            var miscRow = <></> 
+            var miscRow = <></>
             // Add Mission data if it doesn't exist
+            let getRowFromMission = (mission : number[]) => missionTable.current?.getRow(mission.join("-"))!;
             let addMissionTextData = (mission : number[]) => {
-                let row = missionTable.current?.getRow(mission.join("."))!
+                let row = getRowFromMission(mission);
                 initializeMissionTextRef(row, missionText)
             }
             let getMissionTypeClass = (mission: number[]) => {
-                let row = missionTable.current?.getRow(mission.join("."))!
+                let row = getRowFromMission(mission);
                 return `type-${row.original.type}`
             }
             let getSpawnCondition = ([mission, spawn] : [number[], boolean]) => (

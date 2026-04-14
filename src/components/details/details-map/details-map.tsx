@@ -358,17 +358,17 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
         return (hasAppeared && !hasDisappeared)
     }
 
-    function calculateShow_multipleTriggers(appearAndDisappear : [number[],boolean][]|undefined, noMissionDefault ?: boolean) {
+    function calculateShow_multipleTriggers(appearAndDisappear : [number[],boolean][]|undefined, noMissionDefault ?: boolean) : boolean {
         if (appearAndDisappear === undefined)
             return true;
 
-        let show = false;
+        let show : boolean = false;
 
         // If there is no mission selected, then show
         let keys = Object.keys(selectedMissionRow) as unknown as Array<string>
         if (keys.length == 0)
             return (noMissionDefault === undefined) ? true : noMissionDefault;
-        let selected : number[] = keys[0].split('.').map(x=>Number(x));
+        let selected : number[] = keys[0].split('-').map(x=>Number(x));
 
         for (let index = 0; index < appearAndDisappear.length; index++) {
             let [mission, appear] : [number[],boolean] = appearAndDisappear[index]
@@ -376,8 +376,8 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
             if (selectedMissionPassed(mission, true, selected))
                 show = appear
             // If not passed, break
-            else
-                break;
+            // else
+            //     break;
         }
         return show;
     }
@@ -393,7 +393,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
         let keys = Object.keys(selectedMissionRow) as unknown as Array<string>
         if (keys.length == 0)
             return missionCoords[0][1];
-        let selected : number[] = keys[0].split('.').map(x=>Number(x));
+        let selected : number[] = keys[0].split('-').map(x=>Number(x));
 
         for (let index = 0; index < missionCoords.length; index++) {
             let [mission, coords] : [number[],CoordinateType] = missionCoords[index]
@@ -401,8 +401,8 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
             if (selectedMissionPassed(mission, true, selected))
                 resCoords = coords
             // If not passed, break
-            else
-                break;
+            // else
+            //     break;
         }
         return resCoords;
     }
@@ -418,7 +418,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
         let keys = Object.keys(selectedMissionRow) as unknown as Array<string>
         if (keys.length == 0)
             return colours[0][1];
-        let selected : number[] = keys[0].split('.').map(x=>Number(x));
+        let selected : number[] = keys[0].split('-').map(x=>Number(x));
 
         for (let index = 0; index < colours.length; index++) {
             let [mission, colour] : [number[],string] = colours[index]
@@ -426,8 +426,8 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
             if (selectedMissionPassed(mission, true, selected))
                 allegiance = colour
             // If not passed, break
-            else
-                break;
+            // else
+            //     break;
         }
         return allegiance;        
     }
@@ -442,8 +442,68 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
      */
     function selectedMissionPassed(target : number[]|undefined, appear : boolean, selected ?: number[]) {
         // TESTING! REMOVE BELOW LINE ONCE DONE
-        return appear;
+        // return appear;
+
+        if (target === undefined || target === null || target!.length === 0)
+            return appear
         
+        if (selected == undefined) {
+            let keys = Object.keys(selectedMissionRow) as unknown as Array<string>
+            // If no mission is selected, return true if appear, false if disappear
+            if (keys.length == 0)
+                return appear;
+            selected = keys[0].split('-').map(x=>Number(x));
+        }
+
+        let isDecimal = (num : number) => num % 1 !== 0;
+
+        let tIndex = 0;
+        let sIndex = 0;
+
+        while (tIndex <= target.length && sIndex <= selected.length) {
+
+            let tNum = target[tIndex];
+            let sNum = selected[sIndex];
+
+            // Exists?
+            if ( (tNum === undefined) && (sNum === undefined) )
+                {return true;}                                      // Both do not exist, then reached end without a false, so true
+            else if (sNum === undefined)
+                {return false} // If t and !s, false
+            else if (tNum === undefined)   
+                {return true}  // If !t and s, true
+            else {}                                                 // If both exist, compare
+
+            // Decimal?
+            let tDecimal = isDecimal(tNum);
+            let sDecimal = isDecimal(sNum);
+            if (tDecimal && sDecimal) {                                             // If both are decimal,
+                if (tNum !== sNum ) 
+                    {return false}            //    and decimal is different, false
+                else {                                                              //    and decimal is same, continue
+                    tIndex +=1; 
+                    sIndex +=1;
+                    continue;
+                }
+            }
+            else if ( tDecimal !== sDecimal ) { // If one is decimal and the other is not, round both down and then compare
+                tNum = Math.floor(target[tIndex])
+                sNum = Math.floor(selected[sIndex])
+            }                                                                       //     If both are not decimal, compare
+
+            // Compare?
+            if (tNum > sNum)
+                {return false} // If t > s, false
+            if (tNum < sNum)
+                {return true}  // If t < s, true
+            else {                                               // If t = s, continue
+                tIndex +=1; 
+                sIndex +=1;
+                continue;
+            }
+
+        }
+
         /*
         // If no specified appear time, return true if appear, false if disappear
         if (target === undefined || target === null)
