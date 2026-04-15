@@ -6,7 +6,6 @@ import Table, { BattleRow } from './components/table';
 import './App.css';
 import allChapters from './db/chapters.json';
 import allBattles from './db/battles.json';
-import allMaps from './db/map-path.json';
 import { Details } from './components/details/details';
 import { PixelsToSVG } from './components/pixel-art-to-svg';
 import { DatabaseContext, DifficultyContext, BattlesTableContext } from './context';
@@ -35,7 +34,7 @@ function App() {
   }, [])
 
   return (
-    <DatabaseContext value={{chapters:allChapters, battles:allBattles.slice(1), map:allMaps}}><DifficultyContext value={useState<number>(1)}>
+    <DatabaseContext value={{chapters:allChapters, battles:allBattles.slice(1)}}><DifficultyContext value={useState<number>(1)}>
       <div className="App">
         <header className="App-header">
         Test test

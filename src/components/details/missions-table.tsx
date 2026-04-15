@@ -317,6 +317,7 @@ export const title: Dictionary<string> = {
     "me": "Main Mission Successful",
     "ss": "Side Mission Start",
     "se": "Side Mission Successful",
+    "sf": "Side Mission Failed",
     "rb": "Report!",
     "ry": "Report!",
     "w": "Warning!"

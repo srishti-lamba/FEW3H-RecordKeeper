@@ -8,6 +8,7 @@ import { DatabaseContext, BattlesTableContext, MissionsTableContext, MapContext,
 import { MapIcons } from '../../data-classes/map-icon-data';
 import { CSSProperties } from '@mui/material';
 import { ItemType } from '../../data-classes/item-data';
+import { MRT_RowSelectionState } from 'material-react-table';
 
 /* 
     Websites
@@ -172,7 +173,7 @@ export interface UnitDataType {
     };
     allegiance : string;
     faction ?: string;
-    appearAndDisappear ?: [number[],boolean][];
+    appearAndDisappear : [number[],boolean][];
     coords : [ number[], CoordinateType][];
     stats ?: {
         hp : number,
@@ -217,7 +218,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
     const scrollElement = useRef(null);
     const [scrollElementScrollbarOn, setScrollElementScrollbarOn] = useState(false);
     const [mapZoom, setMapZoom] = useState<number>(100);
-    const maps = useContext(DatabaseContext).map;
+    // const maps = useContext(DatabaseContext).map;
 
     // Run once
     useEffect(() => {
@@ -255,12 +256,26 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
             return;
         }
         let key = (keys[0] as unknown) as number
-        if (maps!.length > key) // Map data exists
-            setSvgProps(maps![key]);
-        else
-            setSvgProps(undefined); // Map data does not exist
-    }, [selectedBattleRow])
 
+        async function asyncFetch() {
+            console.log(`${process.env.PUBLIC_URL}/db/maps/${key}.json`)
+            let response = await fetch(`${process.env.PUBLIC_URL}/db/maps/${key}.json`);
+
+            if (!response.ok) setSvgProps(undefined)
+            
+            let json;
+            try {
+                json = await response.json();
+                setSvgProps(json);
+            }
+            catch { 
+                console.log('No data found for battle.');
+                setSvgProps(undefined);
+            }
+        }
+
+        asyncFetch();
+    }, [selectedBattleRow])
 
     // --------------------
     // --- Mission Data ---
@@ -353,8 +368,8 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
     }
 
     function calculateShow(appear : number[]|undefined, disappear : number[]|undefined) {
-        let hasAppeared = selectedMissionPassed(appear, true)
-        let hasDisappeared = selectedMissionPassed(disappear, false)
+        let hasAppeared = selectedMissionPassed_calcSelected(appear, true, selectedMissionRow)
+        let hasDisappeared = selectedMissionPassed_calcSelected(disappear, false, selectedMissionRow)
         return (hasAppeared && !hasDisappeared)
     }
 
@@ -430,157 +445,6 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
             //     break;
         }
         return allegiance;        
-    }
-
-    /**
-     * Compares the currently selected mission to the target.
-     * Returns true if the selected mission is at, or has passed the target.
-     * 
-     * @param target: When your object appears/dissappears.
-     * @param appear: True if you're using the appear data. False if you're using the dissapear data.
-     * @param selected: Optional. Selected Mission's id. If already calculated, won't calculate again.
-     */
-    function selectedMissionPassed(target : number[]|undefined, appear : boolean, selected ?: number[]) {
-        // TESTING! REMOVE BELOW LINE ONCE DONE
-        // return appear;
-
-        if (target === undefined || target === null || target!.length === 0)
-            return appear
-        
-        if (selected == undefined) {
-            let keys = Object.keys(selectedMissionRow) as unknown as Array<string>
-            // If no mission is selected, return true if appear, false if disappear
-            if (keys.length == 0)
-                return appear;
-            selected = keys[0].split('-').map(x=>Number(x));
-        }
-
-        let isDecimal = (num : number) => num % 1 !== 0;
-
-        let tIndex = 0;
-        let sIndex = 0;
-
-        while (tIndex <= target.length && sIndex <= selected.length) {
-
-            let tNum = target[tIndex];
-            let sNum = selected[sIndex];
-
-            // Exists?
-            if ( (tNum === undefined) && (sNum === undefined) )
-                {return true;}                                      // Both do not exist, then reached end without a false, so true
-            else if (sNum === undefined)
-                {return false} // If t and !s, false
-            else if (tNum === undefined)   
-                {return true}  // If !t and s, true
-            else {}                                                 // If both exist, compare
-
-            // Decimal?
-            let tDecimal = isDecimal(tNum);
-            let sDecimal = isDecimal(sNum);
-            if (tDecimal && sDecimal) {                                             // If both are decimal,
-                if (tNum !== sNum ) 
-                    {return false}            //    and decimal is different, false
-                else {                                                              //    and decimal is same, continue
-                    tIndex +=1; 
-                    sIndex +=1;
-                    continue;
-                }
-            }
-            else if ( tDecimal !== sDecimal ) { // If one is decimal and the other is not, round both down and then compare
-                tNum = Math.floor(target[tIndex])
-                sNum = Math.floor(selected[sIndex])
-            }                                                                       //     If both are not decimal, compare
-
-            // Compare?
-            if (tNum > sNum)
-                {return false} // If t > s, false
-            if (tNum < sNum)
-                {return true}  // If t < s, true
-            else {                                               // If t = s, continue
-                tIndex +=1; 
-                sIndex +=1;
-                continue;
-            }
-
-        }
-
-        /*
-        // If no specified appear time, return true if appear, false if disappear
-        if (target === undefined || target === null)
-            return appear
-
-        if (selected == undefined) {
-            let keys = Object.keys(selectedMissionRow) as unknown as Array<string>
-            // If no mission is selected, return true if appear, false if disappear
-            if (keys.length == 0)
-                return appear;
-            selected = keys[0].split('.').map(x=>Number(x));
-        }
-
-        // Compare first rows
-        if (selected[0] < target[0])
-            return false
-        else if (selected[0] > target[0])
-            return true
-        else { // First row is equal.
-            // If both don't have a second row, pass
-            if (selected.length === 1 && target.length === 1)
-                return true
-            // If one doesn't have a second row
-            if (target.length === 1)
-                return true
-            if (selected.length === 1)
-                return false
-            // Both have second rows
-            if (selected[1] < target[1])
-                return false
-            // If selected[1] is >= target[1]
-            return true
-        }
-        */
-
-        /* 
-        MISSION             3-0         | 3 - 0
-            GROUP           3?1.1       | 3 ? 1.1
-                MISSION     3?1.1-0     | 3 ? 1.1 - 0
-                MISSION     3?1.1-1     | 3 ? 1.1 - 1
-            GROUP           3?1.2       | 3 ? 1.2
-                MISSION     3?1.2-0     | 3 ? 1.2 - 0
-                MISSION     3?1.2-1     | 3 ? 1.2 - 1
-                MISSION     3?1.2-2     | 3 ? 1.2 - 2
-                GROUP       3?1.2?3.1   | 3 ? 1.2 ? 3.1
-                    MISSION 3?1.2?3.1-0 | 3 ? 1.2 ? 3.1 - 0
-                GROUP       3?1.2?3.2   | 3 ? 1.2 ? 3.2
-                    MISSION 3?1.2?3.2-0 | 3 ? 1.2 ? 3.2 - 0
-                MISSION     3?1.2-4     | 3 ? 1.2 - 4
-                GROUP       3?1.2?5.1   | 3 ? 1.2 ? 5.1
-                    MISSION 3?1.2?5.1-0 | 3 ? 1.2 ? 5.1 - 0
-
-            From the algorithm below, the "?" and "-" don't really matter, so they can all just be "-".
-            However, they cannot be "." since those do matter.
-        */
-
-        /* 
-            Go through them one by one
-
-            Exists?
-                If !t and !s, true (reached end without a false)
-                If t and !s, false
-                If !t and s, true
-                If both exist, continue
-
-            Decimal?
-                If both are decimal,
-                    and decimal is different, false
-                    and decimal is same, continue
-                If one is decimal and the other is not, round both down and then compare
-                If both are not decimal, compare
-
-            Compare?
-                If t > s, false
-                If t < s, true
-                If t = s, continue
-        */
     }
 
     // console.log(`Details-Map rerendered`)
@@ -710,7 +574,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
         };
 
         svgProps!.paths.markings.forEach( (marking : svg_MarkingsType, index : number) => {
-            let show = (missionData.markings[index] !== undefined) ? missionData.markings[index].appear : true;
+            let show = (missionData.markings[index] !== undefined) ? missionData.markings[index].appear : false;
             if (!show)
                 return <></>
 
@@ -1134,4 +998,89 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
         </div>
     )
     
+}
+
+// RowSelectionState
+
+/**
+ * Compares the currently selected mission to the target.
+ * Returns true if the selected mission is at, or has passed the target.
+ * 
+ * @param target: When your object appears/dissappears.
+ * @param appear: True if you're using the appear data. False if you're using the dissapear data.
+ * @param selectedState: Mission's row selected state. Used to calculate seleced mission.
+ */
+export function selectedMissionPassed_calcSelected(target : number[]|undefined, appear : boolean, selectedState : MRT_RowSelectionState) {
+
+    // If target is invalid, return true if appear, false if disappear
+    if (target === undefined || target === null || target!.length === 0)
+        return appear
+    
+    let keys = Object.keys(selectedState) as unknown as Array<string>
+    // If no mission is selected, return true if appear, false if disappear
+    if (keys.length === 0) return appear;
+    let selected = keys[0].split('-').map(x=>Number(x));
+
+    return selectedMissionPassed(target, appear, selected)
+}
+
+/**
+ * Compares the currently selected mission to the target.
+ * Returns true if the selected mission is at, or has passed the target.
+ * 
+ * @param target: When your object appears/dissappears.
+ * @param appear: True if you're using the appear data. False if you're using the dissapear data.
+ * @param selected: Selected Mission's id.
+ */
+export function selectedMissionPassed(target : number[]|undefined, appear : boolean, selected : number[]) {
+
+    // If target is invalid, return true if appear, false if disappear
+    if (target === undefined || target === null || target!.length === 0)
+        return appear
+    
+    // If selected is invalid, return true if appear, false if disappear
+    if (selected === undefined || selected === null || selected.length === 0)
+        return appear;
+
+    let isDecimal = (num : number) => num % 1 !== 0;
+
+    let tIndex = 0;
+    let sIndex = 0;
+
+    while (tIndex <= target.length && sIndex <= selected.length) {
+
+        let tNum = target[tIndex];
+        let sNum = selected[sIndex];
+
+        // Exists?
+        if ( (tNum === undefined) && (sNum === undefined) ) {return true;}  // Both do not exist, then reached end without a false, so true
+        else if (sNum === undefined) {return false}                         // If t and !s, false
+        else if (tNum === undefined)  {return true}                         // If !t and s, true
+        else {}                                                             // If both exist, compare
+
+        // Decimal?
+        let tDecimal = isDecimal(tNum);
+        let sDecimal = isDecimal(sNum);
+        if (tDecimal && sDecimal) {             // If both are decimal,
+            if (tNum !== sNum ) {return false}  //    and decimal is different, false
+            else {                              //    and decimal is same, continue
+                tIndex +=1; 
+                sIndex +=1;
+                continue;
+            }
+        }
+        else if ( tDecimal !== sDecimal ) {     // If one is decimal and the other is not, round both down and then compare
+            tNum = Math.floor(target[tIndex])
+            sNum = Math.floor(selected[sIndex])
+        }                                       // If both are not decimal, compare
+
+        // Compare?
+        if (tNum > sNum) {return false} // If t > s, false
+        if (tNum < sNum) {return true}  // If t < s, true
+        else {                          // If t = s, continue
+            tIndex +=1; 
+            sIndex +=1;
+            continue;
+        }
+    }
 }

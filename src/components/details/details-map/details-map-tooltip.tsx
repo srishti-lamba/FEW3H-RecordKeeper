@@ -2,7 +2,7 @@ import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Tooltip } from "react-tooltip";
 import { CSSProperties, memo, useContext } from "react";
-import { GridCellDataType, CoordinateType, StrongholdDataType, PotDataType, UnitDataType, MissionDataType, BaseDataType, svg_ChestType } from "./details-map";
+import { GridCellDataType, CoordinateType, StrongholdDataType, PotDataType, UnitDataType, MissionDataType, BaseDataType, svg_ChestType, selectedMissionPassed } from "./details-map";
 import { CategoryType, WeaponDataType, Weapons } from "../../data-classes/weapon-data";
 import { Classes } from "../../data-classes/class-data";
 import { BattlesTableContext, MissionsTableContext } from "../../../context";
@@ -692,7 +692,9 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                 )
             }
 
-            // Abilities
+            // -----------------
+            // --- Abilities ---
+            // -----------------
             let abilitiesData = {
                 class : unit.class.data!.abilities
             };
@@ -745,24 +747,125 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
             // ------------
             var miscRow = <></>
             // Add Mission data if it doesn't exist
-            let getRowFromMission = (mission : number[]) => missionTable.current?.getRow(mission.join("-"))!;
-            let addMissionTextData = (mission : number[]) => {
+            var getRowFromMission = (mission : number[]) => missionTable.current?.getRow(mission.join("-"))!;
+            var addMissionTextData = (mission : number[]) => {
                 let row = getRowFromMission(mission);
                 initializeMissionTextRef(row, missionText)
             }
-            let getMissionTypeClass = (mission: number[]) => {
+            var getMissionTypeClass = (mission: number[]) => {
                 let row = getRowFromMission(mission);
                 return `type-${row.original.type}`
             }
-            let getSpawnCondition = ([mission, spawn] : [number[], boolean]) => (
-                <span className="map-tooltip-unit-miscRow-mission">
-                    <span>{(spawn) ? "Spawn condition:" : "Despawn condition:"}<br/></span>
-                    <div className="row-black-background">
-                        <div className={`map-tooltip-unit-miscRow-mission-icon ${getMissionTypeClass(mission)}`}></div>
-                        <span>{missionText.current[mission.join("-")].main}</span>
-                    </div>
-                </span>
-            )
+            var getMissionDiv = (spawnArr ?: [number[], boolean], moveArr ?: [number[], CoordinateType], starting : boolean = false) => {
+                let mission : number[]|undefined = undefined;
+                let spawn : boolean|undefined = undefined;
+                let move : CoordinateType|undefined = undefined;
+                if (spawnArr !== undefined)
+                    [mission, spawn] = spawnArr;
+                else if (moveArr !== undefined)
+                    [mission, move] = moveArr;
+
+                if (
+                    ( mission === undefined || mission === null || mission.length === 0 ) ||
+                    ( spawn === undefined && move === undefined )
+                )
+                    return <></>
+
+                if (!starting && missionText.current[mission.join("-")] === undefined)
+                    addMissionTextData(mission)
+                return (
+                    <span className="map-tooltip-unit-miscRow-mission">
+                        <span>
+                            {
+                                (starting && move!==undefined) 
+                                ? `Initial location:` 
+                                : (move!==undefined) 
+                                    ? `Move to (${move.x}, ${move.y}) condition:` 
+                                    : (spawn) 
+                                        ? "Spawn condition:" 
+                                        : "Despawn condition:"
+                            }
+                        <br/></span>
+                        <div className="row-black-background">
+                            {(!starting) && <div className={`map-tooltip-unit-miscRow-mission-icon ${getMissionTypeClass(mission)}`}></div>}
+                            <span>
+                                {
+                                    (starting) 
+                                    ? `The unit starts at (${move!.x}, ${move!.y}).`
+                                    : missionText.current[mission.join("-")].main
+                                }
+                            </span>
+                        </div>
+                    </span>
+                )
+            }
+            var getSpawnAndMoveConditions = () => {
+                let spawnArr : [number[], boolean][] = (unit.appearAndDisappear===undefined) ? [] : unit.appearAndDisappear;
+                let moveArr : [number[], CoordinateType][] = (unit.coords===undefined) ? [] : unit.coords;
+
+                let spawnIndex = 0;
+                let moveIndex = 0;
+
+                let result = [];
+
+                while (spawnIndex < spawnArr.length && moveIndex < moveArr.length) {
+                    let [spawnMission, spawnCoords] = spawnArr[spawnIndex];
+                    let [moveMission, moveCoords] = moveArr[moveIndex];
+                    
+                    // If spawnMission[0] is -1, skip
+                    if (spawnMission[0] == -1) {
+                        spawnIndex += 1;
+                        continue;
+                    }
+
+                    // If moveMission[0] is -1, ...
+                    if (moveMission[0] == -1) {
+                        // If other moves exist, keep
+                        if (moveArr.length > 1) 
+                            result.push(getMissionDiv(undefined, [moveMission, moveCoords], true))
+                        moveIndex += 1;
+                        continue;
+                    }
+
+                    // Add whichever comes first
+                    let spawnComesFirst = selectedMissionPassed(spawnMission, true, moveMission)
+                    if (spawnComesFirst) {
+                        result.push(getMissionDiv([spawnMission, spawnCoords]))
+                        result.push(getMissionDiv(undefined, [moveMission, moveCoords]))
+                    }
+                    else {
+                        result.push(getMissionDiv(undefined, [moveMission, moveCoords]))
+                        result.push(getMissionDiv([spawnMission, spawnCoords]))
+                    }
+                    spawnIndex += 1;
+                    moveIndex += 1;
+                }
+
+                // Fill remaining spawn
+                while (spawnIndex < spawnArr.length) {
+                    let [spawnMission, spawnCoords] = spawnArr[spawnIndex];
+                    if (spawnMission[0] == -1) { // If spawnMission[0] is -1, skip
+                        spawnIndex += 1;
+                        continue;
+                    }
+                    result.push(getMissionDiv([spawnMission, spawnCoords]))
+                    spawnIndex += 1;
+                }
+
+                // Fill remaining move
+                while (moveIndex < moveArr.length) {
+                    let [moveMission, moveCoords] = moveArr[moveIndex];
+                    if (moveMission[0] == -1) { // If moveMission[0] is -1, ...
+                        if (moveArr.length > 1) // If other moves exist, keep
+                            result.push(getMissionDiv(undefined, [moveMission, moveCoords], true))
+                        moveIndex += 1;
+                        continue;
+                    }
+                    result.push(getMissionDiv(undefined, [moveMission, moveCoords]))
+                    moveIndex += 1;
+                }
+                return result
+            }
             if ( 
                 ( (unit.appearAndDisappear!==undefined) && ( (unit.appearAndDisappear.length > 1) || ( unit.appearAndDisappear[0][0][0] != -1 ) ) )
                 || unit.notes!==undefined
@@ -770,14 +873,7 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                 miscRow = (
                     <span className="map-tooltip-unit-box map-tooltip-unit-miscRow" >
                         <span className="header-brown-underlined">Other Information</span>
-                        { (unit.appearAndDisappear !== undefined) &&
-                            (unit.appearAndDisappear).map( ([mission, show] : [number[], boolean] ) => {
-                                if (mission[0] == -1) return <></>;
-                                if (missionText.current[mission.join("-")] === undefined)
-                                    addMissionTextData(mission)
-                                return getSpawnCondition([mission, show])
-                            })
-                        }
+                        <>{getSpawnAndMoveConditions()}</>
                         {
                             (unit.notes !== undefined) && 
                             <span className="map-tooltip-unit-miscRow-notes">{unit.notes}</span>

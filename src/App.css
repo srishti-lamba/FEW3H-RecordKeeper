@@ -1079,7 +1079,7 @@ html {
                                     &.type-ms, &.type-mc, &.type-me {
                                       background-image: url(../public/images/ui-icons/battleMission/main-mission.png)
                                     }
-                                    &.type-ss, &.type-sc, &.type-se {
+                                    &.type-ss, &.type-sc, &.type-se, &.type-sf {
                                       background-image: url(../public/images/ui-icons/battleMission/side-mission.png)
                                     }
                                     &.type-rb {
@@ -2074,7 +2074,7 @@ div.MuiPaper-root:has(div.MuiTableContainer-root) {
                   }
                 }
                 /* === Side Missions === */
-                &.type-ss, &.type-sc, &.type-se {
+                &.type-ss, &.type-sc, &.type-se, &.type-sf {
                   & div.mission-table-row-main-title {
                     background-image: url(../public/images/ui-background/battleMission/side-mission.png);
                     &::before {

@@ -12,7 +12,6 @@ export interface Dictionary<T> {
 interface DatabaseType {
     chapters ?: RouteChapters[];
     battles ?: Battle[];
-    map ?: SvgPropsType[];
 };
 
 interface BattlesTableType {
