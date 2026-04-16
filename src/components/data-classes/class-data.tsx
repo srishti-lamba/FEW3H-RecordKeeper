@@ -283,6 +283,7 @@ export class Classes {
         return `${process.env.PUBLIC_URL}/images/icons/class-types/${type.toLowerCase()}.png`
     }
 
+    // https://fireemblemwiki.org/wiki/Category:Three_Hopes_map_sprites
     public static getClassSprite(unit : UnitDataType) {
         if (unit.named!==undefined)
             return (

@@ -230,7 +230,7 @@ export class MapIcons {
             unitSprites["Fighter"] =    {height: 19, width: 20}; // viewBox="0 0 19 20" 
             unitSprites["Fighter-f"] =  {height: 20, width: 18}; // height="20" width="18"
             unitSprites["Monk"] =       {height: 14, width: 20}; // viewBox="0 0 14 20" 
-            unitSprites["Monk-f"] =     {height: 0 , width: 0}; // 
+            unitSprites["Monk-f"] =     {height: 20, width: 13}; // height="20" width="13"
 
             // Intermediate Classes
             unitSprites["Thief"] =          {height: 18, width: 19}; // height="18" width="19"

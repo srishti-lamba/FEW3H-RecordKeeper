@@ -20,11 +20,11 @@ function App() {
   // Run once
   useEffect(() => {
 
-    // ["blue", "green", "red", "yellow"].forEach( 
-    //   (colour) => {
-    //     PixelsToSVG(colour + ".png"); 
-    //     PixelsToSVG(colour + "-f.png");
-    // })
+    ["blue", "green", "red", "yellow"].forEach( 
+      (colour) => {
+        // PixelsToSVG(colour + ".png"); 
+        PixelsToSVG(colour + "-f.png");
+    })
     // PixelsToSVG("");
     Classes.createData()
     MapIcons.createData()

@@ -1,4 +1,5 @@
 {
+    "_notes": "[All Routes] [Chapter 2] [Main Battle] [Reversal of Fortune]",
     "size" : {
         "pixels" : {
             "width" : 3070,
@@ -772,6 +773,57 @@
                 "x" : 33,
                 "y" : 31,
                 "_notes": "A Wild Demonic Beast has appeared!"
+            }
+        ],
+        "player" : [
+            {
+                "coords" : {"x":33 , "y":59},
+                "allegiance" : "blue",
+                "tile-type" : "circle",
+                "fixed-unit" : [
+                    {
+                        "name": "Hubert",
+                        "named" : {"timeskip" : "pre"},
+                        "class" : {
+                            "name" : "Monk",
+                            "sprite" : { "show" : true },
+                            "profile" : { "file" : "1" }
+                        },
+                        "weapon" : { "name" : "Iron Tome" },
+                        "allegiance" : "blue",
+                        "faction" : "adrestia",
+                        "appearAndDisappear" : [ [[-1], true] ],
+                        "coords" : [ [[-1], {"x":33 , "y":59}] ]
+                    },
+                    {
+                        "name": "Dedue",
+                        "named" : {"timeskip" : "pre"},
+                        "class" : {
+                            "name" : "Fighter",
+                            "sprite" : { "show" : true },
+                            "profile" : { "file" : "1" }
+                        },
+                        "weapon" : { "name" : "Iron Axe" },
+                        "allegiance" : "blue",
+                        "faction" : "faerghus",
+                        "appearAndDisappear" : [ [[-1], true] ],
+                        "coords" : [ [[-1], {"x":33 , "y":59}] ]
+                    },
+                    {
+                        "name": "Lorenz",
+                        "named" : {"timeskip" : "pre"},
+                        "class" : {
+                            "name" : "Soldier",
+                            "sprite" : { "show" : true },
+                            "profile" : { "file" : "1" }
+                        },
+                        "weapon" : { "name" : "Iron Lance" },
+                        "allegiance" : "blue",
+                        "faction" : "leicester",
+                        "appearAndDisappear" : [ [[-1], true] ],
+                        "coords" : [ [[-1], {"x":33 , "y":59}] ]
+                    }
+                ]
             }
         ],
         "units" : {

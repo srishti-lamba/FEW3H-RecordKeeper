@@ -25,7 +25,8 @@ interface svg_PathType {
     gates : svg_GateType[];
     chests : svg_ChestType[];
     pots : svg_PotType[];
-    markings: svg_MarkingsType[];
+    markings : svg_MarkingsType[];
+    player : svg_PlayerType[];
     units : Dictionary<UnitDataType>;
 }
 
@@ -90,6 +91,13 @@ interface svg_MarkingsType {
     yOne ?: number;
     xTwo ?: number;
     yTwo ?: number;
+}
+
+interface svg_PlayerType {
+    coords : CoordinateType,
+    allegiance : string;
+    "tile-type" : string;
+    "fixed-unit" ?: UnitDataType[];
 }
 
 // === Map Size ===
@@ -329,7 +337,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
             if (svgProps.paths.gates !== undefined) {
                 (svgProps.paths.gates).forEach( (gate:svg_GateType, index:number) => {
                     let show = calculateShow(gate.appear, gate.disappear)
-                    gates[index] = {appear: show}
+                    gates[index] = {appear: (show as boolean)}
                 })
             }
 
@@ -482,7 +490,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
             strongholds.push(<>
                 <path 
                     fill={(path.fill !== undefined) ? path.fill : MapIcons.fills.stronghold[allegiance].ground} 
-                    transform={`translate(${path.translate.x},${path.translate.y})`} 
+                    transform={(path.translate !== undefined) ? `translate(${path.translate.x},${path.translate.y})` : ""}
                     d={path.d}
                     key={"mapStronghold-" + index}
                 />
@@ -763,6 +771,60 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
             </g>)
     }
 
+    // === Player ===
+    function getAllPlayerTiles() {
+        var playerTiles : React.SVGProps<SVGGElement>[] = []
+
+        svgProps!.paths.player.forEach( (tile : svg_PlayerType, index : number) => {
+            playerTiles.push(
+                <g
+                    data-col={tile.coords.x}
+                    data-row={tile.coords.y}
+                    key={"mapPlayer-" + index}
+                    transform={
+                        `translate(${(tile.coords.x-1)*tileSize},${(tile.coords.y-1)*tileSize}) `}
+                >
+                    <rect 
+                        x={0} y={0}
+                        height={tileSize} width={tileSize}
+                        fill="#3e50e2"
+                    />
+                    <rect 
+                        x={0.5} y={0.5}
+                        height={tileSize} width={tileSize}
+                        fill="none"
+                        stroke="black" stroke-width="1" stroke-linecap="round"
+                    />
+                    {
+                        (tile['tile-type'] = "circle") &&
+                        <circle
+                                cx={tileSize*0.5} cy={tileSize*0.5}
+                                r={tileSize*0.4}
+                                fill="none"
+                                stroke="url(#map-playerTile-blue-gradient)" stroke-width="4" stroke-linecap="round"
+                            />
+                    }
+                </g>
+            )
+        })
+
+        return (
+            <g id="map-playerTile-container">
+                <defs>
+                    <linearGradient id="map-playerTile-blue-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="rgb(152, 213, 255)"/>
+                        <stop offset="15%" stop-color="rgb(210, 255, 255)"/>
+                        <stop offset="30%" stop-color="rgb(122, 193, 225)"/>
+                        <stop offset="45%" stop-color="rgb(168, 239, 255)"/>
+                        <stop offset="60%" stop-color="rgb(210, 255, 255)"/>
+                        <stop offset="75%" stop-color="rgb(122, 193, 225)"/>
+                        <stop offset="100%" stop-color="rgb(152, 213, 255)"/>
+                    </linearGradient>
+                </defs>
+                <>{playerTiles}</>
+            </g>)
+    }
+
     // === Chests ===
     function getAllChests() {
         var chests : React.SVGProps<SVGGElement>[] = []
@@ -896,6 +958,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                                 />
                             </g>
                             {getAllStrongholds()}
+                            {getAllPlayerTiles()}
                             {getAllBases()}
                             <g id="map-gate-container">
                                 <defs>{MapIcons.cross.g}</defs>
