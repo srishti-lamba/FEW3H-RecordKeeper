@@ -114,16 +114,10 @@ html {
   color: #F3B65E;
 }
 
-& .map-pot-icon {
-                  /* transform-box: fill-box; */
-                  /* transform-origin: center; */
-                  /* transform: scale(var(--scaleX), var(--scaleY)); */
-                  /* transform: translate(-50%,-50%) scale(var(--scaleX), var(--scaleY)); */
-                  /* transform: translate(50%,50%) scale(var(--scaleX), var(--scaleY)); */
-                  /* transform: scale(var(--scaleX), var(--scaleY)) translate(-50%,-50%); */
-                  /* transform: scale(var(--scaleX), var(--scaleY)) translate(50%,50%); */
-                  /* transform: translate(-50%,-50%) scale(var(--scaleX), var(--scaleY)); */
-                } /* .map-pot-icon */
+& .displayNone {
+  display: none;
+  visibility: hidden;
+}
 
 .App {
   color: white;

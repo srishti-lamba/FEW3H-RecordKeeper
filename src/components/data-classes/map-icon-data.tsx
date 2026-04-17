@@ -468,7 +468,7 @@ interface SpriteRotatorProps {
 
 export function SpriteRotator({svgProps, missionData, tileSize, yZoom, units} : SpriteRotatorProps) {
 
-    const [time, setTime] = useState(0);
+    const [image, setImage] = useState(0);
     const imageArray = useRef<JSX.Element[]>([]);
 
     useEffect(() => {
@@ -482,7 +482,7 @@ export function SpriteRotator({svgProps, missionData, tileSize, yZoom, units} : 
         )
 
         const timerId = setInterval(() => {
-            setTime(cur => (cur < imageArray.current.length - 1 ? cur + 1 : 0));
+            setImage(cur => (cur < imageArray.current.length - 1 ? cur + 1 : 0));
         }, 1000);
 
         return () => {
@@ -501,6 +501,17 @@ export function SpriteRotator({svgProps, missionData, tileSize, yZoom, units} : 
     }, [yZoom])
 
     return (
-        <>{imageArray.current[time]}</>
+        <>
+            {
+                imageArray.current.map( (svg, index) => (
+                    // Using displayNone class keeps all images loaded and just hides them.
+                    // Prevents delays when reloading images.
+                    <g className={(index !== image) ? "displayNone" : ""}>
+                        {svg}
+                    </g>
+                ))
+            }
+        </>
   );
+
 }
