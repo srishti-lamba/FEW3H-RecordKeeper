@@ -1,5 +1,7 @@
-import { JSX } from "react";
+import { JSX, useEffect, useRef, useState } from "react";
 import { Dictionary } from "../../context";
+import { getUnitSprite, MissionDataType, SvgPropsType, UnitDataType } from "../details/details-map/details-map";
+import { Classes } from "./class-data";
 
 // === Fills ===
 
@@ -295,8 +297,14 @@ export class MapIcons {
             unitSprites["Agastya"] = {height: 0, width: 0};
             unitSprites["Avesta"] = {height: 0, width: 0};
 
-            // Unique Character Icons
-            unitSprites["Monica-monk-pre"] = {height: 20, width: 13}; //height="20" width="13"
+            // Player Character Icons
+            unitSprites["Shez-myrmidon-pre"]  = {height: 20, width: 15}; // height="20" width="15"
+            unitSprites["Hubert-monk-pre"]    = {height: 20, width: 15}; // height="20" width="15"
+            unitSprites["Monica-monk-pre"]    = {height: 20, width: 13}; // height="20" width="13"
+            unitSprites["Dedue-fighter-pre"]  = {height: 21, width: 16}; // height="21" width="16"
+            unitSprites["Lorenz-soldier-pre"] = {height: 20, width: 15}; // height="20" width="15"
+
+            // Enemy Character Icons
             unitSprites["Kronya-assassin"] = {height: 23, width: 28}; // height="23" width="28"
 
             // Monster Icons
@@ -448,5 +456,51 @@ export class MapIcons {
 
     public static unitSprite : Dictionary<UnitSpriteType> = {}
 
+}
 
+interface SpriteRotatorProps {
+    svgProps : SvgPropsType|null|undefined;
+    missionData : MissionDataType;
+    tileSize : number;
+    yZoom : number;
+    units : UnitDataType[];
+}
+
+export function SpriteRotator({svgProps, missionData, tileSize, yZoom, units} : SpriteRotatorProps) {
+
+    const [time, setTime] = useState(0);
+    const imageArray = useRef<JSX.Element[]>([]);
+
+    useEffect(() => {
+        imageArray.current = units.map( 
+            (unit : UnitDataType) => {
+                unit.class = Classes.getClassData(unit);
+                return getUnitSprite(
+                    svgProps, missionData, tileSize, yZoom, undefined, unit, true
+                )
+            }
+        )
+
+        const timerId = setInterval(() => {
+            setTime(cur => (cur < imageArray.current.length - 1 ? cur + 1 : 0));
+        }, 1000);
+
+        return () => {
+            clearInterval(timerId);
+        };
+    }, [])
+
+    useEffect(() => {
+        imageArray.current = []
+        imageArray.current = units.map( 
+            (unit : UnitDataType) => 
+            getUnitSprite(
+                svgProps, missionData, tileSize, yZoom, undefined, unit, true
+            )
+        )
+    }, [yZoom])
+
+    return (
+        <>{imageArray.current[time]}</>
+  );
 }

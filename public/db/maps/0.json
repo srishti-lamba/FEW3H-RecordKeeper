@@ -824,6 +824,26 @@
                         "coords" : [ [[-1], {"x":33 , "y":59}] ]
                     }
                 ]
+            },
+            {
+                "coords" : {"x":35 , "y":59},
+                "allegiance" : "blue",
+                "tile-type" : "diamond",
+                "fixed-unit" : [
+                    {
+                        "name": "Shez",
+                        "named" : {"timeskip" : "pre"},
+                        "class" : {
+                            "name" : "Myrmidon",
+                            "sprite" : { "show" : true },
+                            "profile" : { "file" : "1" }
+                        },
+                        "weapon" : { "name" : "Iron Sword" },
+                        "allegiance" : "blue",
+                        "appearAndDisappear" : [ [[-1], true] ],
+                        "coords" : [ [[-1], {"x":35 , "y":59}] ]
+                    }
+                ]
             }
         ],
         "units" : {

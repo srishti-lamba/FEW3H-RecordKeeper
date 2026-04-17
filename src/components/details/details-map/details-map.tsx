@@ -2,10 +2,10 @@ import React, {useEffect, useState, useRef, useMemo, useContext} from 'react';
 import { JSX } from 'react/jsx-runtime';
 import { GridContainer } from './details-map-grid-container';
 import Slider from '@mui/material/Slider'
-import { ClassType } from '../../data-classes/class-data';
+import { Classes, ClassType } from '../../data-classes/class-data';
 import { WeaponDataType } from '../../data-classes/weapon-data';
 import { DatabaseContext, BattlesTableContext, MissionsTableContext, MapContext, Dictionary } from '../../../context';
-import { MapIcons } from '../../data-classes/map-icon-data';
+import { MapIcons, SpriteRotator } from '../../data-classes/map-icon-data';
 import { CSSProperties } from '@mui/material';
 import { ItemType } from '../../data-classes/item-data';
 import { MRT_RowSelectionState } from 'material-react-table';
@@ -572,7 +572,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
     }
 
     // === Markings ===
-    function getAllMarkings(animated : boolean = false) {
+    function getAllMarkings(animated : boolean = false) : JSX.Element {
         var markings : React.SVGProps<SVGGElement>[] = []
 
         // Colours
@@ -588,7 +588,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
 
             switch (marking.type) {
                 case "rect" : 
-                    if (animated) return;
+                    if (animated) return <></>;
                     
                     markings.push(
                         <rect
@@ -601,7 +601,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                     )
                     break;
                 case "cross" : 
-                    if (!animated) return;
+                    if (!animated) return <></>;
 
                     markings.push(
                         <g key={"mapMarking-" + index}>
@@ -640,7 +640,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                     )
                     break;
                 case "unit-circle" : 
-                    if (animated) return;
+                    if (animated) return <></>;
 
                     markings.push(
                         <circle
@@ -653,7 +653,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                     )
                     break;
                 case "unit-point-arrow" : 
-                    if (animated) return;
+                    if (animated) return <></>;
 
                     let [rgbDark, rgbLight] = colours[marking.colour!]
 
@@ -768,7 +768,8 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                     </defs>
                 }
                 <>{markings}</>
-            </g>)
+            </g>
+        )
     }
 
     // === Player ===
@@ -776,41 +777,41 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
         var playerTiles : React.SVGProps<SVGGElement>[] = []
 
         svgProps!.paths.player.forEach( (tile : svg_PlayerType, index : number) => {
+            let unitElement : any = <></>;
+            if (tile['fixed-unit'] !== undefined || tile['fixed-unit']!.length === 0) {
+                if (tile['fixed-unit']!.length === 1) {
+                    let unit = tile['fixed-unit']![0]
+                    unit.class = Classes.getClassData(unit);
+                    unitElement = getUnitSprite(svgProps, missionData, tileSize, yZoom, undefined, unit, true)
+                }
+                else {
+                    unitElement = (
+                        <SpriteRotator 
+                            svgProps={svgProps} 
+                            missionData={missionData} 
+                            tileSize={tileSize} yZoom={yZoom} 
+                            units={tile['fixed-unit']!}
+                        />
+                    )
+                }
+            }
             playerTiles.push(
                 <g
                     data-col={tile.coords.x}
                     data-row={tile.coords.y}
                     key={"mapPlayer-" + index}
                     transform={
-                        `translate(${(tile.coords.x-1)*tileSize},${(tile.coords.y-1)*tileSize}) `}
+                            `translate(${(tile.coords.x-1)*tileSize},${(tile.coords.y-1)*tileSize}) `}
                 >
-                    <rect 
-                        x={0} y={0}
-                        height={tileSize} width={tileSize}
-                        fill="#3e50e2"
-                    />
-                    <rect 
-                        x={0.5} y={0.5}
-                        height={tileSize} width={tileSize}
-                        fill="none"
-                        stroke="black" stroke-width="1" stroke-linecap="round"
-                    />
-                    {
-                        (tile['tile-type'] = "circle") &&
-                        <circle
-                                cx={tileSize*0.5} cy={tileSize*0.5}
-                                r={tileSize*0.4}
-                                fill="none"
-                                stroke="url(#map-playerTile-blue-gradient)" stroke-width="4" stroke-linecap="round"
-                            />
-                    }
-                </g>
+                    <use xlinkHref={`#map-playerTile-${tile['tile-type']}`} />
+                    {unitElement}
+                </g> 
             )
         })
 
         return (
             <g id="map-playerTile-container">
-                <defs>
+                <defs key="map-playerTile-defs">
                     <linearGradient id="map-playerTile-blue-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
                         <stop offset="0%" stop-color="rgb(152, 213, 255)"/>
                         <stop offset="15%" stop-color="rgb(210, 255, 255)"/>
@@ -820,6 +821,51 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                         <stop offset="75%" stop-color="rgb(122, 193, 225)"/>
                         <stop offset="100%" stop-color="rgb(152, 213, 255)"/>
                     </linearGradient>
+                    <symbol
+                        id="map-playerTile-circle"
+                    >
+                        <rect 
+                            x={0} y={0}
+                            height={tileSize} width={tileSize}
+                            fill="#3e50e2"
+                        />
+                        <rect 
+                            x={0.5} y={0.5}
+                            height={tileSize} width={tileSize}
+                            fill="none"
+                            stroke="black" stroke-width="1" stroke-linecap="round"
+                        />
+                        <circle
+                            cx={tileSize*0.5} cy={tileSize*0.5}
+                            r={tileSize*0.4}
+                            fill="none"
+                            stroke="url(#map-playerTile-blue-gradient)" stroke-width="4" stroke-linecap="round"
+                        />
+                    </symbol>
+                    <symbol
+                        id="map-playerTile-diamond"
+                    >
+                        <rect 
+                            x={0} y={0}
+                            height={tileSize} width={tileSize}
+                            fill="#3e50e2"
+                        />
+                        <rect 
+                            x={0.5} y={0.5}
+                            height={tileSize} width={tileSize}
+                            fill="none"
+                            stroke="black" stroke-width="1" stroke-linecap="round"
+                        />
+                        <path
+                            d={`M ${tileSize/2} 5 
+                                L 5             ${tileSize/2} 
+                                L ${tileSize/2} ${tileSize-5} 
+                                L ${tileSize-5} ${tileSize/2} 
+                                Z`}
+                            fill="none"
+                            stroke="url(#map-playerTile-blue-gradient)" stroke-width="4" stroke-linecap="round"
+                        />
+                    </symbol>
                 </defs>
                 <>{playerTiles}</>
             </g>)
@@ -899,6 +945,18 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                 </defs>
                 <>{pots}</>
             </g>)
+    }
+
+    // === Units ===
+    function getAllUnits() {
+        let units = (
+            Object.entries(svgProps!.paths.units)
+                .map( 
+                    ([key, unit] : [string,UnitDataType]) => getUnitSprite(svgProps, missionData, tileSize, yZoom, key)
+                )
+            )
+        
+        return <>{units}</>
     }
 
     // --------------
@@ -988,66 +1046,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                             {getAllChests()}
                             {getAllPots()}
                             {getAllMarkings(false)}
-                            {
-                                // Units
-                                Object.entries(svgProps.paths.units).map( ([key, unit] : [string,UnitDataType]) => {
-                                    // Make sure it's not dummy entry
-                                    if (key === "-")
-                                        return <></>
-
-                                    let show = (missionData.units[key] !== undefined) ? missionData.units[key].show : true;
-                                    let coords = (missionData.units[key] !== undefined) ? missionData.units[key].coords : {x:0,y:0};
-
-                                    let mapIconSprite = 
-                                        (unit.named!== undefined) 
-                                        ? 
-                                            unit.name + "-" + 
-                                            (
-                                                (unit.class.nameLower!==undefined)
-                                                ? unit.class.nameLower
-                                                : unit.class.name.toLowerCase()
-                                            ) + 
-                                            (
-                                                (unit.named.timeskip!==undefined)
-                                                ? "-" + unit.named.timeskip
-                                                : ""
-                                            )
-                                        : (unit.class.name + ((unit.gender===undefined)?"":"-f"));
-                                    let centerX = MapIcons.unitSprite[mapIconSprite].width/2;
-                                    let centerY = MapIcons.unitSprite[mapIconSprite].height/2;
-                                    if (show) {
-                                        if (unit.class.sprite.show === true)
-                                            return (
-
-                                                <use
-                                                    data-col={coords.x}
-                                                    data-row={coords.y}
-                                                    key={"mapUnit-" + key}
-                                                    xlinkHref={unit.class.sprite.url}
-                                                    style={{ transformOrigin: '"center"' }}
-                                                    transform={
-                                                        `translate(${ ((coords.x-0.5)*tileSize) + centerX },${ ((coords.y-0.5)*tileSize) + centerY }) ` +
-                                                        `translate(${-centerX},${-centerY})` +
-                                                        `scale(${yZoom},${yZoom}) ` +
-                                                        `translate(${-centerX},${-centerY})`}
-                                                />
-                                            )
-                                        else {
-                                            let scale = 0.5;
-                                            return (
-                                                <g 
-                                                    transform={`translate(${-5*scale},${-5*scale}) translate(${((coords.x-0.5)*tileSize)},${((coords.y-0.5)*tileSize)}) scale(${scale},${scale})`}
-                                                    className="map-grid-tile-unit-dot"
-                                                >
-                                                    {MapIcons.unitDot[unit.allegiance].g}
-                                                </g>
-                                            )
-                                        }
-                                    }
-                                    else
-                                        return <></>
-                                })
-                            }
+                            {getAllUnits()}
                             {getAllMarkings(true)} {/* Animated needs to be at end to avoid blur on elements appearing after */}
                         </svg>
                         <GridContainer 
@@ -1145,5 +1144,102 @@ export function selectedMissionPassed(target : number[]|undefined, appear : bool
             sIndex +=1;
             continue;
         }
+    }
+}
+
+export /**
+     * Finds and returns an SVG representation of a speficied unit's sprite.
+     * 
+     * @param svgProps The current map svg data for the selected battle.
+     * @param missionData The current Mission Data reference.
+     * @tileSize The tileSize of the map.
+     * @yZoom The calculated y variable of the map's zoom.
+     * @param key Optional. Unit's key. If this is not declared, the unit has to be declared and key will be generated.
+     * @param unit Optional. Unit's key. If this is not declared, the key has to be declared.
+     * @param singleTile Optional. If the sprite's translate should account for the whole map, or one tile. Default is false.
+     * @returns An SVG object representing the specified unit's sprite.
+     */
+// === Unit Sprite ===
+function getUnitSprite(
+        svgProps : SvgPropsType|null|undefined, missionData : MissionDataType, 
+        tileSize : number, yZoom : number,
+        key ?: string, unit ?: UnitDataType, 
+        singleTile : boolean = false) : JSX.Element {
+    
+    if (
+        (svgProps === null || svgProps === undefined) ||
+        // At least one needs to be declarede
+        ( (key === undefined || key.length === 0) && unit === undefined)
+    )
+        return <></>
+
+    if (key === undefined)
+        key = `${unit!.coords[0][1].x}-` +
+              `${unit!.coords[0][1].y}-` + 
+              `${unit!.name.replaceAll(" ", "").toLowerCase()}-` +
+              `${unit?.allegiance}`
+    
+    if ( (key === "-") || ( (unit === undefined) && (svgProps?.paths.units[key] === undefined) ) )
+        return <></>
+
+    if (unit === undefined)
+        unit = svgProps?.paths.units[key]
+
+    let show = (missionData.units[key] !== undefined) ? missionData.units[key].show : true;
+    let coords = (missionData.units[key] !== undefined) ? missionData.units[key].coords : {x:0,y:0};
+    
+    if (!show)
+        return <></>
+
+    let mapIconSprite = 
+        (unit.named!== undefined) 
+        ? 
+            unit.name + "-" + 
+            (
+                (unit.class.nameLower!==undefined)
+                ? unit.class.nameLower
+                : unit.class.name.toLowerCase()
+            ) + 
+            (
+                (unit.named.timeskip!==undefined)
+                ? "-" + unit.named.timeskip
+                : ""
+            )
+        : (unit.class.name + ((unit.gender===undefined)?"":"-f"));
+
+    let centerX = MapIcons.unitSprite[mapIconSprite].width/2;
+    let centerY = MapIcons.unitSprite[mapIconSprite].height/2;
+
+    let transform = ""
+    if (singleTile)
+        transform = `translate(${ (tileSize*0.5) + centerX },${ (tileSize*0.5) + centerY }) `
+    else
+        transform = `translate(${ ((coords.x-0.5)*tileSize) + centerX },${ ((coords.y-0.5)*tileSize) + centerY }) `
+    transform = transform + 
+        `translate(${-centerX},${-centerY})` +
+        `scale(${yZoom},${yZoom}) ` +
+        `translate(${-centerX},${-centerY})`
+
+    if (unit.class.sprite.show === true)
+        return (
+            <use
+                data-col={coords.x}
+                data-row={coords.y}
+                key={"mapUnit-" + key}
+                xlinkHref={unit.class.sprite.url}
+                style={{ transformOrigin: '"center"' }}
+                transform={transform}
+            />
+        )
+    else {
+        let scale = 0.5;
+        return (
+            <g 
+                transform={`translate(${-5*scale},${-5*scale}) translate(${((coords.x-0.5)*tileSize)},${((coords.y-0.5)*tileSize)}) scale(${scale},${scale})`}
+                className="map-grid-tile-unit-dot"
+            >
+                {MapIcons.unitDot[unit.allegiance].g}
+            </g>
+        )
     }
 }

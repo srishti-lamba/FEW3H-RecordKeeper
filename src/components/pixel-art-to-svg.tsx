@@ -6,8 +6,8 @@ import { Dictionary } from "../context";
 export async function PixelsToSVG(fileName: string) {
 
     const image = await Jimp.read(
-        process.env.PUBLIC_URL + "/images/icons/sprites/monk/" + fileName
-        // process.env.PUBLIC_URL + "/images/icons/sprites/named/monica/monk-green-pre.png"
+        // process.env.PUBLIC_URL + "/images/icons/sprites/monk/" + fileName
+        process.env.PUBLIC_URL + "/images/icons/sprites/named/lorenz/soldier-blue-pre.png"
         // process.env.PUBLIC_URL + "/images/icons/sprites/monster/2.png"
     );
 
