@@ -496,6 +496,8 @@ html {
 
                         & .MuiAccordionDetails-root {
                           --padding: 0.6rem;
+                          --tooltip-unit-header-height: 2em;
+                          --tooltip-unit-header-width: calc( var(--tooltip-unit-header-height) * (480/60) - 6px );
 
                           display: flex;
                           flex-flow: column nowrap;
@@ -522,6 +524,7 @@ html {
 
                             & .map-tooltip-subcategory-info {
                               --font-size: 0.9rem;
+                              max-width: calc(var(--tooltip-unit-header-width));
                             } /* .map-tooltip-subcategory-info */
 
                             & .map-tooltip-subcategory-header {
@@ -587,10 +590,18 @@ html {
 
                           }/* .map-tooltip-subcategory */
 
-                          & .map-tooltip-unit {
-                            --tooltip-unit-header-height: 2em;
-                            --tooltip-unit-header-width: calc( var(--tooltip-unit-header-height) * (480/60) - 6px );
+                          & .map-tooltip-playerTile {
+                            display: flex;
+                            flex-flow: column nowrap;
+                            gap: var(--padding);
 
+                            & .map-tooltip-subcategory-info {
+                              font-size: 0.8rem;
+                              white-space: pre-wrap;
+                            } /* .map-tooltip-subcategory-info */
+                          } /* .map-tooltip-playerTile */
+
+                          & .map-tooltip-unit {
                             box-sizing: border-box;
                             display: flex;
                             flex-flow: column nowrap;
@@ -796,6 +807,9 @@ html {
                                     & .stone {
                                       font-size: 0.65rem;
                                     } /* .stone */
+                                    & .cresic {
+                                      font-size: 0.89rem;
+                                    } /* .cresic */
 
                                   } /* .map-tooltip-unit-details-weaponRow */
                                 }/* .map-tooltip-unit-details-info */

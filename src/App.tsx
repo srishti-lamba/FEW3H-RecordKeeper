@@ -25,7 +25,7 @@ function App() {
     //     // PixelsToSVG(colour + ".png"); 
     //     PixelsToSVG(colour + "-f.png");
     // })
-    PixelsToSVG("");
+    // PixelsToSVG("");
     Classes.createData()
     MapIcons.createData()
     Weapons.createData()

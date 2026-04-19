@@ -43,6 +43,7 @@ export class MapIcons {
             let bases : Dictionary<IconType> = {};
             let pots : Dictionary<IconType> = {};
             let unitDots : Dictionary<IconType> = {};
+            let playerTile : Dictionary<IconType> = {};
 
             allegiance.forEach( (colour) => {
                 // -------------------
@@ -220,6 +221,95 @@ export class MapIcons {
             })
             MapIcons.pot = pots;
 
+            // -------------------
+            // --- Player Tile ---
+            // -------------------
+
+            let shapes = ["circle", "diamond"];
+            shapes.forEach( (shape : string) => {
+                playerTile[shape] = {
+                    svg: <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            height="100%"
+                            viewBox="0 0 1 1" 
+                            preserveAspectRatio="xMidYMid meet"
+                        >
+                            { (shape === shapes[0]) &&
+                                <>
+                                    <circle
+                                        cx="0.5" cy="0.5"
+                                        r="0.5"
+                                        fill="#3e50e2"
+                                        stroke="none"
+                                    />
+                                    <circle
+                                        cx="0.5" cy="0.5"
+                                        r="0.3"
+                                        fill="none"
+                                        stroke="url(#map-playerTile-blue-gradient)" stroke-width="0.1" stroke-linecap="round"
+                                    />
+                                </>
+                            }
+                            { (shape === shapes[1]) &&
+                                <>
+                                    <path
+                                        d={`M  0.5  0 ` +
+                                           `l -0.5  0.5  ` +
+                                           `l  0.5  0.5  ` +
+                                           `l  0.5 -0.5  ` +
+                                            `Z`}
+                                        stroke="none"
+                                        fill="#3e50e2"
+                                    />
+                                    <path
+                                        d={`M  0.5  0.25 ` +
+                                        `l -0.25  0.25  ` +
+                                        `l  0.25  0.25  ` +
+                                        `l  0.25 -0.25  ` +
+                                            `Z`}
+                                        fill="none"
+                                        stroke="url(#map-playerTile-blue-gradient)" stroke-width="0.1" stroke-linecap="round"
+                                    />
+                                </>
+                            }
+                        </svg>,
+                    g: 
+                        <symbol id={`map-playerTile-${shape}`}>
+                            <rect 
+                                x={0} y={0}
+                                height={1} width={1}
+                                fill="#3e50e2"
+                            />
+                            <rect 
+                                x={0.015} y={0.015}
+                                height={1} width={1}
+                                fill="none"
+                                stroke="black" stroke-width="0.03" stroke-linecap="round"
+                            />
+                            { (shape === shapes[0]) &&
+                                <circle
+                                    cx={0.515} cy={0.515}
+                                    r={0.4}
+                                    fill="none"
+                                    stroke="url(#map-playerTile-blue-gradient)" stroke-width="0.1" stroke-linecap="round"
+                                />
+                            }
+                            { (shape === shapes[1]) &&
+                                <path
+                                    d={`M  0.5  0.1 
+                                        l -0.4  0.4 
+                                        l  0.4  0.4 
+                                        l  0.4 -0.4 
+                                        Z`}
+                                    fill="none"
+                                    stroke="url(#map-playerTile-blue-gradient)" stroke-width="0.1" stroke-linecap="round"
+                                />
+                            }
+                        </symbol>
+                }
+            });
+            MapIcons.playerTile = playerTile;
+
             // --------------------
             // --- Unit Sprites ---
             // --------------------
@@ -298,19 +388,28 @@ export class MapIcons {
             unitSprites["Avesta"] = {height: 0, width: 0};
 
             // Player Character Icons
-            unitSprites["Shez-myrmidon-pre"]  = {height: 20, width: 15}; // height="20" width="15"
-            unitSprites["Hubert-monk-pre"]    = {height: 20, width: 15}; // height="20" width="15"
-            unitSprites["Monica-monk-pre"]    = {height: 20, width: 13}; // height="20" width="13"
-            unitSprites["Dedue-fighter-pre"]  = {height: 21, width: 16}; // height="21" width="16"
-            unitSprites["Lorenz-soldier-pre"] = {height: 20, width: 15}; // height="20" width="15"
+            unitSprites["Shez-myrmidon-pre"]     = {height: 20, width: 15}; // height="20" width="15"
+            unitSprites["Shez-myrmidon-f-pre"]   = {height: 21, width: 15}; // height="21" width="15"
+            unitSprites["Edelgard-fighter-pre"]  = {height: 20, width: 15}; // height="20" width="15"
+            unitSprites["Dimitri-soldier-pre"]   = {height: 20, width: 15}; // height="20" width="15"
+            unitSprites["Claude-fighter-pre"]    = {height: 21, width: 16}; // height="21" width="16"
+            unitSprites["Hubert-monk-pre"]       = {height: 20, width: 15}; // height="20" width="15"
+            unitSprites["Ferdinand-soldier-pre"] = {height: 20, width: 15}; // height="20" width="15"
+            unitSprites["Monica-monk-pre"]       = {height: 20, width: 13}; // height="20" width="13"
+            unitSprites["Jeritza-cavalier-pre"]  = {height: 28, width: 24}; // height="28" width="24"
+            unitSprites["Jeritza-cavalier-post"] = {height: 28, width: 24}; // height="28" width="24"
+            unitSprites["Dedue-fighter-pre"]     = {height: 21, width: 16}; // height="21" width="16"
+            unitSprites["Ashe-fighter-pre"]      = {height: 20, width: 15}; // height="20" width="15"
+            unitSprites["Hilda-fighter-pre"]     = {height: 20, width: 17}; // height="20" width="17"
+            unitSprites["Lorenz-soldier-pre"]    = {height: 20, width: 15}; // height="20" width="15"
 
             // Enemy Character Icons
             unitSprites["Kronya-assassin"] = {height: 23, width: 28}; // height="23" width="28"
 
             // Monster Icons
+            unitSprites["Wild Demon Beast"] = {height: 25, width: 32}; //height="25" width="32"
 
             MapIcons.unitSprite = unitSprites;
-            unitSprites["Wild Demon Beast"] = {height: 25, width: 32}; //height="25" width="32"
         }
         
         createDataAsync();
@@ -376,6 +475,8 @@ export class MapIcons {
     public static unitDot : Dictionary<IconType> = {}
     public static unitDotHeight : number = 10;
     public static unitDotWidth : number = 10;
+
+    public static playerTile : Dictionary<IconType> = {};
 
     public static chest : IconType = {
         svg: (
@@ -464,22 +565,33 @@ interface SpriteRotatorProps {
     tileSize : number;
     yZoom : number;
     units : UnitDataType[];
+    tooltip ?: boolean;
 }
 
-export function SpriteRotator({svgProps, missionData, tileSize, yZoom, units} : SpriteRotatorProps) {
+export function SpriteRotator({svgProps, missionData, tileSize, yZoom, units, tooltip = false} : SpriteRotatorProps) {
 
     const [image, setImage] = useState(0);
     const imageArray = useRef<JSX.Element[]>([]);
 
-    useEffect(() => {
+    const getImageArray = () => {
         imageArray.current = units.map( 
             (unit : UnitDataType) => {
-                unit.class = Classes.getClassData(unit);
-                return getUnitSprite(
-                    svgProps, missionData, tileSize, yZoom, undefined, unit, true
-                )
+                if (tooltip === true)
+                    return <img
+                            className="map-tooltip-subcategory-row-icon"
+                            src={unit.class.sprite?.url as string}
+                            style={{height: "1.25em"}}
+                        />
+                else
+                    return getUnitSprite(
+                        svgProps, missionData, tileSize, yZoom, undefined, unit, true
+                    )
             }
         )
+    }
+
+    useEffect(() => {
+        getImageArray();
 
         const timerId = setInterval(() => {
             setImage(cur => (cur < imageArray.current.length - 1 ? cur + 1 : 0));
@@ -492,12 +604,7 @@ export function SpriteRotator({svgProps, missionData, tileSize, yZoom, units} : 
 
     useEffect(() => {
         imageArray.current = []
-        imageArray.current = units.map( 
-            (unit : UnitDataType) => 
-            getUnitSprite(
-                svgProps, missionData, tileSize, yZoom, undefined, unit, true
-            )
-        )
+        getImageArray();
     }, [yZoom])
 
     return (

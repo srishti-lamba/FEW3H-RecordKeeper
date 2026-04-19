@@ -1,5 +1,5 @@
 import React, { JSX, memo, useEffect, useMemo, useRef, useState } from "react";
-import { GridCellDataType, PotDataType, SvgPropsType, CoordinateType, size_SpecificType, StrongholdDataType, UnitDataType, MissionDataType, svg_StrongholdType, BaseDataType, svg_BaseType, svg_ChestType } from "./details-map";
+import { GridCellDataType, PotDataType, SvgPropsType, CoordinateType, size_SpecificType, StrongholdDataType, UnitDataType, MissionDataType, svg_StrongholdType, BaseDataType, svg_BaseType, svg_ChestType, svg_PlayerType } from "./details-map";
 import { Tooltip, TooltipRefProps } from "react-tooltip";
 import { MemoizedTooptipContent } from "./details-map-tooltip";
 // import { BattleRow } from "../../table";
@@ -140,6 +140,18 @@ export function GridContainer({svgProps, setGridCords, missionData} : GridContai
             else
                 data[pot.coords.x][pot.coords.y].pot = potData;
         });
+        
+        // === Player Tiles ===
+        (svgProps.paths.player).forEach(
+            (tile : svg_PlayerType) => {
+                let units = (tile["fixed-unit"] !== undefined) ? tile["fixed-unit"] : []
+                units.forEach( (unit) => unit.class = Classes.getClassData(unit) )
+                
+            if (data[tile.coords.x][tile.coords.y] == undefined)
+                data[tile.coords.x][tile.coords.y] = {playerTile: tile};
+            else
+                data[tile.coords.x][tile.coords.y].playerTile = tile;
+        })
 
         // === Units ===
         Object.entries(svgProps.paths.units).forEach(

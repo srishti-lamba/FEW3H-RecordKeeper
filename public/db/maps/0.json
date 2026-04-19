@@ -777,6 +777,91 @@
         ],
         "player" : [
             {
+                "coords" : {"x":34 , "y":53},
+                "allegiance" : "blue",
+                "tile-type" : "circle",
+                "fixed-unit" : [
+                    {
+                        "name": "Shez",
+                        "named" : {"timeskip" : "pre"},
+                        "class" : {
+                            "name" : "Myrmidon",
+                            "sprite" : { "show" : true },
+                            "profile" : { "file" : "1" }
+                        },
+                        "weapon" : { "name" : "Iron Sword" },
+                        "allegiance" : "blue",
+                        "appearAndDisappear" : [ [[-1], true] ],
+                        "coords" : [ [[-1], {"x":34 , "y":53}] ]
+                    },
+                    {
+                        "name": "Shez",
+                        "named" : {"timeskip" : "pre"},
+                        "gender" : "f",
+                        "class" : {
+                            "name" : "Myrmidon",
+                            "sprite" : { "show" : true },
+                            "profile" : { "file" : "1" }
+                        },
+                        "weapon" : { "name" : "Iron Sword" },
+                        "allegiance" : "blue",
+                        "appearAndDisappear" : [ [[-1], true] ],
+                        "coords" : [ [[-1], {"x":34 , "y":53}] ]
+                    }
+                ],
+                "note" : "The character in this spot is fixed when you play this chapter during the story.\n\nIf you play it through Record Player, you can choose any character."
+            },
+            {
+                "coords" : {"x":40 , "y":52},
+                "allegiance" : "blue",
+                "tile-type" : "circle",
+                "fixed-unit" : [
+                    {
+                        "name": "Edelgard",
+                        "named" : {"timeskip" : "pre"},
+                        "class" : {
+                            "name" : "Fighter",
+                            "sprite" : { "show" : true },
+                            "profile" : { "file" : "1" }
+                        },
+                        "weapon" : { "name" : "Iron Axe" },
+                        "allegiance" : "blue",
+                        "faction" : "adrestia",
+                        "appearAndDisappear" : [ [[-1], true] ],
+                        "coords" : [ [[-1], {"x":40 , "y":52}] ]
+                    },
+                    {
+                        "name": "Dimitri",
+                        "named" : {"timeskip" : "pre"},
+                        "class" : {
+                            "name" : "Soldier",
+                            "sprite" : { "show" : true },
+                            "profile" : { "file" : "1" }
+                        },
+                        "weapon" : { "name" : "Iron Lance" },
+                        "allegiance" : "blue",
+                        "faction" : "faerghus",
+                        "appearAndDisappear" : [ [[-1], true] ],
+                        "coords" : [ [[-1], {"x":40 , "y":52}] ]
+                    },
+                    {
+                        "name": "Claude",
+                        "named" : {"timeskip" : "pre"},
+                        "class" : {
+                            "name" : "Fighter",
+                            "sprite" : { "show" : true },
+                            "profile" : { "file" : "1" }
+                        },
+                        "weapon" : { "name" : "Iron Bow" },
+                        "allegiance" : "blue",
+                        "faction" : "leicester",
+                        "appearAndDisappear" : [ [[-1], true] ],
+                        "coords" : [ [[-1], {"x":40 , "y":52}] ]
+                    }
+                ],
+                "note" : "If you play this mission during the story, the character in this spot is fixed.\n\nIf you play it through Record Player, you can choose any character."
+            },
+            {
                 "coords" : {"x":33 , "y":59},
                 "allegiance" : "blue",
                 "tile-type" : "circle",
@@ -823,27 +908,58 @@
                         "appearAndDisappear" : [ [[-1], true] ],
                         "coords" : [ [[-1], {"x":33 , "y":59}] ]
                     }
-                ]
+                ],
+                "note" : "If you play this mission during the story, the character in this spot is fixed.\n\nIf you play it through Record Player, you can choose any character."
             },
             {
-                "coords" : {"x":35 , "y":59},
+                "coords" : {"x":28 , "y":52},
                 "allegiance" : "blue",
-                "tile-type" : "diamond",
+                "tile-type" : "circle",
                 "fixed-unit" : [
                     {
-                        "name": "Shez",
+                        "name": "Ferdinand",
                         "named" : {"timeskip" : "pre"},
                         "class" : {
-                            "name" : "Myrmidon",
+                            "name" : "Soldier",
                             "sprite" : { "show" : true },
                             "profile" : { "file" : "1" }
                         },
-                        "weapon" : { "name" : "Iron Sword" },
+                        "weapon" : { "name" : "Iron Lance" },
                         "allegiance" : "blue",
+                        "faction" : "adrestia",
                         "appearAndDisappear" : [ [[-1], true] ],
-                        "coords" : [ [[-1], {"x":35 , "y":59}] ]
+                        "coords" : [ [[-1], {"x":28 , "y":52}] ]
+                    },
+                    {
+                        "name": "Ashe",
+                        "named" : {"timeskip" : "pre"},
+                        "class" : {
+                            "name" : "Fighter",
+                            "sprite" : { "show" : true },
+                            "profile" : { "file" : "1" }
+                        },
+                        "weapon" : { "name" : "Iron Bow" },
+                        "allegiance" : "blue",
+                        "faction" : "faerghus",
+                        "appearAndDisappear" : [ [[-1], true] ],
+                        "coords" : [ [[-1], {"x":28 , "y":52}] ]
+                    },
+                    {
+                        "name": "Hilda",
+                        "named" : {"timeskip" : "pre"},
+                        "class" : {
+                            "name" : "Fighter",
+                            "sprite" : { "show" : true },
+                            "profile" : { "file" : "1" }
+                        },
+                        "weapon" : { "name" : "Iron Axe" },
+                        "allegiance" : "blue",
+                        "faction" : "leicester",
+                        "appearAndDisappear" : [ [[-1], true] ],
+                        "coords" : [ [[-1], {"x":28 , "y":52}] ]
                     }
-                ]
+                ],
+                "note" : "If you play this mission during the story, the character in this spot is fixed.\n\nIf you play it through Record Player, you can choose any character."
             }
         ],
         "units" : {
@@ -2389,9 +2505,40 @@
                     "res" : 6,
                     "cha" : 9
                 }
-            }
+            },
 
-            ,
+            
+            "33-51-jeritza": {
+                "name" : "Jeritza",
+                "named" : {"timeskip" : "pre"},
+                "crest" : [{"name": "lamine", "type": "minor", "level" : 1}],
+                "class" : {
+                    "name" : "Cavalier",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "1" }
+                },
+                "weapon" : { "name" : "Crescent Sickle" },
+                "allegiance" : "green",
+                "faction" : "adrestia",
+                "appearAndDisappear" : [
+                    [[-1], true]
+                ],
+                "coords" : [
+                    [[-1], {"x":33 , "y":51}]
+                ],
+                "stats" : {
+                    "hp" : 3155,
+                    "move" : 13,
+                    "str" : 11,
+                    "mag" : 10,
+                    "dex" : 10,
+                    "spd" : 6,
+                    "lck" : 9,
+                    "def" : 11,
+                    "res" : 9,
+                    "cha" : 8
+                }
+            },
             "7-6-monica": {
                 "name" : "Monica",
                 "named" : {"timeskip" : "pre"},

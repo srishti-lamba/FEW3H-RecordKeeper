@@ -95,7 +95,7 @@ export class Classes {
                 [ ["Fire"], ["Miasma Δ"], ["Heal"], ]
             ) as [string][]).forEach( 
                 ([name] : [string]) => { 
-                    let nameFile = name.toLowerCase().replaceAll(" ", "");
+                    let nameFile = name.toLowerCase().replaceAll(" ", "").replaceAll("Δ", "").replaceAll("δ", "");
                     let icon = `${process.env.PUBLIC_URL}/images/icons/abilities/${nameFile}.png`
                     abilities[name] = {
                         name : name, nameFile : nameFile, icon : icon,
@@ -266,7 +266,7 @@ export class Classes {
 
         // Name Lower
         if (c.nameLower === undefined)
-            c.nameLower = c.name.toLowerCase()
+            c.nameLower = c.name.toLowerCase().replaceAll(" ", "")
 
         // Sprite URL
         if (c.sprite.url === undefined)
@@ -291,7 +291,8 @@ export class Classes {
                 `${unit.name.toLowerCase()}/` +
                 `${unit.class.nameLower}-` +
                 `${unit.allegiance}` +
-                `${(unit.named.timeskip!==undefined)?"-"+unit.named.timeskip:""}.svg`
+                `${(unit.gender)?`-${unit.gender}`:""}` +
+                `${(unit.named.timeskip!==undefined)?`-${unit.named.timeskip}`:""}.svg`
             )
         if (unit.monster!==undefined)
             return (

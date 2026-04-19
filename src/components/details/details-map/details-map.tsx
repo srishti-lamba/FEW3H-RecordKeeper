@@ -93,11 +93,12 @@ interface svg_MarkingsType {
     yTwo ?: number;
 }
 
-interface svg_PlayerType {
+export interface svg_PlayerType {
     coords : CoordinateType,
     allegiance : string;
     "tile-type" : string;
     "fixed-unit" ?: UnitDataType[];
+    note ?: string;
 }
 
 // === Map Size ===
@@ -129,6 +130,7 @@ export interface GridCellType {
 }
 
 export interface GridCellDataType {
+    playerTile ?: svg_PlayerType;
     stronghold ?: [number, StrongholdDataType];
     base ?: [number, BaseDataType];
     chest ?: svg_ChestType;
@@ -781,7 +783,6 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
             if (tile['fixed-unit'] !== undefined || tile['fixed-unit']!.length === 0) {
                 if (tile['fixed-unit']!.length === 1) {
                     let unit = tile['fixed-unit']![0]
-                    unit.class = Classes.getClassData(unit);
                     unitElement = getUnitSprite(svgProps, missionData, tileSize, yZoom, undefined, unit, true)
                 }
                 else {
@@ -800,10 +801,9 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                     data-col={tile.coords.x}
                     data-row={tile.coords.y}
                     key={"mapPlayer-" + index}
-                    transform={
-                            `translate(${(tile.coords.x-1)*tileSize},${(tile.coords.y-1)*tileSize}) `}
+                    transform={`translate(${(tile.coords.x-1)*tileSize},${(tile.coords.y-1)*tileSize})`}
                 >
-                    <use xlinkHref={`#map-playerTile-${tile['tile-type']}`} />
+                    <use xlinkHref={`#map-playerTile-${tile['tile-type']}`} transform={`translate(-0.5,-0.5) scale(${tileSize}, ${tileSize})`} />
                     {unitElement}
                 </g> 
             )
@@ -821,51 +821,8 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                         <stop offset="75%" stop-color="rgb(122, 193, 225)"/>
                         <stop offset="100%" stop-color="rgb(152, 213, 255)"/>
                     </linearGradient>
-                    <symbol
-                        id="map-playerTile-circle"
-                    >
-                        <rect 
-                            x={0} y={0}
-                            height={tileSize} width={tileSize}
-                            fill="#3e50e2"
-                        />
-                        <rect 
-                            x={0.5} y={0.5}
-                            height={tileSize} width={tileSize}
-                            fill="none"
-                            stroke="black" stroke-width="1" stroke-linecap="round"
-                        />
-                        <circle
-                            cx={tileSize*0.5} cy={tileSize*0.5}
-                            r={tileSize*0.4}
-                            fill="none"
-                            stroke="url(#map-playerTile-blue-gradient)" stroke-width="4" stroke-linecap="round"
-                        />
-                    </symbol>
-                    <symbol
-                        id="map-playerTile-diamond"
-                    >
-                        <rect 
-                            x={0} y={0}
-                            height={tileSize} width={tileSize}
-                            fill="#3e50e2"
-                        />
-                        <rect 
-                            x={0.5} y={0.5}
-                            height={tileSize} width={tileSize}
-                            fill="none"
-                            stroke="black" stroke-width="1" stroke-linecap="round"
-                        />
-                        <path
-                            d={`M ${tileSize/2} 5 
-                                L 5             ${tileSize/2} 
-                                L ${tileSize/2} ${tileSize-5} 
-                                L ${tileSize-5} ${tileSize/2} 
-                                Z`}
-                            fill="none"
-                            stroke="url(#map-playerTile-blue-gradient)" stroke-width="4" stroke-linecap="round"
-                        />
-                    </symbol>
+                    {MapIcons.playerTile["circle"].g}
+                    {MapIcons.playerTile["diamond"].g}
                 </defs>
                 <>{playerTiles}</>
             </g>)

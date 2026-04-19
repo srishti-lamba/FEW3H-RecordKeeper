@@ -5,6 +5,7 @@ import { Classes } from "./class-data";
 // Weapon Descriptions: https://hopes.fedatamine.com/en-us/debug/strings/61/
 
 export interface WeaponDataType {
+    nameLower ?: string;
     icon ?: string;
     category : CategoryType;
     make ?: string;
@@ -281,6 +282,10 @@ export class Weapons {
 
         if (weapon === undefined)
             return undefined;
+
+        // NameLower
+        if (weapon.nameLower === undefined)
+            weapon.nameLower = weaponName.toLowerCase().replaceAll(" ","").replaceAll("'","")
 
         // Make
         if (weapon.make === undefined)

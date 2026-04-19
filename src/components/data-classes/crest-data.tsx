@@ -23,11 +23,18 @@ export class Crests {
         async function createDataAsync() {
             let crests : Dictionary<CrestListType> = {};
 
-            ((
-                [
+            (([
+                // ["Crest Name", [minorStart, step], 
+                //     "Description", 
+                //     "Effect (Major) (*** -> slight/greatly)" 
+                // ]
                 ["Aubin",  [10,5], 
                     "A Crest long lost to history.", 
                     "% chance to land a critical hit with strong attacks." 
+                ],
+                ["Lamine", [10,5], 
+                    "A Major Crest inherited from Lamine of the Ten Elites.",
+                    "% chance that weapon durability will not decrease when using recovery magic."
                 ],
                 ["Macuil", [20,5], 
                     "They say Saint Macuil bore this Major Crest. A symbol of magic and mastery of the wind.",

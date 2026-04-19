@@ -117,7 +117,7 @@ export class Items {
             return undefined;
 
         data.name = name;
-        data.nameLower = name.toLowerCase();
+        data.nameLower = name.toLowerCase().replaceAll(" ", "").replaceAll("'", "");
         data.icon = Items.getIcon(data.category, data.rarity)
 
         return data;

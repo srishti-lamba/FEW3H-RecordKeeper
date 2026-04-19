@@ -1,15 +1,14 @@
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Tooltip } from "react-tooltip";
-import { CSSProperties, memo, useContext } from "react";
-import { GridCellDataType, CoordinateType, StrongholdDataType, PotDataType, UnitDataType, MissionDataType, BaseDataType, svg_ChestType, selectedMissionPassed } from "./details-map";
+import { memo, useContext } from "react";
+import { GridCellDataType, CoordinateType, StrongholdDataType, PotDataType, UnitDataType, MissionDataType, BaseDataType, svg_ChestType, selectedMissionPassed, svg_PlayerType } from "./details-map";
 import { CategoryType, WeaponDataType, Weapons } from "../../data-classes/weapon-data";
 import { Classes } from "../../data-classes/class-data";
 import { BattlesTableContext, MissionsTableContext } from "../../../context";
-import { formatText, initializeMissionTextRef, title } from "../missions-table";
-import { MapIcons } from "../../data-classes/map-icon-data";
+import { initializeMissionTextRef } from "../missions-table";
+import { MapIcons, SpriteRotator } from "../../data-classes/map-icon-data";
 import { ItemType } from "../../data-classes/item-data";
-import { stringify } from "querystring";
 import { Crests } from "../../data-classes/crest-data";
 
 interface TooltipContentProps {
@@ -34,7 +33,101 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
 
     var data : GridCellDataType = dataAll[tileCoords.x][tileCoords.y]
     var children = []
-    
+
+    // -------------------
+    // --- Player Tile ---
+    // -------------------
+    var playerTile : svg_PlayerType|undefined = (data.playerTile === undefined) ? undefined : data.playerTile;
+    if ( playerTile !== undefined ) {
+        // Units
+        let players : [boolean, UnitDataType|UnitDataType[]][] = [];
+        let shezIndex : number = -1;
+        if (playerTile["fixed-unit"] !== undefined) 
+            (playerTile["fixed-unit"]).forEach( (player, index : number) => {
+                if (player instanceof String !== true) {
+                    if (player.name == "Shez") {
+                        if (shezIndex == -1)
+                            shezIndex = index;
+                        else {
+                            let prevShez = players[shezIndex][1]
+                            players[shezIndex][0] = true;
+                            players[shezIndex][1] = [prevShez, player] as UnitDataType|UnitDataType[]
+                            return
+                        }
+                    }
+                    players.push([false, player as UnitDataType])
+                }
+            })
+        var playerElements = []
+        
+        playerElements.push(players.map( ([double, unit] : [boolean, UnitDataType|UnitDataType[]]) => {
+            return (
+                <span className="map-tooltip-subcategory-row">
+                    <span className="map-tooltip-subcategory-row-info">
+                        {
+                            (double == true) ?
+                            // Double Gendered Units
+                            <>
+                                <SpriteRotator 
+                                    svgProps={undefined} missionData={missionData} 
+                                    tileSize={0} yZoom={0} 
+                                    units={unit as UnitDataType[]} tooltip={true} 
+                                />
+                                {(unit as UnitDataType[])[0].name}
+                            </> :
+                            // Single Gendered Units
+                            <>
+                                <img
+                                    className="map-tooltip-subcategory-row-icon"
+                                    src={(unit as UnitDataType).class.sprite?.url as string}
+                                    style={{height: "1.25em"}}
+                                />
+                                {(unit as UnitDataType).name}
+                            </>
+                        }
+                    </span>
+                </span>
+            )
+        }))
+
+        if (playerElements.length == 0)
+            playerElements.push(
+                <span className="map-tooltip-subcategory-row">
+                    <span className="map-tooltip-subcategory-row-info">
+                        Any unit
+                    </span>
+                </span>
+        )
+
+        children.push(
+            <span className="map-tooltip-row">
+                <Accordion>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                    >
+                        <span className="map-tooltip-category-icon">{MapIcons.playerTile[playerTile["tile-type"]].svg}</span>
+                        <span className="map-tooltip-category-title">{(playerTile["tile-type"] == "circle") ? "Direct Control" : "Indirect Control"}</span>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <div className="map-tooltip-playerTile">
+                            <span className="map-tooltip-subcategory map-tooltip-stronghold-captains ">
+                                <span className="map-tooltip-subcategory-header header-brown-underlined">Characters</span>
+                                {playerElements}
+                            </span>
+                            {
+                                (playerTile.note !== undefined) &&
+                                <span className="map-tooltip-subcategory map-tooltip-stronghold-details">
+                                    <span className="map-tooltip-subcategory-header header-brown-underlined">Notes</span>
+                                    <span className="map-tooltip-subcategory-info">{playerTile.note}</span>
+                                </span> 
+                            }
+                        </div>
+                    </AccordionDetails>
+                </Accordion>
+            </span>
+        )
+    }
+
     // -------------------
     // --- Strongholds ---
     // -------------------
@@ -48,16 +141,13 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
             break breakStronghold;
         
         // Captains
-        var captains : (UnitDataType)[] = [];
+        let captains : (UnitDataType)[] = [];
         (stronghold.captain).forEach( (captain) => {
-            console.log(captain)
             if (captain instanceof String !== true)
                 captains.push(captain as UnitDataType)
         })
         var captainElements = []
         captainElements.push(captains.map( (unit : UnitDataType) => {
-            console.log(unit)
-            // var weapon : WeaponDataType|undefined = unit.weapon.
             return (
                 <span className="map-tooltip-subcategory-row">
                     <span className="map-tooltip-subcategory-row-info">
@@ -119,13 +209,13 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
         let allegiance = missionData.bases[index].allegiance;
         
         // Captains
-        var captains : (UnitDataType)[] = [];
+        var players : (UnitDataType)[] = [];
         (base.captain).forEach( (captain) => {
             if (captain instanceof String !== true)
-                captains.push(captain as UnitDataType)
+                players.push(captain as UnitDataType)
         })
         var captainElements = []
-        captainElements.push(captains.map( (unit : UnitDataType) => {
+        captainElements.push(players.map( (unit : UnitDataType) => {
             // var weapon : WeaponDataType|undefined = unit.weapon.
             return (
                 <span className="map-tooltip-subcategory-row">
@@ -333,7 +423,7 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
             var classRow = <></>
             if (classData!==undefined) {
                 let classClass = "map-tooltip-unit-details-class";
-                let classID = `${mainID}-${classData.nameLower?.replaceAll(" ","")}Class`
+                let classID = `${mainID}-${classData.nameLower!}Class`
                 var classRow = (
                     <>
                         <img 
@@ -394,7 +484,11 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
             var weaponRow = <></>
             if (weaponData !== null) {
                 let weaponClass = "map-tooltip-unit-details-weapon"
-                let weaponID : string = `${mainID}-${unit.weapon.name.toLowerCase().replaceAll(" ","").replaceAll("'","")}Weapon`
+                let weaponID : string = `${mainID}-${weaponData!.nameLower}Weapon`
+                let smallClass = ({
+                    "Cracked Crest Stone": "stone",
+                    "Crescent Sickle": "cresic",
+                    })[unit.weapon.name] || "";
                 weaponRow = (
                     <span 
                         className={`${weaponClass}Row row-black-background`}
@@ -402,7 +496,7 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                         key={weaponID}
                     >
                         <img src={weaponData?.icon} />
-                        <span className={(unit.weapon.name === "Cracked Crest Stone") ? "stone" : ""} >
+                        <span className={smallClass} >
                             {unit.weapon.name}
                         </span>
                         <Tooltip

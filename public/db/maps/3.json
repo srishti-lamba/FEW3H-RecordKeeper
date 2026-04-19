@@ -95,8 +95,15 @@
         "bases" : [],
         "gates" : [],
         "chests" : [],
-        "pots" : [],
+        "pots" : [
+            {
+                "colour" : "purple",
+                "m" : {"x" : 270 , "y" : 195},
+                "coords" : { "x" : 6 , "y" : 5 }
+            }
+        ],
         "markings": [],
+        "player" : [],        
         "units" : []
     }
 }
