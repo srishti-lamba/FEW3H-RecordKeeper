@@ -221,7 +221,8 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
     const selectedBattleRow = useContext(BattlesTableContext).selectedRow![0];
     const selectedMissionRow = useContext(MissionsTableContext).selectedRow![0]
     const scollElementSize = useContext(MapContext).size!;
-    const [svgProps, setSvgProps] = useState<SvgPropsType | undefined | null>(undefined);
+    const [svgProps, setSvgProps] = useContext(MapContext).svg!;
+    const [gridData, setGridData] = useContext(MapContext).tileData!;
     const [gridCords, setGridCords] = useState<CoordinateType | null>(null);
     const [missionData, setMissionData] = useState<MissionDataType>({strongholds:[],bases:[],gates:[],markings:[],units:{}})
     const [mapZoomExpanded, setMapZoomExpanded] = useState<boolean>(false);
@@ -916,6 +917,40 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
         return <>{units}</>
     }
 
+    // === Weapon ADvantages ===
+    function getAllWeaponAdvantages() {
+
+        let icons : React.SVGProps<SVGGElement>[] = [];
+
+        gridData.forEach( (colArr, xIndex) => {
+            colArr.forEach( (tile, yIndex) => {
+                if (tile.unit === undefined)
+                    return
+
+                let hasAdvantage = false;
+                let hasDisadvantage = false;
+
+                Object.entries(tile.unit).forEach( ([key, unit]) => {
+                    // If allied, skip
+                    if (unit.allegiance === "blue" || unit.allegiance === "green")
+                        return;
+
+                    let show = (missionData.units[key] !== undefined) ? missionData.units[key].show : true;
+                    let coords = (missionData.units[key] !== undefined) ? missionData.units[key].coords : {x:0,y:0};
+
+                    // If not visible or coord is not there
+                    if (!show || !(coords.x == xIndex && coords.y == yIndex ) )
+                        return
+
+                    // Check if advantage or not
+                    
+                })
+            })
+        })
+
+        return <>{icons}</>
+    }
+
     // --------------
     // --- Return ---
     // --------------
@@ -1125,7 +1160,7 @@ function getUnitSprite(
     
     if (
         (svgProps === null || svgProps === undefined) ||
-        // At least one needs to be declarede
+        // At least one needs to be declared
         ( (key === undefined || key.length === 0) && unit === undefined)
     )
         return <></>

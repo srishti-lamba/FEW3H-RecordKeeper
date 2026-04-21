@@ -1,8 +1,9 @@
 import React, {useEffect, useState, useRef, useContext} from 'react';
-import { Map } from './details-map/details-map'
+import { GridCellDataType, Map, SvgPropsType } from './details-map/details-map'
 import { MRT_TableInstance } from 'material-react-table';
 import { MissionRow, Missions } from './missions-table';
 import { MapContext, MissionsTableContext } from '../../context';
+import { WeaponTriangle } from './weapon-triangle';
 // import { BattleRow } from '../table';
 
 interface DetailsProps {
@@ -65,12 +66,21 @@ export function Details( {/*selectedRow, selectedRowData*/} : DetailsProps ) {
     return (
         <div id="right-pane-contents" ref={rightPaneRef}>
 
-            <MapContext value={{size: mapSize}} >
+            <MapContext
+                value={{
+                    size: mapSize,
+                    svg: useState<SvgPropsType|undefined|null>(undefined),
+                    tileData: useState<(GridCellDataType)[][]>([]),
+                    selectedWeapon: useState("")
+                }}
+            >
             <MissionsTableContext value={{
                 table: missionsTable,
                 selectedRow: useState({}),
                 text : useRef({})
             }}>
+
+                <WeaponTriangle />
 
                 <div id="map-mission-container">
                     <Map 

@@ -1,4 +1,4 @@
-import React, { JSX, memo, useEffect, useMemo, useRef, useState } from "react";
+import React, { JSX, memo, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { GridCellDataType, PotDataType, SvgPropsType, CoordinateType, size_SpecificType, StrongholdDataType, UnitDataType, MissionDataType, svg_StrongholdType, BaseDataType, svg_BaseType, svg_ChestType, svg_PlayerType } from "./details-map";
 import { Tooltip, TooltipRefProps } from "react-tooltip";
 import { MemoizedTooptipContent } from "./details-map-tooltip";
@@ -7,6 +7,7 @@ import { Classes } from "../../data-classes/class-data";
 import { Weapons } from "../../data-classes/weapon-data";
 import { MapIcons } from "../../data-classes/map-icon-data";
 import { Items } from "../../data-classes/item-data";
+import { MapContext } from "../../../context";
 
 interface GridContainerProps {
     svgProps : SvgPropsType;
@@ -19,7 +20,8 @@ export function GridContainer({svgProps, setGridCords, missionData} : GridContai
     const [tileCoords, setTileCoords] = useState<CoordinateType|null>(null);
     const prevTileCoords = useRef<(CoordinateType|null)[]>([null, null]);
     const tileID = useRef<string|null>(null);
-    const [data, setData] = useState<(GridCellDataType)[][]>([]);
+    const [data, setData] = useContext(MapContext).tileData!;
+    // const [data, setData] = useState<(GridCellDataType)[][]>([]);
 
     const tooltip = useRef<TooltipRefProps|null>(null);
 
@@ -192,7 +194,7 @@ export function GridContainer({svgProps, setGridCords, missionData} : GridContai
     }, [svgProps])
 
     const createGridContainer = () => {
-        // console.log("Grid Container rerendered")
+        console.log("Grid Container rerendered")
 
         if (svgProps === null || svgProps === undefined)
             return;
@@ -289,13 +291,16 @@ interface GridRowProps {
 }
 
 function GridRow({data, svgSquares, setGridCords, row, tileCoords, prevTileCoords, tileID, setTileCoords} : GridRowProps) {
-    // console.log(`[[[ Row rerendered: ${row } tileCoords: (${tileCoords?.x},${tileCoords?.y}) prevTileCoords: (${prevTileCoords.current[1]?.x},${prevTileCoords.current[1]?.y}) ]]]`)
+    console.log(`[[[ Row rerendered: ${row } tileCoords: (${tileCoords?.x},${tileCoords?.y}) prevTileCoords: (${prevTileCoords.current[1]?.x},${prevTileCoords.current[1]?.y}) ]]]`)
     // console.log(prevTileCoords)
 
     const childrenRef = useRef<(HTMLDivElement|undefined)[]>([]);
     const childrenArray = useRef<JSX.Element[]>([]);
 
     const createTile = (col : number) => {
+        if (data[col] === undefined)
+            return <></>
+        
         var tile = (
             <MemoizedGridCellTile 
                 data={data[col][row]} 
@@ -337,6 +342,8 @@ const MemoizedGridRow = memo(
     GridRow, 
     (prevProps: Readonly<GridRowProps>, nextProps: Readonly<GridRowProps>) => {
         return !(
+            // Data is different
+            (prevProps.data === nextProps.data) &&
             // The current or previous y equals row
             (prevProps.tileCoords?.y === prevProps.row || nextProps.tileCoords?.y === nextProps.row) &&
             // The current and previous are different

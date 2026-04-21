@@ -2245,6 +2245,47 @@ div.MuiPaper-root:has(div.MuiTableContainer-root) {
   } /* .MuiTableContainer-root */
 } /* .MuiPaper-root.missions-table */
 
+/* ----------------------- */
+/* --- Weapon Triangle --- */
+/* ----------------------- */
+
+#weapon-triangle {
+  display: block;
+  & svg {
+    & .weapon-triangle-group {
+      & .weapon-triangle-circle {
+        color: #928A7D;
+        &:hover {
+          color: rgb(172,153,106);
+        }
+      } /* .weapon-triangle-circle */
+      & .weapon-triangle-image {
+        pointer-events: none;
+        filter: brightness(0) saturate(100%) invert(0%) sepia(100%) saturate(7462%) hue-rotate(38deg) brightness(106%) contrast(109%);
+        opacity: 0.5;
+      } /* .weapon-triangle-image */
+
+      &.selected {
+        & .weapon-triangle-circle {
+          color: rgb(98,8,8);
+        }
+        & .weapon-triangle-image {
+          filter: brightness(0) saturate(100%) invert(99%) sepia(1%) saturate(2%) hue-rotate(295deg) brightness(105%) contrast(101%);
+          opacity: 1;
+        }
+        &:has(.weapon-triangle-circle:hover) .weapon-triangle-image {
+          filter: brightness(0) saturate(100%) invert(83%) sepia(3%) saturate(5850%) hue-rotate(360deg) brightness(86%) contrast(49%);
+        }
+      }
+
+      &:has(.weapon-triangle-circle:hover) .weapon-triangle-image {
+        filter: brightness(0) saturate(100%) invert(99%) sepia(1%) saturate(2%) hue-rotate(295deg) brightness(105%) contrast(101%);
+        opacity: 1;
+      }
+    } /* .weapon-triangle-group */
+  } /* svg */
+} /* #weapon-triangle */
+
 /* ------------------------- */
 /* --- Dark Mode Buttons --- */
 /* ------------------------- */
