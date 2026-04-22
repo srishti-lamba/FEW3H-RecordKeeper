@@ -1,0 +1,28 @@
+<svg 
+    xmlns="http://www.w3.org/2000/svg"  
+    height="35" width="10"
+    viewBox="0 0 1 35" 
+    preserveAspectRatio="none"
+    >
+    
+    <!-- shape-rendering="crispEdges" -->
+
+    <!-- Background -->
+    <rect width="100%" height="94%" fill="rgb(10,10,10)" transform="translate(0,1)" />
+
+    <!-- Inner lines -->
+    <path
+        fill="none"
+        stroke="rgb(172,153,106)" stroke-width="1" stroke-linecap="round" vector-effect="non-scaling-stroke"
+        d=" M 0 1.5 
+            L 1 1.5
+            M 0 34 
+            L 1 34 "
+    />
+
+</svg>
+
+<!-- d=" M 0 1.25 
+    L 1 1.25
+    M 0 33.75 
+    L 1 33.75 " -->

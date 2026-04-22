@@ -1,0 +1,262 @@
+<svg 
+    xmlns="http://www.w3.org/2000/svg"
+    height="23" width="28"
+    viewBox="0 0 28 23" 
+    preserveAspectRatio="xMinYMin meet" 
+    shape-rendering="crispEdges"
+>
+    <defs>
+        <rect
+            id="rect"
+            x="0" y="0" width="1" height="1"
+        />
+        <use href="#rect" id="colour-0" fill="rgb(181,156,49)" />
+        <use href="#rect" id="colour-1" fill="rgb(206,181,57)" />
+        <use href="#rect" id="colour-2" fill="rgb(148,132,33)" />
+        <use href="#rect" id="colour-3" fill="rgb(123,99,24)" />
+        <use href="#rect" id="colour-4" fill="rgb(206,89,36)" />
+        <use href="#rect" id="colour-5" fill="rgb(165,55,6)" />
+        <use href="#rect" id="colour-6" fill="rgb(244,166,130)" />
+        <use href="#rect" id="colour-7" fill="rgb(255,198,172)" />
+        <use href="#rect" id="colour-8" fill="rgb(235,119,65)" />
+        <use href="#rect" id="colour-9" fill="rgb(90,74,16)" />
+        <use href="#rect" id="colour-10" fill="rgb(170,166,186)" />
+        <use href="#rect" id="colour-11" fill="rgb(203,200,216)" />
+        <use href="#rect" id="colour-12" fill="rgb(235,234,239)" />
+        <use href="#rect" id="colour-13" fill="rgb(76,0,6)" />
+        <use href="#rect" id="colour-14" fill="rgb(96,30,0)" />
+        <use href="#rect" id="colour-15" fill="rgb(230,0,18)" />
+        <use href="#rect" id="colour-16" fill="rgb(119,113,143)" />
+        <use href="#rect" id="colour-17" fill="rgb(60,57,72)" />
+        <use href="#rect" id="colour-18" fill="rgb(107,113,149)" />
+        <use href="#rect" id="colour-19" fill="rgb(74,76,90)" />
+        <use href="#rect" id="colour-20" fill="rgb(45,46,49)" />
+        <use href="#rect" id="colour-21" fill="rgb(57,49,8)" />
+        <use href="#rect" id="colour-22" fill="rgb(0,0,0)" />
+    </defs>
+    <use href="#colour-0" transform="translate(17,0)" />
+    <use href="#colour-0" transform="translate(20,1)" />
+    <use href="#colour-0" transform="translate(1,18)" />
+    <use href="#colour-0" transform="translate(21,20)" />
+    <use href="#colour-1" transform="translate(18,0)  scale(2,1)" />
+    <use href="#colour-1" transform="translate(22,2)" />
+    <use href="#colour-1" transform="translate(23,4)" />
+    <use href="#colour-1" transform="translate(23,7)" />
+    <use href="#colour-1" transform="translate(22,10)" />
+    <use href="#colour-1" transform="translate(5,12)" />
+    <use href="#colour-1" transform="translate(3,13)" />
+    <use href="#colour-1" transform="translate(13,13)" />
+    <use href="#colour-1" transform="translate(1,16)  scale(1,2)" />
+    <use href="#colour-1" transform="translate(25,17)" />
+    <use href="#colour-1" transform="translate(17,19)" />
+    <use href="#colour-1" transform="translate(25,19)" />
+    <use href="#colour-1" transform="translate(18,20)" />
+    <use href="#colour-1" transform="translate(22,20)" />
+    <use href="#colour-2" transform="translate(20,0)" />
+    <use href="#colour-2" transform="translate(19,1)" />
+    <use href="#colour-2" transform="translate(21,1)  scale(2,1)" />
+    <use href="#colour-2" transform="translate(20,2)  scale(2,1)" />
+    <use href="#colour-2" transform="translate(21,3)" />
+    <use href="#colour-2" transform="translate(22,4)" />
+    <use href="#colour-2" transform="translate(6,12)" />
+    <use href="#colour-2" transform="translate(21,12)" />
+    <use href="#colour-2" transform="translate(4,13)" />
+    <use href="#colour-2" transform="translate(1,14)  scale(1,2)" />
+    <use href="#colour-2" transform="translate(0,15)  scale(2,1)" />
+    <use href="#colour-2" transform="translate(23,15)" />
+    <use href="#colour-2" transform="translate(0,16)  scale(1,2)" />
+    <use href="#colour-2" transform="translate(1,19)" />
+    <use href="#colour-2" transform="translate(24,19)" />
+    <use href="#colour-2" transform="translate(23,20)" />
+    <use href="#colour-3" transform="translate(19,2)" />
+    <use href="#colour-3" transform="translate(23,2)  scale(1,2)" />
+    <use href="#colour-3" transform="translate(20,3)" />
+    <use href="#colour-3" transform="translate(22,3)  scale(2,1)" />
+    <use href="#colour-3" transform="translate(21,4)" />
+    <use href="#colour-3" transform="translate(24,4)" />
+    <use href="#colour-3" transform="translate(22,5)" />
+    <use href="#colour-3" transform="translate(23,6)" />
+    <use href="#colour-3" transform="translate(23,8)" />
+    <use href="#colour-3" transform="translate(22,9)" />
+    <use href="#colour-3" transform="translate(5,11)  scale(3,1)" />
+    <use href="#colour-3" transform="translate(9,11)" />
+    <use href="#colour-3" transform="translate(21,11)" />
+    <use href="#colour-3" transform="translate(3,12)  scale(2,1)" />
+    <use href="#colour-3" transform="translate(1,13)  scale(2,1)" />
+    <use href="#colour-3" transform="translate(0,14)" />
+    <use href="#colour-3" transform="translate(2,14)  scale(1,3)" />
+    <use href="#colour-3" transform="translate(24,16)" />
+    <use href="#colour-3" transform="translate(24,18)" />
+    <use href="#colour-3" transform="translate(26,18)" />
+    <use href="#colour-3" transform="translate(23,19)" />
+    <use href="#colour-3" transform="translate(24,20)" />
+    <use href="#colour-3" transform="translate(22,21)  scale(2,1)" />
+    <use href="#colour-4" transform="translate(11,3)  scale(2,1)" />
+    <use href="#colour-4" transform="translate(10,4)  scale(1,2)" />
+    <use href="#colour-4" transform="translate(13,5)" />
+    <use href="#colour-4" transform="translate(9,6)" />
+    <use href="#colour-4" transform="translate(12,6)  scale(1,2)" />
+    <use href="#colour-4" transform="translate(8,7)" />
+    <use href="#colour-4" transform="translate(18,7)" />
+    <use href="#colour-4" transform="translate(11,8)" />
+    <use href="#colour-4" transform="translate(16,8)" />
+    <use href="#colour-4" transform="translate(17,9)" />
+    <use href="#colour-5" transform="translate(13,3)  scale(3,1)" />
+    <use href="#colour-5" transform="translate(16,4)" />
+    <use href="#colour-5" transform="translate(17,5)  scale(1,2)" />
+    <use href="#colour-5" transform="translate(14,6)" />
+    <use href="#colour-5" transform="translate(18,6)" />
+    <use href="#colour-5" transform="translate(15,7)  scale(1,2)" />
+    <use href="#colour-5" transform="translate(19,7)  scale(2,1)" />
+    <use href="#colour-5" transform="translate(9,8)" />
+    <use href="#colour-5" transform="translate(12,8)" />
+    <use href="#colour-5" transform="translate(18,8)" />
+    <use href="#colour-5" transform="translate(10,9)  scale(2,1)" />
+    <use href="#colour-5" transform="translate(16,10)" />
+    <use href="#colour-6" transform="translate(11,4)" />
+    <use href="#colour-6" transform="translate(14,4)" />
+    <use href="#colour-6" transform="translate(12,5)" />
+    <use href="#colour-6" transform="translate(15,5)" />
+    <use href="#colour-6" transform="translate(10,6)" />
+    <use href="#colour-6" transform="translate(16,6)  scale(1,2)" />
+    <use href="#colour-6" transform="translate(9,7)" />
+    <use href="#colour-6" transform="translate(11,7)" />
+    <use href="#colour-7" transform="translate(12,4)  scale(2,1)" />
+    <use href="#colour-7" transform="translate(11,5)  scale(1,2)" />
+    <use href="#colour-7" transform="translate(10,7)" />
+    <use href="#colour-8" transform="translate(15,4)" />
+    <use href="#colour-8" transform="translate(14,5)" />
+    <use href="#colour-8" transform="translate(16,5)" />
+    <use href="#colour-8" transform="translate(15,6)" />
+    <use href="#colour-8" transform="translate(17,7)  scale(1,2)" />
+    <use href="#colour-8" transform="translate(10,8)" />
+    <use href="#colour-9" transform="translate(23,5)  scale(2,1)" />
+    <use href="#colour-9" transform="translate(24,6)  scale(1,3)" />
+    <use href="#colour-9" transform="translate(23,9)  scale(1,2)" />
+    <use href="#colour-9" transform="translate(7,12)" />
+    <use href="#colour-9" transform="translate(20,12)  scale(1,2)" />
+    <use href="#colour-9" transform="translate(5,13)  scale(2,1)" />
+    <use href="#colour-9" transform="translate(19,13)  scale(2,1)" />
+    <use href="#colour-9" transform="translate(3,14)  scale(2,1)" />
+    <use href="#colour-9" transform="translate(3,15)  scale(1,2)" />
+    <use href="#colour-9" transform="translate(24,15)" />
+    <use href="#colour-9" transform="translate(25,16)" />
+    <use href="#colour-9" transform="translate(2,17)  scale(1,2)" />
+    <use href="#colour-9" transform="translate(24,17)" />
+    <use href="#colour-9" transform="translate(26,17)" />
+    <use href="#colour-9" transform="translate(25,18)" />
+    <use href="#colour-9" transform="translate(27,18)  scale(2,1)" />
+    <use href="#colour-9" transform="translate(26,19)" />
+    <use href="#colour-9" transform="translate(25,20)" />
+    <use href="#colour-9" transform="translate(24,21)" />
+    <use href="#colour-10" transform="translate(13,6)" />
+    <use href="#colour-10" transform="translate(14,7)" />
+    <use href="#colour-10" transform="translate(11,10)" />
+    <use href="#colour-10" transform="translate(14,15)" />
+    <use href="#colour-10" transform="translate(19,17)" />
+    <use href="#colour-10" transform="translate(16,18)" />
+    <use href="#colour-10" transform="translate(20,18)" />
+    <use href="#colour-11" transform="translate(13,7)" />
+    <use href="#colour-11" transform="translate(12,9)" />
+    <use href="#colour-11" transform="translate(16,9)" />
+    <use href="#colour-11" transform="translate(15,10)" />
+    <use href="#colour-11" transform="translate(11,12)" />
+    <use href="#colour-11" transform="translate(17,12)" />
+    <use href="#colour-11" transform="translate(10,13)" />
+    <use href="#colour-11" transform="translate(13,14)" />
+    <use href="#colour-11" transform="translate(12,15)" />
+    <use href="#colour-11" transform="translate(9,17)" />
+    <use href="#colour-11" transform="translate(13,17)" />
+    <use href="#colour-11" transform="translate(17,18)" />
+    <use href="#colour-11" transform="translate(19,18)" />
+    <use href="#colour-12" transform="translate(13,8)  scale(1,3)" />
+    <use href="#colour-12" transform="translate(15,9)" />
+    <use href="#colour-12" transform="translate(12,10)  scale(2,1)" />
+    <use href="#colour-12" transform="translate(10,12)" />
+    <use href="#colour-12" transform="translate(16,12)" />
+    <use href="#colour-12" transform="translate(17,13)" />
+    <use href="#colour-12" transform="translate(13,15)" />
+    <use href="#colour-12" transform="translate(8,17)" />
+    <use href="#colour-13" transform="translate(14,8)" />
+    <use href="#colour-14" transform="translate(19,8)" />
+    <use href="#colour-14" transform="translate(18,9)" />
+    <use href="#colour-14" transform="translate(17,10)" />
+    <use href="#colour-14" transform="translate(16,11)" />
+    <use href="#colour-15" transform="translate(14,9)" />
+    <use href="#colour-16" transform="translate(10,10)" />
+    <use href="#colour-16" transform="translate(14,10)" />
+    <use href="#colour-16" transform="translate(15,12)" />
+    <use href="#colour-16" transform="translate(16,13)" />
+    <use href="#colour-16" transform="translate(14,17)" />
+    <use href="#colour-16" transform="translate(17,17)" />
+    <use href="#colour-17" transform="translate(8,11)  scale(1,2)" />
+    <use href="#colour-17" transform="translate(10,11)  scale(2,1)" />
+    <use href="#colour-17" transform="translate(15,11)" />
+    <use href="#colour-17" transform="translate(18,12)  scale(1,2)" />
+    <use href="#colour-18" transform="translate(12,11)" />
+    <use href="#colour-18" transform="translate(8,16)" />
+    <use href="#colour-18" transform="translate(11,18)" />
+    <use href="#colour-18" transform="translate(10,19)" />
+    <use href="#colour-19" transform="translate(13,11)  scale(2,1)" />
+    <use href="#colour-19" transform="translate(11,13)" />
+    <use href="#colour-19" transform="translate(15,13)" />
+    <use href="#colour-19" transform="translate(10,14)" />
+    <use href="#colour-19" transform="translate(17,14)  scale(2,1)" />
+    <use href="#colour-19" transform="translate(9,15)" />
+    <use href="#colour-19" transform="translate(15,15)" />
+    <use href="#colour-19" transform="translate(18,15)" />
+    <use href="#colour-19" transform="translate(19,16)" />
+    <use href="#colour-19" transform="translate(20,17)" />
+    <use href="#colour-19" transform="translate(12,18)" />
+    <use href="#colour-19" transform="translate(11,19)" />
+    <use href="#colour-19" transform="translate(10,20)" />
+    <use href="#colour-20" transform="translate(17,11)" />
+    <use href="#colour-20" transform="translate(19,11)  scale(1,2)" />
+    <use href="#colour-20" transform="translate(9,12)  scale(1,3)" />
+    <use href="#colour-20" transform="translate(12,12)  scale(3,1)" />
+    <use href="#colour-20" transform="translate(12,13)  scale(1,2)" />
+    <use href="#colour-20" transform="translate(14,13)  scale(1,2)" />
+    <use href="#colour-20" transform="translate(16,14)" />
+    <use href="#colour-20" transform="translate(19,14)  scale(1,2)" />
+    <use href="#colour-20" transform="translate(8,15)" />
+    <use href="#colour-20" transform="translate(10,15)" />
+    <use href="#colour-20" transform="translate(17,15)" />
+    <use href="#colour-20" transform="translate(7,16)  scale(1,2)" />
+    <use href="#colour-20" transform="translate(9,16)" />
+    <use href="#colour-20" transform="translate(18,16)" />
+    <use href="#colour-20" transform="translate(20,16)" />
+    <use href="#colour-20" transform="translate(11,17)  scale(2,1)" />
+    <use href="#colour-20" transform="translate(15,17)  scale(1,2)" />
+    <use href="#colour-20" transform="translate(21,17)  scale(1,2)" />
+    <use href="#colour-20" transform="translate(10,18)" />
+    <use href="#colour-20" transform="translate(9,19)  scale(1,2)" />
+    <use href="#colour-20" transform="translate(12,19)" />
+    <use href="#colour-20" transform="translate(16,19)" />
+    <use href="#colour-20" transform="translate(11,20)" />
+    <use href="#colour-20" transform="translate(17,20)" />
+    <use href="#colour-20" transform="translate(18,21)" />
+    <use href="#colour-21" transform="translate(22,11)  scale(1,2)" />
+    <use href="#colour-21" transform="translate(21,13)" />
+    <use href="#colour-21" transform="translate(20,14)  scale(1,2)" />
+    <use href="#colour-21" transform="translate(21,15)  scale(2,1)" />
+    <use href="#colour-21" transform="translate(23,16)" />
+    <use href="#colour-21" transform="translate(27,19)  scale(2,1)" />
+    <use href="#colour-21" transform="translate(26,20)" />
+    <use href="#colour-21" transform="translate(25,21)" />
+    <use href="#colour-22" transform="translate(11,14)  scale(1,3)" />
+    <use href="#colour-22" transform="translate(15,14)" />
+    <use href="#colour-22" transform="translate(16,15)  scale(1,3)" />
+    <use href="#colour-22" transform="translate(10,16)  scale(8,1)" />
+    <use href="#colour-22" transform="translate(10,17)" />
+    <use href="#colour-22" transform="translate(18,17)  scale(1,3)" />
+    <use href="#colour-22" transform="translate(8,18)  scale(2,1)" />
+    <use href="#colour-22" transform="translate(13,18)  scale(2,1)" />
+    <use href="#colour-22" transform="translate(13,19)  scale(3,1)" />
+    <use href="#colour-22" transform="translate(19,19)  scale(2,1)" />
+    <use href="#colour-22" transform="translate(12,20)" />
+    <use href="#colour-22" transform="translate(15,20)  scale(2,1)" />
+    <use href="#colour-22" transform="translate(19,20)  scale(1,4)" />
+    <use href="#colour-22" transform="translate(9,21)  scale(3,1)" />
+    <use href="#colour-22" transform="translate(16,21)  scale(2,1)" />
+    <use href="#colour-22" transform="translate(17,22)  scale(3,1)" />
+</svg>

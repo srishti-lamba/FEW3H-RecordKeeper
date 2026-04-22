@@ -1,0 +1,31 @@
+<svg 
+    xmlns="http://www.w3.org/2000/svg"  
+    viewBox="0 0 10 35" 
+    preserveAspectRatio="xMinYMid meet" 
+    transform="scale(-1,1)"
+    >
+
+    <!-- Background -->
+    <path
+        fill="rgb(233,233,233)"
+        stroke="none"
+        d=" M 20 0 L 7 0 
+            q -1 0 -1.756 0.551 c -1.599 1.049 -1.905 1.966 -1.908 5.71 l -0.127 2.739 
+            c -4.209 4 -4.209 13 0.166 17 
+            l -0.022 3 c -0.03 3.54 0.254 4.421 1.814 5.566 q 0.833 0.434 1.833 0.434 
+            L 20 35"
+    />
+
+    <!-- Inner line -->
+    <path
+        fill="none"
+        stroke="rgb(172,153,106)" stroke-width="2" stroke-linecap="round" vector-effect="non-scaling-stroke"
+        transform="translate(3.8,3.5) scale(0.8,0.8)"
+        d="M 20 0 L 7 0 
+            q -1 0 -1.756 0.551 c -1.599 1.049 -1.905 1.966 -1.908 5.71 l -0.127 2.739 
+            c -4.209 4 -4.209 13 0.166 17 
+            l -0.022 3 c -0.03 3.54 0.254 4.421 1.814 5.566 q 0.833 0.434 1.833 0.434 
+            L 20 35"
+    />
+
+</svg>

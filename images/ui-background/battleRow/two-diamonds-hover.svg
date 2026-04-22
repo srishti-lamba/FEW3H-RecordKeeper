@@ -1,0 +1,35 @@
+<svg 
+    xmlns="http://www.w3.org/2000/svg"
+    width="100%"
+    height="100%"
+    preserveAspectRatio="none" 
+    >
+
+    <defs>
+        <pattern 
+            id="two-diamonds-hover-pattern" 
+            x="50%" y="0" width="150" height="100" 
+            patternUnits="userSpaceOnUse"
+            patternTransform="translate(75,0)"
+        >
+            <path
+                fill="rgb(33,3,3,0.3)"
+                transform="scale(0.7,0.7) translate(53,3)"
+                preserveAspectRatio="xMidYMid meet"
+                d=" M 34.5 0 L 0 34.5 L 34.5 69 L 54 49.5 L 73.5 69 L 108 34.5 L 73.5 0 L 54 19.5 Z 
+                    M 50.5 22.5 L 38.5 34.5 L 50.5 46.5 L 33.25 63.75 L 4 34.5 L 33.25 5.25 Z 
+                    M 104 34.5 L 74.75 63.75 L 57.5 46.5 L 69.5 34.5 L 57.5 22.5 L 74.75 5.25 Z 
+                    M 63 34.5 L 54 43.5 L 45 34.5 L 54 25.5 Z"
+            />
+        </pattern>
+        <clipPath id="clip-path">
+            <rect x="0" y="8.5" width="100%" height="35.5" />
+        </clipPath>
+    </defs>
+
+    <rect 
+        x="0" y="0" width="100%" height="100%"
+        fill="url(#two-diamonds-hover-pattern)"
+        clip-path="url(#clip-path)"
+    />
+</svg>

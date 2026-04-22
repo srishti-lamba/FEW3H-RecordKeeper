@@ -1,0 +1,15 @@
+<svg id="down-arrow-mask" xmlns="http://www.w3.org/2000/svg" viewBox="0 -0.02 1 0.65" height="50px" width="80px">
+      <g fill="none" filter="url(#f1)">
+        <path stroke="black" stroke-width="0.025"
+              d="M 0.025 0.075 l 0.45 0.5 
+              q 0.025 0.025 0.05 0 l 0.45 -0.5 
+              q 0.035 -0.055 -0.025 -0.05 l -0.425 0.0875 
+              q -0.025 0.005 -0.05 0 l -0.425 -0.0875 
+              q -0.06 -0.005 -0.025 0.05" />
+      </g>
+      <defs>
+            <filter id="f1" x="-50%" y="-50%" height="200%" width="200%" xmlns="http://www.w3.org/2000/svg">
+                  <feGaussianBlur in="SourceGraphic" stdDeviation="0.015" />
+            </filter>
+      </defs>
+</svg>

@@ -1,0 +1,19 @@
+<svg
+    xmlns="http://www.w3.org/2000/svg"  
+    viewBox="0 0 48 48" 
+    preserveAspectRatio="xMidYMid meet" 
+>
+
+    <path 
+        fill="rgb(5,128,244)"
+        stroke="black" stroke-width="25" stroke-linecap="round" vector-effect="non-scaling-stroke"
+        d=" M 8.4313 1.7133 C 11.6303 8.1114 11.6303 9.1777 8.9645 11.8436 C -3.2986 21.9739 -1.1659 46.5 24.4265 46.5 
+            C 46.8199 46.5 52.1517 21.9739 39.8886 11.8436 C 37.2227 9.1777 37.2227 8.1114 40.4218 1.7133 Z"
+    />
+
+    <path
+        fill="rgb(208,203,123)"
+        d="M 6.5 27.5 C 6.5 35.5 9.5 35.5 14.5 35.5 L 33.5 35.5 C 38.5 35.5 41.5 35.5 41.5 27.5 Z"
+    />
+
+</svg>
