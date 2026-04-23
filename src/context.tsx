@@ -30,6 +30,7 @@ interface MissionsTableType {
 }
 
 interface MapType {
+    scrollElement ?: React.RefObject<HTMLDivElement|null>;
     size ?: React.RefObject<ResizeObserverEntry|undefined>;
     svg ?: [SvgPropsType | null | undefined, React.Dispatch<React.SetStateAction<SvgPropsType | null | undefined>>];
     tileData ?: [GridCellDataType[][], React.Dispatch<React.SetStateAction<GridCellDataType[][]>>];

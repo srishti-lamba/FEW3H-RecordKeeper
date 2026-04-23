@@ -253,6 +253,15 @@ export class Weapons {
         STONE : Weapons.getCategoryType("Stone"),
     }
 
+    static categoriesDict : Dictionary<CategoryType> = {
+        sword: Weapons.categories.SWORD,
+        lance: Weapons.categories.LANCE,
+        axe: Weapons.categories.AXE,
+        bow: Weapons.categories.BOW,
+        tome: Weapons.categories.TOME,
+        brawl: Weapons.categories.BOW
+    }
+
     static advantage : Dictionary<CategoryType> = {
         sword: Weapons.categories.AXE,
         lance: Weapons.categories.SWORD,
@@ -321,20 +330,28 @@ export class Weapons {
         //     weapon.description = ``
 
         // Advantage
-        let newAdvantage = new Set([Weapons.advantage[weapon.category.nameLower as string]]);
-        if (weapon.category === Weapons.categories.BOW) // Advantage : Bow
-            newAdvantage.add(Classes.types.FLYING)
-        if (weapon.advantage === undefined)
-            weapon.advantage = newAdvantage;
-        else
-            weapon.advantage = newAdvantage.union(weapon.advantage);
+        if (Weapons.advantage[weapon.category.nameLower as string] === undefined)
+            weapon.advantage = new Set();
+        else {
+            let newAdvantage = new Set([Weapons.advantage[weapon.category.nameLower as string]]);
+            if (weapon.category === Weapons.categories.BOW) // Advantage : Bow
+                newAdvantage.add(Classes.types.FLYING)
+            if (weapon.advantage === undefined)
+                weapon.advantage = newAdvantage;
+            else
+                weapon.advantage = newAdvantage.union(weapon.advantage);
+        }
 
         // Disadvantage
-        let newDisadvantage = new Set([Weapons.disadvantage[weapon.category.nameLower as string]]);
-        if (weapon.disadvantage === undefined)
-            weapon.disadvantage = newDisadvantage;
-        else
-            weapon.disadvantage = newDisadvantage.union(weapon.disadvantage);
+        if (Weapons.disadvantage[weapon.category.nameLower as string] === undefined)
+            weapon.disadvantage = new Set();
+        else {
+            let newDisadvantage = new Set([Weapons.disadvantage[weapon.category.nameLower as string]]);
+            if (weapon.disadvantage === undefined)
+                weapon.disadvantage = newDisadvantage;
+            else
+                weapon.disadvantage = newDisadvantage.union(weapon.disadvantage);
+        }
 
         // Might and Durability
         if (weapon.might !== undefined && weapon.durability !== undefined) {}

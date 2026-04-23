@@ -3,9 +3,9 @@ import { JSX } from 'react/jsx-runtime';
 import { GridContainer } from './details-map-grid-container';
 import Slider from '@mui/material/Slider'
 import { Classes, ClassType } from '../../data-classes/class-data';
-import { WeaponDataType } from '../../data-classes/weapon-data';
+import { WeaponDataType, Weapons } from '../../data-classes/weapon-data';
 import { DatabaseContext, BattlesTableContext, MissionsTableContext, MapContext, Dictionary } from '../../../context';
-import { MapIcons, SpriteRotator } from '../../data-classes/map-icon-data';
+import { AdvantagesRotator, MapIcons, SpriteRotator } from '../../data-classes/map-icon-data';
 import { CSSProperties } from '@mui/material';
 import { ItemType } from '../../data-classes/item-data';
 import { MRT_RowSelectionState } from 'material-react-table';
@@ -220,42 +220,18 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
 
     const selectedBattleRow = useContext(BattlesTableContext).selectedRow![0];
     const selectedMissionRow = useContext(MissionsTableContext).selectedRow![0]
-    const scollElementSize = useContext(MapContext).size!;
+    const scrollElement = useContext(MapContext).scrollElement;
     const [svgProps, setSvgProps] = useContext(MapContext).svg!;
     const [gridData, setGridData] = useContext(MapContext).tileData!;
+    const selectedWeapon = useContext(MapContext).selectedWeapon![0];
     const [gridCords, setGridCords] = useState<CoordinateType | null>(null);
     const [missionData, setMissionData] = useState<MissionDataType>({strongholds:[],bases:[],gates:[],markings:[],units:{}})
     const [mapZoomExpanded, setMapZoomExpanded] = useState<boolean>(false);
-    const scrollElement = useRef(null);
-    const [scrollElementScrollbarOn, setScrollElementScrollbarOn] = useState(false);
     const [mapZoom, setMapZoom] = useState<number>(100);
-    // const maps = useContext(DatabaseContext).map;
 
     // Run once
     useEffect(() => {
     }, [])
-
-    useEffect(() => {
-        if (scrollElement.current) {
-            const observer = new ResizeObserver((entries) => {
-                for (let entry of entries) {
-                    scollElementSize.current = entry
-                    if (shouldSetHeight.current)
-                        setHeight(`${entry.borderBoxSize[0].blockSize}px`)
-                    setScrollElementScrollbarOn(
-                        entry.borderBoxSize[0].inlineSize !== entry.contentBoxSize[0].inlineSize ||
-                        entry.borderBoxSize[0].blockSize !== entry.contentBoxSize[0].blockSize
-                    )
-                }
-            });
-            observer.observe(scrollElement.current);
-
-            // Cleanup function
-            return () => {
-                observer.disconnect();
-            };
-        }
-    }, [scrollElement.current])
 
     // -----------------------
     // --- Fetch SVG Props ---
@@ -507,7 +483,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                                 translate(${-center},${-center})`
                             }
                         >
-                            {MapIcons.stronghold[allegiance].g}
+                            {(MapIcons.stronghold[allegiance]) && MapIcons.stronghold[allegiance].g}
                         </g>
                     )
                 }
@@ -519,7 +495,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                 <defs>
                     {["blue", "green", "red", "yellow"].map( 
                         (colour) => 
-                        <>{MapIcons.stronghold[colour].g}</>
+                        <>{(MapIcons.stronghold[colour]) && MapIcons.stronghold[colour].g}</>
                     )}
                 </defs>
                 <>{strongholds}</>
@@ -822,8 +798,9 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                         <stop offset="75%" stop-color="rgb(122, 193, 225)"/>
                         <stop offset="100%" stop-color="rgb(152, 213, 255)"/>
                     </linearGradient>
-                    {MapIcons.playerTile["circle"].g}
-                    {MapIcons.playerTile["diamond"].g}
+                    {(Object.values(MapIcons.playerTile)).map((tile) => tile.g)}
+                    {/* {MapIcons.playerTile["circle"].g}
+                    {MapIcons.playerTile["diamond"].g} */}
                 </defs>
                 <>{playerTiles}</>
             </g>)
@@ -920,11 +897,14 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
     // === Weapon ADvantages ===
     function getAllWeaponAdvantages() {
 
+        if (selectedWeapon == "")
+            return <></>
+
         let icons : React.SVGProps<SVGGElement>[] = [];
 
         gridData.forEach( (colArr, xIndex) => {
             colArr.forEach( (tile, yIndex) => {
-                if (tile.unit === undefined)
+                if (tile === undefined || tile.unit === undefined)
                     return
 
                 let hasAdvantage = false;
@@ -943,12 +923,64 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                         return
 
                     // Check if advantage or not
+                    let weapon = unit.weapon.data!;
+                    let category = Weapons.categoriesDict[selectedWeapon]
+                    let adv = weapon.disadvantage?.has(category);
+                    let dis = weapon.advantage?.has(category)
                     
-                })
-            })
-        })
+                    if (adv) hasAdvantage = true;
+                    if (dis) hasDisadvantage = true;
+                }) // Each unit
 
-        return <>{icons}</>
+                if (hasAdvantage && hasDisadvantage)
+                    icons.push(
+                        <g
+                            transform={`translate(${(xIndex-0.5)*tileSize},${(yIndex-0.5)*tileSize})`}
+                        >
+                            <AdvantagesRotator />
+                        </g>
+                    )
+                else if (hasAdvantage)
+                    icons.push(
+                        <g
+                            transform={`translate(${(xIndex-0.5)*tileSize},${(yIndex-0.5)*tileSize})`}
+                        >
+                            <image 
+                                xlinkHref={`${process.env.PUBLIC_URL}/images/icons/advantages/advantage-weapon.png`}
+                                className='svg-icon-centered'
+                            />
+                        </g>
+                    )
+                else if (hasDisadvantage)
+                    icons.push(
+                        <g
+                            transform={`translate(${(xIndex-0.5)*tileSize},${(yIndex-0.5)*tileSize})`}
+                        >
+                            <image 
+                                xlinkHref={`${process.env.PUBLIC_URL}/images/icons/advantages/disadvantage-weapon.png`}
+                                className='svg-icon-centered'
+                            />
+                        </g>
+                    )
+
+            }) // Each tile
+        }) // Each column
+
+        return (
+            <g id="map-advantages-container">
+                <>
+                {
+                    (icons.length > 0) &&
+                    <rect 
+                        x="0" y="0"
+                        width="100%" height="100%"
+                        fill="rgba(0,0,0,0.5)"
+                    />
+                }
+                </>
+                <>{icons}</>
+            </g>
+        )
     }
 
     // --------------
@@ -991,7 +1023,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                 <div 
                     id="map-svg-grid-scroll-container"
                     ref={scrollElement}
-                    className={scrollElementScrollbarOn ? "scrollbarOn" : ""}
+                    // className={scrollElementScrollbarOn ? "scrollbarOn" : ""}
                 >
                     <div className="map-svg-grid-container" style={{"width" : `${mapZoom}%`}}>
                         <svg 
@@ -1039,6 +1071,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                             {getAllPots()}
                             {getAllMarkings(false)}
                             {getAllUnits()}
+                            {getAllWeaponAdvantages()}
                             {getAllMarkings(true)} {/* Animated needs to be at end to avoid blur on elements appearing after */}
                         </svg>
                         <GridContainer 

@@ -37,12 +37,8 @@ function App() {
     <DatabaseContext value={{chapters:allChapters, battles:allBattles.slice(1)}}><DifficultyContext value={useState<number>(1)}>
       <div className="App">
         <header className="App-header">
-        Test test
+          <Settings />
         </header>
-        <Settings
-          // allChapters={allChapters}
-          // difficulty={difficulty} setDifficulty={setDifficulty}
-        />
 
         <BattlesTableContext value={{
           table: useRef<MRT_TableInstance<BattleRow>>(undefined),

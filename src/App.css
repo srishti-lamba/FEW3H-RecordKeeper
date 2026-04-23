@@ -14,6 +14,10 @@ html {
   background-blend-mode: darken;
 }
 
+noscript {
+  color: black;
+}
+
 & .header-brown-underlined {
   display: block;
   color: rgb(180,169,123);
@@ -117,6 +121,11 @@ html {
 & .displayNone {
   display: none;
   visibility: hidden;
+}
+
+& .svg-icon-centered {
+  transform-box: fill-box;
+  transform: translate(-50%,-50%);
 }
 
 .App {
@@ -816,6 +825,16 @@ html {
                               /* } .map-tooltip-unit-details-basic */
                             } /* .map-tooltip-unit-details */
 
+                            & .map-tooltip-unit-monsterBarriersBox {
+                              display: flex;
+                              flex-flow: row nowrap;
+                              gap: var(--padding);
+                              justify-content: center;
+                              & img {
+                                height: 1.5em;
+                              }
+                            } /* .map-tooltip-unit-monsterBarriersBox */
+
                             & .map-tooltip-unit-advantagesBox {
                               font-size: 0.8rem;
 
@@ -1221,6 +1240,9 @@ html {
                 padding: 1em 0;
                 margin-top: var(--padding);
 
+                display: flex;
+                justify-items: center;
+
                 & .MuiSlider-root {
                   display: block;
                   width: 4px;
@@ -1288,9 +1310,16 @@ html {
 .settings {
 
   & button {
+    all: unset;
+    
+    background-image: url(../public/images/ui-icons/settings/gold.png);
+    background-size: cover;
     height: 50px;
-    width: 50px;
-    background-color: aquamarine;
+    aspect-ratio: 1;
+    /* background-color: aquamarine; */
+    &:hover {
+      background-image: url(../public/images/ui-icons/settings/rose.png);
+    }
   }
 
   & .overlay {
@@ -2423,7 +2452,9 @@ html {
 
   /* the bottom corner of the scrollbar, 
   where both horizontal and vertical scrollbars meet. */
-  ::-webkit-scrollbar-corner {}
+  ::-webkit-scrollbar-corner {
+    background-color: transparent;
+  }
 
   /* Up and down arrows */
   ::-webkit-scrollbar-button {
@@ -2436,7 +2467,8 @@ html {
   ::-webkit-resizer {
     /* border: none; */
     /* background-color: rgb(198, 154, 90, 0.1); */
-    border-radius: 5px;
+    color: red;
+    /* border-radius: 5px; */
     display: block;
     background-image: url(/public/images/ui-icons/resize.svg);
     background-size: 75% 75%;

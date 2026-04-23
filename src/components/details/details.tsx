@@ -15,11 +15,15 @@ export function Details( {/*selectedRow, selectedRowData*/} : DetailsProps ) {
 
     const rightPaneRef = useRef<HTMLDivElement|null>(null);
     const rightPanelWidth = useRef<number>(0);
+
+    const mapRef = useRef<HTMLDivElement|null>(null);
     const mapSize = useRef<ResizeObserverEntry|undefined>(undefined)
+
     const missionsTable = useRef<MRT_TableInstance<MissionRow>>(undefined);
-    const [missionsWidthFull, setMissionsWidthFull] = useState(false)
     const missionsShouldSetHeight = useRef<boolean>(true)
     const [missionsHeight, setMissionsHeight] = useState<string>("auto")
+
+    console.log("Details rerendered")
 
     // -----------------------
     // --- Resize Observer ---
@@ -28,27 +32,44 @@ export function Details( {/*selectedRow, selectedRowData*/} : DetailsProps ) {
         // console.log(`[Right Panel Ref Changed]`)
         let callbackFunc = (entry : ResizeObserverEntry) => {
             rightPanelWidth.current = entry.borderBoxSize[0].inlineSize
-            // console.log(`[Right Panel Width: ${rightPanelWidth.current}]`)
+            console.log(`[Right Panel Width: ${rightPanelWidth.current}]`)
         }
         addResizeObserver(rightPaneRef, callbackFunc)
     }, [rightPaneRef.current])
     useEffect(() => {
+        console.log(`[Map Ref Changed]`)
         let callbackFunc = (entry : ResizeObserverEntry) => {
+                mapSize.current = entry
+                console.log(`[Map Height: ${entry.borderBoxSize[0].blockSize}]`)
+                updateMissionHeight();
+            };
+            addResizeObserver(mapRef, callbackFunc)
+    }, [mapRef.current])
+    useEffect(() => {
+        console.log("[MissionTable Ref Changed]")
+        console.log(missionsTable.current)
+        let callbackFunc = (entry : ResizeObserverEntry) => {
+            console.log("*** Starting MissionTable Ref Callback")
+            if (mapSize.current === undefined)
+                return
             let paddingLeft = Number(document.defaultView?.getComputedStyle(
                 document.getElementById("right-pane-contents")!, null)
                 .getPropertyValue('padding-left').replace("px", ""))
             let missionsWidthPercent = entry.borderBoxSize[0].inlineSize / (rightPanelWidth.current - paddingLeft)
-            if ((missionsWidthPercent === 1) || (missionsTable.current?.getState().isFullScreen)) {
-                setMissionsWidthFull(true)
-                missionsShouldSetHeight.current = false
+            if (missionsWidthPercent === 1) {
+                // missionsTable.current?.refs.tablePaperRef.current?.className;
+                // missionsShouldSetHeight.current = false
+                console.log(`Setting missionHeight: -`)
+                setMissionsHeight(`-`)
             }
             else {
-                setMissionsWidthFull(false)
-                missionsShouldSetHeight.current = true
+                console.log(`Setting missionHeight: ${mapSize.current.borderBoxSize[0].blockSize}px`)
+                updateMissionHeight();
+                // missionsShouldSetHeight.current = true
             }
         }
         addResizeObserver(missionsTable.current!.refs.tablePaperRef, callbackFunc)
-    }, [missionsTable.current])
+    }, [missionsTable.current!.refs.tablePaperRef])
     function addResizeObserver( ref : React.RefObject<any>, callbackFunc : any) {
         if (ref.current) {
             const observer = new ResizeObserver((entries) => entries.forEach(callbackFunc));
@@ -60,6 +81,11 @@ export function Details( {/*selectedRow, selectedRowData*/} : DetailsProps ) {
             };
         }
     }
+    function updateMissionHeight() { 
+        if (mapSize.current === undefined)
+            return
+        setMissionsHeight(`${mapSize.current.borderBoxSize[0].blockSize}px`)
+    }
 
     // console.log("Details rerendered")
 
@@ -68,6 +94,7 @@ export function Details( {/*selectedRow, selectedRowData*/} : DetailsProps ) {
 
             <MapContext
                 value={{
+                    scrollElement: mapRef,
                     size: mapSize,
                     svg: useState<SvgPropsType|undefined|null>(undefined),
                     tileData: useState<(GridCellDataType)[][]>([]),
@@ -88,7 +115,6 @@ export function Details( {/*selectedRow, selectedRowData*/} : DetailsProps ) {
                         setHeight={setMissionsHeight} 
                     />
                     <Missions 
-                        isTableWidthFull={missionsWidthFull}
                         tableHeight={missionsHeight}
                     />
                 </div>

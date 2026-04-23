@@ -194,18 +194,18 @@ export function GridContainer({svgProps, setGridCords, missionData} : GridContai
     }, [svgProps])
 
     const createGridContainer = () => {
-        console.log("Grid Container rerendered")
+        // console.log("Grid Container rerendered")
 
         if (svgProps === null || svgProps === undefined)
             return;
 
-        let _ = createData;
+        let newData = createData;
         var rows = [];
 
         for (let row : number = 1 ; row <= svgProps.size.squares.height ; row++ ) {
             rows.push(
                 <MemoizedGridRow 
-                    data={data}
+                    data={newData}
                     svgSquares={svgProps.size.squares} setGridCords={setGridCords} row={row}
                     tileCoords={tileCoords} setTileCoords={setTileCoords} prevTileCoords={prevTileCoords}
                     tileID={tileID}
@@ -291,7 +291,7 @@ interface GridRowProps {
 }
 
 function GridRow({data, svgSquares, setGridCords, row, tileCoords, prevTileCoords, tileID, setTileCoords} : GridRowProps) {
-    console.log(`[[[ Row rerendered: ${row } tileCoords: (${tileCoords?.x},${tileCoords?.y}) prevTileCoords: (${prevTileCoords.current[1]?.x},${prevTileCoords.current[1]?.y}) ]]]`)
+    // console.log(`[[[ Row rerendered: ${row } tileCoords: (${tileCoords?.x},${tileCoords?.y}) prevTileCoords: (${prevTileCoords.current[1]?.x},${prevTileCoords.current[1]?.y}) ]]]`)
     // console.log(prevTileCoords)
 
     const childrenRef = useRef<(HTMLDivElement|undefined)[]>([]);
@@ -342,8 +342,6 @@ const MemoizedGridRow = memo(
     GridRow, 
     (prevProps: Readonly<GridRowProps>, nextProps: Readonly<GridRowProps>) => {
         return !(
-            // Data is different
-            (prevProps.data === nextProps.data) &&
             // The current or previous y equals row
             (prevProps.tileCoords?.y === prevProps.row || nextProps.tileCoords?.y === nextProps.row) &&
             // The current and previous are different

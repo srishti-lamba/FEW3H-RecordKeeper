@@ -622,3 +622,38 @@ export function SpriteRotator({svgProps, missionData, tileSize, yZoom, units, to
   );
 
 }
+
+export function AdvantagesRotator() {
+
+    const [image, setImage] = useState(0);
+    const imageArray = [
+        `${process.env.PUBLIC_URL}/images/icons/advantages/advantage-weapon.png`,
+        `${process.env.PUBLIC_URL}/images/icons/advantages/disadvantage-weapon.png`
+    ];
+
+    useEffect(() => {
+        const timerId = setInterval(() => {
+            setImage(cur => (cur < imageArray.length - 1 ? cur + 1 : 0));
+        }, 1000);
+
+        return () => {
+            clearInterval(timerId);
+        };
+    }, [])
+
+    return (
+        <>
+            {
+                imageArray.map( (svg, index) => (
+                    // Using displayNone class keeps all images loaded and just hides them.
+                    // Prevents delays when reloading images.
+                    <image 
+                        xlinkHref={svg}
+                        className={`svg-icon-centered${(index !== image) ? " displayNone" : ""}`}
+                    />
+                ))
+            }
+        </>
+  );
+
+}

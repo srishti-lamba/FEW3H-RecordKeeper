@@ -35,11 +35,10 @@ export interface TextRefType {
 }
 
 interface MissionsProps { 
-    isTableWidthFull : boolean;
     tableHeight : string;
 }
 
-export function Missions({ isTableWidthFull: tableWidthFull, tableHeight }: MissionsProps) {
+export function Missions({ tableHeight }: MissionsProps) {
 
     const allBattles = useContext(DatabaseContext).battles
     const selectedBattleRow = useContext(BattlesTableContext).selectedRow![0];
@@ -50,7 +49,7 @@ export function Missions({ isTableWidthFull: tableWidthFull, tableHeight }: Miss
 
     const [data, setData] = useState<MissionRow[]>([]);
 
-    console.log("Missions Start")
+    // console.log("Missions Start")
 
     useEffect(() => {
         // No battleRow selected
@@ -234,10 +233,11 @@ export function Missions({ isTableWidthFull: tableWidthFull, tableHeight }: Miss
         },
         muiTablePaperProps: ({ table }) => ({
             id: "missions-table",
-            className: (table.getState().isFullScreen) ? "full-screen" : "",
+            className: ((table.getState().isFullScreen) ? "full-screen" : "") +
+                       ((tableHeight == "-") ? " full-panel" : ""),
             sx: {
-                "overflow-y" : (tableWidthFull) ? "visible" : "scroll",
-                "max-height" : (tableWidthFull) ? "auto" : tableHeight,
+                "overflow-y" : ((table.getState().isFullScreen)) ? "visible" : "scroll",
+                "max-height" : (table.getState().isFullScreen) ? "auto" : tableHeight,
             }
         }),
         getRowId: (originalRow: MissionRow, index: number, parent?: MRT_Row<MissionRow>) => originalRow.id!,
@@ -298,8 +298,6 @@ export function Missions({ isTableWidthFull: tableWidthFull, tableHeight }: Miss
 
     if ((Object.keys(selectedBattleRow).length == 0) || (data.length == 0))
         return <></>
-
-    console.log(table.current.getState())
 
     return (
         <MaterialReactTable table={table.current} />

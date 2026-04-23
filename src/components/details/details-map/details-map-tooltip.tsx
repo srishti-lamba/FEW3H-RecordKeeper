@@ -456,24 +456,75 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
             // ---------------
             let monsterData = unit.monster
             var monsterRow = <></>
+            var monsterBox = <></>
             if (monsterData!==undefined) {
-                let monsterClass = "map-tooltip-unit-details-monsterHP";
                 let monsterID = `${mainID}-monster`
+
+                let monsterRowClass = "map-tooltip-unit-details-monsterHP";
+                let monsterIDRow = `${monsterID}-row`
                 var monsterRow = (
                     <>
                         <img
-                            className={monsterClass} 
-                            id={monsterID}
-                            key={monsterID}
+                            className={monsterRowClass} 
+                            id={monsterIDRow}
+                            key={monsterIDRow}
                             src={`${process.env.PUBLIC_URL}/images/icons/monsters/hp/${monsterData.hpGauges}.png`}
                         />
                         <Tooltip
-                            anchorSelect={`#${monsterID}`}
+                            anchorSelect={`#${monsterIDRow}`}
                             content={`${monsterData.hpGauges} HP Gauge${(monsterData.hpGauges>1)?"s":""}`}
-                            key={`${monsterID}-tooltip`}
+                            key={`${monsterIDRow}-tooltip`}
                             place="bottom"
                         />
                     </>
+                )
+
+                let monsterBoxClass = "map-tooltip-unit-monsterBarriers";
+                let monsterIDBox = `${monsterID}-box`
+                let toolti
+                monsterBox = (
+                    <span
+                        className={`map-tooltip-unit-box ${monsterBoxClass}Box`}
+                        key={monsterIDBox}
+                    >
+                        {monsterData.barriers.map((name) => {
+                            let id = `${monsterIDBox}-${name}`;
+                            let tooltipText = "Break a barrier by using";
+                            switch (name) {
+                                case "sword":
+                                case "lance":
+                                case "axe":
+                                case "tome":
+                                case "bow":
+                                case "gauntlets":
+                                    tooltipText = `${tooltipText} ${(name=="gauntlets")?name:`${name}s.`}`
+                                    break;
+                                case "light":
+                                case "darkness":
+                                case "fire":
+                                case "ice":
+                                case "lightning":
+                                case "wind":
+                                    tooltipText = `${tooltipText} ${name} magic.`
+                                    break;
+                                default:
+                                    tooltipText = `${tooltipText} ${name}.`
+                            }
+                            return (<>
+                                <img 
+                                    src={`${process.env.PUBLIC_URL}/images/icons/monsters/barrier/${name}.png`}
+                                    id={id}
+                                    key={id}
+                                />
+                                <Tooltip
+                                    anchorSelect={`#${id}`}
+                                    content={tooltipText}
+                                    key={`${id}-tooltip`}
+                                    place="bottom"
+                                />
+                            </>
+                        )})}
+                    </span>
                 )
             }
 
@@ -1019,6 +1070,7 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                                         {weaponRow}
                                     </span> {/* .map-tooltip-unit-details-info */}
                                 </span>
+                                {monsterBox}
                                 {advantagesBox}
                                 {statBox}
                                 {crestBox}
