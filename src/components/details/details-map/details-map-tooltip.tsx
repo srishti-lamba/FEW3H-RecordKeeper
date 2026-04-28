@@ -5,7 +5,7 @@ import { memo, useContext } from "react";
 import { GridCellDataType, CoordinateType, StrongholdDataType, PotDataType, UnitDataType, MissionDataType, BaseDataType, svg_ChestType, selectedMissionPassed, svg_PlayerType } from "./details-map";
 import { CategoryType, WeaponDataType, Weapons } from "../../data-classes/weapon-data";
 import { Classes } from "../../data-classes/class-data";
-import { BattlesTableContext, MissionsTableContext } from "../../../context";
+import { BattlesTableContext, MapContext, MissionsTableContext } from "../../../context";
 import { initializeMissionTextRef } from "../missions-table";
 import { MapIcons, SpriteRotator } from "../../data-classes/map-icon-data";
 import { ItemType } from "../../data-classes/item-data";
@@ -21,12 +21,15 @@ interface TooltipContentProps {
 
 function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipContentProps) {
 
-    // console.log("[[[ Tooltip rerender ]]]")
+    console.log("[[[ Tooltip rerender ]]]")
 
     // Hooks
     let battleTable = useContext(BattlesTableContext).table
     let missionTable = useContext(MissionsTableContext).table!
     let missionText = useContext(MissionsTableContext).text!
+    // const setDetailsTileCoords = useContext(MapContext).tileID![1];
+
+    // setDetailsTileCoords(tileCoords);
 
     if (tileCoords === null)
         return <></>

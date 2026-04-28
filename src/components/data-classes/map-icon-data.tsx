@@ -192,7 +192,7 @@ export class MapIcons {
                             {/* Pot */}
                             <path 
                                 fill={MapIcons.fills.pot[colour]} 
-                                stroke="black" stroke-width="3" stroke-linecap="round"
+                                stroke="black" strokeWidth="3" strokeLinecap="round"
                                 d="M 8.5 2 c 3.199 6.3981 3.199 7.4644 0.5332 10.1303 c -12.2631 10.1303 -10.1304 34.6564 15.462 34.6564 c 22.3934 0 27.7252 -24.5261 15.4621 -34.6564 c -2.6659 -2.6659 -2.6659 -3.7322 0.5332 -10.1303 z"
                             />
                             {/* Label */}
@@ -207,7 +207,7 @@ export class MapIcons {
                             {/* Pot */}
                             <path 
                                 fill={MapIcons.fills.pot[colour]} 
-                                stroke="black" stroke-width="3" stroke-linecap="round"
+                                stroke="black" strokeWidth="3" strokeLinecap="round"
                                 d="M 8.5 2 c 3.199 6.3981 3.199 7.4644 0.5332 10.1303 c -12.2631 10.1303 -10.1304 34.6564 15.462 34.6564 c 22.3934 0 27.7252 -24.5261 15.4621 -34.6564 c -2.6659 -2.6659 -2.6659 -3.7322 0.5332 -10.1303 z"
                             />
                             {/* Label */}
@@ -246,7 +246,7 @@ export class MapIcons {
                                         cx="0.5" cy="0.5"
                                         r="0.3"
                                         fill="none"
-                                        stroke="url(#map-playerTile-blue-gradient)" stroke-width="0.1" stroke-linecap="round"
+                                        stroke="url(#map-playerTile-blue-gradient)" strokeWidth="0.1" strokeLinecap="round"
                                     />
                                 </>
                             }
@@ -268,7 +268,7 @@ export class MapIcons {
                                         `l  0.25 -0.25  ` +
                                             `Z`}
                                         fill="none"
-                                        stroke="url(#map-playerTile-blue-gradient)" stroke-width="0.1" stroke-linecap="round"
+                                        stroke="url(#map-playerTile-blue-gradient)" strokeWidth="0.1" strokeLinecap="round"
                                     />
                                 </>
                             }
@@ -284,14 +284,14 @@ export class MapIcons {
                                 x={0.015} y={0.015}
                                 height={1} width={1}
                                 fill="none"
-                                stroke="black" stroke-width="0.03" stroke-linecap="round"
+                                stroke="black" strokeWidth="0.03" strokeLinecap="round"
                             />
                             { (shape === shapes[0]) &&
                                 <circle
                                     cx={0.515} cy={0.515}
                                     r={0.4}
                                     fill="none"
-                                    stroke="url(#map-playerTile-blue-gradient)" stroke-width="0.1" stroke-linecap="round"
+                                    stroke="url(#map-playerTile-blue-gradient)" strokeWidth="0.1" strokeLinecap="round"
                                 />
                             }
                             { (shape === shapes[1]) &&
@@ -302,7 +302,7 @@ export class MapIcons {
                                         l  0.4 -0.4 
                                         Z`}
                                     fill="none"
-                                    stroke="url(#map-playerTile-blue-gradient)" stroke-width="0.1" stroke-linecap="round"
+                                    stroke="url(#map-playerTile-blue-gradient)" strokeWidth="0.1" strokeLinecap="round"
                                 />
                             }
                         </symbol>

@@ -211,12 +211,9 @@ export interface MissionDataType {
 
 // === Class Props ===
 
-interface MapProps {
-    shouldSetHeight : React.RefObject<boolean>,
-    setHeight : any
-}
+interface MapProps {}
 
-export function Map({ shouldSetHeight, setHeight } : MapProps) {
+export function Map({} : MapProps) {
 
     const selectedBattleRow = useContext(BattlesTableContext).selectedRow![0];
     const selectedMissionRow = useContext(MissionsTableContext).selectedRow![0]
@@ -561,9 +558,13 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
         };
 
         svgProps!.paths.markings.forEach( (marking : svg_MarkingsType, index : number) => {
-            let show = (missionData.markings[index] !== undefined) ? missionData.markings[index].appear : false;
+            // let show = (missionData.markings[index] !== undefined) ? missionData.markings[index].appear : false;
+            let show = true
             if (!show)
                 return <></>
+
+            // Error resolving
+            let x1 = 0; let y1 = 0; let x2 = 0; let y2 = 0;
 
             switch (marking.type) {
                 case "rect" : 
@@ -575,7 +576,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                             x={marking.x} y={marking.y}
                             width={marking.width} height={marking.height}
                             fill="none"
-                            stroke={`url(#map-${marking.colour}-shine-animation)`} stroke-width="3" stroke-linecap="round" vector-effect="non-scaling-stroke"
+                            stroke={`url(#map-${marking.colour}-shine-animation)`} strokeWidth="3" strokeLinecap="round" vectorEffect="non-scaling-stroke"
                         />
                     )
                     break;
@@ -613,7 +614,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                                 xlinkHref="#map-cross-icon"
                                 x={marking.x} y={marking.y}
                                 fill={`url(#map-${marking.colour}-shine-animation)`}
-                                stroke="rgba(0,0,0,0.7)" stroke-width="1" stroke-linecap="round" vector-effect="non-scaling-stroke"
+                                stroke="rgba(0,0,0,0.7)" strokeWidth="1" strokeLinecap="round" vectorEffect="non-scaling-stroke"
                             />
                         </g>
                     )
@@ -627,7 +628,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                             cx={(marking.x!-0.5)*tileSize} cy={(marking.y!-0.5)*tileSize}
                             r={tileSize*0.25*yZoom}
                             fill="none"
-                            stroke={`url(#map-${marking.colour}-shine-animation)`} stroke-width="3" stroke-linecap="round" vector-effect="non-scaling-stroke"
+                            stroke={`url(#map-${marking.colour}-shine-animation)`} strokeWidth="3" strokeLinecap="round" vectorEffect="non-scaling-stroke"
                         />
                     )
                     break;
@@ -636,10 +637,10 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
 
                     let [rgbDark, rgbLight] = colours[marking.colour!]
 
-                    let x1 = (marking.xOne!-0.5)*tileSize;
-                    let y1 = (marking.yOne!-0.5)*tileSize;
-                    let x2 = marking.xTwo!;
-                    let y2 = marking.yTwo!;
+                    x1 = (marking.xOne!-0.5)*tileSize;
+                    y1 = (marking.yOne!-0.5)*tileSize;
+                    x2 = marking.xTwo!;
+                    y2 = marking.yTwo!;
                     let rotation = Math.atan2(y1-y2, x2-x1) * (180/Math.PI);
                     let totalLength = Math.sqrt( ((x2-x1)**2) + ((y2-y1)**2) );
                     let rectHeight =  yZoom * 8;
@@ -681,7 +682,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                                     `L ${rectLength+outlineOffset} ${0+(outlineOffset*2)} L ${totalLength-(outlineOffset*1.5)} ${midHeight} L ${rectLength+outlineOffset} ${totalHeight-(outlineOffset*2)} L ${rectLength+outlineOffset} ${rectY+rectHeight-outlineOffset}` +
                                     `L ${0-outlineOffset} ${rectY+rectHeight-outlineOffset}`
                                 }
-                                stroke={rgbLight} stroke-width="1.5" vector-effect="non-scaling-stroke" fill="none"
+                                stroke={rgbLight} strokeWidth="1.5" vectorEffect="non-scaling-stroke" fill="none"
                             />
                             <path
                                 d={
@@ -689,9 +690,41 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                                     `L ${rectLength} 0 L ${totalLength} ${midHeight} L ${rectLength} ${totalHeight} L ${rectLength} ${rectY+rectHeight}` +
                                     `L 0 ${rectY+rectHeight}`
                                 }
-                                stroke="rgba(0,0,0,0.7)" stroke-width="1" vector-effect="non-scaling-stroke" fill="none" 
+                                stroke="rgba(0,0,0,0.7)" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="none" 
                             />                           
                         </g>
+                    )
+                    break;
+                case "flying-arrow" : 
+                    if (animated) return <></>;
+
+                    // rotation = Math.atan2(marking.yOne!-marking.yTwo!, marking.xOne!-marking.xTwo!) * (180/Math.PI);
+                    let hypotenuse = yZoom;
+                    let angle = Math.atan2(marking.yOne!-marking.yTwo!, marking.xOne!-marking.xTwo!);
+                    x1 = marking.xOne! + ( (hypotenuse * Math.cos(angle)) * 1 );
+                    y1 = marking.yOne! + ( (hypotenuse * Math.sin(angle)) * 1 );
+                    x2 = marking.xTwo! + ( (hypotenuse * Math.cos(angle)) * -1 );
+                    y2 = marking.yTwo! + ( (hypotenuse * Math.sin(angle)) * -1 );
+
+                    markings.push(
+                        <>
+                            <line
+                                key={"mapMarking-" + index}
+                                x1={marking.xOne} y1={marking.yOne}
+                                x2={marking.xTwo} y2={marking.yTwo}
+                                fill="none"
+                                stroke="#F7FCFF" strokeWidth="10" strokeLinecap="round" vectorEffect="non-scaling-stroke"
+                                marker-start="url(#map-arrow-flying-marker-start)" marker-end="url(#map-arrow-flying-marker-end)"
+                            />
+                            <line
+                                key={"mapMarking-" + index}
+                                x1={x1} y1={y1}
+                                x2={x2} y2={y2}
+                                fill="none"
+                                stroke="#263049" strokeWidth="5" strokeLinecap="round" vectorEffect="non-scaling-stroke"
+                                marker-start="url(#map-arrow-flying-marker-start)" marker-end="url(#map-arrow-flying-marker-end)"
+                            />
+                        </>
                     )
                     break;
             }
@@ -735,7 +768,7 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                             >
                                 <path 
                                     d={`M 0 0 L ${arrowTotalHeight/2} ${arrowTotalHeight/2} L 0 ${arrowTotalHeight}`} 
-                                    stroke-width="1.5" vector-effect="non-scaling-stroke" fill="none" 
+                                    strokeWidth="1.5" vectorEffect="non-scaling-stroke" fill="none" 
                                 />
                                 <animateTransform
                                     attributeName="patternTransform" type="translate"
@@ -743,7 +776,14 @@ export function Map({ shouldSetHeight, setHeight } : MapProps) {
                                     dur="2s" repeatCount="indefinite"
                                 />
                             </pattern>
-                        ))}                        
+                        ))}
+
+                        <marker id="map-arrow-flying-marker-start" markerWidth="1" markerHeight="2" refX="0" refY="1" orient="auto-start-reverse">
+                            <path d="M 0 0 L 1 1 L 0 2 z" fill="context-stroke" />
+                        </marker>
+                        <marker id="map-arrow-flying-marker-end" markerWidth="1" markerHeight="2" refX="0" refY="1" orient="auto">
+                            <path d="M 0 0 L 1 1 L 0 2 z" fill="context-stroke" />
+                        </marker>
                     </defs>
                 }
                 <>{markings}</>

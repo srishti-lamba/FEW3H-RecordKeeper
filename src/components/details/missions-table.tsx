@@ -233,8 +233,7 @@ export function Missions({ tableHeight }: MissionsProps) {
         },
         muiTablePaperProps: ({ table }) => ({
             id: "missions-table",
-            className: ((table.getState().isFullScreen) ? "full-screen" : "") +
-                       ((tableHeight == "-") ? " full-panel" : ""),
+            className: ((table.getState().isFullScreen) ? "full-screen" : ""),
             sx: {
                 "overflow-y" : ((table.getState().isFullScreen)) ? "visible" : "scroll",
                 "max-height" : (table.getState().isFullScreen) ? "auto" : tableHeight,
@@ -296,8 +295,10 @@ export function Missions({ tableHeight }: MissionsProps) {
         enableKeyboardShortcuts: false,
     });
 
-    if ((Object.keys(selectedBattleRow).length == 0) || (data.length == 0))
+    if ((Object.keys(selectedBattleRow).length == 0) || (data.length == 0)) {
+        table.current = undefined;
         return <></>
+    }
 
     return (
         <MaterialReactTable table={table.current} />

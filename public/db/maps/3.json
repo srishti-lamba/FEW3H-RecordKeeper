@@ -42,7 +42,7 @@
                     "captureRequired" : false,
                     "captain" : [],
                     "colour" : [
-                        [[-1],"red"]
+                        [[-1],"blue"]
                     ]
                 }
             },
@@ -92,11 +92,149 @@
                 }
             }
         ],
-        "bases" : [],
+        "bases" : [
+            {
+                "icon" : {
+                    "translate" : {"x":1126,"y":537},
+                    "coords" : {"x":24,"y":12}
+                },
+                "data" : {
+                    "colour" : [
+                        [[-1],"red"]
+                    ],
+                    "captain" : []
+                }
+            },
+            {
+                "icon" : {
+                    "translate" : {"x":2382,"y":764},
+                    "coords" : {"x":50,"y":17}
+                },
+                "data" : {
+                    "colour" : [
+                        [[-1],"blue"]
+                    ],
+                    "captain" : []
+                }
+            },
+            {
+                "icon" : {
+                    "translate" : {"x":1335,"y":1198},
+                    "coords" : {"x":28,"y":26}
+                },
+                "data" : {
+                    "colour" : [
+                        [[-1],"red"]
+                    ],
+                    "captain" : []
+                }
+            },
+            {
+                "icon" : {
+                    "translate" : {"x":949,"y":1689},
+                    "coords" : {"x":20,"y":36}
+                },
+                "data" : {
+                    "colour" : [
+                        [[-1],"red"]
+                    ],
+                    "captain" : []
+                }
+            },
+            {
+                "icon" : {
+                    "translate" : {"x":2420,"y":1857},
+                    "coords" : {"x":51,"y":39}
+                },
+                "data" : {
+                    "colour" : [
+                        [[-1],"blue"]
+                    ],
+                    "captain" : []
+                }
+            },
+            {
+                "icon" : {
+                    "translate" : {"x":1699,"y":2442},
+                    "coords" : {"x":36,"y":52}
+                },
+                "data" : {
+                    "colour" : [
+                        [[-1],"red"]
+                    ],
+                    "captain" : []
+                }
+            }
+        ],
         "gates" : [],
         "chests" : [],
-        "pots" : [],
-        "markings": [],
+        "pots" : [
+            {
+                "colour" : "purple",
+                "m" : {"x" : 516 , "y" : 418},
+                "coords" : { "x" : 11 , "y" : 9 }
+            },
+            {
+                "colour" : "red",
+                "m" : {"x" : 2019 , "y" : 323},
+                "coords" : { "x" : 43 , "y" : 7 }
+            },
+            {
+                "colour" : "blue",
+                "m" : {"x" : 855 , "y" : 1398},
+                "coords" : { "x" : 18 , "y" : 30 }
+            },
+            {
+                "colour" : "red",
+                "m" : {"x" : 1733 , "y" : 1201},
+                "coords" : { "x" : 37 , "y" : 26 }
+            },
+            {
+                "colour" : "yellow",
+                "m" : {"x" : 2534 , "y" : 1663},
+                "coords" : { "x" : 53 , "y" : 35 }
+            },
+            {
+                "colour" : "red",
+                "m" : {"x" : 1219 , "y" : 1760},
+                "coords" : { "x" : 26 , "y" : 37 }
+            },
+            {
+                "colour" : "green",
+                "m" : {"x" : 1525 , "y" : 2023},
+                "coords" : { "x" : 32 , "y" : 43 }
+            },
+            {
+                "colour" : "red",
+                "m" : {"x" : 2235 , "y" : 1831},
+                "coords" : { "x" : 47 , "y" : 39 }
+            },
+            {
+                "colour" : "purple",
+                "m" : {"x" : 702 , "y" : 2681},
+                "coords" : { "x" : 15 , "y" : 56 }
+            },
+            {
+                "colour" : "red",
+                "m" : {"x" : 2427 , "y" : 2692},
+                "coords" : { "x" : 51 , "y" : 57 }
+            }
+        ],
+        "markings": [
+            {
+                "type" : "flying-arrow",
+                "appearAndDisappear" : [
+                    [[-1], true]
+                ],
+                "x" : 1353,
+                "y" : 302,
+                "xOne" : 1285,
+                "yOne" : 340,
+                "xTwo" : 1455,
+                "yTwo" : 280,
+                "_notes": ""
+            }
+        ],
         "player" : [],        
         "units" : []
     }

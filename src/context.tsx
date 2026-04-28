@@ -2,8 +2,9 @@ import { createContext } from 'react';
 import { MRT_RowSelectionState, MRT_TableInstance } from 'material-react-table';
 import { Battle, BattleRow } from './components/table';
 import { RouteChapters } from './components/settings/settings-chapters';
-import { GridCellDataType, SvgPropsType } from './components/details/details-map/details-map';
+import { CoordinateType, GridCellDataType, SvgPropsType } from './components/details/details-map/details-map';
 import { MissionRow, TextRefType } from './components/details/missions-table';
+import { TooltipRefProps } from 'react-tooltip';
 
 export interface Dictionary<T> {
     [key: string]: T;
@@ -27,6 +28,7 @@ interface MissionsTableType {
     [   MRT_RowSelectionState,
         React.Dispatch<React.SetStateAction<MRT_RowSelectionState>>  ];
     text ?: React.RefObject<Dictionary<TextRefType>>;
+    size ?: React.RefObject<ResizeObserverEntry|undefined>;
 }
 
 interface MapType {
@@ -35,6 +37,8 @@ interface MapType {
     svg ?: [SvgPropsType | null | undefined, React.Dispatch<React.SetStateAction<SvgPropsType | null | undefined>>];
     tileData ?: [GridCellDataType[][], React.Dispatch<React.SetStateAction<GridCellDataType[][]>>];
     selectedWeapon ?: [string, React.Dispatch<React.SetStateAction<string>>];
+    tooltip ?: React.RefObject<TooltipRefProps | null>;
+    tileID ?: [string|null, React.Dispatch<React.SetStateAction<string|null>>];
 }
 
 export const DatabaseContext = createContext<DatabaseType>({});

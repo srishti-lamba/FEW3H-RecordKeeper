@@ -220,7 +220,7 @@ noscript {
             container: mapSvgGridScrollContainer / size;
             @container mapSvgGridScrollContainer (width >= 0px) { 
               #map-tooltip-content {
-                max-height: calc(90cqh);
+                max-height: min( calc(90cqh), var(--height) );
             } }
 
             & .map-svg-grid-container {
@@ -339,7 +339,8 @@ noscript {
                   } /* .map-grid-cell-container */
                 } /* .map-grid-row-container */
 
-                & > .react-tooltip {
+                & > .react-tooltip#map-tooltip {
+                  --height: 1000vh;
                   z-index: 3;
                   resize: both;
                   padding: 8px;
@@ -685,6 +686,7 @@ noscript {
                                 left: 0;
                                 height: calc(var(--tooltip-unit-header-height) * 1.10447761194);
                                 width: 100%;
+                                /* background-size: cover; */
                                 background-size: contain;
                                 background-repeat: no-repeat;
                               }
@@ -1932,6 +1934,11 @@ div.MuiPaper-root:has(div.MuiTableContainer-root) {
 } /* .MuiPaper-root#battles-table */
 
 .MuiPaper-root#missions-table {
+
+  &.full-panel {
+    overflow: visible;
+    padding-bottom: 1rem;
+  }
 
   & div.MuiTableContainer-root {
 

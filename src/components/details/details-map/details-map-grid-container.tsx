@@ -1,4 +1,4 @@
-import React, { JSX, memo, useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, { CSSProperties, JSX, memo, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { GridCellDataType, PotDataType, SvgPropsType, CoordinateType, size_SpecificType, StrongholdDataType, UnitDataType, MissionDataType, svg_StrongholdType, BaseDataType, svg_BaseType, svg_ChestType, svg_PlayerType } from "./details-map";
 import { Tooltip, TooltipRefProps } from "react-tooltip";
 import { MemoizedTooptipContent } from "./details-map-tooltip";
@@ -8,6 +8,7 @@ import { Weapons } from "../../data-classes/weapon-data";
 import { MapIcons } from "../../data-classes/map-icon-data";
 import { Items } from "../../data-classes/item-data";
 import { MapContext } from "../../../context";
+import { map } from "lodash";
 
 interface GridContainerProps {
     svgProps : SvgPropsType;
@@ -19,15 +20,10 @@ export function GridContainer({svgProps, setGridCords, missionData} : GridContai
 
     const [tileCoords, setTileCoords] = useState<CoordinateType|null>(null);
     const prevTileCoords = useRef<(CoordinateType|null)[]>([null, null]);
-    const tileID = useRef<string|null>(null);
+    const tileID = useContext(MapContext).tileID;
     const [data, setData] = useContext(MapContext).tileData!;
-    // const [data, setData] = useState<(GridCellDataType)[][]>([]);
-
-    const tooltip = useRef<TooltipRefProps|null>(null);
-
-    // const calculateIndex = (col : number, row : number ) => {
-    //     return ((row-1) * svgProps.size.squares.width) + col
-    // }
+    const tooltip = useContext(MapContext).tooltip;
+    const mapSize = useContext(MapContext).size;
 
     useEffect(() => {
         // console.log("TileCoords changed")
@@ -208,7 +204,7 @@ export function GridContainer({svgProps, setGridCords, missionData} : GridContai
                     data={newData}
                     svgSquares={svgProps.size.squares} setGridCords={setGridCords} row={row}
                     tileCoords={tileCoords} setTileCoords={setTileCoords} prevTileCoords={prevTileCoords}
-                    tileID={tileID}
+                    tileIDArray={tileID!}
                 />
             )
         }
@@ -243,6 +239,42 @@ export function GridContainer({svgProps, setGridCords, missionData} : GridContai
 
     }, [missionData])
 
+    const calculateTooltipTop = () => {
+        if (
+            tooltip === undefined || tooltip === null || 
+            tooltip.current === undefined || tooltip.current === null || 
+            tooltip.current.activeAnchor === null ||
+            tileID === undefined || tileID[0] === null ||
+            mapSize === undefined || mapSize.current === undefined
+        )
+            return "1000vh"
+
+        let anchor : HTMLElement|null = document.getElementById(tileID[0])
+
+        if (anchor === null)
+            return "1000vh"
+
+        // let mapScrollHeight = mapSize.current.target.scrollHeight
+        // let mapScrollWidth = mapSize.current.target.scrollWidth
+        let mapClientHeight = mapSize.current.target.clientHeight
+        let mapClientWidth = mapSize.current.target.clientWidth
+        let anchorOffsetTop = anchor.offsetTop
+        let anchorOffsetBottom = mapClientHeight - ( anchorOffsetTop + anchor.offsetHeight )
+        let anchorOffsetLeft = anchor.offsetLeft
+        let anchorOffsetRight = mapClientWidth - ( anchorOffsetLeft + anchor.offsetWidth )
+
+        let tooltipWidth = 290; // 279
+
+        // If tooltip can fit on left or right side
+        let tooltipCanBeHorizontal = (anchorOffsetLeft > tooltipWidth) || (anchorOffsetRight > tooltipWidth)
+        if (tooltipCanBeHorizontal)
+            return "1000vh"
+
+        // If it needs to be cropped
+        let height = Math.max(anchorOffsetTop - 30,anchorOffsetBottom - 30);
+        return `${height}px`
+    }
+
     // --------------
     // --- Return ---
     // --------------
@@ -255,20 +287,20 @@ export function GridContainer({svgProps, setGridCords, missionData} : GridContai
         >
             {createGridContainer()}
             <Tooltip
-                anchorSelect={`#${tileID.current}`}
+                id="map-tooltip"
+                anchorSelect={`#${tileID![0]}`}
                 ref={tooltip}
                 children={ (
                     < MemoizedTooptipContent 
                         data={data} 
                         tileCoords={tileCoords}
                         missionData={missionData}
-                        // tileID={tileID.current}
                     />
                 )}
                 openOnClick={true}
                 isOpen={tileCoords !== null}       
                 key={`mapTooltip`}
-                // variant="light"
+                style={{"--height": calculateTooltipTop()} as CSSProperties}
                 clickable
             />
         </div>
@@ -287,15 +319,23 @@ interface GridRowProps {
     tileCoords : CoordinateType|null;
     setTileCoords : any;
     prevTileCoords : React.RefObject<(CoordinateType|null)[]>;
-    tileID : React.RefObject<string|null>;
+    tileIDArray : [string | null, React.Dispatch<React.SetStateAction<string | null>>]
 }
 
-function GridRow({data, svgSquares, setGridCords, row, tileCoords, prevTileCoords, tileID, setTileCoords} : GridRowProps) {
+function GridRow({data, svgSquares, setGridCords, row, tileCoords, prevTileCoords, tileIDArray: tileID, setTileCoords} : GridRowProps) {
     // console.log(`[[[ Row rerendered: ${row } tileCoords: (${tileCoords?.x},${tileCoords?.y}) prevTileCoords: (${prevTileCoords.current[1]?.x},${prevTileCoords.current[1]?.y}) ]]]`)
     // console.log(prevTileCoords)
 
     const childrenRef = useRef<(HTMLDivElement|undefined)[]>([]);
     const childrenArray = useRef<JSX.Element[]>([]);
+    const prevSvg = useRef<size_SpecificType|undefined>(undefined);
+
+    // If prevSVG is not same, then redo everything
+    if (prevSvg.current !== undefined && prevSvg.current === svgSquares) {
+        childrenRef.current = [];
+        childrenArray.current = [];
+    }
+    prevSvg.current = svgSquares;
 
     const createTile = (col : number) => {
         if (data[col] === undefined)
@@ -306,7 +346,7 @@ function GridRow({data, svgSquares, setGridCords, row, tileCoords, prevTileCoord
                 data={data[col][row]} 
                 setGridCords={setGridCords} coords={{x:col,y:row}}
                 tileCoords={tileCoords} setTileCoords={setTileCoords} prevTileCoords={prevTileCoords}
-                tileID={tileID}
+                tileIDArray={tileID}
                 parentChildren={childrenRef}
             />
         )
@@ -342,6 +382,8 @@ const MemoizedGridRow = memo(
     GridRow, 
     (prevProps: Readonly<GridRowProps>, nextProps: Readonly<GridRowProps>) => {
         return !(
+            // SVG changed
+            (prevProps.svgSquares !== nextProps.svgSquares) ||
             // The current or previous y equals row
             (prevProps.tileCoords?.y === prevProps.row || nextProps.tileCoords?.y === nextProps.row) &&
             // The current and previous are different
@@ -361,16 +403,18 @@ interface GridCellTileProps {
     tileCoords : CoordinateType|null;
     setTileCoords : any;
     prevTileCoords : React.RefObject<(CoordinateType|null)[]>;
-    tileID : React.RefObject<string|null>;
+    tileIDArray : [string | null, React.Dispatch<React.SetStateAction<string | null>>]
     parentChildren : React.RefObject<(HTMLDivElement|undefined)[]>;
 }
 
-function GridCellTile({data, setGridCords, coords, tileCoords, setTileCoords, prevTileCoords, tileID, parentChildren} : GridCellTileProps) {
+function GridCellTile({data, setGridCords, coords, tileCoords, setTileCoords, prevTileCoords, tileIDArray, parentChildren} : GridCellTileProps) {
     // console.log(`[[[ Tile rerendered: (${coords.x},${coords.y}) ]]]`)
+
+    const [tileID, setTileID] = tileIDArray;
 
     const handleClickNoData = () => {
         // console.log(`Tile clicked! [Coords: ${coords.x},${coords.y}] [TileCoords: ${tileCoords?.x},${tileCoords?.y}]`)
-        tileID.current = null;
+        setTileID(null);
         setTileCoords(null);
     }
 
@@ -380,12 +424,12 @@ function GridCellTile({data, setGridCords, coords, tileCoords, setTileCoords, pr
         // If coords same, then make null
         if ( (coords?.x == prevTileCoords.current[1]?.x) && (coords?.y == prevTileCoords.current[1]?.y) ) {
             setTileCoords(null);
-            tileID.current = null;
+            setTileID(null);
         }
         // If coords different, set new coords
         else {
             setTileCoords(coords);
-            tileID.current = `mapTile-${coords?.x}-${coords?.y}`;
+            setTileID(`mapTile-${coords?.x}-${coords?.y}`);
         }
     }
 
@@ -406,13 +450,6 @@ function GridCellTile({data, setGridCords, coords, tileCoords, setTileCoords, pr
                     parentChildren.current[coords.x] = element
             }}
         >
-            {/* {
-                ((data !== undefined) && (data.unit !== undefined) && (data.unit.showSprite === true) && (data.unit.sprite !== undefined)) && 
-                <img 
-                    className="map-grid-tile-unit-sprite"
-                    src={data.unit.sprite as string} 
-                /> //Height on map is 27px, height of image is 20px, height of tile is 48px
-            } */}
         </div>
     )
 }
