@@ -20,11 +20,11 @@ function App() {
   // Run once
   useEffect(() => {
 
-    // ["blue", "green", "red", "yellow"].forEach( 
-    //   (colour) => {
-    //     // PixelsToSVG(colour + ".png"); 
-    //     PixelsToSVG(colour + "-f.png");
-    // })
+    ["blue", "green", "red", "yellow"].forEach( 
+      (colour) => {
+        PixelsToSVG(colour + ".png"); 
+        PixelsToSVG(colour + "-f.png");
+    })
     // PixelsToSVG("");
     Classes.createData()
     MapIcons.createData()
@@ -34,7 +34,8 @@ function App() {
   }, [])
 
   return (
-    <DatabaseContext value={{chapters:allChapters, battles:allBattles.slice(1)}}><DifficultyContext value={useState<number>(1)}>
+    <DatabaseContext value={{chapters:allChapters, battles:allBattles.slice(1)}}>
+    <DifficultyContext value={useState<number>(1)}>
       <div className="App">
         <header className="App-header">
           <Settings />

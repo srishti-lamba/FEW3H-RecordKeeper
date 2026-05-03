@@ -171,10 +171,10 @@ export class Classes {
                 "Armored Knight": {types: [Classes.types.INFANTRY, 
                                         Classes.types.ARMOURED],    abilities: [], description: ""},
                 "Brigand":        {types: [Classes.types.INFANTRY], abilities: [], description: ""},
-                "Archer":         {types: [Classes.types.INFANTRY], abilities: [], description: ""},
+                "Archer":         {types: [Classes.types.INFANTRY], abilities: [Classes.abilities["Gauntlet Buster Lv 2"]], description: ""},
                 "Brawler":        {types: [Classes.types.INFANTRY], abilities: [], description: ""},
                 "Priest":         {types: [Classes.types.INFANTRY], abilities: [], description: ""},
-                "Mage":           {types: [Classes.types.INFANTRY], abilities: [], description: ""},
+                "Mage":           {types: [Classes.types.INFANTRY], abilities: [Classes.abilities["Bow Buster Lv 1"]], description: ""},
 
                 // Advanced Classes
                 "Swordmaster":     {types: [Classes.types.INFANTRY], abilities: [], description: ""},

@@ -186,16 +186,16 @@ export interface UnitDataType {
     appearAndDisappear : [number[],boolean][];
     coords : [ number[], CoordinateType][];
     stats ?: {
-        hp : number,
+        hp : number|number[],
         move ?: number,
-        str : number,
-        mag : number,
-        dex : number,
-        spd : number,
-        lck : number,
-        def : number,
-        res : number,
-        cha : number
+        str : number|number[],
+        mag : number|number[],
+        dex : number|number[],
+        spd : number|number[],
+        lck : number|number[],
+        def : number|number[],
+        res : number|number[],
+        cha : number|number[]
     }
     notes ?: string;
 }
@@ -558,8 +558,8 @@ export function Map({} : MapProps) {
         };
 
         svgProps!.paths.markings.forEach( (marking : svg_MarkingsType, index : number) => {
-            // let show = (missionData.markings[index] !== undefined) ? missionData.markings[index].appear : false;
-            let show = true
+            let show = (missionData.markings[index] !== undefined) ? missionData.markings[index].appear : false;
+            // let show = true
             if (!show)
                 return <></>
 
@@ -1250,7 +1250,8 @@ function getUnitSprite(
     if (unit === undefined)
         unit = svgProps?.paths.units[key]
 
-    let show = (missionData.units[key] !== undefined) ? missionData.units[key].show : true;
+    let show = true;
+    // let show = (missionData.units[key] !== undefined) ? missionData.units[key].show : true;
     let coords = (missionData.units[key] !== undefined) ? missionData.units[key].coords : {x:0,y:0};
     
     if (!show)

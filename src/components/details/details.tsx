@@ -96,7 +96,7 @@ export function Details( {/*selectedRow, selectedRowData*/} : DetailsProps ) {
 
     function addResizeObserver( ref : React.RefObject<any>, callbackFunc : any) {
         if (ref.current) {
-            const observer = new ResizeObserver(debounce((entries) => entries.forEach(callbackFunc)));
+            const observer = new ResizeObserver(debounce((entries : ResizeObserverEntry[]) => entries.forEach(callbackFunc)));
             observer.observe(ref.current);
 
             // Cleanup function

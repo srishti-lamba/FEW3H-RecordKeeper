@@ -236,6 +236,556 @@
             }
         ],
         "player" : [],        
-        "units" : []
+        "units" : {
+
+            "53-32-blue": {
+                "name" : "Stronghold Captain",
+                "gender" : "f",
+                "class" : {
+                    "name" : "Monk",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "9" }
+                },
+                "weapon" : { "name" : "Iron Tome" },
+                "allegiance" : "blue",
+                "appearAndDisappear" : [
+                    [[-1], true]
+                ],
+                "coords" : [
+                    [[-1], {"x":53 , "y":32}]
+                ],
+                "stats" : {
+                    "hp" : [ 2358, 2428, 2664, 4784 ],
+                    "move" : 6,
+                    "str" : [ 8,  10, 14, 54 ],
+                    "mag" : [ 7,  9,  13, 55 ],
+                    "dex" : [ 8,  9,  13, 46 ],
+                    "spd" : [ 11, 12, 17, 63 ],
+                    "lck" : [ 8,  9,  13, 47 ],
+                    "def" : [ 7,  8,  12, 45 ],
+                    "res" : [ 9,  10, 14, 47 ],
+                    "cha" : [ 12, 13, 19, 73 ]
+                }
+            },
+            "53-32-red": {
+                "name" : "Stronghold Captain",
+                "class" : {
+                    "name" : "Fighter",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "5" }
+                },
+                "weapon" : { "name" : "Iron Axe" },
+                "allegiance" : "red",
+                "appearAndDisappear" : [
+                    [[-1], true]
+                ],
+                "coords" : [
+                    [[-1], {"x":53 , "y":32}]
+                ],
+                "stats" : {
+                    "hp" : [ 2470, 0, 0, 0 ],
+                    "move" : 6,
+                    "str" : [ 7,  0, 0, 0 ],
+                    "mag" : [ 7,  0, 0, 0 ],
+                    "dex" : [ 8,  0, 0, 0 ],
+                    "spd" : [ 11, 0, 0, 0 ],
+                    "lck" : [ 8,  0, 0, 0 ],
+                    "def" : [ 6,  0, 0, 0 ],
+                    "res" : [ 6,  0, 0, 0 ],
+                    "cha" : [ 9,  0, 0, 0 ]
+                }
+            },
+
+            "16-14-blue": {
+                "name" : "Stronghold Captain",
+                "gender" : "f",
+                "class" : {
+                    "name" : "Monk",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "9" }
+                },
+                "weapon" : { "name" : "Iron Tome" },
+                "allegiance" : "blue",
+                "appearAndDisappear" : [
+                    [[-1], true]
+                ],
+                "coords" : [
+                    [[-1], {"x":16 , "y":14}]
+                ],
+                "stats" : {
+                    "hp" : [ 2360, 2433, 2664, 4784 ],
+                    "move" : 6,
+                    "str" : [ 7,  9,  14, 54 ],
+                    "mag" : [ 7,  9,  13, 55 ],
+                    "dex" : [ 8,  9,  13, 46 ],
+                    "spd" : [ 12, 14, 17, 63 ],
+                    "lck" : [ 6,  7,  13, 47 ],
+                    "def" : [ 6,  7,  12, 45 ],
+                    "res" : [ 8,  9,  14, 47 ],
+                    "cha" : [ 12, 13, 19, 73 ]
+                }
+            },
+            "16-14-red": {
+                "name" : "Stronghold Captain",
+                "gender" : "f",
+                "class" : {
+                    "name" : "Soldier",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "9" }
+                },
+                "weapon" : { "name" : "Iron Lance" },
+                "allegiance" : "red",
+                "appearAndDisappear" : [
+                    [[-1], true]
+                ],
+                "coords" : [
+                    [[-1], {"x":16 , "y":14}]
+                ],
+                "stats" : {
+                    "hp" : [ 2472, 2547, 2799, 5071 ],
+                    "move" : 6,
+                    "str" : [ 7,  10, 14, 56 ],
+                    "mag" : [ 7,  10, 14, 56 ],
+                    "dex" : [ 9,  10, 14, 51 ],
+                    "spd" : [ 12, 14, 19, 63 ],
+                    "lck" : [ 6,  9,  13, 45 ],
+                    "def" : [ 6,  9,  13, 46 ],
+                    "res" : [ 6,  7,  10, 34 ],
+                    "cha" : [ 11, 13, 18, 70 ]
+                }
+            },
+
+            "48-54-blue": {
+                "name" : "Stronghold Captain",
+                "gender" : "f",
+                "class" : {
+                    "name" : "Monk",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "10" }
+                },
+                "weapon" : { "name" : "Iron Tome" },
+                "allegiance" : "blue",
+                "appearAndDisappear" : [
+                    [[-1], true]
+                ],
+                "coords" : [
+                    [[-1], {"x":48 , "y":54}]
+                ],
+                "stats" : {
+                    "hp" : [ 2358, 2433, 2664, 4884 ],
+                    "move" : 6,
+                    "str" : [ 8,  9,  14, 56 ],
+                    "mag" : [ 7,  9,  13, 56 ],
+                    "dex" : [ 8,  9,  13, 46 ],
+                    "spd" : [ 11, 14, 17, 64 ],
+                    "lck" : [ 8,  7,  13, 46 ],
+                    "def" : [ 7,  7,  12, 46 ],
+                    "res" : [ 9,  9,  14, 50 ],
+                    "cha" : [ 12, 13, 19, 71 ]
+                }
+            },
+            "48-54-red": {
+                "name" : "Stronghold Captain",
+                "class" : {
+                    "name" : "Archer",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "3" }
+                },
+                "weapon" : { "name" : "Steel Bow" },
+                "allegiance" : "red",
+                "appearAndDisappear" : [
+                    [[-1], true]
+                ],
+                "coords" : [
+                    [[-1], {"x":48 , "y":54}]
+                ],
+                "stats" : {
+                    "hp" : [ 2477, 2552, 2814, 5176 ],
+                    "move" : 6,
+                    "str" : [ 7,  9,  13, 55 ],
+                    "mag" : [ 6,  9,  14, 56 ],
+                    "dex" : [ 10, 9,  13, 54 ],
+                    "spd" : [ 12, 14, 19, 64 ],
+                    "lck" : [ 8,  8,  13, 52 ],
+                    "def" : [ 6,  9,  13, 44 ],
+                    "res" : [ 6,  7,  11, 44 ],
+                    "cha" : [ 11, 13, 18, 67 ]
+                }
+            },
+
+            "33-40-blue": {
+                "name" : "Stronghold Captain",
+                "class" : {
+                    "name" : "Monk",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "9" }
+                },
+                "weapon" : { "name" : "Iron Tome" },
+                "allegiance" : "blue",
+                "appearAndDisappear" : [
+                    [[-1], true]
+                ],
+                "coords" : [
+                    [[-1], {"x":33 , "y":40}]
+                ],
+                "stats" : {
+                    "hp" : [ 2359, 2428, 2664, 4784 ],
+                    "move" : 6,
+                    "str" : [ 7,  10, 14, 54 ],
+                    "mag" : [ 6,  9,  13, 55 ],
+                    "dex" : [ 8,  9,  13, 46 ],
+                    "spd" : [ 12, 12, 17, 63 ],
+                    "lck" : [ 6,  9,  13, 47 ],
+                    "def" : [ 6,  8,  12, 45 ],
+                    "res" : [ 7,  10, 14, 47 ],
+                    "cha" : [ 12, 13, 19, 73 ]
+                }
+            },
+            "33-40-red": {
+                "name" : "Stronghold Captain",
+                "class" : {
+                    "name" : "Archer",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "3" }
+                },
+                "weapon" : { "name" : "Steel Bow" },
+                "allegiance" : "red",
+                "appearAndDisappear" : [
+                    [[-1], true]
+                ],
+                "coords" : [
+                    [[-1], {"x":33 , "y":40}]
+                ],
+                "stats" : {
+                    "hp" : [ 2471, 2552, 2814, 5176 ],
+                    "move" : 6,
+                    "str" : [ 7,  9,  13, 55 ],
+                    "mag" : [ 7,  9,  14, 56 ],
+                    "dex" : [ 10, 9,  13, 54 ],
+                    "spd" : [ 11, 14, 19, 64 ],
+                    "lck" : [ 9,  8,  13, 52 ],
+                    "def" : [ 6,  9,  13, 44 ],
+                    "res" : [ 8,  7,  11, 44 ],
+                    "cha" : [ 9,  13, 18, 67 ]
+                }
+            },
+
+            "24-11-blue": {
+                "name" : "Base Captain",
+                "class" : {
+                    "name" : "Mage",
+                    "sprite" : { "show" : false },
+                    "profile" : { "file" : "1" }
+                },
+                "weapon" : { "name" : "Iron Tome" },
+                "allegiance" : "blue",
+                "appearAndDisappear" : [
+                    [[-1], true]
+                ],
+                "coords" : [
+                    [[-1], {"x":24 , "y":11}]
+                ],
+                "stats" : {
+                    "hp" : [ 821, 852, 954, 1872 ],
+                    "move" : 6,
+                    "str" : [ 6, 8, 12, 54 ],
+                    "mag" : [ 6, 7, 11, 48 ],
+                    "dex" : [ 6, 8, 12, 54 ],
+                    "spd" : [ 6, 7, 11, 48 ],
+                    "lck" : [ 6, 8, 12, 54 ],
+                    "def" : [ 4, 5, 8,  32 ],
+                    "res" : [ 4, 4, 7,  29 ],
+                    "cha" : [ 6, 8, 12, 54 ]
+                }
+            },
+            "24-11-red": {
+                "name" : "Base Captain",
+                "class" : {
+                    "name" : "Soldier",
+                    "sprite" : { "show" : false },
+                    "profile" : { "file" : "1" }
+                },
+                "weapon" : { "name" : "Iron Lance" },
+                "allegiance" : "red",
+                "appearAndDisappear" : [
+                    [[-1], true]
+                ],
+                "coords" : [
+                    [[-1], {"x":24 , "y":11}]
+                ],
+                "stats" : {
+                    "hp" : [ 821, 852, 954, 1872 ],
+                    "move" : 6,
+                    "str" : [ 6, 8, 12, 54 ],
+                    "mag" : [ 6, 7, 11, 48 ],
+                    "dex" : [ 6, 8, 12, 54 ],
+                    "spd" : [ 6, 7, 11, 48 ],
+                    "lck" : [ 6, 8, 12, 54 ],
+                    "def" : [ 4, 5, 8,  32 ],
+                    "res" : [ 4, 4, 7,  29 ],
+                    "cha" : [ 6, 8, 12, 54 ]
+                }
+            },
+
+            "50-16-blue": {
+                "name" : "Base Captain",
+                "class" : {
+                    "name" : "Mage",
+                    "sprite" : { "show" : false },
+                    "profile" : { "file" : "1" }
+                },
+                "weapon" : { "name" : "Iron Tome" },
+                "allegiance" : "blue",
+                "appearAndDisappear" : [
+                    [[-1], true]
+                ],
+                "coords" : [
+                    [[-1], {"x":50 , "y":16}]
+                ],
+                "stats" : {
+                    "hp" : [ 821, 0, 0, 0],
+                    "move" : 6,
+                    "str" : [ 6, 0, 0, 0 ],
+                    "mag" : [ 6, 0, 0, 0 ],
+                    "dex" : [ 6, 0, 0, 0 ],
+                    "spd" : [ 6, 0, 0, 0 ],
+                    "lck" : [ 6, 0, 0, 0 ],
+                    "def" : [ 4, 0, 0, 0 ],
+                    "res" : [ 4, 0, 0, 0 ],
+                    "cha" : [ 6, 0, 0, 0 ]
+                }
+            },
+            "50-16-red": {
+                "name" : "Base Captain",
+                "class" : {
+                    "name" : "Fighter",
+                    "sprite" : { "show" : false },
+                    "profile" : { "file" : "1" }
+                },
+                "weapon" : { "name" : "Iron Axe" },
+                "allegiance" : "red",
+                "appearAndDisappear" : [
+                    [[-1], true]
+                ],
+                "coords" : [
+                    [[-1], {"x":50 , "y":16}]
+                ],
+                "stats" : {
+                    "hp" : [ 821, 0, 0, 0],
+                    "move" : 6,
+                    "str" : [ 7, 0, 0, 0 ],
+                    "mag" : [ 6, 0, 0, 0 ],
+                    "dex" : [ 6, 0, 0, 0 ],
+                    "spd" : [ 6, 0, 0, 0 ],
+                    "lck" : [ 6, 0, 0, 0 ],
+                    "def" : [ 4, 0, 0, 0 ],
+                    "res" : [ 4, 0, 0, 0 ],
+                    "cha" : [ 6, 0, 0, 0 ]
+                }
+            },
+
+            "28-26-blue": {
+                "name" : "Base Captain",
+                "class" : {
+                    "name" : "Mage",
+                    "sprite" : { "show" : false },
+                    "profile" : { "file" : "1" }
+                },
+                "weapon" : { "name" : "Iron Tome" },
+                "allegiance" : "blue",
+                "appearAndDisappear" : [
+                    [[-1], true]
+                ],
+                "coords" : [
+                    [[-1], {"x":28 , "y":26}]
+                ],
+                "stats" : {
+                    "hp" : [ 821, 852, 954, 1872],
+                    "move" : 6,
+                    "str" : [ 6, 7, 11, 48 ],
+                    "mag" : [ 6, 7, 11, 48 ],
+                    "dex" : [ 6, 8, 12, 54 ],
+                    "spd" : [ 6, 7, 11, 48 ],
+                    "lck" : [ 6, 8, 12, 54 ],
+                    "def" : [ 4, 4, 7,  29 ],
+                    "res" : [ 4, 5, 8,  36 ],
+                    "cha" : [ 6, 8, 12, 54 ]
+                }
+            },
+            "28-26-red": {
+                "name" : "Base Captain",
+                "class" : {
+                    "name" : "Archer",
+                    "sprite" : { "show" : false },
+                    "profile" : { "file" : "1" }
+                },
+                "weapon" : { "name" : "Iron Bow" },
+                "allegiance" : "red",
+                "appearAndDisappear" : [
+                    [[-1], true]
+                ],
+                "coords" : [
+                    [[-1], {"x":28 , "y":26}]
+                ],
+                "stats" : {
+                    "hp" : [ 821, 852, 954, 1872],
+                    "move" : 6,
+                    "str" : [ 6, 8, 12, 54 ],
+                    "mag" : [ 6, 7, 11, 48 ],
+                    "dex" : [ 6, 8, 12, 54 ],
+                    "spd" : [ 6, 7, 11, 48 ],
+                    "lck" : [ 6, 8, 12, 54 ],
+                    "def" : [ 4, 5, 8,  32 ],
+                    "res" : [ 4, 4, 7,  29 ],
+                    "cha" : [ 6, 8, 12, 54 ]
+                }
+            },
+
+            "21-36-blue": {
+                "name" : "Base Captain",
+                "class" : {
+                    "name" : "Mage",
+                    "sprite" : { "show" : false },
+                    "profile" : { "file" : "1" }
+                },
+                "weapon" : { "name" : "Iron Tome" },
+                "allegiance" : "blue",
+                "appearAndDisappear" : [
+                    [[-1], true]
+                ],
+                "coords" : [
+                    [[-1], {"x":21 , "y":36}]
+                ],
+                "stats" : {
+                    "hp" : [ 821, 852, 954, 1872 ],
+                    "move" : 6,
+                    "str" : [ 6, 7, 11, 48 ],
+                    "mag" : [ 6, 7, 11, 48 ],
+                    "dex" : [ 6, 8, 12, 54 ],
+                    "spd" : [ 6, 7, 11, 48 ],
+                    "lck" : [ 6, 8, 12, 54 ],
+                    "def" : [ 4, 4, 7,  29 ],
+                    "res" : [ 4, 5, 8,  36 ],
+                    "cha" : [ 6, 8, 12, 54 ]
+                }
+            },
+            "21-36-red": {
+                "name" : "Base Captain",
+                "class" : {
+                    "name" : "Archer",
+                    "sprite" : { "show" : false },
+                    "profile" : { "file" : "1" }
+                },
+                "weapon" : { "name" : "Iron Bow" },
+                "allegiance" : "red",
+                "appearAndDisappear" : [
+                    [[-1], true]
+                ],
+                "coords" : [
+                    [[-1], {"x":21 , "y":36}]
+                ],
+                "stats" : {
+                    "hp" : [ 821, 852, 954, 1872 ],
+                    "move" : 6,
+                    "str" : [ 6, 8, 12, 54 ],
+                    "mag" : [ 6, 7, 11, 48 ],
+                    "dex" : [ 6, 8, 12, 54 ],
+                    "spd" : [ 6, 7, 11, 48 ],
+                    "lck" : [ 6, 8, 12, 54 ],
+                    "def" : [ 4, 5, 8,  32 ],
+                    "res" : [ 4, 4, 7,  29 ],
+                    "cha" : [ 6, 8, 12, 54 ]
+                }
+            },
+
+            "51-39-blue": {
+                "name" : "Base Captain",
+                "class" : {
+                    "name" : "Mage",
+                    "sprite" : { "show" : false },
+                    "profile" : { "file" : "1" }
+                },
+                "weapon" : { "name" : "Iron Tome" },
+                "allegiance" : "blue",
+                "appearAndDisappear" : [
+                    [[-1], true]
+                ],
+                "coords" : [
+                    [[-1], {"x":51 , "y":39}]
+                ],
+                "stats" : {
+                    "hp" : [ 821, 852, 954, 1872 ],
+                    "move" : 6,
+                    "str" : [ 6, 7, 11, 48 ],
+                    "mag" : [ 6, 7, 11, 48 ],
+                    "dex" : [ 6, 8, 12, 54 ],
+                    "spd" : [ 6, 7, 11, 48 ],
+                    "lck" : [ 6, 8, 12, 54 ],
+                    "def" : [ 4, 4, 7,  29 ],
+                    "res" : [ 4, 5, 8,  36 ],
+                    "cha" : [ 6, 8, 12, 54 ]
+                }
+            },
+            "51-39-red": {
+                "name" : "Base Captain",
+                "class" : {
+                    "name" : "Fighter",
+                    "sprite" : { "show" : false },
+                    "profile" : { "file" : "1" }
+                },
+                "weapon" : { "name" : "Iron Axe" },
+                "allegiance" : "red",
+                "appearAndDisappear" : [
+                    [[-1], true]
+                ],
+                "coords" : [
+                    [[-1], {"x":51 , "y":39}]
+                ],
+                "stats" : {
+                    "hp" : [ 821, 0, 0, 0 ],
+                    "move" : 6,
+                    "str" : [ 7, 0, 0, 0 ],
+                    "mag" : [ 6, 0, 0, 0 ],
+                    "dex" : [ 6, 0, 0, 0 ],
+                    "spd" : [ 6, 0, 0, 0 ],
+                    "lck" : [ 6, 0, 0, 0 ],
+                    "def" : [ 4, 0, 0, 0 ],
+                    "res" : [ 4, 0, 0, 0 ],
+                    "cha" : [ 6, 0, 0, 0 ]
+                }
+            },
+
+
+            "51-39-purple": {
+                "name" : "Base Captain",
+                "class" : {
+                    "name" : "Mage",
+                    "sprite" : { "show" : false },
+                    "profile" : { "file" : "1" }
+                },
+                "weapon" : { "name" : "Iron Tome" },
+                "allegiance" : "blue",
+                "appearAndDisappear" : [
+                    [[-1], true]
+                ],
+                "coords" : [
+                    [[-1], {"x":51 , "y":39}]
+                ],
+                "stats" : {
+                    "hp" : [ 0, 0, 0, 0 ],
+                    "move" : 6,
+                    "str" : [ 0, 0, 0, 0 ],
+                    "mag" : [ 0, 0, 0, 0 ],
+                    "dex" : [ 0, 0, 0, 0 ],
+                    "spd" : [ 0, 0, 0, 0 ],
+                    "lck" : [ 0, 0, 0, 0 ],
+                    "def" : [ 0, 0, 0, 0 ],
+                    "res" : [ 0, 0, 0, 0 ],
+                    "cha" : [ 0, 0, 0, 0 ]
+                }
+            }
+
+
+        }
     }
 }

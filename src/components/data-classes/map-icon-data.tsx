@@ -332,10 +332,12 @@ export class MapIcons {
             unitSprites["Cavalier"] =       {height: 0, width: 0};
             unitSprites["Armored Knight"] = {height: 0, width: 0};
             unitSprites["Brigand"] =        {height: 0, width: 0};
-            unitSprites["Archer"] =         {height: 0, width: 0};
+            unitSprites["Archer"] =         {height: 20, width: 17}; // height="20" width="17"
+            unitSprites["Archer-f"] =       {height: 20, width: 17}; // height="20" width="17"
             unitSprites["Brawler"] =        {height: 0, width: 0};
             unitSprites["Priest"] =         {height: 0, width: 0};
-            unitSprites["Mage"] =           {height: 0, width: 0};
+            unitSprites["Mage"] =           {height: 20, width: 15}; // height="20" width="15"
+            unitSprites["Mage-f"] =         {height: 20, width: 14}; // height="20" width="14"
 
             // Advanced Classes
             unitSprites["Swordmaster"] =     {height: 0, width: 0};

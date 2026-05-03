@@ -5,11 +5,12 @@ import { memo, useContext } from "react";
 import { GridCellDataType, CoordinateType, StrongholdDataType, PotDataType, UnitDataType, MissionDataType, BaseDataType, svg_ChestType, selectedMissionPassed, svg_PlayerType } from "./details-map";
 import { CategoryType, WeaponDataType, Weapons } from "../../data-classes/weapon-data";
 import { Classes } from "../../data-classes/class-data";
-import { BattlesTableContext, MapContext, MissionsTableContext } from "../../../context";
+import { BattlesTableContext, DatabaseContext, DifficultyContext, MapContext, MissionsTableContext } from "../../../context";
 import { initializeMissionTextRef } from "../missions-table";
 import { MapIcons, SpriteRotator } from "../../data-classes/map-icon-data";
 import { ItemType } from "../../data-classes/item-data";
 import { Crests } from "../../data-classes/crest-data";
+import { stat } from "fs";
 
 interface TooltipContentProps {
     data : GridCellDataType[][];
@@ -27,6 +28,7 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
     let battleTable = useContext(BattlesTableContext).table
     let missionTable = useContext(MissionsTableContext).table!
     let missionText = useContext(MissionsTableContext).text!
+    let difficulty = useContext(DifficultyContext)[0]
     // const setDetailsTileCoords = useContext(MapContext).tileID![1];
 
     // setDetailsTileCoords(tileCoords);
@@ -483,8 +485,7 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                 )
 
                 let monsterBoxClass = "map-tooltip-unit-monsterBarriers";
-                let monsterIDBox = `${monsterID}-box`
-                let toolti
+                let monsterIDBox = `${monsterID}-box`;
                 monsterBox = (
                     <span
                         className={`map-tooltip-unit-box ${monsterBoxClass}Box`}
@@ -690,6 +691,9 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                         </>
                     )
                 }
+
+                const getStatValue = (val : number|number[]) => (Array.isArray(val)) ? val[difficulty] : val
+
                 statBox = (
                     <span 
                         className={`map-tooltip-unit-box ${statClass}Box`}
@@ -698,22 +702,22 @@ function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipConten
                         <span className={`${statClass}-col`}>
                             {
                                 ([
-                                    ["Hit Points", "HP",  statData.hp,  "A unit's max HP. HP depletes with damage. When it reaches zero, a unit will retreat or fall in battle."],
-                                    ["Strength", "Str", statData.str, "Affects the attack power of physical attacks."],
-                                    ["Magic", "Mag", statData.mag, "Affects the attack power of magic attacks."],
-                                    ["Dexterity", "Dex", statData.dex, "Affects the attack power of critical rushes, as well as critical hit rate."],
-                                    ["Speed", "Spd", statData.spd, "Affects the duration of the Awakened state and recharge time for combat arts and magic."],
+                                    ["Hit Points", "HP", getStatValue(statData.hp),  "A unit's max HP. HP depletes with damage. When it reaches zero, a unit will retreat or fall in battle."],
+                                    ["Strength", "Str", getStatValue(statData.str), "Affects the attack power of physical attacks."],
+                                    ["Magic", "Mag", getStatValue(statData.mag), "Affects the attack power of magic attacks."],
+                                    ["Dexterity", "Dex", getStatValue(statData.dex), "Affects the attack power of critical rushes, as well as critical hit rate."],
+                                    ["Speed", "Spd", getStatValue(statData.spd), "Affects the duration of the Awakened state and recharge time for combat arts and magic."],
                                 ] as [string, string, number, string][]).map( ( arr ) => getStatElements(arr) )
                             }
                         </span>
                         <span className={`${statClass}-col`}>
                             {
                                 ([
-                                    ["Movement", "Move",  statData.move,  "-"],
-                                    ["Luck", "Lck", statData.lck, "Affects the appearance rate of recovery items."],
-                                    ["Defense", "Def", statData.def, "Affects defense against physical attacks."],
-                                    ["Resistance", "Res", statData.res, "Affects defense against magic attacks."],
-                                    ["Charm", "Cha", statData.spd, "Affects drain rate of a battalion's endurance."],
+                                    ["Movement", "Move", statData.move,  "-"],
+                                    ["Luck", "Lck", getStatValue(statData.lck), "Affects the appearance rate of recovery items."],
+                                    ["Defense", "Def", getStatValue(statData.def), "Affects defense against physical attacks."],
+                                    ["Resistance", "Res", getStatValue(statData.res), "Affects defense against magic attacks."],
+                                    ["Charm", "Cha", getStatValue(statData.spd), "Affects drain rate of a battalion's endurance."],
                                 ] as [string, string, number, string][]).map( ( arr ) => getStatElements(arr) )
                             }
                         </span>

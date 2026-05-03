@@ -359,6 +359,10 @@ export class Weapons {
             weapon.might = 20;
             weapon.durability = 50;
         }
+        else if (weaponName.startsWith("Steel ")) {
+            weapon.might = 40;
+            weapon.durability = 70;
+        }
         else {
             weapon.might = 20;
             weapon.durability = 50;

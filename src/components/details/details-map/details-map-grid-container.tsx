@@ -1,14 +1,12 @@
 import React, { CSSProperties, JSX, memo, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { GridCellDataType, PotDataType, SvgPropsType, CoordinateType, size_SpecificType, StrongholdDataType, UnitDataType, MissionDataType, svg_StrongholdType, BaseDataType, svg_BaseType, svg_ChestType, svg_PlayerType } from "./details-map";
-import { Tooltip, TooltipRefProps } from "react-tooltip";
+import { Tooltip } from "react-tooltip";
 import { MemoizedTooptipContent } from "./details-map-tooltip";
-// import { BattleRow } from "../../table";
 import { Classes } from "../../data-classes/class-data";
 import { Weapons } from "../../data-classes/weapon-data";
 import { MapIcons } from "../../data-classes/map-icon-data";
 import { Items } from "../../data-classes/item-data";
 import { MapContext } from "../../../context";
-import { map } from "lodash";
 
 interface GridContainerProps {
     svgProps : SvgPropsType;
@@ -184,7 +182,7 @@ export function GridContainer({svgProps, setGridCords, missionData} : GridContai
             }
         );
 
-        // console.log(data)
+        console.log(data)
         setData(data)
         return data;
     }, [svgProps])
