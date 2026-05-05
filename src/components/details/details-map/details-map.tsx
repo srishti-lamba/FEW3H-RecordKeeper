@@ -1250,8 +1250,8 @@ function getUnitSprite(
     if (unit === undefined)
         unit = svgProps?.paths.units[key]
 
-    let show = true;
-    // let show = (missionData.units[key] !== undefined) ? missionData.units[key].show : true;
+    // let show = true;
+    let show = (missionData.units[key] !== undefined) ? missionData.units[key].show : true;
     let coords = (missionData.units[key] !== undefined) ? missionData.units[key].coords : {x:0,y:0};
     
     if (!show)

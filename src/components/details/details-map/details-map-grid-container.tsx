@@ -1,7 +1,7 @@
 import React, { CSSProperties, JSX, memo, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { GridCellDataType, PotDataType, SvgPropsType, CoordinateType, size_SpecificType, StrongholdDataType, UnitDataType, MissionDataType, svg_StrongholdType, BaseDataType, svg_BaseType, svg_ChestType, svg_PlayerType } from "./details-map";
 import { Tooltip } from "react-tooltip";
-import { MemoizedTooptipContent } from "./details-map-tooltip";
+import { MemoizedTooptipContent, TooltipContent } from "./details-map-tooltip";
 import { Classes } from "../../data-classes/class-data";
 import { Weapons } from "../../data-classes/weapon-data";
 import { MapIcons } from "../../data-classes/map-icon-data";
@@ -31,6 +31,11 @@ export function GridContainer({svgProps, setGridCords, missionData} : GridContai
         prevTileCoords.current[1] = tileCoords;
 
     }, [tileCoords])
+
+    useEffect(() => {
+        prevTileCoords.current = [null, null]
+        setTileCoords(null)
+    }, [svgProps])
 
     const createData = useMemo(() => {
         // console.log("Called createData")
@@ -284,23 +289,26 @@ export function GridContainer({svgProps, setGridCords, missionData} : GridContai
             key="map-grid-container"
         >
             {createGridContainer()}
-            <Tooltip
-                id="map-tooltip"
-                anchorSelect={`#${tileID![0]}`}
-                ref={tooltip}
-                children={ (
-                    < MemoizedTooptipContent 
-                        data={data} 
-                        tileCoords={tileCoords}
-                        missionData={missionData}
-                    />
-                )}
-                openOnClick={true}
-                isOpen={tileCoords !== null}       
-                key={`mapTooltip`}
-                style={{"--height": calculateTooltipTop()} as CSSProperties}
-                clickable
-            />
+            {
+                (tileCoords !== null || prevTileCoords.current[1] !== null) &&
+                <Tooltip
+                    id="map-tooltip"
+                    anchorSelect={`#${tileID![0]}`}
+                    ref={tooltip}
+                    children={ (
+                        < TooltipContent 
+                            data={data} 
+                            tileCoords={tileCoords}
+                            missionData={missionData}
+                        />
+                    )}
+                    openOnClick={true}
+                    isOpen={tileCoords !== null}       
+                    key={`mapTooltip`}
+                    style={{"--height": calculateTooltipTop()} as CSSProperties}
+                    clickable
+                />
+            }
         </div>
     )
 }
@@ -322,14 +330,13 @@ interface GridRowProps {
 
 function GridRow({data, svgSquares, setGridCords, row, tileCoords, prevTileCoords, tileIDArray: tileID, setTileCoords} : GridRowProps) {
     // console.log(`[[[ Row rerendered: ${row } tileCoords: (${tileCoords?.x},${tileCoords?.y}) prevTileCoords: (${prevTileCoords.current[1]?.x},${prevTileCoords.current[1]?.y}) ]]]`)
-    // console.log(prevTileCoords)
 
     const childrenRef = useRef<(HTMLDivElement|undefined)[]>([]);
     const childrenArray = useRef<JSX.Element[]>([]);
     const prevSvg = useRef<size_SpecificType|undefined>(undefined);
 
     // If prevSVG is not same, then redo everything
-    if (prevSvg.current !== undefined && prevSvg.current === svgSquares) {
+    if (prevSvg.current !== undefined && prevSvg.current !== svgSquares) {
         childrenRef.current = [];
         childrenArray.current = [];
     }
@@ -457,6 +464,8 @@ const MemoizedGridCellTile = memo(
     (prevProps: Readonly<GridCellTileProps>, nextProps: Readonly<GridCellTileProps>) => {
         // console.log(`   Tile [${nextProps.coords.x},${nextProps.coords.y}] checked for rerender. tileCoords: [${nextProps.tileCoords?.x},${nextProps.tileCoords?.y}]`)
         return !(
+            // Data is different
+            (prevProps.data !== nextProps.data) ||
             // The current or previous equals coords
             ( (prevProps.tileCoords?.y === prevProps.coords.y && prevProps.tileCoords?.x === prevProps.coords.x) || 
               (nextProps.tileCoords?.y === nextProps.coords.y && nextProps.tileCoords?.x === nextProps.coords.x)    ) &&
