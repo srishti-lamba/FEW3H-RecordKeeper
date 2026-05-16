@@ -8,7 +8,7 @@ import allChapters from './db/chapters.json';
 import allBattles from './db/battles.json';
 import { Details } from './components/details/details';
 import { PixelsToSVG } from './components/pixel-art-to-svg';
-import { DatabaseContext, DifficultyContext, BattlesTableContext } from './context';
+import { DatabaseContext, DifficultyContext, BattlesTableContext, AppRefreshContext } from './utils/context';
 import { MapIcons } from './components/data-classes/map-icon-data';
 import { Items } from './components/data-classes/item-data';
 import { Classes } from './components/data-classes/class-data';
@@ -16,6 +16,8 @@ import { Crests } from './components/data-classes/crest-data';
 import { Weapons } from './components/data-classes/weapon-data';
 
 function App() {
+
+  const [timestamp, setTimestamp] = useState<Date|undefined>(undefined)
 
   // Run once
   useEffect(() => {
@@ -34,6 +36,7 @@ function App() {
   }, [])
 
   return (
+    <AppRefreshContext value={[timestamp, setTimestamp]}>
     <DatabaseContext value={{chapters:allChapters, battles:allBattles.slice(1)}}>
     <DifficultyContext value={useState<number>(1)}>
       <div className="App">
@@ -42,6 +45,7 @@ function App() {
         </header>
 
         <BattlesTableContext value={{
+          battle: undefined,
           table: useRef<MRT_TableInstance<BattleRow>>(undefined),
           selectedRow: useState<MRT_RowSelectionState>({})
         }}>
@@ -80,7 +84,7 @@ function App() {
         </BattlesTableContext>
       </div>
     {/* </Difficulty></AllChapters></AllBattles> */}
-    </DifficultyContext></DatabaseContext>
+    </DifficultyContext></DatabaseContext></AppRefreshContext>
   );
 }
 

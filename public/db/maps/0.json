@@ -25,7 +25,6 @@
                 },
                 "data": {
                     "name" : "Central Outer Walls",
-                    "captureRequired" : false,
                     "captain" : ["34-58-blue"],
                     "colour" : [
                         [[-1],"blue"]
@@ -41,7 +40,6 @@
                 },
                 "data": {
                     "name" : "Fortress Main Gates",
-                    "captureRequired" : false,
                     "captain" : ["33-46-blue", "33-46-red"],
                     "colour" : [
                         [[-1],"red"]
@@ -57,7 +55,6 @@
                 },
                 "data": {
                     "name" : "Guardhouse",
-                    "captureRequired" : false,
                     "captain" : ["58-29-blue", "58-29-red", "58-29-yellow"],
                     "colour" : [
                         [[-1],"red"],
@@ -74,7 +71,6 @@
                 },
                 "data": {
                     "name" : "Chapel",
-                    "captureRequired" : false,
                     "captain" : ["59-9-blue", "59-9-red", "59-9-yellow"],
                     "colour" : [
                         [[-1],"red"],
@@ -91,7 +87,6 @@
                 },
                 "data": {
                     "name" : "Plaza",
-                    "captureRequired" : true,
                     "captain" : ["43-12-blue", "43-12-red", "43-12-yellow"],
                     "colour" : [
                         [[-1],"red"],
@@ -110,7 +105,6 @@
                 },
                 "data": {
                     "name" : "Command Post",
-                    "captureRequired" : true,
                     "captain" : ["22-7-blue", "22-7-red"],
                     "colour" : [
                         [[-1],"red"],
@@ -127,7 +121,6 @@
                 },
                 "data": {
                     "name" : "Dungeon",
-                    "captureRequired" : true,
                     "captain" : ["7-7-blue", "7-7-red"],
                     "colour" : [
                         [[-1],"red"],
@@ -144,7 +137,6 @@
                 },
                 "data": {
                     "name" : "Kitchen",
-                    "captureRequired" : false,
                     "appearAndDisappear" : [
                         [[-1], false],
                         [[5,1], true]
@@ -356,6 +348,7 @@
                 "_notes" : "East of Fortress Main Gates"                
             }
         ],
+        "structures" : [],
         "chests" : [
             {
                 "icon" : {

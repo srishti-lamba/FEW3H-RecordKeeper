@@ -1072,71 +1072,77 @@ noscript {
                                   top: calc( (var(--padding) / 2) * -1 );
                                 }
                               }
-
-                               .map-tooltip-unit-miscRow-mission {
-
-                                & .row-black-background {
-                                  --border-width: 0.5em;
-                                  --padding-hor: 0.5em;
-                                  --padding-ver: 0.2em;
-
-                                  text-wrap-mode: wrap;
-                                  height: auto;
-                                  padding: 0.2em 0.5em;
-                                  align-content: center;
-                                  display: flex;
-                                  flex-flow: row nowrap;
-
-                                  background-image:
-                                    url(/public/images/ui-background/subCategoryRow/left-base-stretch.svg),
-                                    url(/public/images/ui-background/subCategoryRow/right-base-stretch.svg),
-                                    url(/public/images/ui-background/subCategoryRow/middle-base-stretch.svg);
-
-                                  background-size: 
-                                    var(--border-width) 100%, 
-                                    var(--border-width) 100%, 
-                                    calc(100% - (var(--border-width) * 2) ) 100%;
-
-                                  & .map-tooltip-unit-miscRow-mission-icon {
-                                    height: 1.5em;
-                                    width: 1.5em;
-                                    display: block;
-                                    background-repeat: no-repeat;
-                                    background-size: contain;
-                                    background-position: center;
-                                    flex-shrink: 0;
-                                    &.type-ms, &.type-mc, &.type-me {
-                                      background-image: url(../public/images/ui-icons/battleMission/main-mission.png)
-                                    }
-                                    &.type-ss, &.type-sc, &.type-se, &.type-sf {
-                                      background-image: url(../public/images/ui-icons/battleMission/side-mission.png)
-                                    }
-                                    &.type-rb {
-                                      background-image: url(../public/images/ui-icons/battleMission/report-flag.png)
-                                    }
-                                    &.type-ry {
-                                      background-image: url(../public/images/ui-icons/battleMission/report-speaker.png)
-                                    }
-                                    &.type-w {
-                                      background-image: url(../public/images/ui-icons/battleMission/warning.png)
-                                    }
-                                  }
-
-                                  & > {
-                                    display: inline-block;
-                                    white-space:normal;
-                                  }
-
-                                  & > span {
-                                    font-size: 0.7rem;
-                                  }
-
-                                }
-                              }
-
                             } /* .map-tooltip-unit-miscRow */
 
                           }/* .map-tooltip-unit */
+
+                          & .map-tooltip-unit-miscRow-mission, & .map-tooltip-stronghold-mission {
+                            & span:first-of-type {
+                              font-size: 0.8rem;
+                            }
+                            & .row-black-background {
+                              --border-width: 0.5em;
+                              --padding-hor: 0.5em;
+                              --padding-ver: 0.2em;
+
+                              text-wrap-mode: wrap;
+                              height: auto;
+                              padding: 0.2em 0.5em;
+                              align-content: center;
+                              display: flex;
+                              flex-flow: row nowrap;
+
+                              background-image:
+                                url(/public/images/ui-background/subCategoryRow/left-base-stretch.svg),
+                                url(/public/images/ui-background/subCategoryRow/right-base-stretch.svg),
+                                url(/public/images/ui-background/subCategoryRow/middle-base-stretch.svg);
+
+                              background-size: 
+                                var(--border-width) 100%, 
+                                var(--border-width) 100%, 
+                                calc(100% - (var(--border-width) * 2) ) 100%;
+
+                              & .map-tooltip-unit-miscRow-mission-icon, & .map-tooltip-stronghold-mission-icon {
+                                height: 1.5em;
+                                width: 1.5em;
+                                display: block;
+                                background-repeat: no-repeat;
+                                background-size: contain;
+                                background-position: center;
+                                flex-shrink: 0;
+                                &.type-ms, &.type-mc, &.type-me, &.type-mf {
+                                  background-image: url(../public/images/ui-icons/battleMission/main-mission.png)
+                                }
+                                &.type-ss, &.type-sc, &.type-se, &.type-sf {
+                                  background-image: url(../public/images/ui-icons/battleMission/side-mission.png)
+                                }
+                                &.type-rb {
+                                  background-image: url(../public/images/ui-icons/battleMission/report-flag.png)
+                                }
+                                &.type-ry {
+                                  background-image: url(../public/images/ui-icons/battleMission/report-speaker.png)
+                                }
+                                &.type-w {
+                                  background-image: url(../public/images/ui-icons/battleMission/warning.png)
+                                }
+                              }
+
+                              & > {
+                                display: inline-block;
+                                white-space:normal;
+                              }
+
+                              & > span {
+                                font-size: 0.7rem;
+                              }
+                            }
+                          } /* .map-tooltip-unit-miscRow-mission, .map-tooltip-stronghold-mission */
+
+                          & .map-tooltip-stronghold-missionRow {
+                            display: flex;
+                            flex-flow: column nowrap;
+                            gap: calc( var(--padding) / 2 );
+                          }
 
                         } /* .MuiAccordionDetails-root */
                       } /* .MuiCollapse-root */
@@ -2108,7 +2114,7 @@ div.MuiPaper-root:has(div.MuiTableContainer-root) {
                 }
 
                 /* === Main Mission === */
-                &.type-ms, &.type-mc, &.type-me {
+                &.type-ms, &.type-mc, &.type-me, &.type-mf {
                   & div.mission-table-row-main-title {
                     background-image: url(../public/images/ui-background/battleMission/main-mission.png);
                     &::before {

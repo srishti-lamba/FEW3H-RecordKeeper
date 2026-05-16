@@ -1,12 +1,12 @@
 import React, { CSSProperties, JSX, memo, useContext, useEffect, useMemo, useRef, useState } from "react";
-import { GridCellDataType, PotDataType, SvgPropsType, CoordinateType, size_SpecificType, StrongholdDataType, UnitDataType, MissionDataType, svg_StrongholdType, BaseDataType, svg_BaseType, svg_ChestType, svg_PlayerType } from "./details-map";
 import { Tooltip } from "react-tooltip";
 import { MemoizedTooptipContent, TooltipContent } from "./details-map-tooltip";
 import { Classes } from "../../data-classes/class-data";
 import { Weapons } from "../../data-classes/weapon-data";
 import { MapIcons } from "../../data-classes/map-icon-data";
 import { Items } from "../../data-classes/item-data";
-import { MapContext } from "../../../context";
+import { MapContext } from "../../../utils/context";
+import { SvgPropsType, MissionDataType, CoordinateType, GridCellDataType, StrongholdDataType, BaseDataType, PotDataType, svg_PlayerType, UnitDataType, svg_StrongholdType, size_SpecificType } from "../../../utils/interface";
 
 interface GridContainerProps {
     svgProps : SvgPropsType;
@@ -187,7 +187,7 @@ export function GridContainer({svgProps, setGridCords, missionData} : GridContai
             }
         );
 
-        console.log(data)
+        // console.log(data)
         setData(data)
         return data;
     }, [svgProps])
@@ -225,7 +225,7 @@ export function GridContainer({svgProps, setGridCords, missionData} : GridContai
         var newData = new Array(...data);
 
         svgProps.paths.strongholds.forEach ( (base : svg_StrongholdType, index:number) => {
-            if (base.data == undefined || base.icon == undefined) 
+            if (base.data == undefined || base.icon == undefined || data.length === 0) 
                 return;
             var baseData = data[base.icon!.coords.x][base.icon!.coords.y]
             if (baseData == undefined || baseData.stronghold == undefined)

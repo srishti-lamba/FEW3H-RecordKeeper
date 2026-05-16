@@ -2,214 +2,18 @@ import React, {useEffect, useState, useRef, useMemo, useContext} from 'react';
 import { JSX } from 'react/jsx-runtime';
 import { GridContainer } from './details-map-grid-container';
 import Slider from '@mui/material/Slider'
-import { Classes, ClassType } from '../../data-classes/class-data';
-import { WeaponDataType, Weapons } from '../../data-classes/weapon-data';
-import { DatabaseContext, BattlesTableContext, MissionsTableContext, MapContext, Dictionary } from '../../../context';
+import { Weapons, WeaponListType } from '../../data-classes/weapon-data';
+import { BattlesTableContext, MissionsTableContext, MapContext, Dictionary } from '../../../utils/context';
 import { AdvantagesRotator, MapIcons, SpriteRotator } from '../../data-classes/map-icon-data';
 import { CSSProperties } from '@mui/material';
-import { ItemType } from '../../data-classes/item-data';
 import { MRT_RowSelectionState } from 'material-react-table';
+import { CoordinateType, MissionDataType, svg_BaseType, svg_ChestType, svg_GateType, svg_MarkingsType, svg_PlayerType, svg_PotType, svg_StrongholdType, svg_StructureType, SvgPropsType, UnitDataType } from '../../../utils/interface';
 
 /* 
     Websites
     https://www.photopea.com/
     https://www.freeconvert.com/png-to-svg
 */
-
-// === Map Objects ===
-
-interface svg_PathType {
-    full : svg_GroundType;
-    strongholds : svg_StrongholdType[];
-    bases : svg_BaseType[];
-    gates : svg_GateType[];
-    chests : svg_ChestType[];
-    pots : svg_PotType[];
-    markings : svg_MarkingsType[];
-    player : svg_PlayerType[];
-    units : Dictionary<UnitDataType>;
-}
-
-interface svg_GroundType { // Base ground path
-    transform : string;
-    d : string;
-}
-
-export interface svg_StrongholdType {
-    translate : CoordinateType;
-    d : string;
-    icon ?: {
-        translate : CoordinateType;
-        coords : CoordinateType;
-    }
-    data ?: StrongholdDataType | undefined;
-    fill ?: string;
-}
-
-export interface svg_BaseType {
-    icon : {
-        translate : CoordinateType;
-        coords : CoordinateType;
-    };
-    data : BaseDataType;
-    fill ?: string;
-}
-
-interface svg_GateType {
-    transform ?: string;
-    d ?: string;
-    fill ?: string;
-    appear ?: number[];
-    disappear ?: number[];
-}
-
-export interface svg_ChestType {
-    icon : {
-        translate : CoordinateType;
-        coords : CoordinateType;
-    };
-    item ?: string|ItemType;
-}
-
-interface svg_PotType {
-    colour : string;
-    m : CoordinateType;
-    coords : CoordinateType;
-    fill ?: string;
-}
-
-interface svg_MarkingsType {
-    type : string;
-    appearAndDisappear : [number[],boolean][];
-    colour ?: string;
-    x ?: number;
-    y ?: number;
-    width ?: number;
-    height ?: number;
-
-    xOne ?: number;
-    yOne ?: number;
-    xTwo ?: number;
-    yTwo ?: number;
-}
-
-export interface svg_PlayerType {
-    coords : CoordinateType,
-    allegiance : string;
-    "tile-type" : string;
-    "fixed-unit" ?: UnitDataType[];
-    note ?: string;
-}
-
-// === Map Size ===
-
-export interface SvgPropsType {
-    size : size_CategoryType;
-    paths : svg_PathType;
-}
-
-export interface CoordinateType {
-    x : number;
-    y : number;
-}
-
-export interface size_SpecificType {
-    width: number;
-    height: number;
-}
-
-interface size_CategoryType {
-    pixels : size_SpecificType;
-    squares : size_SpecificType;
-}
-
-// === Grid Cell Reference ===
-export interface GridCellType {
-    gridCell: Node | React.ReactNode | JSX.Element | null;
-    data: GridCellDataType | null;
-}
-
-export interface GridCellDataType {
-    playerTile ?: svg_PlayerType;
-    stronghold ?: [number, StrongholdDataType];
-    base ?: [number, BaseDataType];
-    chest ?: svg_ChestType;
-    pot ?: PotDataType;
-    unit ?: Dictionary<UnitDataType>;
-}
-
-export interface PotDataType {
-    icon: JSX.Element | undefined;
-    title: string;
-    description: string;
-}
-
-export interface StrongholdDataType {
-    name: string;
-    icon?: JSX.Element | undefined;
-    captureRequired: boolean;
-    appearAndDisappear ?: [number[],boolean][];
-    captain: (string|UnitDataType)[];
-    colour : [number[], string][];
-}
-
-export interface BaseDataType {
-    icon : {
-        transform : string;
-        coords : CoordinateType;
-    };
-    appearAndDisappear ?: [number[],boolean][];
-    colour : [number[], string][];
-    captain: (string|UnitDataType)[];
-    fill ?: string;
-}
-
-export interface UnitDataType {
-    name : string;
-    gender ?: string;
-    named ?: {
-        timeskip ?: string;
-    };
-    monster ?: {
-        sprite : string;
-        hpGauges : number;
-        barriers : [string, string, string, string];
-    };
-    crest ?: {name: string, type: string, level: number}[];
-    class : ClassType;
-    weapon : {
-        name : string;
-        data ?: WeaponDataType;
-    };
-    allegiance : string;
-    faction ?: string;
-    appearAndDisappear : [number[],boolean][];
-    coords : [ number[], CoordinateType][];
-    stats ?: {
-        hp : number|number[],
-        move ?: number,
-        str : number|number[],
-        mag : number|number[],
-        dex : number|number[],
-        spd : number|number[],
-        lck : number|number[],
-        def : number|number[],
-        res : number|number[],
-        cha : number|number[]
-    }
-    notes ?: string;
-}
-
-// === Mission Data ===
-export interface MissionDataType {
-    strongholds : {appear: boolean, allegiance: string}[];
-    bases : {appear: boolean, allegiance: string}[];
-    gates : {appear: boolean}[];
-    markings : {appear: boolean}[];
-    units : Dictionary<{show : boolean, coords : CoordinateType}>;
-}
-
-// === Class Props ===
 
 interface MapProps {}
 
@@ -219,16 +23,16 @@ export function Map({} : MapProps) {
     const selectedMissionRow = useContext(MissionsTableContext).selectedRow![0]
     const scrollElement = useContext(MapContext).scrollElement;
     const [svgProps, setSvgProps] = useContext(MapContext).svg!;
-    const [gridData, setGridData] = useContext(MapContext).tileData!;
+    const gridData = useContext(MapContext).tileData![0];
     const selectedWeapon = useContext(MapContext).selectedWeapon![0];
     const [gridCords, setGridCords] = useState<CoordinateType | null>(null);
-    const [missionData, setMissionData] = useState<MissionDataType>({strongholds:[],bases:[],gates:[],markings:[],units:{}})
+    const [missionData, setMissionData] = useState<MissionDataType>({strongholds:[],bases:[],gates:[],structures:[],markings:[],units:{}})
     const [mapZoomExpanded, setMapZoomExpanded] = useState<boolean>(false);
     const [mapZoom, setMapZoom] = useState<number>(100);
 
     // Run once
-    useEffect(() => {
-    }, [])
+    // useEffect(() => {
+    // }, [])
 
     // -----------------------
     // --- Fetch SVG Props ---
@@ -272,6 +76,7 @@ export function Map({} : MapProps) {
             var strongholds : MissionDataType["strongholds"] = [];
             var bases : MissionDataType["bases"] = [];
             var gates : MissionDataType["gates"] = [];
+            var structures : MissionDataType["structures"] = [];
             var markings : MissionDataType["markings"] = [];
             var units : MissionDataType["units"] = {};
 
@@ -317,6 +122,14 @@ export function Map({} : MapProps) {
                 })
             }
 
+            // Structures
+            if (svgProps.paths.structures !== undefined) {
+                (svgProps.paths.structures).forEach( (structure:svg_StructureType, index:number) => {
+                    let show = calculateShow_multipleTriggers(structure.appearAndDisappear, true)
+                    gates[index] = {appear: (show as boolean)}
+                })
+            }
+
             // Markings
             if (svgProps.paths.markings !== undefined) {
                 (svgProps.paths.markings).forEach( (marking:svg_MarkingsType, index:number) => {
@@ -334,7 +147,7 @@ export function Map({} : MapProps) {
                 })
             }
 
-            setMissionData({strongholds:strongholds,bases:bases,markings:markings,gates:gates,units:units})
+            setMissionData({strongholds:strongholds,bases:bases,markings:markings,gates:gates,structures:structures,units:units})
         };
         recalculateMissionData();
     }, [selectedMissionRow, svgProps])
@@ -846,6 +659,58 @@ export function Map({} : MapProps) {
             </g>)
     }
 
+    // === Structures ===
+    function getAllStructures() {
+        var structs : React.SVGProps<SVGGElement>[] = []
+
+        svgProps!.paths.structures.forEach( (structure : svg_StructureType, index : number) => {
+            let show = (missionData.structures[index] !== undefined) ? missionData.structures[index].appear : true;
+            if (!show)
+                return <></>
+
+            // Error resolving
+            let x1 = 0; let y1 = 0; let x2 = 0; let y2 = 0;
+
+            switch (structure.type) {
+                case "flying-arrow" : 
+                    let hypotenuse = yZoom;
+                    let angle = Math.atan2(structure.yOne!-structure.yTwo!, structure.xOne!-structure.xTwo!);
+                    x1 = structure.xOne! + ( (hypotenuse * Math.cos(angle)) * 1 );
+                    y1 = structure.yOne! + ( (hypotenuse * Math.sin(angle)) * 1 );
+                    x2 = structure.xTwo! + ( (hypotenuse * Math.cos(angle)) * -1 );
+                    y2 = structure.yTwo! + ( (hypotenuse * Math.sin(angle)) * -1 );
+
+                    structs.push(
+                        <>
+                            <line
+                                key={"mapMarking-" + index}
+                                x1={structure.xOne} y1={structure.yOne}
+                                x2={structure.xTwo} y2={structure.yTwo}
+                                fill="none"
+                                stroke="#F7FCFF" strokeWidth="10" strokeLinecap="round" vectorEffect="non-scaling-stroke"
+                                marker-start="url(#map-arrow-flying-marker-start)" marker-end="url(#map-arrow-flying-marker-end)"
+                            />
+                            <line
+                                key={"mapMarking-" + index}
+                                x1={x1} y1={y1}
+                                x2={x2} y2={y2}
+                                fill="none"
+                                stroke="#263049" strokeWidth="5" strokeLinecap="round" vectorEffect="non-scaling-stroke"
+                                marker-start="url(#map-arrow-flying-marker-start)" marker-end="url(#map-arrow-flying-marker-end)"
+                            />
+                        </>
+                    )
+                    break;
+            }
+        })
+
+        return (
+            <g id="map-structures-container">
+                <>{structs}</>
+            </g>
+        )
+    }
+
     // === Chests ===
     function getAllChests() {
         var chests : React.SVGProps<SVGGElement>[] = []
@@ -934,7 +799,7 @@ export function Map({} : MapProps) {
         return <>{units}</>
     }
 
-    // === Weapon ADvantages ===
+    // === Weapon Advantages ===
     function getAllWeaponAdvantages() {
 
         if (selectedWeapon == "")
@@ -964,7 +829,7 @@ export function Map({} : MapProps) {
 
                     // Check if advantage or not
                     let weapon = unit.weapon.data!;
-                    let category = Weapons.categoriesDict[selectedWeapon]
+                    let category = Weapons.categories[selectedWeapon.toUpperCase() as keyof WeaponListType]
                     let adv = weapon.disadvantage?.has(category);
                     let dis = weapon.advantage?.has(category)
                     
@@ -1107,6 +972,7 @@ export function Map({} : MapProps) {
                                     })
                                 }
                             </g>
+                            {getAllStructures()}
                             {getAllChests()}
                             {getAllPots()}
                             {getAllMarkings(false)}

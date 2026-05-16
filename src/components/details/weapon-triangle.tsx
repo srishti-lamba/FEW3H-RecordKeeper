@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { BattlesTableContext, MapContext } from "../../context";
+import { MapContext } from "../../utils/context";
 
 interface WeaponTriangleProps {}
 

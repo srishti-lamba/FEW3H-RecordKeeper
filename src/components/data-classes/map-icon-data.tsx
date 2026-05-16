@@ -1,7 +1,7 @@
 import { JSX, useEffect, useRef, useState } from "react";
-import { Dictionary } from "../../context";
-import { getUnitSprite, MissionDataType, SvgPropsType, UnitDataType } from "../details/details-map/details-map";
-import { Classes } from "./class-data";
+import { Dictionary } from "../../utils/context";
+import { getUnitSprite } from "../details/details-map/details-map";
+import { SvgPropsType, MissionDataType, UnitDataType } from "../../utils/interface";
 
 // === Fills ===
 

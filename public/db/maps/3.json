@@ -24,8 +24,7 @@
                 },
                 "data": {
                     "name" : "Castle Ruins",
-                    "captureRequired" : false,
-                    "captain" : [],
+                    "captain" : ["16-14-blue", "16-14-red"],
                     "colour" : [
                         [[-1],"red"]
                     ]
@@ -39,8 +38,7 @@
                 },
                 "data": {
                     "name" : "Crooked Highroad",
-                    "captureRequired" : false,
-                    "captain" : [],
+                    "captain" : ["53-32-blue", "53-32-red"],
                     "colour" : [
                         [[-1],"blue"]
                     ]
@@ -54,8 +52,7 @@
                 },
                 "data": {
                     "name" : "Roadside Rest Stop",
-                    "captureRequired" : false,
-                    "captain" : [],
+                    "captain" : ["48-54-blue", "48-54-red"],
                     "colour" : [
                         [[-1],"red"]
                     ]
@@ -69,7 +66,10 @@
                 },
                 "data": {
                     "name" : "Roadside Forest Trail",
-                    "captureRequired" : false,
+                    "appearAndDisappear" : [
+                        [[-1], false],
+                        [[4], true]
+                    ],
                     "captain" : [],
                     "colour" : [
                         [[-1],"red"]
@@ -84,8 +84,7 @@
                 },
                 "data": {
                     "name" : "Forest Byway",
-                    "captureRequired" : false,
-                    "captain" : [],
+                    "captain" : ["33-40-blue", "33-40-red"],
                     "colour" : [
                         [[-1],"red"]
                     ]
@@ -102,7 +101,7 @@
                     "colour" : [
                         [[-1],"red"]
                     ],
-                    "captain" : []
+                    "captain" : ["24-11-blue", "24-11-red"]
                 }
             },
             {
@@ -114,7 +113,7 @@
                     "colour" : [
                         [[-1],"blue"]
                     ],
-                    "captain" : []
+                    "captain" : ["50-16-blue", "50-16-red"]
                 }
             },
             {
@@ -126,7 +125,7 @@
                     "colour" : [
                         [[-1],"red"]
                     ],
-                    "captain" : []
+                    "captain" : ["28-26-blue", "28-26-red"]
                 }
             },
             {
@@ -138,7 +137,7 @@
                     "colour" : [
                         [[-1],"red"]
                     ],
-                    "captain" : []
+                    "captain" : ["21-36-blue", "21-36-red"]
                 }
             },
             {
@@ -150,7 +149,7 @@
                     "colour" : [
                         [[-1],"blue"]
                     ],
-                    "captain" : []
+                    "captain" : ["51-39-blue", "51-39-red"]
                 }
             },
             {
@@ -167,6 +166,19 @@
             }
         ],
         "gates" : [],
+        "structures" : [
+            {
+                "type" : "flying-arrow",
+                "appearAndDisappear" : [
+                    [[-1], true]
+                ],
+                "xOne" : 1285,
+                "yOne" : 340,
+                "xTwo" : 1455,
+                "yTwo" : 280,
+                "_notes": ""
+            }
+        ],
         "chests" : [],
         "pots" : [
             {
@@ -220,21 +232,7 @@
                 "coords" : { "x" : 51 , "y" : 57 }
             }
         ],
-        "markings": [
-            {
-                "type" : "flying-arrow",
-                "appearAndDisappear" : [
-                    [[-1], true]
-                ],
-                "x" : 1353,
-                "y" : 302,
-                "xOne" : 1285,
-                "yOne" : 340,
-                "xTwo" : 1455,
-                "yTwo" : 280,
-                "_notes": ""
-            }
-        ],
+        "markings": [],
         "player" : [],        
         "units" : {
 
@@ -248,6 +246,7 @@
                 },
                 "weapon" : { "name" : "Iron Tome" },
                 "allegiance" : "blue",
+                "faction" : "adrestia",
                 "appearAndDisappear" : [
                     [[-1], true]
                 ],
@@ -276,8 +275,9 @@
                 },
                 "weapon" : { "name" : "Iron Axe" },
                 "allegiance" : "red",
+                "faction" : "leicester",
                 "appearAndDisappear" : [
-                    [[-1], true]
+                    [[-1], false]
                 ],
                 "coords" : [
                     [[-1], {"x":53 , "y":32}]
@@ -306,8 +306,9 @@
                 },
                 "weapon" : { "name" : "Iron Tome" },
                 "allegiance" : "blue",
+                "faction" : "adrestia",
                 "appearAndDisappear" : [
-                    [[-1], true]
+                    [[-1], false]
                 ],
                 "coords" : [
                     [[-1], {"x":16 , "y":14}]
@@ -335,6 +336,7 @@
                 },
                 "weapon" : { "name" : "Iron Lance" },
                 "allegiance" : "red",
+                "faction" : "leicester",
                 "appearAndDisappear" : [
                     [[-1], true]
                 ],
@@ -365,8 +367,9 @@
                 },
                 "weapon" : { "name" : "Iron Tome" },
                 "allegiance" : "blue",
+                "faction" : "adrestia",
                 "appearAndDisappear" : [
-                    [[-1], true]
+                    [[-1], false]
                 ],
                 "coords" : [
                     [[-1], {"x":48 , "y":54}]
@@ -393,6 +396,7 @@
                 },
                 "weapon" : { "name" : "Steel Bow" },
                 "allegiance" : "red",
+                "faction" : "leicester",
                 "appearAndDisappear" : [
                     [[-1], true]
                 ],
@@ -422,8 +426,9 @@
                 },
                 "weapon" : { "name" : "Iron Tome" },
                 "allegiance" : "blue",
+                "faction" : "adrestia",
                 "appearAndDisappear" : [
-                    [[-1], true]
+                    [[-1], false]
                 ],
                 "coords" : [
                     [[-1], {"x":33 , "y":40}]
@@ -450,6 +455,7 @@
                 },
                 "weapon" : { "name" : "Steel Bow" },
                 "allegiance" : "red",
+                "faction" : "leicester",
                 "appearAndDisappear" : [
                     [[-1], true]
                 ],
@@ -479,8 +485,9 @@
                 },
                 "weapon" : { "name" : "Iron Tome" },
                 "allegiance" : "blue",
+                "faction" : "adrestia",
                 "appearAndDisappear" : [
-                    [[-1], true]
+                    [[-1], false]
                 ],
                 "coords" : [
                     [[-1], {"x":24 , "y":11}]
@@ -507,6 +514,7 @@
                 },
                 "weapon" : { "name" : "Iron Lance" },
                 "allegiance" : "red",
+                "faction" : "leicester",
                 "appearAndDisappear" : [
                     [[-1], true]
                 ],
@@ -536,6 +544,7 @@
                 },
                 "weapon" : { "name" : "Iron Tome" },
                 "allegiance" : "blue",
+                "faction" : "adrestia",
                 "appearAndDisappear" : [
                     [[-1], true]
                 ],
@@ -564,8 +573,9 @@
                 },
                 "weapon" : { "name" : "Iron Axe" },
                 "allegiance" : "red",
+                "faction" : "leicester",
                 "appearAndDisappear" : [
-                    [[-1], true]
+                    [[-1], false]
                 ],
                 "coords" : [
                     [[-1], {"x":50 , "y":16}]
@@ -593,8 +603,9 @@
                 },
                 "weapon" : { "name" : "Iron Tome" },
                 "allegiance" : "blue",
+                "faction" : "adrestia",
                 "appearAndDisappear" : [
-                    [[-1], true]
+                    [[-1], false]
                 ],
                 "coords" : [
                     [[-1], {"x":28 , "y":26}]
@@ -621,6 +632,7 @@
                 },
                 "weapon" : { "name" : "Iron Bow" },
                 "allegiance" : "red",
+                "faction" : "leicester",
                 "appearAndDisappear" : [
                     [[-1], true]
                 ],
@@ -650,8 +662,9 @@
                 },
                 "weapon" : { "name" : "Iron Tome" },
                 "allegiance" : "blue",
+                "faction" : "adrestia",
                 "appearAndDisappear" : [
-                    [[-1], true]
+                    [[-1], false]
                 ],
                 "coords" : [
                     [[-1], {"x":21 , "y":36}]
@@ -678,6 +691,7 @@
                 },
                 "weapon" : { "name" : "Iron Bow" },
                 "allegiance" : "red",
+                "faction" : "leicester",
                 "appearAndDisappear" : [
                     [[-1], true]
                 ],
@@ -707,6 +721,7 @@
                 },
                 "weapon" : { "name" : "Iron Tome" },
                 "allegiance" : "blue",
+                "faction" : "adrestia",
                 "appearAndDisappear" : [
                     [[-1], true]
                 ],
@@ -735,8 +750,9 @@
                 },
                 "weapon" : { "name" : "Iron Axe" },
                 "allegiance" : "red",
+                "faction" : "leicester",
                 "appearAndDisappear" : [
-                    [[-1], true]
+                    [[-1], false]
                 ],
                 "coords" : [
                     [[-1], {"x":51 , "y":39}]

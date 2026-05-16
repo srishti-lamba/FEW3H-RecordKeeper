@@ -8,7 +8,8 @@
 // 7: Warning!
 
 import { JSX, useContext, useEffect, useRef, useState } from "react";
-import { DatabaseContext, BattlesTableContext, MissionsTableContext, Dictionary } from "../../context";
+import { MissionRow, TextRefType } from "../../utils/interface";
+import { DatabaseContext, BattlesTableContext, MissionsTableContext, Dictionary } from "../../utils/context";
 import {
     MaterialReactTable,
     useMaterialReactTable,
@@ -16,23 +17,6 @@ import {
     MRT_DisplayColumnDef,
     MRT_Row,
 } from 'material-react-table';
-
-export interface MissionRow {
-    id?: string;
-    type: string|null;
-    text: string;
-    prereq?: string;
-    notes?: string;
-    subRows?: MissionRow[];
-}
-
-export interface TextRefType {
-    title ?: string;
-    main ?: (string | JSX.Element)[];
-    prereq ?: (string | JSX.Element)[];
-    notes ?: (string | JSX.Element)[];
-    mainPlain ?: string;
-}
 
 interface MissionsProps { 
     tableHeight : string;
@@ -52,6 +36,7 @@ export function Missions({ tableHeight }: MissionsProps) {
     // console.log("Missions Start")
 
     useEffect(() => {
+        textRef.current = {};
         // No battleRow selected
         if (Object.keys(selectedBattleRow).length == 0)
             return
@@ -61,8 +46,8 @@ export function Missions({ tableHeight }: MissionsProps) {
     }, [selectedBattleRow])
 
     useEffect(() => {
-        console.log("Missions")
-        console.log(data)
+        // console.log("Missions")
+        // console.log(data)
     }, [data])
 
     // ------------------------
@@ -70,6 +55,8 @@ export function Missions({ tableHeight }: MissionsProps) {
     // ------------------------
 
     const addDataIDs = ( data : MissionRow[] ) => {
+
+        let isDecimal = (num : number) => num % 1 !== 0;
 
         const recursive = ( row: MissionRow, index: number, parentID: string|undefined, ) => {
             row.id = `${parentID}${(parentID!=="")?"-":""}${index}`
@@ -84,6 +71,8 @@ export function Missions({ tableHeight }: MissionsProps) {
                             recursive(subRow, subIndex, row.id)
                         }
                         else {
+                            if (isDecimal(subIndex)) // If previous was decimal, make this new category
+                                subIndex = Math.floor(subIndex) + 1.0;
                             recursive(subRow, subIndex, row.id)
                             subIndex = Math.round((subIndex + 1.0) * 1e12) / 1e12;
                         }
@@ -314,11 +303,13 @@ export const title: Dictionary<string> = {
     "ms": "Main Mission Start",
     "mc": "Main Mission Changed",
     "me": "Main Mission Successful",
+    "mf": "Main Mission Failed",
     "ss": "Side Mission Start",
     "se": "Side Mission Successful",
     "sf": "Side Mission Failed",
     "rb": "Report!",
     "ry": "Report!",
+    "rp": "Report!",
     "w": "Warning!"
 };
 

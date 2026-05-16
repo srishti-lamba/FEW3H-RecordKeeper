@@ -6,46 +6,8 @@ import {
   useMaterialReactTable,
   createMRTColumnHelper,
 } from 'material-react-table';
-import { DifficultyContext, DatabaseContext, BattlesTableContext } from '../context';
-import { MissionRow } from './details/missions-table';
-
-export interface BattleRow {
-  id : number;
-  route : string;
-  chapter : string;
-  level : number | undefined;
-  mission : string;
-  type: number;
-}
-
-export interface Battle {
-  general : { 
-    route : number;
-    chapter : number;
-    name : string;
-    type : number;
-    level : {
-      easy: number,
-      normal: number,
-      hard: number,
-      maddening?: number,
-    };
-    deploy: number,
-    territory: string,
-    description: string,
-    victory: any[],
-    defeat: any[],
-    restriction: string,
-    strategy: any[],
-    missions: MissionRow[],
-    notes: string
-  };
-  "s-rank" : {
-    time : number,
-    defeat : number,
-    damage : number
-  };
-}
+import { DifficultyContext, DatabaseContext, BattlesTableContext } from '../utils/context';
+import { BattleRow } from '../utils/interface';
 
 interface TableProps {}
 
@@ -55,6 +17,7 @@ export default function Table( {} : TableProps) {
   const allBattles = useContext(DatabaseContext).battles;
   const allChapters = useContext(DatabaseContext).chapters;
   const difficulty = useContext(DifficultyContext)[0];
+  const battle = useContext(BattlesTableContext).battle;
   const table = useContext(BattlesTableContext).table!;
   const [selectedRow, setSelectedRow] = useContext(BattlesTableContext).selectedRow!;
   
@@ -66,6 +29,14 @@ export default function Table( {} : TableProps) {
   //   ? useContext(BattlesTableContext).table!.current!.getRow()
   //   : undefined
   // const [[selectedRow, setSelectedRow], selectedRowData] = useContext(BattlesTableContext)!;
+
+  useEffect(() => {
+    let keys = Object.keys(selectedRow) as Array<string>
+    if (keys.length == 0) { // No selection
+        return;
+    }
+    let key = (keys[0] as unknown) as number
+  }, [selectedRow])
 
   // -------------------
   // --- Create Data ---

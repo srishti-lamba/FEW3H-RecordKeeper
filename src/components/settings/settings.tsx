@@ -1,7 +1,7 @@
 import {useState, useEffect, useContext} from 'react';
 import { DifficultyButtons } from './settings-difficulty';
-import { ChapterSelection, RouteChapters } from './settings-chapters';
-import { DifficultyContext } from '../../context';
+import { ChapterSelection } from './settings-chapters';
+import { DifficultyContext } from '../../utils/context';
 
 interface SettingsProps {
   // allChapters : RouteChapters[];

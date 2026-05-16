@@ -1,15 +1,16 @@
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Tooltip } from "react-tooltip";
-import { JSX, memo, useCallback, useContext, useMemo, useRef } from "react";
-import { GridCellDataType, CoordinateType, StrongholdDataType, PotDataType, UnitDataType, MissionDataType, BaseDataType, svg_ChestType, selectedMissionPassed, svg_PlayerType } from "./details-map";
+import { JSX, memo, useContext, useMemo, useRef } from "react";
+import { GridCellDataType, CoordinateType, StrongholdDataType, PotDataType, UnitDataType, MissionDataType, BaseDataType, svg_ChestType, svg_PlayerType, TextRefType, Battle } from "../../../utils/interface";
 import { CategoryType, WeaponDataType, Weapons } from "../../data-classes/weapon-data";
 import { Classes } from "../../data-classes/class-data";
-import { BattlesTableContext, Dictionary, DifficultyContext, MissionsTableContext } from "../../../context";
-import { initializeMissionTextRef, TextRefType } from "../missions-table";
+import { initializeMissionTextRef } from "../missions-table";
 import { MapIcons, SpriteRotator } from "../../data-classes/map-icon-data";
 import { ItemType } from "../../data-classes/item-data";
 import { Crests } from "../../data-classes/crest-data";
+import { selectedMissionPassed } from "./details-map";
+import { BattlesTableContext, DatabaseContext, Dictionary, DifficultyContext, MissionsTableContext } from "../../../utils/context";
 
 interface TooltipContentProps {
     data : GridCellDataType[][];
@@ -19,18 +20,25 @@ interface TooltipContentProps {
 
 export function TooltipContent({data: dataAll, tileCoords, missionData} : TooltipContentProps) {
 
-    // console.log("[[[ Tooltip rerender ]]]")
+    console.log("[[[ Tooltip rerender ]]]")
 
-    let prevData = useRef<GridCellDataType>(null)
+    let prevData = useRef<GridCellDataType>(null) // Makes it so that content doesn't disappear when tooltip goes away
 
     // Hooks
+    let battleData = useContext(DatabaseContext).battles!
     let battleTable = useContext(BattlesTableContext).table
     let missionTable = useContext(MissionsTableContext).table!
     let missionText = useContext(MissionsTableContext).text!
     let difficulty = useContext(DifficultyContext)[0]
 
+    console.log(difficulty)
+
+    // var level : number|undefined = undefined;
+    // try { level = battleTable!.current!.getRow(Object.keys(battleTable!.current!.getState().rowSelection)![0])!.original.level! }
+    // catch(e) {}
+
     var data : GridCellDataType|null = (tileCoords === null) ? null : dataAll[tileCoords.x][tileCoords.y]
-    var children = useMemo(() => getChildren( ((data === null || data === undefined)?prevData.current:data), battleTable, missionTable, missionText, missionData, difficulty), [data, missionData, difficulty]);
+    var children = useMemo(() => getChildren( ((data === null || data === undefined)?prevData.current:data), battleTable, missionTable, missionText, missionData, battleData, difficulty), [data, missionData, level]);
     prevData.current = data;
 
     // No children
@@ -72,6 +80,7 @@ const getChildren = (
         missionTable: React.RefObject<any>|undefined,
         missionText: React.RefObject<Dictionary<TextRefType>>,
         missionData : MissionDataType, 
+        battleData : Battle[],
         difficulty : number ) => {
 
     var children : JSX.Element[] = []
@@ -91,11 +100,11 @@ const getChildren = (
     }
 
     pushIfNotNull(getPlayerTile(data.playerTile, missionData));
-    pushIfNotNull(getStronghold(data.stronghold, missionData));
+    pushIfNotNull(getStronghold(data.stronghold,  missionTable, missionText, missionData));
     pushIfNotNull(getBase(data.base, missionData));
     pushIfNotNull(getChest(data.chest));
     pushIfNotNull(getPots(data.pot));
-    pushIfNotNullArray(getUnits(data.unit, battleTable, missionTable, missionText, missionData, difficulty))
+    pushIfNotNullArray(getUnits(data.unit, battleTable, missionTable, missionText, missionData, battleData, difficulty))
 
     return children;
 }
@@ -200,7 +209,12 @@ const getPlayerTile = (playerTile : svg_PlayerType|undefined, missionData : Miss
 // -------------------
 // --- Strongholds ---
 // -------------------
-const getStronghold = (strongholdArray : [number, StrongholdDataType]|undefined, missionData : MissionDataType) => {
+const getStronghold = (
+        strongholdArray : [number, StrongholdDataType]|undefined, 
+        missionTable: React.RefObject<any>|undefined,
+        missionText: React.RefObject<Dictionary<TextRefType>>,
+        missionData : MissionDataType
+    ) => {
     if (strongholdArray === undefined || strongholdArray.length !== 2 || strongholdArray[0] === undefined || strongholdArray[1] === undefined)
         return null;
 
@@ -243,6 +257,138 @@ const getStronghold = (strongholdArray : [number, StrongholdDataType]|undefined,
         )
     }))
 
+    // Missions
+    var miscRow = <></>
+    var getRowFromMission = (mission : number[]) => missionTable!.current?.getRow(mission.join("-"))!;
+    var addMissionTextData = (mission : number[]) => {
+        let row = getRowFromMission(mission);
+        initializeMissionTextRef(row, missionText)
+    }
+    var getMissionTypeClass = (mission: number[]) => {
+        let row = getRowFromMission(mission);
+        return `type-${row.original.type}`
+    }
+    var getMissionDiv = (spawnArr ?: [number[], boolean], colourArr ?: [number[], string], starting : boolean = false) => {
+        let mission : number[]|undefined = undefined;
+        let spawn : boolean|undefined = undefined;
+        let colour : string|undefined = undefined;
+        if (spawnArr !== undefined)
+            [mission, spawn] = spawnArr;
+        else if (colourArr !== undefined)
+            [mission, colour] = colourArr;
+
+        if (
+            ( mission === undefined || mission === null || mission.length === 0 ) ||
+            ( spawn === undefined && colour === undefined )
+        )
+            return <></>
+
+        if (!starting && missionText.current[mission.join("-")] === undefined)
+            addMissionTextData(mission)
+        return (
+            <span className="map-tooltip-stronghold-mission">
+                <span>
+                    {
+                        (starting && colour!==undefined) 
+                        ? `Initial allegiance:` 
+                        : (colour!==undefined) 
+                            ? `Allegiance change to ${colour} condition:` 
+                            : (spawn) 
+                                ? "Spawn condition:" 
+                                : "Despawn condition:"
+                    }
+                <br/></span>
+                <div className="row-black-background">
+                    {(!starting) && <div className={`map-tooltip-stronghold-mission-icon ${getMissionTypeClass(mission)}`}></div>}
+                    <span>
+                        {
+                            (starting) 
+                            ? `The stronghold starts as ${colour!}.`
+                            : missionText.current[mission.join("-")].main
+                        }
+                    </span>
+                </div>
+            </span>
+        )
+    }
+    var getSpawnAndColourConditions = () => {
+        let spawnArr : [number[], boolean][] = (stronghold.appearAndDisappear===undefined) ? [] : stronghold.appearAndDisappear;
+        let colourArr : [number[], string][] = (stronghold.colour===undefined) ? [] : stronghold.colour;
+
+        let spawnIndex = 0;
+        let colourIndex = 0;
+
+        let result = [];
+
+        while (spawnIndex < spawnArr.length && colourIndex < colourArr.length) {
+            let [spawnMission, spawn] = spawnArr[spawnIndex];
+            let [colourMission, colour] = colourArr[colourIndex];
+            
+            // If spawnMission[0] is -1, skip
+            if (spawnMission[0] == -1) {
+                spawnIndex += 1;
+                continue;
+            }
+
+            // If colourMission[0] is -1, ...
+            if (colourMission[0] == -1) {
+                // If other colour changes exist, keep
+                if (colourArr.length > 1) 
+                    result.push(getMissionDiv(undefined, [colourMission, colour], true))
+                colourIndex += 1;
+                continue;
+            }
+
+            // Add whichever comes first
+            let spawnComesFirst = selectedMissionPassed(spawnMission, true, colourMission)
+            if (spawnComesFirst) {
+                result.push(getMissionDiv([spawnMission, spawn]))
+                result.push(getMissionDiv(undefined, [colourMission, colour]))
+            }
+            else {
+                result.push(getMissionDiv(undefined, [colourMission, colour]))
+                result.push(getMissionDiv([spawnMission, spawn]))
+            }
+            spawnIndex += 1;
+            colourIndex += 1;
+        }
+
+        // Fill remaining spawn
+        while (spawnIndex < spawnArr.length) {
+            let [spawnMission, spawnCoords] = spawnArr[spawnIndex];
+            if (spawnMission[0] == -1) { // If spawnMission[0] is -1, skip
+                spawnIndex += 1;
+                continue;
+            }
+            result.push(getMissionDiv([spawnMission, spawnCoords]))
+            spawnIndex += 1;
+        }
+
+        // Fill remaining colour
+        while (colourIndex < colourArr.length) {
+            let [colourMission, colourCoords] = colourArr[colourIndex];
+            if (colourMission[0] == -1) { // If colourMission[0] is -1, ...
+                if (colourArr.length > 1) // If other colour changes exist, keep
+                    result.push(getMissionDiv(undefined, [colourMission, colourCoords], true))
+                colourIndex += 1;
+                continue;
+            }
+            result.push(getMissionDiv(undefined, [colourMission, colourCoords]))
+            colourIndex += 1;
+        }
+        return result
+    }
+    if ( 
+        ( (stronghold.appearAndDisappear!==undefined) && ( (stronghold.appearAndDisappear.length > 1) || ( stronghold.appearAndDisappear[0][0][0] != -1 ) ) ) ||
+        ( (stronghold.colour!==undefined) && ( (stronghold.colour.length > 1) || ( stronghold.colour[0][0][0] != -1 ) ) )
+    )
+        miscRow = (
+            <span className="map-tooltip-stronghold map-tooltip-stronghold-missionRow" >
+                <span className="header-brown-underlined">Other Information</span>
+                <>{getSpawnAndColourConditions()}</>
+            </span>
+        )
+
     return (
         <span className="map-tooltip-stronghold map-tooltip-row">
             <Accordion>
@@ -251,14 +397,11 @@ const getStronghold = (strongholdArray : [number, StrongholdDataType]|undefined,
                     <span className="map-tooltip-category-title">{stronghold.name}</span>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <span className="map-tooltip-subcategory map-tooltip-stronghold-details">
-                        <span className="map-tooltip-subcategory-header header-brown-underlined">Details</span>
-                        <span className="map-tooltip-subcategory-row">Capture Required: <b>{(stronghold.captureRequired) ? "True" : "False"}</b></span>
-                    </span>
                     <span className="map-tooltip-subcategory map-tooltip-stronghold-captains ">
                         <span className="map-tooltip-subcategory-header header-brown-underlined">Captains</span>
                         {captainElements}
                     </span>
+                    {miscRow}
                 </AccordionDetails>
             </Accordion>
         </span>
@@ -414,15 +557,19 @@ const getUnits = (
         battleTable : React.RefObject<any>|undefined, 
         missionTable: React.RefObject<any>|undefined,
         missionText: React.RefObject<Dictionary<TextRefType>>,
-        missionData : MissionDataType, 
+        missionData : MissionDataType,  
+        battleData : Battle[],
         difficulty : number) => {
+    
+    console.log(difficulty)
     
     if (units === undefined || Object.entries(units).length === 0)
         return null;
 
     let level = 0;
     if (battleTable?.current !== undefined) {
-        level = battleTable!.current!.getRow(Object.keys(battleTable!.current!.getState().rowSelection)![0])!.original.level!;
+        // level = battleTable!.current!.getRow(Object.keys(battleTable!.current!.getState().rowSelection)![0])!.original.level!;
+        // level = battleData.
     }
 
     let children: JSX.Element[] = [];
@@ -1050,7 +1197,7 @@ const getUnits = (
             let result = [];
 
             while (spawnIndex < spawnArr.length && moveIndex < moveArr.length) {
-                let [spawnMission, spawnCoords] = spawnArr[spawnIndex];
+                let [spawnMission, spawnBool] = spawnArr[spawnIndex];
                 let [moveMission, moveCoords] = moveArr[moveIndex];
                 
                 // If spawnMission[0] is -1, skip
@@ -1071,12 +1218,12 @@ const getUnits = (
                 // Add whichever comes first
                 let spawnComesFirst = selectedMissionPassed(spawnMission, true, moveMission)
                 if (spawnComesFirst) {
-                    result.push(getMissionDiv([spawnMission, spawnCoords]))
+                    result.push(getMissionDiv([spawnMission, spawnBool]))
                     result.push(getMissionDiv(undefined, [moveMission, moveCoords]))
                 }
                 else {
                     result.push(getMissionDiv(undefined, [moveMission, moveCoords]))
-                    result.push(getMissionDiv([spawnMission, spawnCoords]))
+                    result.push(getMissionDiv([spawnMission, spawnBool]))
                 }
                 spawnIndex += 1;
                 moveIndex += 1;

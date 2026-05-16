@@ -1,10 +1,8 @@
 import { createContext } from 'react';
 import { MRT_RowSelectionState, MRT_TableInstance } from 'material-react-table';
-import { Battle, BattleRow } from './components/table';
-import { RouteChapters } from './components/settings/settings-chapters';
-import { CoordinateType, GridCellDataType, SvgPropsType } from './components/details/details-map/details-map';
-import { MissionRow, TextRefType } from './components/details/missions-table';
+import { RouteChapters } from '../components/settings/settings-chapters';
 import { TooltipRefProps } from 'react-tooltip';
+import { Battle, BattleRow, GridCellDataType, MissionRow, SvgPropsType, TextRefType } from './interface';
 
 export interface Dictionary<T> {
     [key: string]: T;
@@ -16,6 +14,7 @@ interface DatabaseType {
 };
 
 interface BattlesTableType {
+    battle ?: Battle;
     table ?: React.RefObject<MRT_TableInstance<BattleRow> | undefined>;
     selectedRow ?: 
     [   MRT_RowSelectionState,
@@ -50,4 +49,6 @@ export const MapContext = createContext<MapType>({})
 export const MissionsTableContext = createContext<MissionsTableType>({});
 
 export const DifficultyContext = createContext<[number, React.Dispatch<React.SetStateAction<number>>|null]>([0, null]);
+
+export const AppRefreshContext = createContext<[Date|undefined, React.Dispatch<React.SetStateAction<Date|undefined>>|undefined]>([undefined, undefined])
 

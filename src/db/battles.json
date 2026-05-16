@@ -307,7 +307,70 @@
         "defeat": ["None."],
         "restriction": "",
         "strategy": [],
-        "missions": [],
+        "missions": [
+          {"type": "ry", "text": "The [blue]Imperial Army[/blue] is fighting the [red]Alliance Army[/red]!"},
+          {"type": "w", "text": "The [red]Alliance Army[/red] called for reinforcements!"},
+          {"type": "ms", "text": "Wipe out the [red]enemy[/red] before reinforcements arrive!", "notes": "You will be given a time limit of 4 minutes to complete this mission.",
+            "subRows": [
+                {"type": null, "text": "The [red]enemy[/red] is not defeated within the time limit.",
+                    "subRows": [
+                        {"type": "w", "text": "[green]Mission time limit[/green] exceeded!"},
+                        {"type": "mf", "text": "Failed to wipe out the [red]enemy[/red] before reinforcements arrived!"},
+                        {"type": "w", "text": "A [red]Fighter[/red] and their allies answered the call for reinforcements!"},
+                        {"type": "w", "text": "The [red]Alliance Army[/red] called for reinforcements again!"},
+                        {"type": "ms", "text": "Wipe out the [red]enemy[/red] before reinforcements arrive!", "notes": "The mission will show up 4 times max, giving a 4 minute-timer each time until the last mission where there is no time limit. With each failure, 3 more enemies will be added to the map.\n\nAt this point, this is the 2nd time this mission appeared, and a total of 9 enemy objectives. There is a time limit of 4 minutes."},
+                        {"type": "w", "text": "[green]Mission time limit[/green] exceeded!"},
+                        {"type": "mf", "text": "Failed to wipe out the [red]enemy[/red] before reinforcements arrived!"},
+                        {"type": "w", "text": "A [red]Fighter[/red] and their allies answered the call for reinforcements!"},
+                        {"type": "w", "text": "The [red]Alliance Army[/red] called for reinforcements again!"},
+                        {"type": "ms", "text": "Wipe out the [red]enemy[/red] before reinforcements arrive!", "notes": "At this point, this is the 3rd time this mission appeared, and a total of 12 enemy objectives. There is a time limit of 4 minutes."},
+                        {"type": "w", "text": "[green]Mission time limit[/green] exceeded!"},
+                        {"type": "mf", "text": "Failed to wipe out the [red]enemy[/red] before reinforcements arrived!"},
+                        {"type": "w", "text": "A [red]Fighter[/red] and their allies answered the call for reinforcements!"},
+                        {"type": "w", "text": "The [red]Alliance Army[/red] called for reinforcements again!"},
+                        {"type": "ms", "text": "Wipe out the [red]enemy[/red] before reinforcements arrive!", "notes": "At this point, this is the 4th and last time this mission appeared, and a total of 15 enemy objectives. There is no time limit."}
+                    ]
+                },
+                {"type": "me", "text": "Wiped out the [red]enemy[/red] before reinforcements arrived!"}
+            ]
+          },
+          {"type": "w", "text": "A [red]Myrmidon[/red] and some [red]Bandits[/red] appeared!", "prereq": "Idk.",
+            "subRows": [
+                {"type": "ry", "text": "A [blue]Monk[/blue] appeared!"},
+                {"type": "ry", "text": "The [blue]Monk[/blue] spotted the [red]Myrmidon[/red]!"},
+                {"type": "ry", "text": "The [blue]Monk[/blue] is advancing to recruit the [red]Myrmidon[/red]!"},
+                {"type": "ss", "text": "Protect the [blue]Monk[/blue] while they recruit the [red]Myrmidon[/red]!"},
+                {"type": "ry", "text": "The [blue]Monk[/blue] is closing in on the [red]Myrmidon[/red]!"},
+                {"type": "ss", "text": "The [blue]Monk[/blue] is recruiting the [red]Myrmidon[/red]!"},
+                {"type": "w", "text": "A [red]Bandit[/red] and their allies appeared!"},
+                {"type": "ry", "text": "The [red]Bandits[/red] obstructed the [blue]Monk's[/blue] recruitment efforts!"},
+                {"type": "ry", "text": "Defeat the [red]Bandits[/red] and ensure the [blue]Monk[/blue] can continue their recruitment efforts!"},
+                {"type": null, "text": "The [blue]Monk[/blue] is defeated before they could recruit the [red]Myrmidon[/red].",
+                    "subRows": [
+                        {"type": "w", "text": "The [blue]Monk[/blue] is in trouble! Aid them!"},
+                        {"type": "rp", "text": "The [blue]Monk[/blue] is nearly routed! Aid them at once!"},
+                        {"type": "w", "text": "The [red]Bandit[/red] routed the [blue]Monk[/blue]!"},
+                        {"type": "sf", "text": "Failed to recruit the [red]Myrmidon[/red]!"}
+                    ]
+                },
+                {"type": null, "text": "The [blue]Monk[/blue] is saved from the [red]Bandits[/red].",
+                    "subRows": [
+                        {"type": "w", "text": "The [blue]Monk[/blue] is in trouble! Aid them!"},
+                        {"type": "ry", "text": "The [blue]Monk[/blue] resumed recruiting the [red]Myrmidon[/red]!"},
+                        {"type": "se", "text": "Recruited the [blue]Myrmidon[/blue]!"},
+                        {"type": "rb", "text": "The [blue]Myrmidon[/blue] is aiding the [blue]Imperial Army[/blue]!"}
+                    ]
+                }
+            ]
+          },
+          {"type": "w", "text": "[red]Enemy[/red] commander [red]Fighter[/red] appeared!",
+            "subRows": [
+                {"type": "ms", "text": "Defeat the [red]Fighter[/red] and claim victory!"},
+                {"type": "ry", "text": "Victory conditions have changed!"},
+                {"type": "me", "text": "Defeated the [red]Fighter[/red]!"}
+            ]
+          }
+        ],
         "notes": ""
     },
     "s-rank": {

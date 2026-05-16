@@ -1,11 +1,12 @@
-import React, {useEffect, useState, useRef, JSX} from 'react';
-import { CoordinateType, GridCellDataType, Map, SvgPropsType } from './details-map/details-map'
+import React, {useEffect, useState, useRef} from 'react';
+import { Map } from './details-map/details-map'
 import { MRT_TableInstance } from 'material-react-table';
-import { MissionRow, Missions } from './missions-table';
-import { MapContext, MissionsTableContext } from '../../context';
+import { Missions } from './missions-table';
+import { MapContext, MissionsTableContext } from '../../utils/context';
 import { WeaponTriangle } from './weapon-triangle';
 import debounce from 'lodash/debounce'
 import { TooltipRefProps } from 'react-tooltip';
+import { GridCellDataType, SvgPropsType, MissionRow } from '../../utils/interface';
 
 interface DetailsProps {}
 

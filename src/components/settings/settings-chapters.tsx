@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useContext} from 'react';
 import Select, {GroupBase, OptionsOrGroups } from 'react-select';
-import { DatabaseContext } from '../../context';
+import { DatabaseContext } from '../../utils/context';
 
 export interface Chapter {
   number: number;

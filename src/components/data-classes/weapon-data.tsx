@@ -1,4 +1,4 @@
-import { Dictionary } from "../../context";
+import { Dictionary } from "../../utils/context";
 import { Classes } from "./class-data";
 
 // Weapon Names:        https://hopes.fedatamine.com/en-us/debug/strings/62/
@@ -17,7 +17,7 @@ export interface WeaponDataType {
     attributes ?: AttributeType[];
 }
 
-interface WeaponListType {
+export interface WeaponListType {
     SWORD : CategoryType;
     LANCE : CategoryType;
     AXE : CategoryType;
@@ -251,15 +251,6 @@ export class Weapons {
         TOME : Weapons.getCategoryType("Tome"),
         GAUNTLETS : Weapons.getCategoryType("Gauntlets"),
         STONE : Weapons.getCategoryType("Stone"),
-    }
-
-    static categoriesDict : Dictionary<CategoryType> = {
-        sword: Weapons.categories.SWORD,
-        lance: Weapons.categories.LANCE,
-        axe: Weapons.categories.AXE,
-        bow: Weapons.categories.BOW,
-        tome: Weapons.categories.TOME,
-        brawl: Weapons.categories.BOW
     }
 
     static advantage : Dictionary<CategoryType> = {
