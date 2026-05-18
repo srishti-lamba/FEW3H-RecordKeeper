@@ -161,7 +161,7 @@
                     "colour" : [
                         [[-1],"red"]
                     ],
-                    "captain" : []
+                    "captain" : ["36-52-blue", "36-52-red"]
                 }
             }
         ],
@@ -552,16 +552,16 @@
                     [[-1], {"x":50 , "y":16}]
                 ],
                 "stats" : {
-                    "hp" : [ 821, 0, 0, 0],
+                    "hp" : [ 664, 852, 954, 1872],
                     "move" : 6,
-                    "str" : [ 6, 0, 0, 0 ],
-                    "mag" : [ 6, 0, 0, 0 ],
-                    "dex" : [ 6, 0, 0, 0 ],
-                    "spd" : [ 6, 0, 0, 0 ],
-                    "lck" : [ 6, 0, 0, 0 ],
-                    "def" : [ 4, 0, 0, 0 ],
-                    "res" : [ 4, 0, 0, 0 ],
-                    "cha" : [ 6, 0, 0, 0 ]
+                    "str" : [ 6, 7, 11, 48 ],
+                    "mag" : [ 6, 7, 11, 48 ],
+                    "dex" : [ 6, 8, 12, 54 ],
+                    "spd" : [ 6, 7, 11, 48 ],
+                    "lck" : [ 6, 8, 12, 54 ],
+                    "def" : [ 4, 4, 7,  29 ],
+                    "res" : [ 4, 5, 8,  36 ],
+                    "cha" : [ 6, 8, 12, 54 ]
                 }
             },
             "50-16-red": {
@@ -771,8 +771,7 @@
                 }
             },
 
-
-            "51-39-purple": {
+            "36-52-blue": {
                 "name" : "Base Captain",
                 "class" : {
                     "name" : "Mage",
@@ -781,11 +780,106 @@
                 },
                 "weapon" : { "name" : "Iron Tome" },
                 "allegiance" : "blue",
+                "faction" : "adrestia",
+                "appearAndDisappear" : [
+                    [[-1], false]
+                ],
+                "coords" : [
+                    [[-1], {"x":36 , "y":52}]
+                ],
+                "stats" : {
+                    "hp" : [ 821, 852, 954, 1872 ],
+                    "move" : 6,
+                    "str" : [ 6, 7, 11, 48 ],
+                    "mag" : [ 6, 7, 11, 48 ],
+                    "dex" : [ 6, 8, 12, 54 ],
+                    "spd" : [ 6, 7, 11, 48 ],
+                    "lck" : [ 6, 8, 12, 54 ],
+                    "def" : [ 4, 4, 7,  29 ],
+                    "res" : [ 4, 5, 8,  36 ],
+                    "cha" : [ 6, 8, 12, 54 ]
+                }
+            },
+            "36-52-red": {
+                "name" : "Base Captain",
+                "class" : {
+                    "name" : "Archer",
+                    "sprite" : { "show" : false },
+                    "profile" : { "file" : "1" }
+                },
+                "weapon" : { "name" : "Iron Bow" },
+                "allegiance" : "red",
+                "faction" : "leicester",
                 "appearAndDisappear" : [
                     [[-1], true]
                 ],
                 "coords" : [
-                    [[-1], {"x":51 , "y":39}]
+                    [[-1], {"x":36 , "y":52}]
+                ],
+                "stats" : {
+                    "hp" : [ 821, 852, 954, 1872 ],
+                    "move" : 6,
+                    "str" : [ 6, 8, 12, 54 ],
+                    "mag" : [ 6, 7, 11, 48 ],
+                    "dex" : [ 6, 8, 12, 54 ],
+                    "spd" : [ 6, 7, 11, 48 ],
+                    "lck" : [ 6, 8, 12, 54 ],
+                    "def" : [ 4, 5, 8,  32 ],
+                    "res" : [ 4, 4, 7,  29 ],
+                    "cha" : [ 6, 8, 12, 54 ]
+                }
+            },
+            
+            
+            
+            
+            "39-7-red": {
+                "name" : "Soldier",
+                "gender" : "f",
+                "class" : {
+                    "name" : "Soldier",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "9" }
+                },
+                "weapon" : { "name" : "Iron Lance" },
+                "allegiance" : "red",
+                "faction" : "leicester",
+                "appearAndDisappear" : [
+                    [[-1], true]
+                ],
+                "coords" : [
+                    [[-1], {"x":39 , "y":7}]
+                ],
+                "stats" : {
+                    "hp" : [ 2471, 2547, 2799, 5071 ],
+                    "move" : 6,
+                    "str" : [ 7,  10, 14, 56 ],
+                    "mag" : [ 6,  10, 14, 56 ],
+                    "dex" : [ 9,  10, 14, 51 ],
+                    "spd" : [ 12, 14, 19, 63 ],
+                    "lck" : [ 6,  9,  13, 45 ],
+                    "def" : [ 6,  9,  13, 46 ],
+                    "res" : [ 5,  7,  10, 34 ],
+                    "cha" : [ 11, 13, 18, 70 ]
+                }
+            },
+
+
+            "39-7-purple": {
+                "name" : "Base Captain",
+                "class" : {
+                    "name" : "Mage",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "1" }
+                },
+                "weapon" : { "name" : "Iron Tome" },
+                "allegiance" : "blue",
+                "faction" : "adrestia",
+                "appearAndDisappear" : [
+                    [[-1], true]
+                ],
+                "coords" : [
+                    [[-1], {"x":0 , "y":0}]
                 ],
                 "stats" : {
                     "hp" : [ 0, 0, 0, 0 ],
