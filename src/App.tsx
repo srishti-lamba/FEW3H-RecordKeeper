@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import { MRT_Row, MRT_RowSelectionState, MRT_TableInstance } from 'material-react-table';
 import { SplitPane, Pane } from 'react-split-pane';
 import Settings from './components/settings/settings';
-import Table, { BattleRow } from './components/table';
+import Table from './components/table';
 import './App.css';
 import allChapters from './db/chapters.json';
 import allBattles from './db/battles.json';
@@ -14,10 +14,11 @@ import { Items } from './components/data-classes/item-data';
 import { Classes } from './components/data-classes/class-data';
 import { Crests } from './components/data-classes/crest-data';
 import { Weapons } from './components/data-classes/weapon-data';
+import { BattleRow } from './utils/interface';
 
 function App() {
 
-  const [timestamp, setTimestamp] = useState<Date|undefined>(undefined)
+  // const [timestamp, setTimestamp] = useState<Date|undefined>(undefined)
 
   // Run once
   useEffect(() => {
@@ -36,7 +37,6 @@ function App() {
   }, [])
 
   return (
-    <AppRefreshContext value={[timestamp, setTimestamp]}>
     <DatabaseContext value={{chapters:allChapters, battles:allBattles.slice(1)}}>
     <DifficultyContext value={useState<number>(1)}>
       <div className="App">
@@ -45,7 +45,7 @@ function App() {
         </header>
 
         <BattlesTableContext value={{
-          battle: undefined,
+          battle: useRef(undefined),
           table: useRef<MRT_TableInstance<BattleRow>>(undefined),
           selectedRow: useState<MRT_RowSelectionState>({})
         }}>
@@ -84,7 +84,7 @@ function App() {
         </BattlesTableContext>
       </div>
     {/* </Difficulty></AllChapters></AllBattles> */}
-    </DifficultyContext></DatabaseContext></AppRefreshContext>
+    </DifficultyContext></DatabaseContext>
   );
 }
 

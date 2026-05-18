@@ -46,7 +46,7 @@ export function Map({} : MapProps) {
         let key = (keys[0] as unknown) as number
 
         async function asyncFetch() {
-            console.log(`${process.env.PUBLIC_URL}/db/maps/${key}.json`)
+            // console.log(`${process.env.PUBLIC_URL}/db/maps/${key}.json`)
             let response = await fetch(`${process.env.PUBLIC_URL}/db/maps/${key}.json`);
 
             if (!response.ok) setSvgProps(undefined)

@@ -14,7 +14,7 @@ interface DatabaseType {
 };
 
 interface BattlesTableType {
-    battle ?: Battle;
+    battle ?: React.RefObject<Battle|undefined>;
     table ?: React.RefObject<MRT_TableInstance<BattleRow> | undefined>;
     selectedRow ?: 
     [   MRT_RowSelectionState,

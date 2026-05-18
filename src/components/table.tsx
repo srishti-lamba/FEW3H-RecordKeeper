@@ -6,7 +6,7 @@ import {
   useMaterialReactTable,
   createMRTColumnHelper,
 } from 'material-react-table';
-import { DifficultyContext, DatabaseContext, BattlesTableContext } from '../utils/context';
+import { DifficultyContext, DatabaseContext, BattlesTableContext, MissionsTableContext } from '../utils/context';
 import { BattleRow } from '../utils/interface';
 
 interface TableProps {}
@@ -17,7 +17,7 @@ export default function Table( {} : TableProps) {
   const allBattles = useContext(DatabaseContext).battles;
   const allChapters = useContext(DatabaseContext).chapters;
   const difficulty = useContext(DifficultyContext)[0];
-  const battle = useContext(BattlesTableContext).battle;
+  const battle = useContext(BattlesTableContext).battle!;
   const table = useContext(BattlesTableContext).table!;
   const [selectedRow, setSelectedRow] = useContext(BattlesTableContext).selectedRow!;
   
@@ -31,11 +31,15 @@ export default function Table( {} : TableProps) {
   // const [[selectedRow, setSelectedRow], selectedRowData] = useContext(BattlesTableContext)!;
 
   useEffect(() => {
+    if (allBattles == undefined)
+      return
+
     let keys = Object.keys(selectedRow) as Array<string>
-    if (keys.length == 0) { // No selection
-        return;
-    }
+    if (keys.length == 0)  return; // No selection
     let key = (keys[0] as unknown) as number
+
+    battle.current = allBattles[key]
+    console.log(allBattles[key])
   }, [selectedRow])
 
   // -------------------

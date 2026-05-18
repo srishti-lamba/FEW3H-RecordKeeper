@@ -37,6 +37,7 @@ export function Missions({ tableHeight }: MissionsProps) {
 
     useEffect(() => {
         textRef.current = {};
+        setSelectedMissionRow({});
         // No battleRow selected
         if (Object.keys(selectedBattleRow).length == 0)
             return
@@ -86,7 +87,7 @@ export function Missions({ tableHeight }: MissionsProps) {
         data.forEach( (row : MissionRow, index : number) => {
             recursive(row, index, "");
         } )
-        console.log(data);
+        // console.log(data);
         return data;
     }
 

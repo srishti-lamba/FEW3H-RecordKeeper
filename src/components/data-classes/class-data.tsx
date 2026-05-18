@@ -1,5 +1,5 @@
-import { Dictionary } from "../../context";
-import { UnitDataType } from "../details/details-map/details-map";
+import { Dictionary } from "../../utils/context";
+import { UnitDataType } from "../../utils/interface";
 import { CategoryType } from "./weapon-data";
 
 // Strings datamine: https://hopes.fedatamine.com/en-us/debug/strings
@@ -164,17 +164,17 @@ export class Classes {
                 "Monk":     {types: [Classes.types.INFANTRY], abilities: [Classes.abilities["Bow Buster Lv 1"  ]], description: "Well-balanced, the Monk uses magic for both offense and defense."},
 
                 // Intermediate Classes
-                "Thief":          {types: [Classes.types.INFANTRY], abilities: [Classes.abilities["Axe Buster Lv 2"]], description: "Skilled at opening locks, the Thief has excellent speed and dexterity."},
-                "Mercenary":      {types: [Classes.types.INFANTRY], abilities: [], description: ""},
-                "Pegasus Knight": {types: [Classes.types.FLYING],   abilities: [], description: ""},
-                "Cavalier":       {types: [Classes.types.CALVARY],  abilities: [Classes.abilities["Sword Buster Lv 2"]], description: "A mighty opponent who battles on horseback, the Cavalier has a wide range of movement."},
-                "Armored Knight": {types: [Classes.types.INFANTRY, 
-                                        Classes.types.ARMOURED],    abilities: [], description: ""},
-                "Brigand":        {types: [Classes.types.INFANTRY], abilities: [], description: ""},
-                "Archer":         {types: [Classes.types.INFANTRY], abilities: [Classes.abilities["Gauntlet Buster Lv 2"]], description: ""},
-                "Brawler":        {types: [Classes.types.INFANTRY], abilities: [], description: ""},
-                "Priest":         {types: [Classes.types.INFANTRY], abilities: [], description: ""},
-                "Mage":           {types: [Classes.types.INFANTRY], abilities: [Classes.abilities["Bow Buster Lv 1"]], description: ""},
+                "Thief":          {types: [Classes.types.INFANTRY], abilities: [Classes.abilities["Axe Buster Lv 2"     ]], description: "Skilled at opening locks, the Thief has excellent speed and dexterity."},
+                "Mercenary":      {types: [Classes.types.INFANTRY], abilities: [                                         ], description: "Strong and speedy—the Mercenary gets the job done."},
+                "Pegasus Knight": {types: [Classes.types.FLYING  ], abilities: [                                         ], description: "An airborne knight with high defense against magic but a weakness to arrows."},
+                "Cavalier":       {types: [Classes.types.CALVARY ], abilities: [Classes.abilities["Sword Buster Lv 2"   ]], description: "A mighty opponent who battles on horseback, the Cavalier has a wide range of movement."},
+                "Armored Knight": {types: [Classes.types.INFANTRY , 
+                                           Classes.types.ARMOURED], abilities: [                                         ], description: ""},
+                "Brigand":        {types: [Classes.types.INFANTRY], abilities: [                                         ], description: ""},
+                "Archer":         {types: [Classes.types.INFANTRY], abilities: [Classes.abilities["Gauntlet Buster Lv 2"]], description: "The Archer is proficient with the bow and has excellent dexterity and uncanny good luck."},
+                "Brawler":        {types: [Classes.types.INFANTRY], abilities: [                                         ], description: ""},
+                "Priest":         {types: [Classes.types.INFANTRY], abilities: [                                         ], description: "The Priest is a versatile white-magic user who can use magic both to heal and attack."},
+                "Mage":           {types: [Classes.types.INFANTRY], abilities: [Classes.abilities["Bow Buster Lv 1"     ]], description: "Few enemies stand a chance against a Mage who can bend black magic to their will."},
 
                 // Advanced Classes
                 "Swordmaster":     {types: [Classes.types.INFANTRY], abilities: [], description: ""},

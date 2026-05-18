@@ -11,6 +11,7 @@ import { ItemType } from "../../data-classes/item-data";
 import { Crests } from "../../data-classes/crest-data";
 import { selectedMissionPassed } from "./details-map";
 import { BattlesTableContext, DatabaseContext, Dictionary, DifficultyContext, MissionsTableContext } from "../../../utils/context";
+import { DIFFICULTY } from "../../../utils/constants";
 
 interface TooltipContentProps {
     data : GridCellDataType[][];
@@ -25,20 +26,18 @@ export function TooltipContent({data: dataAll, tileCoords, missionData} : Toolti
     let prevData = useRef<GridCellDataType>(null) // Makes it so that content doesn't disappear when tooltip goes away
 
     // Hooks
-    let battleData = useContext(DatabaseContext).battles!
+    let battleData = useContext(BattlesTableContext).battle!
     let battleTable = useContext(BattlesTableContext).table
     let missionTable = useContext(MissionsTableContext).table!
     let missionText = useContext(MissionsTableContext).text!
     let difficulty = useContext(DifficultyContext)[0]
-
-    console.log(difficulty)
 
     // var level : number|undefined = undefined;
     // try { level = battleTable!.current!.getRow(Object.keys(battleTable!.current!.getState().rowSelection)![0])!.original.level! }
     // catch(e) {}
 
     var data : GridCellDataType|null = (tileCoords === null) ? null : dataAll[tileCoords.x][tileCoords.y]
-    var children = useMemo(() => getChildren( ((data === null || data === undefined)?prevData.current:data), battleTable, missionTable, missionText, missionData, battleData, difficulty), [data, missionData, level]);
+    var children = useMemo(() => getChildren( ((data === null || data === undefined)?prevData.current:data), battleTable, missionTable, missionText, missionData, battleData.current, difficulty), [data, missionData, difficulty]);
     prevData.current = data;
 
     // No children
@@ -80,12 +79,12 @@ const getChildren = (
         missionTable: React.RefObject<any>|undefined,
         missionText: React.RefObject<Dictionary<TextRefType>>,
         missionData : MissionDataType, 
-        battleData : Battle[],
+        battleData : Battle|undefined,
         difficulty : number ) => {
 
     var children : JSX.Element[] = []
 
-    if (data === undefined || data === null)
+    if (data === undefined || data === null || battleData === undefined)
         return children;
 
     const pushIfNotNull = (element : JSX.Element|null|undefined) => {
@@ -558,7 +557,7 @@ const getUnits = (
         missionTable: React.RefObject<any>|undefined,
         missionText: React.RefObject<Dictionary<TextRefType>>,
         missionData : MissionDataType,  
-        battleData : Battle[],
+        battleData : Battle,
         difficulty : number) => {
     
     console.log(difficulty)
@@ -566,10 +565,11 @@ const getUnits = (
     if (units === undefined || Object.entries(units).length === 0)
         return null;
 
-    let level = 0;
+    let level : number|undefined = 0;
     if (battleTable?.current !== undefined) {
-        // level = battleTable!.current!.getRow(Object.keys(battleTable!.current!.getState().rowSelection)![0])!.original.level!;
-        // level = battleData.
+        level = battleData.general.level[DIFFICULTY[difficulty] as keyof Battle["general"]["level"]]
+        if (level == undefined && difficulty == 3) 
+            level = battleData.general.level.normal + 100;
     }
 
     let children: JSX.Element[] = [];
@@ -953,7 +953,7 @@ const getUnits = (
                                 ["Luck", "Lck", getStatValue(statData.lck), "Affects the appearance rate of recovery items."],
                                 ["Defense", "Def", getStatValue(statData.def), "Affects defense against physical attacks."],
                                 ["Resistance", "Res", getStatValue(statData.res), "Affects defense against magic attacks."],
-                                ["Charm", "Cha", getStatValue(statData.spd), "Affects drain rate of a battalion's endurance."],
+                                ["Charm", "Cha", getStatValue(statData.cha), "Affects drain rate of a battalion's endurance."],
                             ] as [string, string, number, string][]).map( ( arr ) => getStatElements(arr) )
                         }
                     </span>
