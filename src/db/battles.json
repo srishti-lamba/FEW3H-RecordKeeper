@@ -318,7 +318,7 @@
                         {"type": "mf", "text": "Failed to wipe out the [red]enemy[/red] before reinforcements arrived!"},
                         {"type": "w", "text": "A [red]Fighter[/red] and their allies answered the call for reinforcements!"},
                         {"type": "w", "text": "The [red]Alliance Army[/red] called for reinforcements again!"},
-                        {"type": "ms", "text": "Wipe out the [red]enemy[/red] before reinforcements arrive!", "notes": "The mission will show up 4 times max, giving a 4 minute-timer each time until the last mission where there is no time limit. With each failure, 3 more enemies will be added to the map.\n\nAt this point, this is the 2nd time this mission appeared, and a total of 9 enemy objectives. There is a time limit of 4 minutes."},
+                        {"type": "ms", "text": "Wipe out the [red]enemy[/red] before reinforcements arrive!", "notes": "The mission will show up 4 times max, giving a 4-minute timer each time until the last mission where there is no time limit. With each failure, 3 more enemies will be added to the map.\n\nAt this point, this is the 2nd time this mission appeared, and a total of 9 enemy objectives. There is a time limit of 4 minutes."},
                         {"type": "w", "text": "[green]Mission time limit[/green] exceeded!"},
                         {"type": "mf", "text": "Failed to wipe out the [red]enemy[/red] before reinforcements arrived!"},
                         {"type": "w", "text": "A [red]Fighter[/red] and their allies answered the call for reinforcements!"},

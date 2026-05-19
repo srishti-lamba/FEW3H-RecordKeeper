@@ -70,7 +70,7 @@
                         [[-1], false],
                         [[4], true]
                     ],
-                    "captain" : [],
+                    "captain" : ["20-58-blue", "20-58-red"],
                     "colour" : [
                         [[-1],"red"]
                     ]
@@ -232,7 +232,280 @@
                 "coords" : { "x" : 51 , "y" : 57 }
             }
         ],
-        "markings": [],
+        "markings": [
+            {
+                "type" : "unit-circle",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[2], true],
+                    [[2,1], false]
+                ],
+                "colour" : "green",
+                "x" : 39,
+                "y" : 7,
+                "_notes": "1x Wipe out the enemy before reinforcements arrive!"
+            },
+            {
+                "type" : "unit-circle",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[2], true],
+                    [[2,1], false]
+                ],
+                "colour" : "green",
+                "x" : 49,
+                "y" : 14,
+                "_notes": "1x Wipe out the enemy before reinforcements arrive!"
+            },
+            {
+                "type" : "unit-circle",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[2], true],
+                    [[2,1], false]
+                ],
+                "colour" : "green",
+                "x" : 33,
+                "y" : 26,
+                "_notes": "1x Wipe out the enemy before reinforcements arrive!"
+            },
+            {
+                "type" : "unit-circle",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[2], true],
+                    [[2,1], false]
+                ],
+                "colour" : "green",
+                "x" : 21,
+                "y" : 36,
+                "_notes": "1x Wipe out the enemy before reinforcements arrive!"
+            },
+            {
+                "type" : "unit-circle",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[2], true],
+                    [[2,1], false]
+                ],
+                "colour" : "green",
+                "x" : 34,
+                "y" : 39,
+                "_notes": "1x Wipe out the enemy before reinforcements arrive!"
+            },
+            {
+                "type" : "unit-circle",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[2], true],
+                    [[2,1], false]
+                ],
+                "colour" : "green",
+                "x" : 47,
+                "y" : 46,
+                "_notes": "1x Wipe out the enemy before reinforcements arrive!"
+            },
+
+            
+            {
+                "type" : "unit-circle",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[2,0.1,4], true],
+                    [[2,1], false]
+                ],
+                "colour" : "green",
+                "x" : 16,
+                "y" : 12,
+                "_notes": "2x Wipe out the enemy before reinforcements arrive!"
+            },
+            {
+                "type" : "unit-circle",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[2,0.1,4], true],
+                    [[2,1], false]
+                ],
+                "colour" : "green",
+                "x" : 17,
+                "y" : 45,
+                "_notes": "2x Wipe out the enemy before reinforcements arrive!"
+            },
+            {
+                "type" : "unit-circle",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[2,0.1,4], true],
+                    [[2,1], false]
+                ],
+                "colour" : "green",
+                "x" : 33,
+                "y" : 53,
+                "_notes": "2x Wipe out the enemy before reinforcements arrive!"
+            },
+
+
+            
+            {
+                "type" : "unit-circle",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[2,0.1,9], true],
+                    [[2,1], false]
+                ],
+                "colour" : "green",
+                "x" : 39,
+                "y" : 6,
+                "_notes": "3x Wipe out the enemy before reinforcements arrive!"
+            },
+            {
+                "type" : "unit-circle",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[2,0.1,9], true],
+                    [[2,1], false]
+                ],
+                "colour" : "green",
+                "x" : 34,
+                "y" : 40,
+                "_notes": "3x Wipe out the enemy before reinforcements arrive!"
+            },
+            {
+                "type" : "unit-circle",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[2,0.1,9], true],
+                    [[2,1], false]
+                ],
+                "colour" : "green",
+                "x" : 21,
+                "y" : 37,
+                "_notes": "3x Wipe out the enemy before reinforcements arrive!"
+            },
+
+
+            
+            {
+                "type" : "unit-circle",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[2,0.1,14], true],
+                    [[2,1], false]
+                ],
+                "colour" : "green",
+                "x" : 15,
+                "y" : 12,
+                "_notes": "4x Wipe out the enemy before reinforcements arrive!"
+            },
+            {
+                "type" : "unit-circle",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[2,0.1,14], true],
+                    [[2,1], false]
+                ],
+                "colour" : "green",
+                "x" : 16,
+                "y" : 45,
+                "_notes": "4x Wipe out the enemy before reinforcements arrive!"
+            },
+            {
+                "type" : "unit-circle",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[2,0.1,14], true],
+                    [[2,1], false]
+                ],
+                "colour" : "green",
+                "x" : 34,
+                "y" : 53,
+                "_notes": "4x Wipe out the enemy before reinforcements arrive!"
+            },
+
+
+            
+            {
+                "type" : "unit-circle",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[3], true],
+                    [[3,0], false]
+                ],
+                "colour" : "green",
+                "x" : 17,
+                "y" : 46,
+                "_notes": "A Myrmidon and some Bandits appeared!"
+            },
+            {
+                "type" : "unit-circle",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[3], true],
+                    [[3,0], false]
+                ],
+                "colour" : "green",
+                "x" : 17,
+                "y" : 11,
+                "_notes": "A Myrmidon and some Bandits appeared!"
+            },
+            {
+                "type" : "unit-circle",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[3], true],
+                    [[3,0], false]
+                ],
+                "colour" : "green",
+                "x" : 36,
+                "y" : 53,
+                "_notes": "A Myrmidon and some Bandits appeared!"
+            },
+
+
+            {
+                "type" : "unit-circle",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[3,0], true],
+                    [[3,1], false]
+                ],
+                "colour" : "green",
+                "x" : 19,
+                "y" : 41,
+                "_notes": "A Monk appeared!"
+            },
+
+            
+            {
+                "type" : "unit-unit-arrow",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[3,2], true],
+                    [[3,9.1,2], false],
+                    [[3,9.2,2], false]
+                ],
+                "colour" : "green",
+                "xOne" : 19,
+                "yOne" : 41,
+                "xTwo" : 17,
+                "yTwo" : 46,
+                "_notes": "The Monk is advancing to recruit the Myrmidon!"
+            },
+
+
+            {
+                "type" : "unit-circle",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[4], true],
+                    [[4,2], false]
+                ],
+                "colour" : "green",
+                "x" : 18,
+                "y" : 57,
+                "_notes": "Enemy commander Fighter appeared!"
+            }
+        ],
         "player" : [],        
         "units" : {
 
@@ -473,6 +746,67 @@
                     "def" : [ 6,  9,  13, 44 ],
                     "res" : [ 8,  7,  11, 44 ],
                     "cha" : [ 9,  13, 18, 67 ]
+                }
+            },
+
+            "20-58-blue": {
+                "name" : "Stronghold Captain",
+                "gender" : "f",
+                "class" : {
+                    "name" : "Monk",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "10" }
+                },
+                "weapon" : { "name" : "Iron Tome" },
+                "allegiance" : "blue",
+                "faction" : "adrestia",
+                "appearAndDisappear" : [
+                    [[-1], false]
+                ],
+                "coords" : [
+                    [[-1], {"x":20 , "y":58}]
+                ],
+                "stats" : {
+                    "hp" : [ 2341, 2433, 2664, 4884 ],
+                    "move" : 6,
+                    "str" : [ 7,  9,  14, 56 ],
+                    "mag" : [ 6,  9,  13, 56 ],
+                    "dex" : [ 8,  9,  13, 46 ],
+                    "spd" : [ 12, 14, 17, 64 ],
+                    "lck" : [ 6,  7,  13, 46 ],
+                    "def" : [ 6,  7,  12, 46 ],
+                    "res" : [ 7,  9,  14, 50 ],
+                    "cha" : [ 12, 13, 19, 71 ]
+                }
+            },
+            "20-58-red": {
+                "name" : "Stronghold Captain",
+                "class" : {
+                    "name" : "Fighter",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "7" }
+                },
+                "weapon" : { "name" : "Iron Axe" },
+                "allegiance" : "red",
+                "faction" : "leicester",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[4], true]
+                ],
+                "coords" : [
+                    [[-1], {"x":20 , "y":58}]
+                ],
+                "stats" : {
+                    "hp" : [ 2469, 2560, 2840, 5091 ],
+                    "move" : 6,
+                    "str" : [ 8,  11, 16, 61 ],
+                    "mag" : [ 7,  10, 14, 54 ],
+                    "dex" : [ 6,  7,  11, 44 ],
+                    "spd" : [ 11, 12, 17, 64 ],
+                    "lck" : [ 6,  9,  13, 46 ],
+                    "def" : [ 8,  9,  13, 46 ],
+                    "res" : [ 6,  7,  10, 33 ],
+                    "cha" : [ 11, 11, 17, 67 ]
                 }
             },
 
@@ -845,7 +1179,8 @@
                 "allegiance" : "red",
                 "faction" : "leicester",
                 "appearAndDisappear" : [
-                    [[-1], true]
+                    [[-1], true],
+                    [[2,1], false]
                 ],
                 "coords" : [
                     [[-1], {"x":39 , "y":7}]
@@ -863,23 +1198,633 @@
                     "cha" : [ 11, 13, 18, 70 ]
                 }
             },
-
-
-            "39-7-purple": {
-                "name" : "Base Captain",
+            "49-14-red": {
+                "name" : "Soldier",
+                "gender" : "f",
                 "class" : {
-                    "name" : "Mage",
+                    "name" : "Soldier",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "9" }
+                },
+                "weapon" : { "name" : "Iron Lance" },
+                "allegiance" : "red",
+                "faction" : "leicester",
+                "appearAndDisappear" : [
+                    [[-1], true],
+                    [[2,1], false]
+                ],
+                "coords" : [
+                    [[-1], {"x":49 , "y":14}]
+                ],
+                "stats" : {
+                    "hp" : [ 2471, 2547, 2799, 5071 ],
+                    "move" : 6,
+                    "str" : [ 7,  10, 14, 56 ],
+                    "mag" : [ 6,  10, 14, 56 ],
+                    "dex" : [ 9,  10, 14, 51 ],
+                    "spd" : [ 12, 14, 19, 63 ],
+                    "lck" : [ 6,  9,  13, 45 ],
+                    "def" : [ 6,  9,  13, 46 ],
+                    "res" : [ 5,  7,  10, 34 ],
+                    "cha" : [ 11, 13, 18, 70 ]
+                }
+            },
+            "33-26-red": {
+                "name" : "Fighter",
+                "class" : {
+                    "name" : "Fighter",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "8" }
+                },
+                "weapon" : { "name" : "Iron Axe" },
+                "allegiance" : "red",
+                "faction" : "leicester",
+                "appearAndDisappear" : [
+                    [[-1], true],
+                    [[2,1], false]
+                ],
+                "coords" : [
+                    [[-1], {"x":33 , "y":26}]
+                ],
+                "stats" : {
+                    "hp" : [ 2478, 2548, 2802, 5091 ],
+                    "move" : 6,
+                    "str" : [ 7,  11, 16, 61 ],
+                    "mag" : [ 7,  8,  12, 54 ],
+                    "dex" : [ 6,  9,  13, 44 ],
+                    "spd" : [ 11, 13, 18, 64 ],
+                    "lck" : [ 6,  7,  11, 46 ],
+                    "def" : [ 6,  8,  12, 46 ],
+                    "res" : [ 5,  7,  10, 33 ],
+                    "cha" : [ 11, 12, 17, 67 ]
+                }
+            },
+            "21-36-red-show": {
+                "name" : "Fighter",
+                "class" : {
+                    "name" : "Fighter",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "1" }
+                },
+                "weapon" : { "name" : "Iron Axe" },
+                "allegiance" : "red",
+                "faction" : "leicester",
+                "appearAndDisappear" : [
+                    [[-1], true],
+                    [[2,1], false]
+                ],
+                "coords" : [
+                    [[-1], {"x":21 , "y":36}]
+                ],
+                "stats" : {
+                    "hp" : [ 2478, 2560, 2840, 5359 ],
+                    "move" : 6,
+                    "str" : [ 7,  11, 16, 60 ],
+                    "mag" : [ 7,  10, 14, 54 ],
+                    "dex" : [ 6,  7,  11, 46 ],
+                    "spd" : [ 11, 12, 17, 64 ],
+                    "lck" : [ 6,  9,  13, 47 ],
+                    "def" : [ 6,  9,  13, 44 ],
+                    "res" : [ 5,  7,  10, 32 ],
+                    "cha" : [ 11, 11, 17, 70 ]
+                }
+            },
+            "34-39-red": {
+                "name" : "Archer",
+                "class" : {
+                    "name" : "Archer",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "3" }
+                },
+                "weapon" : { "name" : "Steel Bow" },
+                "allegiance" : "red",
+                "faction" : "leicester",
+                "appearAndDisappear" : [
+                    [[-1], true],
+                    [[2,1], false]
+                ],
+                "coords" : [
+                    [[-1], {"x":34 , "y":39}]
+                ],
+                "stats" : {
+                    "hp" : [ 2473, 2561, 2843, 5379 ],
+                    "move" : 6,
+                    "str" : [ 7,  9,  13, 54 ],
+                    "mag" : [ 7,  8,  13, 55 ],
+                    "dex" : [ 7,  11, 16, 55 ],
+                    "spd" : [ 12, 13, 18, 65 ],
+                    "lck" : [ 7,  10, 14, 53 ],
+                    "def" : [ 8,  7,  11, 44 ],
+                    "res" : [ 6,  7,  11, 43 ],
+                    "cha" : [ 11, 13, 18, 70 ]
+                }
+            },
+            "47-46-red": {
+                "name" : "Archer",
+                "class" : {
+                    "name" : "Archer",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "1" }
+                },
+                "weapon" : { "name" : "Steel Bow" },
+                "allegiance" : "red",
+                "faction" : "leicester",
+                "appearAndDisappear" : [
+                    [[-1], true],
+                    [[2,1], false]
+                ],
+                "coords" : [
+                    [[-1], {"x":47 , "y":46}]
+                ],
+                "stats" : {
+                    "hp" : [ 2471, 2561, 2843, 5379 ],
+                    "move" : 6,
+                    "str" : [ 7,  9,  13, 54 ],
+                    "mag" : [ 7,  8,  13, 55 ],
+                    "dex" : [ 10, 11, 16, 55 ],
+                    "spd" : [ 11, 13, 18, 65 ],
+                    "lck" : [ 9,  10, 14, 53 ],
+                    "def" : [ 6,  7,  11, 44 ],
+                    "res" : [ 8,  7,  11, 43 ],
+                    "cha" : [ 9,  13, 18, 70 ]
+                }
+            },
+
+
+
+            
+            "16-12-red": {
+                "name" : "Soldier",
+                "gender" : "f",
+                "class" : {
+                    "name" : "Soldier",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "9" }
+                },
+                "weapon" : { "name" : "Iron Lance" },
+                "allegiance" : "red",
+                "faction" : "leicester",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[2,0.1,4], true],
+                    [[2,1], false]
+                ],
+                "coords" : [
+                    [[-1], {"x":16 , "y":12}]
+                ],
+                "stats" : {
+                    "hp" : [ 2471, 0, 0, 0 ],
+                    "move" : 6,
+                    "str" : [ 8,  0, 0, 0 ],
+                    "mag" : [ 8,  0, 0, 0 ],
+                    "dex" : [ 9,  0, 0, 0 ],
+                    "spd" : [ 12, 0, 0, 0 ],
+                    "lck" : [ 8,  0, 0, 0 ],
+                    "def" : [ 8,  0, 0, 0 ],
+                    "res" : [ 6,  0, 0, 0 ],
+                    "cha" : [ 11, 0, 0, 0 ]
+                }
+            },
+            "17-45-red": {
+                "name" : "Fighter",
+                "class" : {
+                    "name" : "Fighter",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "1" }
+                },
+                "weapon" : { "name" : "Iron Axe" },
+                "allegiance" : "red",
+                "faction" : "leicester",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[2,0.1,4], true],
+                    [[2,1], false]
+                ],
+                "coords" : [
+                    [[-1], {"x":17 , "y":45}]
+                ],
+                "stats" : {
+                    "hp" : [ 2476, 0, 0, 0 ],
+                    "move" : 6,
+                    "str" : [ 9,  0, 0, 0 ],
+                    "mag" : [ 8,  0, 0, 0 ],
+                    "dex" : [ 6,  0, 0, 0 ],
+                    "spd" : [ 11, 0, 0, 0 ],
+                    "lck" : [ 8,  0, 0, 0 ],
+                    "def" : [ 8,  0, 0, 0 ],
+                    "res" : [ 6,  0, 0, 0 ],
+                    "cha" : [ 9,  0, 0, 0 ]
+                }
+            },
+            "33-53-red": {
+                "name" : "Archer",
+                "class" : {
+                    "name" : "Archer",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "3" }
+                },
+                "weapon" : { "name" : "Steel Bow" },
+                "allegiance" : "red",
+                "faction" : "leicester",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[2,0.1,4], true],
+                    [[2,1], false]
+                ],
+                "coords" : [
+                    [[-1], {"x":33 , "y":53}]
+                ],
+                "stats" : {
+                    "hp" : [ 2473, 0, 0, 0 ],
+                    "move" : 6,
+                    "str" : [ 7,  0, 0, 0 ],
+                    "mag" : [ 7,  0, 0, 0 ],
+                    "dex" : [ 7,  0, 0, 0 ],
+                    "spd" : [ 12, 0, 0, 0 ],
+                    "lck" : [ 7,  0, 0, 0 ],
+                    "def" : [ 8,  0, 0, 0 ],
+                    "res" : [ 6,  0, 0, 0 ],
+                    "cha" : [ 11, 0, 0, 0 ]
+                }
+            },
+
+
+
+
+            "39-6-red": {
+                "name" : "Soldier",
+                "gender" : "f",
+                "class" : {
+                    "name" : "Soldier",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "9" }
+                },
+                "weapon" : { "name" : "Iron Lance" },
+                "allegiance" : "red",
+                "faction" : "leicester",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[2,0.1,9], true],
+                    [[2,1], false]
+                ],
+                "coords" : [
+                    [[-1], {"x":39 , "y":6}]
+                ],
+                "stats" : {
+                    "hp" : [ 2471, 0, 0, 0 ],
+                    "move" : 6,
+                    "str" : [ 7,  0, 0, 0 ],
+                    "mag" : [ 6,  0, 0, 0 ],
+                    "dex" : [ 9,  0, 0, 0 ],
+                    "spd" : [ 12, 0, 0, 0 ],
+                    "lck" : [ 6,  0, 0, 0 ],
+                    "def" : [ 6,  0, 0, 0 ],
+                    "res" : [ 5,  0, 0, 0 ],
+                    "cha" : [ 11, 0, 0, 0 ]
+                }
+            },
+            "34-40-red": {
+                "name" : "Archer",
+                "class" : {
+                    "name" : "Archer",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "3" }
+                },
+                "weapon" : { "name" : "Steel Bow" },
+                "allegiance" : "red",
+                "faction" : "leicester",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[2,0.1,9], true],
+                    [[2,1], false]
+                ],
+                "coords" : [
+                    [[-1], {"x":34 , "y":40}]
+                ],
+                "stats" : {
+                    "hp" : [ 2471, 0, 0, 0 ],
+                    "move" : 6,
+                    "str" : [ 7,  0, 0, 0 ],
+                    "mag" : [ 7,  0, 0, 0 ],
+                    "dex" : [ 10, 0, 0, 0 ],
+                    "spd" : [ 11, 0, 0, 0 ],
+                    "lck" : [ 9,  0, 0, 0 ],
+                    "def" : [ 6,  0, 0, 0 ],
+                    "res" : [ 8,  0, 0, 0 ],
+                    "cha" : [ 9,  0, 0, 0 ]
+                }
+            },
+            "21-37-red": {
+                "name" : "Fighter",
+                "class" : {
+                    "name" : "Fighter",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "1" }
+                },
+                "weapon" : { "name" : "Iron Axe" },
+                "allegiance" : "red",
+                "faction" : "leicester",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[2,0.1,9], true],
+                    [[2,1], false]
+                ],
+                "coords" : [
+                    [[-1], {"x":21 , "y":37}]
+                ],
+                "stats" : {
+                    "hp" : [ 2469, 0, 0, 0 ],
+                    "move" : 6,
+                    "str" : [ 8,  0, 0, 0 ],
+                    "mag" : [ 7,  0, 0, 0 ],
+                    "dex" : [ 6,  0, 0, 0 ],
+                    "spd" : [ 11, 0, 0, 0 ],
+                    "lck" : [ 6,  0, 0, 0 ],
+                    "def" : [ 8,  0, 0, 0 ],
+                    "res" : [ 6,  0, 0, 0 ],
+                    "cha" : [ 11, 0, 0, 0 ]
+                }
+            },
+
+
+
+
+            "15-12-red": {
+                "name" : "Soldier",
+                "gender" : "f",
+                "class" : {
+                    "name" : "Soldier",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "9" }
+                },
+                "weapon" : { "name" : "Iron Lance" },
+                "allegiance" : "red",
+                "faction" : "leicester",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[2,0.1,14], true],
+                    [[2,1], false]
+                ],
+                "coords" : [
+                    [[-1], {"x":15 , "y":12}]
+                ],
+                "stats" : {
+                    "hp" : [ 2471, 0, 0, 0 ],
+                    "move" : 6,
+                    "str" : [ 8,  0, 0, 0 ],
+                    "mag" : [ 8,  0, 0, 0 ],
+                    "dex" : [ 9,  0, 0, 0 ],
+                    "spd" : [ 12, 0, 0, 0 ],
+                    "lck" : [ 8,  0, 0, 0 ],
+                    "def" : [ 8,  0, 0, 0 ],
+                    "res" : [ 6,  0, 0, 0 ],
+                    "cha" : [ 11, 0, 0, 0 ]
+                }
+            },
+            "16-45-red": {
+                "name" : "Fighter",
+                "class" : {
+                    "name" : "Fighter",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "1" }
+                },
+                "weapon" : { "name" : "Iron Axe" },
+                "allegiance" : "red",
+                "faction" : "leicester",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[2,0.1,14], true],
+                    [[2,1], false]
+                ],
+                "coords" : [
+                    [[-1], {"x":16 , "y":45}]
+                ],
+                "stats" : {
+                    "hp" : [ 2476, 0, 0, 0 ],
+                    "move" : 6,
+                    "str" : [ 9,  0, 0, 0 ],
+                    "mag" : [ 8,  0, 0, 0 ],
+                    "dex" : [ 6,  0, 0, 0 ],
+                    "spd" : [ 11, 0, 0, 0 ],
+                    "lck" : [ 8,  0, 0, 0 ],
+                    "def" : [ 8,  0, 0, 0 ],
+                    "res" : [ 6,  0, 0, 0 ],
+                    "cha" : [ 9,  0, 0, 0 ]
+                }
+            },
+            "34-53-red": {
+                "name" : "Archer",
+                "class" : {
+                    "name" : "Archer",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "3" }
+                },
+                "weapon" : { "name" : "Steel Bow" },
+                "allegiance" : "red",
+                "faction" : "leicester",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[2,0.1,14], true],
+                    [[2,1], false]
+                ],
+                "coords" : [
+                    [[-1], {"x":34 , "y":53}]
+                ],
+                "stats" : {
+                    "hp" : [ 2473, 0, 0, 0 ],
+                    "move" : 6,
+                    "str" : [ 7,  0, 0, 0 ],
+                    "mag" : [ 7,  0, 0, 0 ],
+                    "dex" : [ 7,  0, 0, 0 ],
+                    "spd" : [ 12, 0, 0, 0 ],
+                    "lck" : [ 7,  0, 0, 0 ],
+                    "def" : [ 8,  0, 0, 0 ],
+                    "res" : [ 6,  0, 0, 0 ],
+                    "cha" : [ 11, 0, 0, 0 ]
+                }
+            },
+
+
+
+
+            "17-46-red": {
+                "name" : "Myrmidon",
+                "class" : {
+                    "name" : "Myrmidon",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "9" }
+                },
+                "weapon" : { "name" : "Iron Sword" },
+                "allegiance" : "red",
+                "faction" : "leicester",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[3], true]
+                ],
+                "coords" : [
+                    [[-1], {"x":17 , "y":46}]
+                ],
+                "stats" : {
+                    "hp" : [ 2471, 2560, 2850, 5428 ],
+                    "move" : 6,
+                    "str" : [ 7,  10, 13, 55 ],
+                    "mag" : [ 8,  8,  13, 54 ],
+                    "dex" : [ 8,  7,  11, 44 ],
+                    "spd" : [ 12, 13, 20, 72 ],
+                    "lck" : [ 6,  8,  13, 46 ],
+                    "def" : [ 7,  8,  11, 46 ],
+                    "res" : [ 6,  7,  8,  33 ],
+                    "cha" : [ 9,  12, 18, 67 ]
+                }
+            },
+            "17-11-red": {
+                "name" : "Fighter",
+                "class" : {
+                    "name" : "Fighter",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "1" }
+                },
+                "weapon" : { "name" : "Iron Axe" },
+                "allegiance" : "red",
+                "faction" : "leicester",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[3], true]
+                ],
+                "coords" : [
+                    [[-1], {"x":17 , "y":11}]
+                ],
+                "stats" : {
+                    "hp" : [ 2470, 2560, 2783, 4999 ],
+                    "move" : 6,
+                    "str" : [ 7,  11, 15, 61 ],
+                    "mag" : [ 7,  10, 14, 56 ],
+                    "dex" : [ 8,  7,  11, 46 ],
+                    "spd" : [ 11, 12, 17, 63 ],
+                    "lck" : [ 8,  9,  11, 45 ],
+                    "def" : [ 6,  9,  13, 46 ],
+                    "res" : [ 6,  7,  9,  34 ],
+                    "cha" : [ 9,  11, 18, 70 ]
+                }
+            },
+            "36-53-red": {
+                "name" : "Fighter",
+                "class" : {
+                    "name" : "Fighter",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "1" }
+                },
+                "weapon" : { "name" : "Iron Axe" },
+                "allegiance" : "red",
+                "faction" : "leicester",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[3], true]
+                ],
+                "coords" : [
+                    [[-1], {"x":36 , "y":53}]
+                ],
+                "stats" : {
+                    "hp" : [ 2476, 2541, 2789, 5359 ],
+                    "move" : 6,
+                    "str" : [ 9,  10, 14, 60 ],
+                    "mag" : [ 8,  9,  14, 54 ],
+                    "dex" : [ 6,  7,  13, 46 ],
+                    "spd" : [ 11, 12, 18, 64 ],
+                    "lck" : [ 8,  7,  13, 47 ],
+                    "def" : [ 8,  9,  11, 44 ],
+                    "res" : [ 6,  6,  10, 32 ],
+                    "cha" : [ 9,  13, 17, 70 ]
+                }
+            },
+
+
+
+            
+            "19-41-green": {
+                "name" : "Monk",
+                "gender" : "f",
+                "class" : {
+                    "name" : "Monk",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "9" }
+                },
+                "weapon" : { "name" : "Iron Tome" },
+                "allegiance" : "green",
+                "faction" : "adrestia",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[3,0], true],
+                    [[3,9.1,2], false]
+                ],
+                "coords" : [
+                    [[-1], {"x":19 , "y":41}]
+                ],
+                "stats" : {
+                    "hp" : [ 2360, 2431, 2659, 4784 ],
+                    "move" : 6,
+                    "str" : [ 7,  9,  14, 54 ],
+                    "mag" : [ 7,  8,  13, 55 ],
+                    "dex" : [ 8,  9,  13, 46 ],
+                    "spd" : [ 12, 14, 17, 63 ],
+                    "lck" : [ 6,  7,  13, 47 ],
+                    "def" : [ 6,  7,  12, 45 ],
+                    "res" : [ 8,  8,  14, 47 ],
+                    "cha" : [ 12, 13, 19, 73 ]
+                }
+            },
+
+
+            
+
+            "18-57-red": {
+                "name" : "Fighter",
+                "class" : {
+                    "name" : "Fighter",
+                    "sprite" : { "show" : true },
+                    "profile" : { "file" : "1" }
+                },
+                "weapon" : { "name" : "Iron Axe" },
+                "allegiance" : "red",
+                "faction" : "leicester",
+                "appearAndDisappear" : [
+                    [[-1], false],
+                    [[4], true],
+                    [[4,2], false]
+                ],
+                "coords" : [
+                    [[-1], {"x":18 , "y":57}]
+                ],
+                "stats" : {
+                    "hp" : [ 4336, 4450, 4903, 9504 ],
+                    "move" : 6,
+                    "str" : [ 7,  9,  16, 59 ],
+                    "mag" : [ 7,  9,  12, 54 ],
+                    "dex" : [ 6,  9,  13, 45 ],
+                    "spd" : [ 11, 13, 18, 63 ],
+                    "lck" : [ 6,  9,  11, 45 ],
+                    "def" : [ 6,  7,  12, 44 ],
+                    "res" : [ 5,  7,  10, 33 ],
+                    "cha" : [ 11, 11, 17, 68 ]
+                }
+            },
+
+
+            "1-1-purple": {
+                "name" : "Soldier",
+                "class" : {
+                    "name" : "Soldier",
                     "sprite" : { "show" : true },
                     "profile" : { "file" : "1" }
                 },
                 "weapon" : { "name" : "Iron Tome" },
-                "allegiance" : "blue",
-                "faction" : "adrestia",
+                "allegiance" : "red",
+                "faction" : "leicester",
                 "appearAndDisappear" : [
                     [[-1], true]
                 ],
                 "coords" : [
-                    [[-1], {"x":0 , "y":0}]
+                    [[-1], {"x":1 , "y":1}]
                 ],
                 "stats" : {
                     "hp" : [ 0, 0, 0, 0 ],

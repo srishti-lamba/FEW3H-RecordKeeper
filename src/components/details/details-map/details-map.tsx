@@ -376,9 +376,6 @@ export function Map({} : MapProps) {
             if (!show)
                 return <></>
 
-            // Error resolving
-            let x1 = 0; let y1 = 0; let x2 = 0; let y2 = 0;
-
             switch (marking.type) {
                 case "rect" : 
                     if (animated) return <></>;
@@ -448,21 +445,21 @@ export function Map({} : MapProps) {
                 case "unit-point-arrow" : 
                     if (animated) return <></>;
 
-                    let [rgbDark, rgbLight] = colours[marking.colour!]
+                    var [rgbDark, rgbLight] = colours[marking.colour!]
 
-                    x1 = (marking.xOne!-0.5)*tileSize;
-                    y1 = (marking.yOne!-0.5)*tileSize;
-                    x2 = marking.xTwo!;
-                    y2 = marking.yTwo!;
-                    let rotation = Math.atan2(y1-y2, x2-x1) * (180/Math.PI);
-                    let totalLength = Math.sqrt( ((x2-x1)**2) + ((y2-y1)**2) );
-                    let rectHeight =  yZoom * 8;
-                    let totalHeight = rectHeight * 2;
-                    let midHeight = totalHeight/2;
-                    let arrowLength = midHeight;
-                    let rectLength = totalLength - arrowLength;
-                    let rectY = midHeight - (rectHeight/2)
-                    let outlineOffset = yZoom * 1.1;
+                    var x1 = (marking.xOne!-0.5)*tileSize;
+                    var y1 = (marking.yOne!-0.5)*tileSize;
+                    var x2 = marking.xTwo!;
+                    var y2 = marking.yTwo!;
+                    var rotation = Math.atan2(y1-y2, x2-x1) * (180/Math.PI);
+                    var totalLength = Math.sqrt( ((x2-x1)**2) + ((y2-y1)**2) );
+                    var rectHeight =  yZoom * 8;
+                    var totalHeight = rectHeight * 2;
+                    var midHeight = totalHeight/2;
+                    var arrowLength = midHeight;
+                    var rectLength = totalLength - arrowLength;
+                    var rectY = midHeight - (rectHeight/2)
+                    var outlineOffset = yZoom * 1.1;
                     
                     markings.push(
                         <g 
@@ -508,36 +505,67 @@ export function Map({} : MapProps) {
                         </g>
                     )
                     break;
-                case "flying-arrow" : 
+                case "unit-unit-arrow" : 
                     if (animated) return <></>;
 
-                    // rotation = Math.atan2(marking.yOne!-marking.yTwo!, marking.xOne!-marking.xTwo!) * (180/Math.PI);
-                    let hypotenuse = yZoom;
-                    let angle = Math.atan2(marking.yOne!-marking.yTwo!, marking.xOne!-marking.xTwo!);
-                    x1 = marking.xOne! + ( (hypotenuse * Math.cos(angle)) * 1 );
-                    y1 = marking.yOne! + ( (hypotenuse * Math.sin(angle)) * 1 );
-                    x2 = marking.xTwo! + ( (hypotenuse * Math.cos(angle)) * -1 );
-                    y2 = marking.yTwo! + ( (hypotenuse * Math.sin(angle)) * -1 );
+                    var [rgbDark, rgbLight] = colours[marking.colour!]
 
+                    var x1 = (marking.xOne!-0.5)*tileSize;
+                    var y1 = (marking.yOne!-0.5)*tileSize;
+                    var x2 = (marking.xTwo!-0.5)*tileSize;
+                    var y2 = (marking.yTwo!-0.5)*tileSize;
+                    var rotation = Math.atan2(y1-y2, x2-x1) * (180/Math.PI);
+                    var totalLength = Math.sqrt( ((x2-x1)**2) + ((y2-y1)**2) );
+                    var rectHeight =  yZoom * 8;
+                    var totalHeight = rectHeight * 2;
+                    var midHeight = totalHeight/2;
+                    var arrowLength = midHeight;
+                    var rectLength = totalLength - arrowLength;
+                    var rectY = midHeight - (rectHeight/2)
+                    var outlineOffset = yZoom * 1.1;
+                    
                     markings.push(
-                        <>
-                            <line
-                                key={"mapMarking-" + index}
-                                x1={marking.xOne} y1={marking.yOne}
-                                x2={marking.xTwo} y2={marking.yTwo}
-                                fill="none"
-                                stroke="#F7FCFF" strokeWidth="10" strokeLinecap="round" vectorEffect="non-scaling-stroke"
-                                marker-start="url(#map-arrow-flying-marker-start)" marker-end="url(#map-arrow-flying-marker-end)"
+                        <g 
+                            key={"mapMarking-" + index}
+                            fill={`url(#map-arrow-pattern-${marking.colour})`}
+                            transform={`translate(${x1},${y1}) rotate(${-rotation}) translate(0,${-midHeight})`}
+                        >
+                            {/* Background */}
+                            <rect 
+                                x={0} y={rectY} 
+                                width={rectLength} height={rectHeight} 
+                                fill={rgbDark+"80"}
                             />
-                            <line
-                                key={"mapMarking-" + index}
-                                x1={x1} y1={y1}
-                                x2={x2} y2={y2}
-                                fill="none"
-                                stroke="#263049" strokeWidth="5" strokeLinecap="round" vectorEffect="non-scaling-stroke"
-                                marker-start="url(#map-arrow-flying-marker-start)" marker-end="url(#map-arrow-flying-marker-end)"
+                            <path 
+                                d={`M ${rectLength} 0 L ${totalLength} ${midHeight} L ${rectLength} ${totalHeight} z`}
+                                fill={rgbDark+"80"}
                             />
-                        </>
+                            {/* Pattern */}
+                            <rect 
+                                x={0} y={rectY} 
+                                width={rectLength} height={rectHeight} 
+                            />
+                            <path 
+                                d={`M ${rectLength} 0 L ${totalLength} ${midHeight} L ${rectLength} ${totalHeight} z`}
+                            />
+                            {/* Outlines */}
+                            <path
+                                d={
+                                    `M ${0+outlineOffset} ${rectY+outlineOffset} L ${rectLength+outlineOffset} ${rectY+outlineOffset}` +
+                                    `L ${rectLength+outlineOffset} ${0+(outlineOffset*2)} L ${totalLength-(outlineOffset*1.5)} ${midHeight} L ${rectLength+outlineOffset} ${totalHeight-(outlineOffset*2)} L ${rectLength+outlineOffset} ${rectY+rectHeight-outlineOffset}` +
+                                    `L ${0-outlineOffset} ${rectY+rectHeight-outlineOffset}`
+                                }
+                                stroke={rgbLight} strokeWidth="1.5" vectorEffect="non-scaling-stroke" fill="none"
+                            />
+                            <path
+                                d={
+                                    `M 0 ${rectY} L ${rectLength} ${rectY}` +
+                                    `L ${rectLength} 0 L ${totalLength} ${midHeight} L ${rectLength} ${totalHeight} L ${rectLength} ${rectY+rectHeight}` +
+                                    `L 0 ${rectY+rectHeight}`
+                                }
+                                stroke="rgba(0,0,0,0.7)" strokeWidth="1" vectorEffect="non-scaling-stroke" fill="none" 
+                            />                           
+                        </g>
                     )
                     break;
             }
